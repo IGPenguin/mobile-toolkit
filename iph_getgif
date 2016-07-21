@@ -1,0 +1,8 @@
+#!/bin/bash
+cd /
+cd /home/eidamsvoboda/Desktop/recording 
+
+convert -delay 10 -loop 0 *.png ../recording-`date +%Y-%m-%d-%H-%M-%S`.gif
+cd ..
+rm -rf recording
+

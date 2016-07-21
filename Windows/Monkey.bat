@@ -1,0 +1,1 @@
+adb shell monkey -p com.thefuntasty.mentos --throttle 50 -v 200000

@@ -1,0 +1,5 @@
+#!/bin/sh
+adb logcat -d | grep -C 3 -w at
+adb logcat -d | grep -C 3 -w at >/home/eidamsvoboda/Desktop/crash-`date +%Y-%m-%d-%H-%M-%S`.log
+
+

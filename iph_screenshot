@@ -1,0 +1,5 @@
+#!/bin/sh
+cd /
+cd /home/eidamsvoboda/Desktop
+idevicescreenshot screenshot-`date +%Y-%m-%d-%H-%M-%S`.png
+

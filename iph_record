@@ -1,0 +1,12 @@
+#!/bin/bash
+cd /
+cd /home/eidamsvoboda/Desktop
+mkdir recording
+cd recording
+
+for ((;;))    
+do
+    idevicescreenshot screenshot-`date  +%Y-%m-%d-%H-%M-%S+%N`.png
+done
+
+
