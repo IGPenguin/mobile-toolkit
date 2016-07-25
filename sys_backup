@@ -1,0 +1,2 @@
+#!/bin/sh
+cp $PWD/$1 $PWD/$1.bak
