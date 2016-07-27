@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 adb shell screencap -p /mnt/sdcard/output.png
 adb pull /mnt/sdcard/output.png /home/eidamsvoboda/Desktop/screenshot-`date +%Y-%m-%d-%H-%M-%S`.png
 adb shell rm /mnt/sdcard/output.png

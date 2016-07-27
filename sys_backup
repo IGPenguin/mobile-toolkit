@@ -1,2 +1,2 @@
-#!/bin/sh
+#!/bin/bash
 cp $PWD/$1 $PWD/$1.bak
