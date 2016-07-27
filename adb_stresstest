@@ -1,7 +1,7 @@
 #!/bin/bash
 #nice intro
 echo
-echo "Android APP stress test v1.0"
+echo "Android APP stress test v1.1"
 echo "---------------------------"
 
 #get app package name
@@ -57,6 +57,7 @@ adb shell monkey -p $app -s $seed --pct-syskeys 0 --pct-anyevent 0 --monitor-nat
 
 #unlock screen
 adb shell am task lock stop
-echo "App unlocked from screen."
+echo "App unlocked from
+ screen."
 
 
