@@ -1,12 +1,36 @@
 #!/bin/bash
+#nice intro
+echo
+echo "Android APP stress test v1.0"
+echo "---------------------------"
 #get app package name
 app=$(adb shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
 
+#save argument to var
+events=0
+events=$1
+
 #check if display is on
 if ! [[ $app == *"com"* ]]; then
-   echo "No suitable app in foreground! Aborting...";
+   echo "No suitable app in foreground!";
+   echo "Unlock your phone and open APP you want to test.";
+   echo "Aborting...";
+   echo
    exit
 fi
+
+#check number of input events
+if (( $events < 1 )); then
+   echo "Invalid number of input events in argument!";
+   echo 'Use "adb_stresstest x" where x>0.';
+   echo "Aborting...";
+   echo
+   exit
+fi
+
+#checks passed
+echo "Running stress test."
+echo "Package name: "$app
 
 #lock screen
 task_id=$(adb shell dumpsys activity | grep mFocusedActivity | rev) #get focused activity info and reverse it
@@ -14,17 +38,11 @@ set $task_id #breaks task_id into $1 $2 ...
 task_id=$1 #saves $1 into task_id
 task_id=$(echo $task_id | rev) # reverse string back
 task_id=${task_id//[!0-9]/} #strip non numeric chars from task_id
-adb shell am task lock $task_id;
-
-#!!!!
-#SEM DODAT POTVRZENI ZAMCENI
-#!!!!
+adb shell am task lock $task_id; #lock current app to prevent monkey escape
+adb shell input tap 865 1620 #ugly hardcoded tap for my screen size, substitute them by (x,y) of your confirm button
 
 #run test
-echo
-echo "Running app stress test."
-echo "Package name: "$app
-adb shell monkey -p $app -v1 --pct-syskeys 0 100
+adb shell monkey -p $app --pct-syskeys 0 $events
 
 #unlock screen
 adb shell am task lock stop
