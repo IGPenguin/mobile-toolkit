@@ -8,7 +8,7 @@ echo "---------------------------"
 app=$(adb shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
 
 #check if display is on
-if ! [[ $app == *"com"* ]]; then
+if ! ([[ $app == *"com"* ]] || [[ $app == *"cz"* ]]) ; then
    echo "No suitable app in foreground!";
    echo "Unlock your phone and open APP you want to test.";
    echo "Aborting...";
@@ -57,7 +57,6 @@ adb shell monkey -p $app -s $seed --pct-syskeys 0 --pct-anyevent 0 --monitor-nat
 
 #unlock screen
 adb shell am task lock stop
-echo "App unlocked from
- screen."
+echo "App unlocked from screen."
 
 
