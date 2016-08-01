@@ -61,7 +61,7 @@ echo "App locked to screen."
 echo "Testing..."
 
 #run test
-adb shell monkey -p $app -p com.sec.android.app.camera -s $seed --pct-syskeys 0 --pct-anyevent 0 --monitor-native-crashes $events >> ~/Desktop/$logname
+adb shell monkey -p $app -s $seed --pct-syskeys 0 --pct-anyevent 0 --monitor-native-crashes $events >> ~/Desktop/$logname
 
 #unlock screen
 adb shell am task lock stop
