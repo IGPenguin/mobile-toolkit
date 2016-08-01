@@ -69,14 +69,18 @@ echo "App unlocked from screen."
 echo "---------------------------"
 
 #check test result
-if grep -q "Events" ~/Desktop/$logname ; then
+if grep -q "CRASH" ~/Desktop/$logname ; then
+   echo "App was destroyed by monkey and crashed!"
+   echo "---------------------------" >> ~/Desktop/$logname
+   echo "App was destroyed by monkey and crashed!" >> ~/Desktop/$logname
+elif grep -q "RESPONDING" ~/Desktop/$logname ; then
+   echo "App was destroyed by monkey and stopped responding!"
+   echo "---------------------------" >> ~/Desktop/$logname
+   echo "App was destroyed by monkey and stopped responding!" >> ~/Desktop/$logname
+elif grep -q "Events" ~/Desktop/$logname ; then
    echo "App survived monkey madness!"
    echo "---------------------------" >> ~/Desktop/$logname
    echo "App survived monkey madness!" >> ~/Desktop/$logname
-elif grep -q "CRASH:" ~/Desktop/$logname ; then
-   echo "App was destroyed by monkey!"
-   echo "---------------------------" >> ~/Desktop/$logname
-   echo "App was destroyed by monkey!" >> ~/Desktop/$logname
 else
    echo "Monkey was killed in action!"
    echo "---------------------------" >> ~/Desktop/$logname
