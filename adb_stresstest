@@ -74,13 +74,13 @@ if grep -q "Events" ~/Desktop/$logname ; then
    echo "---------------------------" >> ~/Desktop/$logname
    echo "App survived monkey madness!" >> ~/Desktop/$logname
 elif grep -q "CRASH:" ~/Desktop/$logname ; then
-   echo "App was destroyed by monkeys!"
+   echo "App was destroyed by monkey!"
    echo "---------------------------" >> ~/Desktop/$logname
-   echo "App was destroyed by monkeys!" >> ~/Desktop/$logname
+   echo "App was destroyed by monkey!" >> ~/Desktop/$logname
 else
-   echo "Monkeys were killed in action!"
+   echo "Monkey was killed in action!"
    echo "---------------------------" >> ~/Desktop/$logname
-   echo "Monkeys were killed in action!" >> ~/Desktop/$logname
+   echo "Monkey wwas killed in action!" >> ~/Desktop/$logname
 fi
 
 echo "Log saved to desktop: "$logname
