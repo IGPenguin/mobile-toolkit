@@ -1,7 +1,8 @@
 #!/bin/bash
 #nice intro
+ver="1.2"
 echo
-echo "Android APP stress test v1.2"
+echo "Android APP stress test "$ver
 echo "---------------------------"
 
 #get app package name
@@ -40,7 +41,7 @@ fi
 
 #checks passed
 echo "Running stress test on: "$app
-logname="$app-stresstest-`date +%Y-%m-%d-%H-%M-%S`.log"
+logname="$app-`date +%Y-%m-%d-%H-%M-%S`.log"
 
 #lock screen
 task_id=$(adb shell dumpsys activity | grep mFocusedActivity | rev) #get focused activity info and reverse it
@@ -51,10 +52,13 @@ task_id=${task_id//[!0-9]/} #strip non numeric chars from task_id
 adb shell am task lock $task_id; #lock current app to prevent monkey escape
 adb shell input tap 865 1620 #ugly hardcoded tap for my screen size, substitute them by (x,y) of your confirm button
 echo "App locked to screen."
+echo "Testing..."
 
 #run test
 adb shell monkey -p $app -s $seed --pct-syskeys 0 --pct-anyevent 0 --monitor-native-crashes $events > ~/Desktop/$logname
-echo "Seed: "$seed >> ~/Desktop/$logname
+echo "---------------------------" >> ~/Desktop/$logname
+echo "Test with seed "$seed "finished at: `date +%Y-%m-%d-%H-%M-%S`" >> ~/Desktop/$logname
+echo "Android APP stress test "$ver >> ~/Desktop/$logname
 
 #unlock screen
 adb shell am task lock stop
