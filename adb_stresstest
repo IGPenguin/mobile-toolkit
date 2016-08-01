@@ -43,6 +43,12 @@ fi
 echo "Running stress test on: "$app
 logname="$app-`date +%Y-%m-%d-%H-%M-%S`.log"
 
+#create log
+echo "Android APP stress test "$ver >> ~/Desktop/$logname
+echo "Test with seed "$seed "started at: `date +%Y-%m-%d-%H-%M-%S`" >> ~/Desktop/$logname
+echo "---------------------------" >> ~/Desktop/$logname
+
+
 #lock screen
 task_id=$(adb shell dumpsys activity | grep mFocusedActivity | rev) #get focused activity info and reverse it
 set $task_id #breaks task_id into $1 $2 ...
@@ -55,10 +61,7 @@ echo "App locked to screen."
 echo "Testing..."
 
 #run test
-adb shell monkey -p $app -s $seed --pct-syskeys 0 --pct-anyevent 0 --monitor-native-crashes $events > ~/Desktop/$logname
-echo "---------------------------" >> ~/Desktop/$logname
-echo "Test with seed "$seed "finished at: `date +%Y-%m-%d-%H-%M-%S`" >> ~/Desktop/$logname
-echo "Android APP stress test "$ver >> ~/Desktop/$logname
+adb shell monkey -p $app -s $seed --pct-syskeys 0 --pct-anyevent 0 --monitor-native-crashes $events >> ~/Desktop/$logname
 
 #unlock screen
 adb shell am task lock stop
