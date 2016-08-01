@@ -63,6 +63,11 @@ echo "Testing..."
 #run test
 adb shell monkey -p $app -s $seed --pct-syskeys 0 --pct-anyevent 0 --monitor-native-crashes $events >> ~/Desktop/$logname
 
+#unlock screen
+adb shell am task lock stop
+echo "App unlocked from screen."
+echo "---------------------------"
+
 #check test result
 if grep -q "Events" ~/Desktop/$logname ; then
    echo "App survived monkey madness!"
@@ -78,9 +83,5 @@ else
    echo "Monkeys were killed in action!" >> ~/Desktop/$logname
 fi
 
-#unlock screen
-adb shell am task lock stop
-echo "App unlocked from screen."
-echo "---------------------------"
-echo "Test completed, log saved to desktop: "$logname
+echo "Log saved to desktop: "$logname
 
