@@ -80,7 +80,7 @@ elif grep -q "CRASH:" ~/Desktop/$logname ; then
 else
    echo "Monkey was killed in action!"
    echo "---------------------------" >> ~/Desktop/$logname
-   echo "Monkey wwas killed in action!" >> ~/Desktop/$logname
+   echo "Monkey was killed in action!" >> ~/Desktop/$logname
 fi
 
 echo "Log saved to desktop: "$logname
