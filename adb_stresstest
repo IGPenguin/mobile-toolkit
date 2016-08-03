@@ -1,6 +1,6 @@
 #!/bin/bash
 #nice intro
-ver="1.3"
+ver="1.4"
 echo
 echo "Android APP stress test "$ver
 echo "---------------------------"
@@ -72,41 +72,51 @@ echo "---------------------------"
 #check test result
 if grep -q "CRASH" ~/Desktop/$logname ; then
 
-   echo "
-     _.-^^---....,,--       
- _--                  --_  
-<                        >)
-|                         | 
- \._                   _./  
-     ----. . , ; .----        
-          | |   |             
-       .-=||  | |=-.   
-       --=#%%&%%#=-    
-          | ;  :|     
-     _.,-#%&%@%#&#~,._ 
-
+   echo " __    __
+ \ \  / /
+  \ \/ /   
+   |  |    App crashed, test failed!
+  / /\ \ 
+ /_/  \_\
 "
-   echo "App was destroyed by monkey and crashed!"
    echo "---------------------------" >> ~/Desktop/$logname
    echo "App was destroyed by monkey and crashed!" >> ~/Desktop/$logname
    mv ~/Desktop/$logname ~/Desktop/CRASH-$logname
    echo "Log saved to desktop: CRASH-"$logname
 
 elif grep -q "RESPONDING" ~/Desktop/$logname ; then
-   echo "App was destroyed by monkey and stopped responding!"
+   echo " __    __
+ \ \  / /
+  \ \/ /   
+   |  |    App frozen, test failed!
+  / /\ \ 
+ /_/  \_\
+"
    echo "---------------------------" >> ~/Desktop/$logname
    echo "App was destroyed by monkey and stopped responding!" >> ~/Desktop/$logname
    mv ~/Desktop/$logname ~/Desktop/FREEZE-$logname
    echo "Log saved to desktop: FREEZE-"$logname
 
 elif grep -q "Events" ~/Desktop/$logname ; then
-   echo "App survived monkey madness! Deleting log."
+   echo "        __
+       / /
+      / / 
+ __  / /   App survived, test passed!
+ \ \/ /   
+  \__/    
+"
    echo "---------------------------" >> ~/Desktop/$logname
    echo "App survived monkey madness!" >> ~/Desktop/$logname
    rm ~/Desktop/$logname
 
 else
-   echo "Monkey was killed in action!"
+   echo "  ____ 
+ |__  \ 
+    ) |
+   / /     Monkey killed in action!
+  |_|
+  (_)  
+"
    echo "---------------------------" >> ~/Desktop/$logname
    echo "Monkey was killed in action!" >> ~/Desktop/$logname
    mv ~/Desktop/$logname ~/Desktop/KILLED-$logname
