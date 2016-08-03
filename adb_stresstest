@@ -1,4 +1,5 @@
 #!/bin/bash
+
 #nice intro
 ver="1.4"
 echo
@@ -36,9 +37,8 @@ if ! [ -z "$2" ]; then
    seed=$2
 else
    seed=$RANDOM
-   echo "Seed not specified!"
+   echo "Seed not specified! Setting random: "$seed
    echo 'Use "adb_stresstest x y" where y>0 to set seed.' 
-   echo "Setting random seed: "$RANDOM;
 fi
 
 #checks passed
@@ -56,16 +56,16 @@ set $task_id #breaks task_id into $1 $2 ...
 task_id=$1 #saves $1 into task_id
 task_id=$(echo $task_id | rev) # reverse string back
 task_id=${task_id//[!0-9]/} #strip non numeric chars from task_id
-adb shell am task lock $task_id; #lock current app to prevent monkey escape
+adb shell am task lock $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
 adb shell input tap 865 1620 #ugly hardcoded tap for my screen size, substitute them by (x,y) of your confirm button
 echo "App locked to screen."
-echo "Testing..."
 
 #run test
+echo "Testing..."
 adb shell monkey -p $app -s $seed --pct-syskeys 0 --pct-anyevent 0 --monitor-native-crashes $events >> ~/Desktop/$logname
 
 #unlock screen
-adb shell am task lock stop
+adb shell am task lock stop >/dev/null 2>&1
 echo "App unlocked from screen."
 echo "---------------------------"
 
