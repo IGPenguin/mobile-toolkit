@@ -7,6 +7,7 @@ echo "---------------------------"
 
 #get app package name
 app=$(adb shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+echo "Package name: "$app
 
 #check if display is on with suitable app
 if ! ([[ $app == *"com"* ]] || [[ $app == *"cz"* ]]) ; then
@@ -41,7 +42,6 @@ else
 fi
 
 #checks passed
-echo "Running stress test on: "$app
 logname="$app-`date +%Y-%m-%d-%H-%M-%S`.log"
 
 #create log
@@ -72,26 +72,26 @@ echo "---------------------------"
 #check test result
 if grep -q "CRASH" ~/Desktop/$logname ; then
 
-   echo " __    __
+   echo ' __    __
  \ \  / /
   \ \/ /   
    |  |    App crashed, test failed!
   / /\ \ 
  /_/  \_\
-"
+'
    echo "---------------------------" >> ~/Desktop/$logname
    echo "App was destroyed by monkey and crashed!" >> ~/Desktop/$logname
    mv ~/Desktop/$logname ~/Desktop/CRASH-$logname
    echo "Log saved to desktop: CRASH-"$logname
 
 elif grep -q "RESPONDING" ~/Desktop/$logname ; then
-   echo " __    __
+   echo ' __    __
  \ \  / /
   \ \/ /   
    |  |    App frozen, test failed!
   / /\ \ 
  /_/  \_\
-"
+'
    echo "---------------------------" >> ~/Desktop/$logname
    echo "App was destroyed by monkey and stopped responding!" >> ~/Desktop/$logname
    mv ~/Desktop/$logname ~/Desktop/FREEZE-$logname
@@ -113,7 +113,7 @@ else
    echo "  ____ 
  |__  \ 
     ) |
-   / /     Monkey killed in action!
+   / /     Monkey was killed in action!
   |_|
   (_)  
 "
