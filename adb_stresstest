@@ -25,6 +25,7 @@ if [ -z "$1" ] || (( $1<1 )); then
    echo
    exit
 else
+   echo "Input events incoming: "$1;
    events=$1
 fi
 
@@ -45,7 +46,7 @@ logname="$app-`date +%Y-%m-%d-%H-%M-%S`.log"
 
 #create log
 echo "Android APP stress test "$ver >> ~/Desktop/$logname
-echo "Test with seed "$seed "started at: `date +%Y-%m-%d-%H-%M-%S`" >> ~/Desktop/$logname
+echo "Test with seed "$seed "and "$events" input events started at: `date +%Y-%m-%d-%H-%M-%S`" >> ~/Desktop/$logname
 echo "---------------------------" >> ~/Desktop/$logname
 
 
@@ -70,22 +71,47 @@ echo "---------------------------"
 
 #check test result
 if grep -q "CRASH" ~/Desktop/$logname ; then
+
+   echo "
+     _.-^^---....,,--       
+ _--                  --_  
+<                        >)
+|                         | 
+ \._                   _./  
+     ----. . , ; .----        
+          | |   |             
+       .-=||  | |=-.   
+       --=#%%&%%#=-    
+          | ;  :|     
+     _.,-#%&%@%#&#~,._ 
+
+"
    echo "App was destroyed by monkey and crashed!"
    echo "---------------------------" >> ~/Desktop/$logname
    echo "App was destroyed by monkey and crashed!" >> ~/Desktop/$logname
+   mv ~/Desktop/$logname ~/Desktop/CRASH-$logname
+   echo "Log saved to desktop: CRASH-"$logname
+
 elif grep -q "RESPONDING" ~/Desktop/$logname ; then
    echo "App was destroyed by monkey and stopped responding!"
    echo "---------------------------" >> ~/Desktop/$logname
    echo "App was destroyed by monkey and stopped responding!" >> ~/Desktop/$logname
+   mv ~/Desktop/$logname ~/Desktop/FREEZE-$logname
+   echo "Log saved to desktop: FREEZE-"$logname
+
 elif grep -q "Events" ~/Desktop/$logname ; then
-   echo "App survived monkey madness!"
+   echo "App survived monkey madness! Deleting log."
    echo "---------------------------" >> ~/Desktop/$logname
    echo "App survived monkey madness!" >> ~/Desktop/$logname
+   rm ~/Desktop/$logname
+
 else
    echo "Monkey was killed in action!"
    echo "---------------------------" >> ~/Desktop/$logname
    echo "Monkey was killed in action!" >> ~/Desktop/$logname
+   mv ~/Desktop/$logname ~/Desktop/KILLED-$logname
+   echo "Log saved to desktop: KILLED-"$logname
 fi
 
-echo "Log saved to desktop: "$logname
+
 
