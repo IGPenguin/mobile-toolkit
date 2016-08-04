@@ -1,5 +1,5 @@
 #!/bin/bash
 cd /
-cd /home/eidamsvoboda/Desktop
+cd ~/Desktop
 idevicescreenshot screenshot-`date +%Y-%m-%d-%H-%M-%S`.png
 

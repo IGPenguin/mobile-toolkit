@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /
-cd /home/eidamsvoboda/Desktop
+cd ~/Desktop
 mkdir recording
 cd recording
 
