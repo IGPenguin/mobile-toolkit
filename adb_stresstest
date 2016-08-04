@@ -11,7 +11,7 @@ app=$(adb shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | re
 echo "Package name: "$app
 
 #check if display is on with suitable app
-if ! ([[ $app == *"com"* ]] || [[ $app == *"cz"* ]]) ; then
+if ! ([[ $app == *"com"* ]] || [[ $app == *"cz"* ]] || [[ $app == *"ticktackform"* ]]) ; then
    echo "No suitable app in foreground!";
    echo "Unlock your phone and open APP you want to test.";
    echo "Aborting...";
