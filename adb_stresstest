@@ -21,11 +21,8 @@ fi
 
 #check/set number of input events
 if [ -z "$1" ] || (( $1<1 )); then
-   echo "Invalid number of input events in argument!";
-   echo 'Use "adb_stresstest x" where x>0.';
-   echo "Aborting...";
-   echo
-   exit
+   echo -n "Please specify number of input events: ";
+   read events;
 else
    echo "Input events incoming: "$1;
    events=$1
