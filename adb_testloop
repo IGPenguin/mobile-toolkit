@@ -65,6 +65,7 @@ if [ $(ls ~/Desktop | grep .log | wc -l) -gt 0 ] ; then
    if [ $killcount -gt 0 ] ; then echo "Monkey killed: "$killcount"x"; fi
    loops=$((loops - crashcount - freezecount - killcount))
    echo "App survived: "$loops"x"
+   echo "Logs from failed tests are located at ~/Desktop"
 else
    echo "App survived all tests!"   
 fi
