@@ -6,6 +6,19 @@ echo;
 echo "STRESS TEST RUNNER "$ver;
 echo "---------------------------";
 
+#get app package name
+app=$(adb shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+echo "Package name: "$app
+
+#check if display is on with suitable app
+if ! ([[ $app == *"com"* ]] || [[ $app == *"cz"* ]] || [[ $app == *"ticktackform"* ]]) ; then
+   echo "No suitable app in foreground!";
+   echo "Unlock your phone and open APP you want to test.";
+   echo "Aborting...";
+   echo
+   exit
+fi
+
 #check/set number of loops
 if [ -z "$1" ] || (( $1<1 )); then
    echo -n "Please specify number of tests: ";
@@ -26,6 +39,10 @@ fi
 
 #run loop
 for i in $(seq 1 $loops); do
+   echo "Restarting $app"
+   adb shell am force-stop $app >/dev/null 2>&1 #kill app to have fresh start
+   adb shell monkey -p $app -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1  #start app
+   sleep 3
    echo "Running test number "$i
    bash ./adb_test $events
 done
