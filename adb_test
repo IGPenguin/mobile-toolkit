@@ -3,7 +3,7 @@
 #nice intro
 ver="1.4"
 echo
-echo "Android APP stress test "$ver
+echo "Android APP stres test "$ver
 echo "---------------------------"
 
 #get app package name
@@ -19,13 +19,16 @@ if ! ([[ $app == *"com"* ]] || [[ $app == *"cz"* ]] || [[ $app == *"ticktackform
    exit
 fi
 
-#check/set number of input events
+#check/set number input events
+events=0
 if [ -z "$1" ] || (( $1<1 )); then
-   echo -n "Please specify number of input events: ";
-   read events;
+   while [ -z "$events" ] || [ $events -le 0 ]  ; do
+      echo -n "Please specify number of input events: ";
+      read events;
+   done
 else
    echo "Input events incoming: "$1;
-   events=$1
+   events=$1;
 fi
 
 #set seed
