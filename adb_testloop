@@ -1,0 +1,31 @@
+#!/bin/bash
+
+#nice intro
+ver="1.0";
+echo;
+echo "STRESS TEST RUNNER "$ver;
+echo "---------------------------";
+
+#check/set number of loops
+if [ -z "$1" ] || (( $1<1 )); then
+   echo -n "Please specify number of tests: ";
+   read loops;
+else
+   echo "Test will run $1x.";
+   loops=$1;
+fi
+
+#check/set number input events
+if [ -z "$2" ] || (( $2<1 )); then
+   echo -n "Please specify number of input events: ";
+   read events;
+else
+   echo "Each test will include $2 input events.";
+   events=$2;
+fi
+
+#run loop
+for i in $(seq 1 $loops); do
+   echo "Running test number "$i
+   bash ./adb_test $events
+done
