@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #nice intro
-ver="1.0";
+ver="1.1";
 echo;
-echo "STRESS TEST RUNNER "$ver;
+echo "Android APP stress test loop "$ver;
 echo "---------------------------";
 
 #get app package name
@@ -20,18 +20,24 @@ if ! ([[ $app == *"com"* ]] || [[ $app == *"cz"* ]] || [[ $app == *"ticktackform
 fi
 
 #check/set number of loops
+loops=0
 if [ -z "$1" ] || (( $1<1 )); then
-   echo -n "Please specify number of tests: ";
-   read loops;
+   while [ -z "$loops" ] || [ $loops -le 0 ]  ; do
+      echo -n "Please specify number of tests: ";
+      read loops;
+   done
 else
    echo "Test will run $1x.";
    loops=$1;
 fi
 
 #check/set number input events
+events=0
 if [ -z "$2" ] || (( $2<1 )); then
-   echo -n "Please specify number of input events: ";
-   read events;
+   while [ -z "$events" ] || [ $events -le 0 ]  ; do
+      echo -n "Please specify number of input events: ";
+      read events;
+   done
 else
    echo "Each test will include $2 input events.";
    events=$2;
