@@ -3,7 +3,7 @@
 #nice intro
 ver="1.4"
 echo
-echo "Android APP stres test "$ver
+echo "Android APP stress test "$ver
 echo "---------------------------"
 
 #get app package name
