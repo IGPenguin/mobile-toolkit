@@ -54,8 +54,8 @@ for i in $(seq 1 $loops); do
 done
 
 #show results 
-echo $loops "tests finished!"
 echo "---------------------------";
+echo $loops "tests finished!"
 if [ $(ls ~/Desktop | grep .log | wc -l) -gt 0 ] ; then
    crashcount=$(ls ~/Desktop | grep CRASH | wc -l)
    killcount=$(ls ~/Desktop | grep KILLED | wc -l)
@@ -68,6 +68,6 @@ if [ $(ls ~/Desktop | grep .log | wc -l) -gt 0 ] ; then
    echo "Logs from failed tests are located at ~/Desktop"
    echo
 else
-   echo "App survived all tests!" 
+   echo "App survived them all!" 
    echo  
 fi
