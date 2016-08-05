@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #nice intro
-ver="1.1";
+ver="1.2";
 echo;
 echo "Android APP stress test loop "$ver;
 echo "---------------------------";
@@ -52,3 +52,19 @@ for i in $(seq 1 $loops); do
    echo "Running test number "$i
    bash ./adb_test $events
 done
+
+#show results 
+echo $loops "tests finished!"
+echo "---------------------------";
+if [ $(ls ~/Desktop | grep .log | wc -l) -gt 0 ] ; then
+   crashcount=$(ls ~/Desktop | grep CRASH | wc -l)
+   killcount=$(ls ~/Desktop | grep KILLED | wc -l)
+   freezecount=$(ls ~/Desktop | grep FREEZE | wc -l)
+   if [ $crashcount -gt 0 ] ; then echo "App crashed: "$crashcount"x"; fi
+   if [ $freezecount -gt 0 ] ; then echo "App freezed: "$freezecount"x"; fi
+   if [ $killcount -gt 0 ] ; then echo "Monkey killed: "$killcount"x"; fi
+   loops=$((loops - crashcount - freezecount - killcount))
+   echo "App survived: "$loops"x"
+else
+   echo "App survived all tests!"   
+fi
