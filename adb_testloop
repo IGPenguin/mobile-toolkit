@@ -48,9 +48,9 @@ for i in $(seq 1 $loops); do
    echo "Restarting $app"
    adb shell am force-stop $app >/dev/null 2>&1 #kill app to have fresh start
    adb shell monkey -p $app -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1  #start app
-   sleep 3
+   sleep 2
    echo "Running test number "$i
-   bash ./adb_test $events
+   bash adb_test $events
 done
 
 #show results 
