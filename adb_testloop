@@ -3,7 +3,7 @@
 #nice intro
 ver="1.3";
 echo;
-echo "Android APP stress test loop "$ver;
+echo "Stress test loop "$ver;
 echo "---------------------------";
 
 #get app package name
@@ -53,8 +53,9 @@ for i in $(seq 1 $loops); do
    until [ $(adb shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev) == $app ] ; do ((sec++)) ; echo -ne "Waiting for launch $sec seconds..." "\r" ; sleep 1 ; done 
    echo
    #blaze that
+   scriptlocation=$( cd $(dirname $0) ; pwd -P );
    echo "Running test #"$i
-   bash adb_test $events
+   bash $scriptlocation/adb_test $events
 done
 
 #show results 
