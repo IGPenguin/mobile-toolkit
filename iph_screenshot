@@ -1,5 +1,5 @@
 #!/bin/bash
 cd /
 cd ~/Desktop
-idevicescreenshot screenshot-`date +%Y-%m-%d-%H-%M-%S`.png
+idevicescreenshot screenshot-$(date +%Y-%m-%d-%H-%M-%S).png
 
