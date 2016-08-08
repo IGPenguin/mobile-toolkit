@@ -48,7 +48,11 @@ for i in $(seq 1 $loops); do
    echo "Restarting $app"
    adb shell am force-stop $app >/dev/null 2>&1 #kill app to have fresh start
    adb shell monkey -p $app -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1  #start app
-   sleep 2
+   #wait for $app to appear
+   sec=0;
+   until [ $(adb shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev) == $app ] ; do ((sec++)) ; echo -ne "Waiting for launch $sec seconds..." "\r" ; sleep 1 ; done 
+   echo
+   #blaze that
    echo "Running test number "$i
    bash adb_test $events
 done
