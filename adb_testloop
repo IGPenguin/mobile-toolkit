@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #nice intro
-ver="1.2";
+ver="1.3";
 echo;
 echo "Android APP stress test loop "$ver;
 echo "---------------------------";
@@ -53,7 +53,7 @@ for i in $(seq 1 $loops); do
    until [ $(adb shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev) == $app ] ; do ((sec++)) ; echo -ne "Waiting for launch $sec seconds..." "\r" ; sleep 1 ; done 
    echo
    #blaze that
-   echo "Running test number "$i
+   echo "Running test #"$i
    bash adb_test $events
 done
 
