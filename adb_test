@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #nice intro
-ver="1.4"
+ver="1.5"
 echo
 echo "Android APP stress test "$ver
 echo "---------------------------"
@@ -56,17 +56,39 @@ set $task_id #breaks task_id into $1 $2 ...
 task_id=$1 #saves $1 into task_id
 task_id=$(echo $task_id | rev) # reverse string back
 task_id=${task_id//[!0-9]/} #strip non numeric chars from task_id
-adb shell am task lock $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
-adb shell input tap 865 1620 #ugly hardcoded tap for my screen size, substitute them by (x,y) of your confirm button
-echo "App locked to screen."
 
+#api specific locking
+api=$(adb shell getprop ro.build.version.sdk);
+api=${api//[!0-9]/}
+if [[ $api -eq 23 ]] ; then #android 6
+adb shell am task lock $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
+adb shell input tap 865 1620 #ugly hardcoded tap, substitute by (x,y) of your confirm button
+elif [[ $api -eq 22 || $api -eq 21 ]] ; then #android 5 and 5.1
+adb shell am lock-task $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
+adb shell input tap 865 1620 #ugly hardcoded tap, substitute by (x,y) of your confirm button
+else
+echo "Sorry this script supports only API 21+"
+echo "Aborting..."
+echo
+exit
+fi
+echo "App locked to screen."
 #run test
 echo "Testing..."
 adb shell monkey -p $app -s $seed --pct-syskeys 0 --pct-anyevent 0 --monitor-native-crashes $events >> ~/Desktop/$logname
 
-#unlock screen
+#api specific unlocking
+if [[ $api -eq 23 ]] ; then #android 6
 adb shell am task lock stop >/dev/null 2>&1
 echo "App unlocked from screen."
+elif [[ $api -eq 22 || $api -eq 21 ]] ; then #android 5 and 5.1
+#TODO UNLOCK FOR API 21 22
+echo "No app unlock for API 21 and 22 for now."
+echo "Unlock app by holding BACK and RECENTS buttons."
+fi
+
+
+
 echo "---------------------------"
 
 #check test result
