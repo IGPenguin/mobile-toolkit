@@ -68,7 +68,7 @@ adb shell am lock-task $task_id >/dev/null 2>&1 #lock current app to prevent mon
 adb shell input tap 865 1620 #ugly hardcoded tap, substitute by (x,y) of your confirm button
 elif [[ $api -eq 21 ]] ; then #android 5 
 adb shell am lock-task $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
-adb shell input keyevent 66
+adb shell input keyevent 22
 adb shell input keyevent 22
 adb shell input keyevent 66
 else
