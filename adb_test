@@ -149,6 +149,7 @@ else
    mv ~/Desktop/$logname ~/Desktop/KILLED-$logname
    echo "Log saved to desktop: KILLED-"$logname
 fi
+echo "---------------------------"
 
 
 
