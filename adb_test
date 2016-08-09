@@ -63,9 +63,14 @@ api=${api//[!0-9]/}
 if [[ $api -eq 23 ]] ; then #android 6
 adb shell am task lock $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
 adb shell input tap 865 1620 #ugly hardcoded tap, substitute by (x,y) of your confirm button
-elif [[ $api -eq 22 || $api -eq 21 ]] ; then #android 5 and 5.1
+elif [[ $api -eq 22 ]] ; then #android 5.1
 adb shell am lock-task $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
 adb shell input tap 865 1620 #ugly hardcoded tap, substitute by (x,y) of your confirm button
+elif [[ $api -eq 21 ]] ; then #android 5 
+adb shell am lock-task $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
+adb shell input keyevent 66
+adb shell input keyevent 22
+adb shell input keyevent 66
 else
 echo "Sorry this script supports only API 21+"
 echo "Aborting..."
