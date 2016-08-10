@@ -59,18 +59,17 @@ for i in $(seq 1 $loops); do
 done
 
 #show results 
-echo "---------------------------";
 echo $loops "tests finished!"
-if [ $(ls ~/Desktop | grep .log | wc -l) -gt 0 ] ; then
-   crashcount=$(ls ~/Desktop | grep CRASH | wc -l)
-   killcount=$(ls ~/Desktop | grep KILLED | wc -l)
-   freezecount=$(ls ~/Desktop | grep FREEZE | wc -l)
+if [ -d $app ] ; then
+   crashcount=$(ls ~/Desktop/$app | grep CRASH | wc -l)
+   killcount=$(ls ~/Desktop/$app | grep KILLED | wc -l)
+   freezecount=$(ls ~/Desktop/$app | grep FREEZE | wc -l)
    if [ $crashcount -gt 0 ] ; then echo "App crashed: "$crashcount"x"; fi
    if [ $freezecount -gt 0 ] ; then echo "App freezed: "$freezecount"x"; fi
    if [ $killcount -gt 0 ] ; then echo "Monkey killed: "$killcount"x"; fi
    loops=$((loops - crashcount - freezecount - killcount))
    echo "App survived: "$loops"x"
-   echo "Logs from failed tests are located at ~/Desktop"
+   echo "Logs from failed tests are located at ~/Desktop/$app"
    echo
 else
    echo "App survived them all!" 

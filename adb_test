@@ -19,6 +19,11 @@ if ! ([[ $app == *"com"* ]] || [[ $app == *"cz"* ]] || [[ $app == *"ticktackform
    exit
 fi
 
+#make folder if it doesnt exist
+if ! [ -d $app ] ; then
+mkdir ~/Desktop/$app
+fi
+
 #check/set number input events
 events=0
 if [ -z "$1" ] || (( $1<1 )); then
@@ -45,9 +50,9 @@ fi
 logname="$app-`date +%Y-%m-%d-%H-%M-%S`.log"
 
 #create log
-echo "Android APP stress test "$ver >> ~/Desktop/$logname
-echo "Test with seed "$seed "and "$events" input events started at: `date +%Y-%m-%d-%H-%M-%S`" >> ~/Desktop/$logname
-echo "---------------------------" >> ~/Desktop/$logname
+echo "Android APP stress test "$ver >> ~/Desktop/$app/$logname
+echo "Test with seed "$seed "and "$events" input events started at: `date +%Y-%m-%d-%H-%M-%S`" >> ~/Desktop/$app/$logname
+echo "---------------------------" >> ~/Desktop/$app/$logname
 
 
 #lock screen
@@ -78,9 +83,10 @@ echo
 exit
 fi
 echo "App locked to screen."
+
 #run test
 echo "Testing..."
-adb shell monkey -p $app -s $seed --pct-syskeys 0 --pct-anyevent 0 --monitor-native-crashes $events >> ~/Desktop/$logname
+adb shell monkey -p $app -s $seed --pct-syskeys 0 --pct-anyevent 0 --monitor-native-crashes $events >> ~/Desktop/$app/$logname
 
 #api specific unlocking
 if [[ $api -eq 23 ]] ; then #android 6
@@ -97,7 +103,7 @@ fi
 echo "---------------------------"
 
 #check test result
-if grep -q "CRASH" ~/Desktop/$logname ; then
+if grep -q "CRASH" ~/Desktop/$app/$logname ; then
 
    echo ' __    __
  \ \  / /
@@ -106,12 +112,12 @@ if grep -q "CRASH" ~/Desktop/$logname ; then
   / /\ \ 
  /_/  \_\
 '
-   echo "---------------------------" >> ~/Desktop/$logname
-   echo "App was destroyed by monkey and crashed!" >> ~/Desktop/$logname
-   mv ~/Desktop/$logname ~/Desktop/CRASH-$logname
-   echo "Log saved to desktop: CRASH-"$logname
+   echo "---------------------------" >> ~/Desktop/$app/$logname
+   echo "App was destroyed by monkey and crashed!" >> ~/Desktop/$app/$logname
+   mv ~/Desktop/$app/$logname ~/Desktop/$app/CRASH-$logname
+   echo "Log saved to ~/Desktop/$app: CRASH-"$logname
 
-elif grep -q "RESPONDING" ~/Desktop/$logname ; then
+elif grep -q "RESPONDING" ~/Desktop/$app/$logname ; then
    echo ' __    __
  \ \  / /
   \ \/ /   
@@ -119,12 +125,12 @@ elif grep -q "RESPONDING" ~/Desktop/$logname ; then
   / /\ \ 
  /_/  \_\
 '
-   echo "---------------------------" >> ~/Desktop/$logname
-   echo "App was destroyed by monkey and stopped responding!" >> ~/Desktop/$logname
-   mv ~/Desktop/$logname ~/Desktop/FREEZE-$logname
-   echo "Log saved to desktop: FREEZE-"$logname
+   echo "---------------------------" >> ~/Desktop/$app/$logname
+   echo "App was destroyed by monkey and stopped responding!" >> ~/Desktop/$app/$logname
+   mv ~/Desktop/$app/$logname ~/Desktop/$app/FREEZE-$logname
+   echo "Log saved to ~/Desktop/$app: FREEZE-"$logname
 
-elif grep -q "Events" ~/Desktop/$logname ; then
+elif grep -q "Events" ~/Desktop/$app/$logname ; then
    echo "        __
        / /
       / / 
@@ -132,9 +138,9 @@ elif grep -q "Events" ~/Desktop/$logname ; then
  \ \/ /   
   \__/    
 "
-   echo "---------------------------" >> ~/Desktop/$logname
-   echo "App survived monkey madness!" >> ~/Desktop/$logname
-   rm ~/Desktop/$logname
+   echo "---------------------------" >> ~/Desktop/$app/$logname
+   echo "App survived monkey madness!" >> ~/Desktop/$app/$logname
+   rm -rf ~/Desktop/$app
 
 else
    echo "  ____ 
@@ -144,10 +150,10 @@ else
   |_|
   (_)  
 "
-   echo "---------------------------" >> ~/Desktop/$logname
-   echo "Monkey was killed in action!" >> ~/Desktop/$logname
-   mv ~/Desktop/$logname ~/Desktop/KILLED-$logname
-   echo "Log saved to desktop: KILLED-"$logname
+   echo "---------------------------" >> ~/Desktop/$app/$logname
+   echo "Monkey was killed in action!" >> ~/Desktop/$app/$logname
+   mv ~/Desktop/$app/$logname ~/Desktop/$app/KILLED-$logname
+   echo "Log saved to ~/Desktop/$app: KILLED-"$logname
 fi
 echo "---------------------------"
 
