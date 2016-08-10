@@ -1,8 +1,11 @@
 #!/bin/bash
 cd /
 cd /home/eidamsvoboda/Desktop/recording 
-
-convert -delay 10 -loop 0 *.png ../gif-$(date +%Y-%m-%d-%H-%M-%S).gif
+if [ -z "$1" ] ; then
+   convert -delay 10 -loop 0 *.png ../gif-$(date +%Y-%m-%d-%H-%M-%S).gif
+else
+   convert -delay 10 -loop 0 *.png ../$1.gif
+fi
 cd ..
 rm -rf recording
 

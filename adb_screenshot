@@ -1,5 +1,9 @@
 #!/bin/bash
 adb shell screencap -p /mnt/sdcard/output.png
-adb pull /mnt/sdcard/output.png ~/Desktop/screenshot-$(date +%Y-%m-%d-%H-%M-%S).png
+if [ -z "$1" ] ; then
+   adb pull /mnt/sdcard/output.png ~/Desktop/screenshot-$(date +%Y-%m-%d-%H-%M-%S).png
+else
+   adb pull /mnt/sdcard/output.png ~/Desktop/$1.png
+fi
 adb shell rm /mnt/sdcard/output.png
 
