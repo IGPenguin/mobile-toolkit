@@ -1,0 +1,32 @@
+#/bin/bash
+#nice intro
+echo
+echo "Video to gif convert script :)"
+echo "------------------------------"
+#assign parameters
+INPUT_FILE=$1
+RESOLUTION=$2
+OUTPUT_FILE=$3
+
+#input
+while [ -z "$INPUT_FILE" ] ; do
+  echo -n "Specify input file: "
+  read INPUT_FILE
+done
+#res
+while [ -z "$RESOLUTION" ] ; do
+  echo -n "Specify resolution: "
+  read RESOLUTION
+done
+#output
+while [ -z "$OUTPUT_FILE" ] ; do
+  echo -n "Name output file: "
+  read OUTPUT_FILE
+done
+
+
+
+echo "Working..."
+ffmpeg -i $INPUT_FILE -pix_fmt rgb24 -r 10 -s $RESOLUTION $OUTPUT_FILE.gif >/dev/null 2>&1
+convert -layers Optimize $OUTPUT_FILE $OUTPUT_FILE.gif >/dev/null 2>&1
+echo "Done!"
