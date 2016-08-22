@@ -50,7 +50,11 @@ for i in $(seq 1 $loops); do
    adb shell monkey -p $app -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1  #start app
    #wait for $app to appear
    sec=0;
-   until [ $(adb shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev) == $app ] ; do ((sec++)) ; echo -ne "Waiting for launch $sec seconds..." "\r" ; sleep 1 ; done 
+   until [ $(adb shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev) == $app ] ; do 
+      ((sec++)) ; 
+      echo -ne "Waiting for launch $sec seconds..." "\r" ; 
+      sleep 1 ; 
+   done 
    echo
    #blaze that
    scriptlocation=$( cd $(dirname $0) ; pwd -P );

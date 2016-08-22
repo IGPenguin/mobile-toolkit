@@ -21,7 +21,7 @@ fi
 
 #make folder if it doesnt exist
 if ! [ -d $app ] ; then
-mkdir ~/Desktop/$app
+   mkdir ~/Desktop/$app
 fi
 
 #check/set number input events
@@ -66,22 +66,23 @@ task_id=${task_id//[!0-9]/} #strip non numeric chars from task_id
 api=$(adb shell getprop ro.build.version.sdk);
 api=${api//[!0-9]/}
 if [[ $api -eq 23 ]] ; then #android 6
-adb shell am task lock $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
-adb shell input tap 865 1620 #ugly hardcoded tap, substitute by (x,y) of your confirm button
+   adb shell am task lock $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
+   adb shell input tap 865 1620 #ugly hardcoded tap, substitute by (x,y) of your confirm button
 elif [[ $api -eq 22 ]] ; then #android 5.1
-adb shell am lock-task $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
-adb shell input tap 865 1620 #ugly hardcoded tap, substitute by (x,y) of your confirm button
+   adb shell am lock-task $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
+   adb shell input tap 865 1620 #ugly hardcoded tap, substitute by (x,y) of your confirm button
 elif [[ $api -eq 21 ]] ; then #android 5 
-adb shell am lock-task $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
-adb shell input keyevent 22
-adb shell input keyevent 22
-adb shell input keyevent 66
+   adb shell am lock-task $task_id >/dev/null 2>&1 #lock current app to prevent monkey escape
+   adb shell input keyevent 22
+   adb shell input keyevent 22
+   adb shell input keyevent 66
 else
-echo "Sorry this script supports only API 21+"
-echo "Aborting..."
-echo
-exit
+   echo "Sorry this script supports only API 21+"
+   echo "Aborting..."
+   echo
+   exit
 fi
+
 echo "App locked to screen."
 
 #run test
@@ -90,12 +91,12 @@ adb shell monkey -p $app -s $seed --pct-syskeys 0 --pct-anyevent 0 --monitor-nat
 
 #api specific unlocking
 if [[ $api -eq 23 ]] ; then #android 6
-adb shell am task lock stop >/dev/null 2>&1
-echo "App unlocked from screen."
+   adb shell am task lock stop >/dev/null 2>&1
+   echo "App unlocked from screen."
 elif [[ $api -eq 22 || $api -eq 21 ]] ; then #android 5 and 5.1
-#TODO UNLOCK FOR API 21 22
-echo "No app unlock for API 21 and 22 for now."
-echo "Unlock app by holding BACK and RECENTS buttons."
+   #NO UNLOCK FOR android<6.0
+   echo "No app unlock for API 21 and 22 for now."
+   echo "Unlock app by holding BACK and RECENTS buttons."
 fi
 
 
