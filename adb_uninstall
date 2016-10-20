@@ -1,0 +1,4 @@
+#!/bin/bash
+adb shell pm uninstall $1
+
+
