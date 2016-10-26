@@ -1,1 +1,0 @@
-adb shell su "svc wifi enable|disable"
