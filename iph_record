@@ -1,12 +1,18 @@
 #!/bin/bash
-cd /
+trap 'ctrlc' 1 2 3 6 15
+
+ctrlc()
+{
+iph_getgif $1
+exit
+}
+
 cd ~/Desktop
 mkdir recording
 cd recording
+N=1;
 
-for ((;;))    
-do
-    idevicescreenshot screenshot-$(date  +%Y-%m-%d-%H-%M-%S+%N).png
+while true; do
+    idevicescreenshot $N.png
+    N=$(($N+1));
 done
-
-
