@@ -1,9 +1,7 @@
 #!/bin/bash
-cd /
 cd ~/Desktop
 if [ -z "$1" ] ; then
    idevicescreenshot screenshot-$(date +%Y-%m-%d-%H-%M-%S).png
 else
    idevicescreenshot $1.png
 fi
-
