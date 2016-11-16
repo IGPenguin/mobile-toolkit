@@ -1,11 +1,13 @@
 #!/bin/bash
-cd /
-cd /home/eidamsvoboda/Desktop/recording 
+echo "Converting to gif..."
+cd ~/Desktop/recording
+IMAGE_NUMBER=$(ls -1 | wc -l);
+
 if [ -z "$1" ] ; then
-   convert -delay 10 -loop 0 *.png ../gif-$(date +%Y-%m-%d-%H-%M-%S).gif
+   convert -delay 10 -loop 0 $(for i in $(seq 1 $IMAGE_NUMBER); do echo ${i}.png; done) ../gif-$(date +%Y-%m-%d-%H-%M-%S).gif
+
 else
-   convert -delay 10 -loop 0 *.png ../$1.gif
+   convert -delay 10 -loop 0 $(for i in $(seq 1 $IMAGE_NUMBER); do echo ${i}.png; done) ../$1.gif
 fi
 cd ..
 rm -rf recording
-
