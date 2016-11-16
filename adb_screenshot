@@ -6,4 +6,3 @@ else
    adb pull /mnt/sdcard/output.png ~/Desktop/$1.png
 fi
 adb shell rm /mnt/sdcard/output.png
-
