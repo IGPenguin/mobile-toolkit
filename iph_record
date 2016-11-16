@@ -12,7 +12,8 @@ mkdir recording
 cd recording
 N=1;
 
+echo "Taking screenshots..."
 while true; do
-    idevicescreenshot $N.png
+    idevicescreenshot $N.png >/dev/null 2>&1
     N=$(($N+1));
 done
