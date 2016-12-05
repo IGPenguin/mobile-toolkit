@@ -3,8 +3,8 @@ trap 'ctrlc' 1 2 3 6 15
 
 ctrlc()
 {
-adb_getvideo
+adb_getvideo $1
+exit
 }
 
 adb shell screenrecord --verbose /mnt/sdcard/output.mp4
-
