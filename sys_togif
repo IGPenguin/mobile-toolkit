@@ -1,7 +1,7 @@
 #/bin/bash
 #nice intro
 echo
-echo "Video to gif convert script :)"
+echo "Video to gif conversion”
 echo "------------------------------"
 #assign parameters
 INPUT_FILE=$1
@@ -28,5 +28,5 @@ done
 
 echo "Working..."
 ffmpeg -i $INPUT_FILE -pix_fmt rgb24 -r 10 -s $RESOLUTION $OUTPUT_FILE.gif >/dev/null 2>&1
-convert -layers Optimize $OUTPUT_FILE $OUTPUT_FILE.gif >/dev/null 2>&1
+convert -layers Optimize $OUTPUT_FILE.gif $OUTPUT_FILE.gif >/dev/null 2>&1
 echo "Done!"
