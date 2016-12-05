@@ -1,4 +1,7 @@
 #!/bin/bash
+if [ -z "$1" ] ; then
 adb logcat -d | grep -C 3 -w at | tee ~/Desktop/crash-$(date +%Y-%m-%d-%H-%M-%S).log
+else
+adb logcat -d | grep -C 3 -w at | tee ~/Desktop/$1.log
 
 
