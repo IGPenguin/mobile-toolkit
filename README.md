@@ -1,5 +1,5 @@
 # Command line tools
-Set of useful scripts for mobile application testing
+Set of shell scripts for mobile application testing
 
 ##Android devices
 Android Debug Bridge is required, you need to export path to platform-tools folder in .bashrc (or equivalent file). 
