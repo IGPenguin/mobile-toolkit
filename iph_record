@@ -1,5 +1,5 @@
 #!/bin/bash
-trap 'ctrlc' 1 2 3 6 15
+trap 'ctrlc $@' 1 2 3 6 15
 
 ctrlc()
 {
