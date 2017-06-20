@@ -1,0 +1,21 @@
+#!/bin/bash
+re='^[0-9]+$'
+
+if [ -z "$1" ]
+then
+   echo usage: greplog \<string\> \<lines\>
+   echo string - type what are you looking for \(required\)
+   echo lines - how many surrounding lines you want to print \(optional, default is 10\)
+else
+   if [ -z "$2" ]
+   then
+      adb logcat | grep --colour -C 10 $1
+   else
+      if ! [[ $2 =~ $re ]]
+      then
+         echo error: second argument is not number
+      else
+         adb logcat | grep --colour -C $2 $1
+      fi
+   fi
+fi

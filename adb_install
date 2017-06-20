@@ -1,4 +1,4 @@
 #!/bin/bash
-adb install -rtdg $1
+adb install -rtdg $1 
 
 
