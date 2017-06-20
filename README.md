@@ -11,6 +11,9 @@ Takes screenshot and saves it to ~/Desktop. You can specify filename by passing 
 ## adb_record
 Records device screen, you can end recording using ^C, after that video is saved to ~/Desktop.
 
+## adb_greplog
+Shows device logcat output filtered with string that you pass in first argument. You can also specify second argument (integer) to set how many lines surrounding your result should be shown.
+
 ## adb_crashlog
 Gets device logcat output filtered by grep for crashes and saves it to ~/Desktop. You can specify filename by passing it as an argument.
 
