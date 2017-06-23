@@ -20,7 +20,7 @@ Shows device logcat output filtered with string that you pass in first argument.
 ## adb_crashlog
 Gets device logcat output filtered by grep for crashes and saves it to ~/Desktop. You can specify filename by passing it as an argument.
 
-## adb_install
+## adb_forceinstall
 Installs .apk to Android device, can overwrite existing app with higher version code, grants all permissions, test packages allowed.
 
 ## adb_uninstall
