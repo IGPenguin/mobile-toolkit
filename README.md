@@ -11,7 +11,7 @@ Takes screenshot and saves it to ~/Desktop. You can specify filename by passing 
 ## adb_record
 Records device screen, you can end recording using ^C, after that video is saved to ~/Desktop.
 
-## adb_paste
+## adb_insert
 Inserts text passed as an argument into focused field on connected device.
 
 ## adb_greplog
