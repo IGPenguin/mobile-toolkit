@@ -37,7 +37,7 @@ Takes screenshots of device screen as it runs, you can end recording using ^C, a
 
 # Tools
 ## sys_togif
-Converts video to gif, takes three optional arguments:
+Converts video to gif, takes three arguments:
 1. input file
 2. resolution (eg. 640x480)
 3. output file
