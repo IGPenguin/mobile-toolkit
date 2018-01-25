@@ -7,5 +7,5 @@ else
     read -s -p "Enter text you want to insert: " TEXT
 fi
 
-ESCAPED_TEXT=`echo $TEXT | sed "s/\s/\%s/g"`
+ESCAPED_TEXT=`echo $TEXT | sed -e 's/ /\%s/g'`
 adb shell input text "$ESCAPED_TEXT"
