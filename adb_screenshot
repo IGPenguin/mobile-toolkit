@@ -1,13 +1,32 @@
 #!/bin/bash
+
+#GET device list
+devices=()
 for line in `adb devices | grep -v "List"  | awk '{print $1}'`
 do
   device=`echo $line | awk '{print $1}'`
-  echo "Taking screenshot from $device"
-  adb -s $device shell screencap -p /mnt/sdcard/output.png
-  if [ -z "$1" ] ; then
-    adb -s $device pull /mnt/sdcard/output.png ~/Desktop/screenshot-$(date +%Y-%m-%d-%H-%M-%S).png
-  else
-    adb -s $device pull /mnt/sdcard/output.png ~/Desktop/$1.png
-  fi
-  adb -s $device shell rm /mnt/sdcard/output.png
+  devices+=("$device")
 done
+
+#If mutliple available
+if [ ${#devices[@]} -gt 1 ]
+then
+   echo Multiple devices available: ${devices[@]}
+   select opt in "${devices[@]}"
+   do
+     case $opt in
+        *) selected=$opt;break; ;;
+      esac
+  done
+else
+   selected="${devices[0]}"
+fi
+
+echo "Taking screenshot from $selected"
+adb -s $selected shell screencap -p /mnt/sdcard/output.png
+if [ -z "$1" ] ; then
+  adb -s $selected pull /mnt/sdcard/output.png ~/Desktop/screenshot-$(date +%Y-%m-%d-%H-%M-%S).png
+else
+  adb -s $selected pull /mnt/sdcard/output.png ~/Desktop/$1.png
+fi
+adb -s $selected shell rm /mnt/sdcard/output.png
