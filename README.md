@@ -20,11 +20,17 @@ Inserts text passed as an argument into focused field on connected device.
 ## adb_greplog
 Shows device logcat output filtered with string that you pass in first argument. You can also specify second argument (integer) to set how many lines surrounding your result should be shown.
 
+## adb_packages
+Lists all installed packages.
+
 ## adb_forceinstall
-Installs .apk to Android device, can overwrite existing app with higher version code, grants all permissions, test packages allowed.
+Installs .apk to Android device, can overwrite existing app with higher version code, grants all permissions.
 
 ## adb_uninstall
 Uninstalls app from device, you must specify package name as an argument.
+
+## adb_devices
+Prints serials of all connected devices.
 
 # iOS devices
 Open source library **libimobiledevice** is required. It has a lot of dependencies, but it is the best way to get screenshots from iOS devices immediately to computer. Your iOS device needs to have mounted developer image (connect your device via usb and run xcode). For converting screenshots to gifs via iph_record, you also need **imagemagick** and **ffmpeg**. 
