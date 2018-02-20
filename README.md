@@ -29,6 +29,9 @@ Installs .apk to Android device, can overwrite existing app with higher version 
 ## adb_uninstall
 Uninstalls app from device, you must specify package name as an argument.
 
+## adb_options
+Opens the settings app.
+
 ## adb_devices
 Prints serials of all connected devices.
 
