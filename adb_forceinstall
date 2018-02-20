@@ -22,4 +22,4 @@ else
    selected="${devices[0]}"
 fi
 
-adb -s $selected install -rtdg $1 
+adb -s $selected install -r -d $1 
