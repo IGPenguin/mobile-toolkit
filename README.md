@@ -1,9 +1,8 @@
 # Command line tools
-Set of shell scripts useful for mobile application testing, lets you choose target if multiple devices are detected by ADB.
+Set of shell scripts useful for mobile application testing, lets you choose target if multiple devices are detected by ADB. I recommend you to export path to folder with this cloned repository, so you can call following commands in any directory.
 
 # Android devices
-Android Debug Bridge is required, you need to export path to platform-tools folder in .bashrc (or equivalent file). 
-I also recommend you to export path to folder with this cloned repository, so you can use following commands in any directory.
+Android Debug Bridge is required, you need to export path to platform-tools folder in .bashrc (or equivalent file) to make the scripts able to use it without specifying its location. 
 
 ## adb_screenshot
 Takes screenshot and saves it to ~/Desktop. You can specify filename by passing it as an argument.
