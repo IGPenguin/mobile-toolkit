@@ -22,4 +22,4 @@ else
    selected="${devices[0]}"
 fi
 
-adb -s $selected shell 'pm list packages -f' | sed -e 's/.*=//' | sort
+adb -s $selected shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort
