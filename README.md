@@ -38,10 +38,7 @@ Opens the settings app.
 Prints serials of all connected devices.
 
 # iOS devices
-Open source library **libimobiledevice** is required. It has a lot of dependencies, but it is the best way to get screenshots from iOS devices immediately to computer. Your iOS device needs to have mounted developer image (connect your device via usb and run xcode). For converting screenshots to gifs via iph_record, you also need **imagemagick** and **ffmpeg**. 
+Open source library **libimobiledevice** is required. It has a lot of dependencies, but it is the best way to get screenshots from iOS devices immediately to computer. Your iOS device needs to have mounted developer image (connect your device via usb and run xcode). 
 
 ## iph_screenshot
 Takes screenshot and saves it to ~/Desktop. You can specify filename by passing it as an argument.
-
-## iph_record
-Takes screenshots of device screen as it runs, you can end recording using ^C, after that screenshots are merged to one .gif and saved to ~/Desktop.
