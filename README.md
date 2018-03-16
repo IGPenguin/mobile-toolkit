@@ -13,16 +13,10 @@ Takes screenshot on all connected devices and saves it to ~/Desktop. You can spe
 ## adb_record
 Records device screen, you can end recording using ^C, after that video is saved to ~/Desktop.
 
-## adb_insert
+## adb_paste
 Inserts text passed as an argument into focused field on connected device.
 
-## adb_greplog
-Shows device logcat output filtered with string that you pass in first argument. You can also specify second argument (integer) to set how many lines surrounding your result should be shown.
-
-## adb_packages
-Lists all non-system packages.
-
-## adb_forceinstall
+## adb_install
 Installs .apk to Android device, can overwrite existing app with higher version code, grants all permissions.
 
 ## adb_uninstall
@@ -30,6 +24,12 @@ Uninstalls app from device, you must specify package name as an argument.
 
 ## adb_cleanup
 Uninstalls all non-system packages and removes the contents of /sdcard/Download.
+
+## adb_greplog
+Shows device logcat output filtered with string that you pass in first argument. You can also specify second argument (integer) to set how many lines surrounding your result should be shown.
+
+## adb_listpackages
+Lists all non-system packages.
 
 ## adb_options
 Opens the settings app.
