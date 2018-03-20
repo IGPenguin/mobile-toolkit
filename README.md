@@ -16,6 +16,9 @@ Records device screen, you can end recording using ^C, after that video is saved
 ## adb_paste
 Inserts text passed as an argument into focused field on connected device.
 
+## adb_freshstart
+Deletes all data of the foreground app and restarts it.
+
 ## adb_install
 Installs .apk to Android device, can overwrite existing app with higher version code, grants all permissions.
 
