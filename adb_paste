@@ -33,7 +33,6 @@ if [ "$#" -gt 1 ];
 then
     for var in "$@"
     do
-        echo "Inserting $var"
         ESCAPED_TEXT=`echo $var | sed -e 's/ /\%s/g'`
         adb -s $selected shell input text "$ESCAPED_TEXT"
 	sleep 1
