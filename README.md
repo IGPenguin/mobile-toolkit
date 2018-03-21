@@ -16,7 +16,10 @@ Records device screen, you can end recording using ^C, after that video is saved
 ## adb_paste
 Inserts the text passed as an argument into focused field on the connected device, if there are multiple arguments, the focus will move into the next field after inserting one (so you can eg. fill in some form by separating the texts with whitespaces). Surround the text with "" if you want to insert multi-word string into one field.
 
-## adb_freshstart
+## adb_kill
+Force-stops the foreground app and launches it again.
+
+## adb_erase
 Deletes all data of the foreground app and restarts it.
 
 ## adb_install
