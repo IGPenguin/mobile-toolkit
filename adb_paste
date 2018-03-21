@@ -7,8 +7,6 @@ else
     read -s -p "Enter text you want to insert: " TEXT
 fi
 
-ESCAPED_TEXT=`echo $TEXT | sed -e 's/ /\%s/g'`
-
 #GET device list
 devices=()
 for line in `adb devices | grep -v "List"  | awk '{print $1}'`
@@ -31,5 +29,19 @@ else
    selected="${devices[0]}"
 fi
 
-adb -s $selected shell input text "$ESCAPED_TEXT"
+if [ "$#" -gt 1 ]; 
+then
+    for var in "$@"
+    do
+        echo "Inserting $var"
+        ESCAPED_TEXT=`echo $var | sed -e 's/ /\%s/g'`
+        adb -s $selected shell input text "$ESCAPED_TEXT"
+	sleep 1
+	adb -s $selected shell input keyevent 66
+    done
+else
+    ESCAPED_TEXT=`echo $TEXT | sed -e 's/ /\%s/g'`
+    adb -s $selected shell input text "$ESCAPED_TEXT"
+fi
+
 

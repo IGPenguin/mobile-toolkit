@@ -2,7 +2,7 @@
 Set of shell scripts useful for mobile application testing, lets you choose target if multiple devices are detected by ADB. I recommend you to export path to folder with this cloned repository, so you can call following commands in any directory.
 
 # Android devices
-Android Debug Bridge is required, you need to export path to platform-tools folder in .bashrc (or equivalent file) to make the scripts able to use it without specifying its location. 
+**Android Debug Bridge is required, you need to export the path to platform-tools folder in .bashrc** (or equivalent file) to make the scripts able to use it without specifying its location. 
 
 ## adb_screenshot
 Takes screenshot and saves it to ~/Desktop. You can specify filename by passing it as an argument.
@@ -14,7 +14,7 @@ Takes screenshot on all connected devices and saves it to ~/Desktop. You can spe
 Records device screen, you can end recording using ^C, after that video is saved to ~/Desktop.
 
 ## adb_paste
-Inserts text passed as an argument into focused field on connected device.
+Inserts the text passed as an argument into focused field on the connected device, if there are multiple arguments, the focus will move into the next field after inserting one (so you can eg. fill in some form by separating the texts with whitespaces). Surround the text with "" if you want to insert multi-word string into one field.
 
 ## adb_freshstart
 Deletes all data of the foreground app and restarts it.
