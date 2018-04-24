@@ -22,6 +22,36 @@ else
    selected="${devices[0]}"
 fi
 
-adb -s $selected shell pm uninstall $1
+if [[ "$1" != "" ]]
+then
+    package=$1
+else
+    IFS=$'\n'
+    ps=($(adb -s $selected shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort))
+    unset IFS
+
+    packages=()
+    for p in "${ps[@]}" #removes trailing \r
+    do 
+        p=${p%$'\r'}  
+	packages+=($p)
+    done 
+
+    if [ ${#packages[@]} -eq 0 ]; then
+        echo "No packages to uninstall."
+        exit
+    fi
+
+    echo "Choose from installed packages:"
+    select opt in "${packages[@]}"
+    do
+     case $opt in
+        *) package=$opt;break; ;;
+      esac
+    done
+fi
+
+echo Uninstalling $package
+adb -s $selected shell pm uninstall $package
 
 
