@@ -56,8 +56,12 @@ Lists all installed third party packages.
 Prints serials of all connected devices.
 
 # iOS shortcuts
+
+# Installation
 1. Open source library **libimobiledevice** is required. It has a lot of dependencies, but it is the best way to get **screenshots from iOS devices straight to your desktop**. If you use _brew_ you can easily install it like this (with iOS 11 support) ```brew install https://gist.github.com/Haraguroicha/0dee2ee29c7376999178c5392080c16e/raw/libimobiledevice.rb --HEAD --with-ios11``` 
 2. Your iOS device needs to have mounted developer image -> **connect your device via usb and run xcode** 
+
+## Screen capturing
 
 #### iph_screenshot
 Takes screenshot and saves it to ~/Desktop. 
