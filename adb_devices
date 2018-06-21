@@ -1,3 +1,4 @@
+
 devices=()
 for line in `adb devices | grep -v "List"  | awk '{print $1}'`
 do

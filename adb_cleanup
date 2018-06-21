@@ -1,30 +1,11 @@
 #!/bin/bash
+source ./adb_choose
 
-#GET device list
-devices=()
-for line in `adb devices | grep -v "List"  | awk '{print $1}'`
-do
-  device=`echo $line | awk '{print $1}'`
-  devices+=("$device")
-done
-
-#If mutliple available
-if [ ${#devices[@]} -gt 1 ]
-then
-   echo Multiple devices available: ${devices[@]}
-   select opt in "${devices[@]}"
-   do
-     case $opt in
-        *) selected=$opt;break; ;;
-      esac
-  done
-else
-   selected="${devices[0]}"
-fi
+choose_device
 
 read -r -p "Are you sure, you want to remove ALL installed packages and delete the contents of /sdcard/Download on $selected? [y/n] " response
 case "$response" in
-    [yY]) 
+    [yY])
         ;;
     *)
         exit
@@ -51,4 +32,3 @@ done
 
 echo Clearing /sdcard/Download
 adb -s $selected shell rm -r /sdcard/Download/*
-

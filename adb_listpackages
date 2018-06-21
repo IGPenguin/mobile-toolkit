@@ -1,25 +1,6 @@
 #!/bin/bash
+source ./adb_choose
 
-#GET device list
-devices=()
-for line in `adb devices | grep -v "List"  | awk '{print $1}'`
-do
-  device=`echo $line | awk '{print $1}'`
-  devices+=("$device")
-done
-
-#If mutliple available
-if [ ${#devices[@]} -gt 1 ]
-then
-   echo Multiple devices available: ${devices[@]}
-   select opt in "${devices[@]}"
-   do
-     case $opt in
-        *) selected=$opt;break; ;;
-      esac
-  done
-else
-   selected="${devices[0]}"
-fi
+choose_device
 
 adb -s $selected shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort

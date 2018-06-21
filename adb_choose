@@ -1,0 +1,32 @@
+#!/bin/bash
+
+choose_device() {
+
+#GET device list
+devices=()
+for line in `adb devices | grep -v "List"  | awk '{print $1}'`
+do
+  device=`echo $line | awk '{print $1}'`
+  devices+=("$device")
+done
+
+if [ ${#devices[@]} -eq 0 ]
+then
+   echo No device connected, aborting...
+   exit
+fi
+
+#If mutliple available
+if [ ${#devices[@]} -gt 1 ]
+then
+   echo Multiple devices available: ${devices[@]}
+   select opt in "${devices[@]}"
+   do
+     case $opt in
+        *) selected=$opt;break; ;;
+      esac
+  done
+else
+   selected="${devices[0]}"
+fi
+}
