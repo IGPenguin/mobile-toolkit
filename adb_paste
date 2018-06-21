@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./adb_choose
+source ./adb_devices
 
 if [[ "$1" != "" ]]
 then

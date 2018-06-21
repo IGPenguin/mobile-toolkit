@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./adb_choose
+source ./adb_devices
 trap 'ctrlc $@' 1 2 3 6 15
 
 choose_device

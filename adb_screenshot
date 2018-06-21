@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./adb_choose
+source ./adb_devices
 
 choose_device
 
