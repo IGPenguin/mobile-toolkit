@@ -2,11 +2,6 @@
 source ./adb_devices
 trap 'ctrlc $@' 1 2 3 6 15
 
-choose_device
-
-echo Starting recording on $selected, stop it with ctrl^c
-adb -s $selected shell screenrecord --verbose /mnt/sdcard/output.mp4
-
 ctrlc()
 {
 sleep 1
@@ -18,3 +13,10 @@ fi
 adb -s $selected shell rm /mnt/sdcard/output.mp4
 exit
 }
+
+choose_device
+
+echo Starting recording on $selected, stop it with ctrl^c
+adb -s $selected shell screenrecord --verbose /mnt/sdcard/output.mp4
+
+
