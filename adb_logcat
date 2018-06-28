@@ -1,6 +1,6 @@
 #!/bin/bash
-source ./adb_devices
-
+location=$(dirname "$0")
+source $location/device_chooser
 choose_device
 
 adb -s $selected logcat

@@ -1,5 +1,6 @@
 #!/bin/bash
-source ./adb_devices
+location=$(dirname "$0")
+source $location/device_chooser
 trap 'ctrlc $@' 1 2 3 6 15
 
 ctrlc()

@@ -1,6 +1,6 @@
 #!/bin/bash
-source ./adb_devices
-
+location=$(dirname "$0")
+source $location/device_chooser
 choose_device
 
 read -r -p "Are you sure, you want to remove ALL installed packages and delete the contents of /sdcard/Download on $selected? [y/n] " response

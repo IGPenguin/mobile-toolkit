@@ -1,6 +1,6 @@
 #!/bin/bash
-source ./adb_devices
-
+location=$(dirname "$0")
+source $location/device_chooser
 choose_device
 
 app=$(adb -s $selected shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
