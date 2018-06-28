@@ -1,7 +1,0 @@
-devices=()
-for line in `adb devices | grep -v "List"  | awk '{print $1}'`
-do
-  device=`echo $line | awk '{print $1}'`
-  devices+=("$device")
-done
-echo ${devices[@]}

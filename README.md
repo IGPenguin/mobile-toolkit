@@ -53,7 +53,7 @@ Prints the system log output.
 Lists all installed third party packages.
 
 #### adb_devices
-Prints serials of all connected devices.
+<TBD> Prints info about all connected devices.
 
 # iOS shortcuts
 
