@@ -19,7 +19,7 @@ unset IFS
 for pkg in "${packages[@]}"
 do
 
-   if [[ $pkg = *"funtaster"* ]]; then
+   if [[ $pkg = *"funtaster"* ]] || [[ $pkg = *"io.crash.air"* ]] || [[ $pkg = *"de.codenauts.hockeyapp"* ]] || [[ $pkg = *"chrome"* ]]; then
       echo "Skipping $pkg"
       continue
    fi
