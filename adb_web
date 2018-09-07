@@ -3,7 +3,5 @@ location=$(dirname "$0")
 source $location/device_chooser
 choose_device
 
-
 web=http://$1
-adb -s $selected shell am start -a android.intent.action.VIEW -d "$web" >>
-echo $1
+adb -s $selected shell am start -a android.intent.action.VIEW -d "$web"
