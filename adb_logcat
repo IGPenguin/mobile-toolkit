@@ -1,6 +1,6 @@
 #!/bin/bash
 location=$(dirname "$0")
 source $location/common_tools
-choose_device
+android_choose_device
 
 adb -s $SELECTED_DEVICE logcat

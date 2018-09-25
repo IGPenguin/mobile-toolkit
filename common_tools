@@ -1,5 +1,5 @@
 #!/bin/bash
-choose_device() {
+android_choose_device() {
 #Populate array with device ids
 DEVICES=()
 for LINE in `adb devices | grep -v "List"  | awk '{print $1}'`
@@ -50,7 +50,7 @@ SELECTED_DEVICE_MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model |
 SELECTED_DEVICE_SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
 }
 
-check_developer_image(){
+ios_check_developer_image(){
   IS_MOUNTED=$(ideviceimagemounter -l)
   if [ ${#IS_MOUNTED} -eq 0 ] ; then
     read -r -p "Developer image probably not mounted, do you want to launch Xcode? [y/n] " RESPONSE
@@ -63,4 +63,9 @@ check_developer_image(){
     esac
     open -a Xcode
   fi
+}
+
+ios_get_device_info(){
+  SELECTED_DEVICE_MODEL=$(ideviceinfo | grep "HardwareModel" | cut -d\   -f2)
+  SELECTED_DEVICE_VERSION=$(ideviceinfo | grep "ProductVersion" | cut -d\   -f2)
 }

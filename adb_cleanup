@@ -1,7 +1,7 @@
 #!/bin/bash
 location=$(dirname "$0")
 source $location/common_tools
-choose_device
+android_choose_device
 
 read -r -p "🔥 Are you sure, you want to remove ALL installed packages and delete the contents of /sdcard/Download on $SELECTED_DEVICE? [y/n] " response
 case "$response" in
@@ -26,7 +26,7 @@ do
 
    pkg=${pkg%$'\r'} #removes trailing \r
    echo "🗑 Uninstalling $pkg"
-   adb -s $SELECTED_DEVICE shell "pm uninstall $pkg"
+   adb -s $SELECTED_DEVICE shell "pm uninstall $pkg" &> /dev/null
 
 done
 

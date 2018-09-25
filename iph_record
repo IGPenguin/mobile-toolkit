@@ -1,23 +1,27 @@
 #!/bin/bash
 location=$(dirname "$0")
 source $location/common_tools
+ios_check_developer_image
 trap 'ctrlc $@' 1 2 3 6 15
 
 ctrlc()
 {
-echo "Composing footage..."
+echo "🏭 Composing footage..."
 cd ~/Desktop/$DIRNAME
  if [ -z "$1" ] ; then
-   FILENAME=video-$(date +%Y-%m-%d-%H-%M-%S)
+   ios_get_device_info
+   FILENAME=$SELECTED_DEVICE_MODEL-iOS$SELECTED_DEVICE_VERSION-$(date +%Y-%m-%d-%H-%M-%S)
  else
    FILENAME=$1
 fi
 ffmpeg -r 10 -f image2 -loglevel quiet -i %d.png -vcodec libx264 -crf 25 -pix_fmt yuv420p ../$FILENAME.mp4
 cd ..
-echo "Cleaning up..."
+echo "🗑 Cleaning up..."
 rm -rf $DIRNAME
 exit
 }
+
+
 
 DIRNAME=iOS-recording-$(date +%Y-%m-%d-%H-%M-%S)
 
@@ -25,9 +29,7 @@ cd ~/Desktop
 mkdir $DIRNAME
 cd $DIRNAME
 
-check_developer_image
-
-echo "Recording screen..."
+echo "📹 Recording screen..."
 N=1;
 while :; do
     idevicescreenshot $N.png >/dev/null 2>&1

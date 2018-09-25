@@ -1,15 +1,15 @@
 #!/bin/bash
 location=$(dirname "$0")
 source $location/common_tools
+ios_check_developer_image
 
 cd ~/Desktop
 if [ -z "$1" ] ; then
-  FILENAME=screenshot-$(date +%Y-%m-%d-%H-%M-%S)
+  ios_get_device_info
+  FILENAME=$SELECTED_DEVICE_MODEL-iOS$SELECTED_DEVICE_VERSION-$(date +%Y-%m-%d-%H-%M-%S)
 else
   FILENAME=$1
 fi
-
-check_developer_image
 
 idevicescreenshot $FILENAME.png &> /dev/null
 EXIT_CODE=$?
