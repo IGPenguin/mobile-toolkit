@@ -3,14 +3,19 @@ location=$(dirname "$0")
 source $location/common_tools
 android_choose_device
 
+if [ -z "$1" ] ; then
+  echo "🤷‍ What should I install?"
+  exit
+fi
+
 #get package name from .apk
 aapt_path=$(find $ANDROID_HOME -name 'aapt' | sort | tail -1)
 package_name=$($aapt_path dump badging $1 | grep package:\ name);
 package_name=$(echo $package_name | sed 's/^[^'\'']*'\''//');
 package_name=$(echo $package_name | sed 's/'\''.*//');
 
-adb -s $SELECTED_DEVICE install -r -d $1
-if [ $? -eq 0 ]
+adb -s $SELECTED_DEVICE install -r $1
+if [ $? -eq 0 ] ; then #does not work, exit code is 0 after failure :/
   adb -s $SELECTED_DEVICE shell monkey -p $package_name -c android.intent.category.LAUNCHER 1 &> /dev/null
 else
   echo "💥 Installation failed, nothing to launch!"
