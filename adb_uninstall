@@ -19,11 +19,11 @@ else
     done
 
     if [ ${#packages[@]} -eq 0 ]; then
-        echo "No packages to uninstall."
+        echo "🤷‍ No packages to uninstall."
         exit
     fi
 
-    echo "Choose from installed packages:"
+    echo "📋 Choose from installed packages:"
     select opt in "${packages[@]}"
     do
      case $opt in
@@ -32,5 +32,5 @@ else
     done
 fi
 
-echo Uninstalling $package
-adb -s $SELECTED_DEVICE shell pm uninstall $package
+echo "🗑 Uninstalling $package"
+adb -s $SELECTED_DEVICE shell pm uninstall $package &> /dev/null

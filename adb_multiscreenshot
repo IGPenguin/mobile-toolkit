@@ -2,7 +2,7 @@
 for line in `adb devices | grep -v "List"  | awk '{print $1}'`
 do
   device=`echo $line | awk '{print $1}'`
-  echo "Taking screenshot from $device"
+  echo "📸 Taking screenshot from $device"
   adb -s $device shell screencap -p /mnt/sdcard/output.png
   if [ -z "$1" ] ; then
     adb -s $device pull /mnt/sdcard/output.png ~/Desktop/screenshot-$device-$(date +%Y-%m-%d-%H-%M-%S).png

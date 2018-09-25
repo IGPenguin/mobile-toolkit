@@ -3,7 +3,7 @@ location=$(dirname "$0")
 source $location/device_chooser
 choose_device
 
-read -r -p "Are you sure, you want to remove ALL installed packages and delete the contents of /sdcard/Download on $SELECTED_DEVICE? [y/n] " response
+read -r -p "🔥 Are you sure, you want to remove ALL installed packages and delete the contents of /sdcard/Download on $SELECTED_DEVICE? [y/n] " response
 case "$response" in
     [yY])
         ;;
@@ -20,15 +20,15 @@ for pkg in "${packages[@]}"
 do
 
    if [[ $pkg = *"funtaster"* ]] || [[ $pkg = *"io.crash.air"* ]] || [[ $pkg = *"de.codenauts.hockeyapp"* ]] || [[ $pkg = *"chrome"* ]]; then
-      echo "Skipping $pkg"
+      echo "⏭ Skipping $pkg"
       continue
    fi
 
    pkg=${pkg%$'\r'} #removes trailing \r
-   echo Uninstalling $pkg
+   echo "🗑 Uninstalling $pkg"
    adb -s $SELECTED_DEVICE shell "pm uninstall $pkg"
 
 done
 
-echo Clearing /sdcard/Download
+echo "🗑 Clearing /sdcard/Download"
 adb -s $SELECTED_DEVICE shell rm -r /sdcard/Download/*

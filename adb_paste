@@ -7,7 +7,7 @@ if [[ "$1" != "" ]]
 then
     TEXT=$1
 else
-    read -s -p "Enter text you want to insert: " TEXT
+    read -s -p "✏️ Enter text you want to insert: " TEXT
 fi
 
 if [ "$#" -gt 1 ];

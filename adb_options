@@ -3,4 +3,5 @@ location=$(dirname "$0")
 source $location/device_chooser
 choose_device
 
-adb -s $SELECTED_DEVICE shell am start -a android.settings.SETTINGS
+echo "⚙️ Launching system settings app..."
+adb -s $SELECTED_DEVICE shell am start -a android.settings.SETTINGS &> /dev/null

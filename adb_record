@@ -17,5 +17,5 @@ exit
 
 choose_device
 
-echo Starting recording on $SELECTED_DEVICE, stop it with ctrl^c
-adb -s $SELECTED_DEVICE shell screenrecord --verbose /mnt/sdcard/output.mp4
+echo "📹 Starting recording on $SELECTED_DEVICE, stop it with ctrl^c"
+adb -s $SELECTED_DEVICE shell screenrecord /mnt/sdcard/output.mp4
