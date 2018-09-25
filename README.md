@@ -1,4 +1,4 @@
-# ADB shortcuts 
+# ADB shortcuts
 Set of shell scripts useful for mobile application testing, you can choose target if multiple devices are detected by ADB.
 
 # Installation
@@ -10,11 +10,11 @@ Set of shell scripts useful for mobile application testing, you can choose targe
 ## Screen capturing
 
 #### adb_screenshot
-Takes screenshot and saves it to ~/Desktop. 
+Takes screenshot and saves it to ~/Desktop.
 You can specify filename by passing it as an argument.
 
 #### adb_multiscreenshot
-Takes screenshot on all connected devices and saves it to ~/Desktop. 
+Takes screenshot on all connected devices and saves it to ~/Desktop.
 You can specify filename by passing it as an argument.
 
 #### adb_record
@@ -58,11 +58,16 @@ Lists all installed third party packages.
 # iOS shortcuts
 
 # Installation
-1. Open source library **libimobiledevice** is required. It has a lot of dependencies, but it is the best way to get **screenshots from iOS devices straight to your desktop**. If you use _brew_ you can easily install it like this (with iOS 11 support) ```brew install https://gist.github.com/Haraguroicha/0dee2ee29c7376999178c5392080c16e/raw/libimobiledevice.rb --HEAD --with-ios11``` 
-2. Your iOS device needs to have mounted developer image -> **connect your device via usb and run xcode** 
+1. Open source library **libimobiledevice** is required. It has a lot of dependencies, but it is the best way to get **screenshots from iOS devices straight to your desktop**. If you use _brew_ you can easily install it like this (with iOS 11 support) ```brew install https://gist.github.com/Haraguroicha/0dee2ee29c7376999178c5392080c16e/raw/libimobiledevice.rb --HEAD --with-ios11```
+2. Your iOS device needs to have mounted developer image -> **connect your device via usb and run xcode**
+3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") to be able to use **ios_record**
 
 ## Screen capturing
 
-#### iph_screenshot
-Takes screenshot and saves it to ~/Desktop. 
+#### ios_screenshot
+Takes screenshot and saves it to ~/Desktop.
+You can specify filename by passing it as an argument.
+
+#### ios_record
+"Records" device screen (actually its taking few screenshots every second 😅), you can end recording using ^C, after that video is composed and saved to ~/Desktop.
 You can specify filename by passing it as an argument.
