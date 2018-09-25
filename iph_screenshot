@@ -1,7 +1,15 @@
 #!/bin/bash
+location=$(dirname "$0")
+source $location/common_tools
+
 cd ~/Desktop
 if [ -z "$1" ] ; then
-   idevicescreenshot screenshot-$(date +%Y-%m-%d-%H-%M-%S).png
+  FILENAME=screenshot-$(date +%Y-%m-%d-%H-%M-%S)
 else
-   idevicescreenshot $1.png
+  FILENAME=$1
 fi
+
+check_developer_image
+
+echo "Screenshot saved into $FILENAME.png"
+idevicescreenshot $FILENAME.png &> /dev/null
