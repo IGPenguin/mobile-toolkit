@@ -1,0 +1,15 @@
+#!/bin/bash
+location=$(dirname "$0")
+source $location/common_tools
+android_choose_device
+
+MANUFACTURER=$(adb -s $SELECTED_DEVICE shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
+MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.device | tr -cd '[[:alnum:]]._-')
+VERSION=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
+SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
+INFO=$(printf "%s %s %s (API %s) - %s" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK" "$SELECTED_DEVICE")
+
+echo "📱 $INFO"
+echo "  • CPU: $(adb -s $SELECTED_DEVICE shell getprop ro.product.cpu.abi | tr -cd '[[:alnum:]]._-')"
+echo "  • Display density: $(adb -s $SELECTED_DEVICE shell getprop ro.sf.lcd_density | tr -cd '[[:alnum:]]._-')"
+echo "  • to be continued..."

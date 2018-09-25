@@ -52,8 +52,8 @@ Prints the system log output.
 #### adb_listpackages
 Lists all installed third party packages.
 
-#### adb_devices
-<TBD> Prints info about all connected devices.
+#### adb_deviceinfo
+Prints some useful information device.
 
 # iOS shortcuts
 

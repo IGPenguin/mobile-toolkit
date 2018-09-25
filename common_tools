@@ -23,7 +23,7 @@ then
    for ID in "${DEVICES[@]}"
     do
       MANUFACTURER=$(adb -s $ID shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
-      MODEL=$(adb -s $ID shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
+      MODEL=$(adb -s $ID shell getprop ro.product.device | tr -cd '[[:alnum:]]._-')
       VERSION=$(adb -s $ID shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
       SDK=$(adb -s $ID shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
       INFO=$(printf "%s)\n%s\n%s\n%s\n(API %s)\n-\n%s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK" "$ID")
