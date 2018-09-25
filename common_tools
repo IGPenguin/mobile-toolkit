@@ -45,8 +45,6 @@ then
 else
    SELECTED_DEVICE="${DEVICES[0]}"
 fi
-
-echo $SELECTED_DEVICE
 }
 
 check_developer_image(){
