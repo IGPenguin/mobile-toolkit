@@ -14,7 +14,7 @@ check_developer_image
 idevicescreenshot $FILENAME.png &> /dev/null
 EXIT_CODE=$?
 if [ $EXIT_CODE -eq 0 ]; then
-  echo "Screenshot saved into $FILENAME.png"
+  echo "📸 Screenshot saved into $FILENAME.png"
 else
   echo "🤷 Screenshot failed, error code: $EXIT_CODE"
 fi
