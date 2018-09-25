@@ -1,5 +1,6 @@
 #!/bin/bash
 #Populate array with device ids
+choose_device() {
 DEVICES=()
 for LINE in `adb devices | grep -v "List"  | awk '{print $1}'`
 do
@@ -46,3 +47,4 @@ else
 fi
 
 echo $SELECTED_DEVICE
+}
