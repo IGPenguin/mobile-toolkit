@@ -7,17 +7,15 @@ ctrlc()
 {
 sleep 1
 if [ -z "$1" ] ; then
-   adb -s $selected pull /mnt/sdcard/output.mp4 ~/Desktop/video-$(date +%Y-%m-%d-%H-%M-%S).mp4
+   adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.mp4 ~/Desktop/video-$(date +%Y-%m-%d-%H-%M-%S).mp4
 else
-   adb -s $selected pull /mnt/sdcard/output.mp4 ~/Desktop/$1.mp4
+   adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.mp4 ~/Desktop/$1.mp4
 fi
-adb -s $selected shell rm /mnt/sdcard/output.mp4
+adb -s $SELECTED_DEVICE shell rm /mnt/sdcard/output.mp4
 exit
 }
 
 choose_device
 
-echo Starting recording on $selected, stop it with ctrl^c
-adb -s $selected shell screenrecord --verbose /mnt/sdcard/output.mp4
-
-
+echo Starting recording on $SELECTED_DEVICE, stop it with ctrl^c
+adb -s $SELECTED_DEVICE shell screenrecord --verbose /mnt/sdcard/output.mp4
