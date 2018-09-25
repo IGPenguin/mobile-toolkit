@@ -1,6 +1,6 @@
 #!/bin/bash
-#Populate array with device ids
 choose_device() {
+#Populate array with device ids
 DEVICES=()
 for LINE in `adb devices | grep -v "List"  | awk '{print $1}'`
 do
@@ -45,6 +45,19 @@ then
 else
    SELECTED_DEVICE="${DEVICES[0]}"
 fi
+}
 
-echo $SELECTED_DEVICE
+check_developer_image(){
+  IS_MOUNTED=$(ideviceimagemounter -l)
+  if [ ${#IS_MOUNTED} -eq 0 ] ; then
+    read -r -p "Developer image probably not mounted, do you want to launch Xcode? [y/n] " RESPONSE
+    case "$RESPONSE" in
+        [yY])
+            ;;
+        *)
+            exit
+            ;;
+    esac
+    open -a Xcode
+  fi
 }

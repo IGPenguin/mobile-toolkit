@@ -1,6 +1,6 @@
 #!/bin/bash
 location=$(dirname "$0")
-source $location/device_chooser
+source $location/common_tools
 choose_device
 
 if [[ "$1" != "" ]]
