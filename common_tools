@@ -45,6 +45,9 @@ then
 else
    SELECTED_DEVICE="${DEVICES[0]}"
 fi
+
+SELECTED_DEVICE_MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
+SELECTED_DEVICE_SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
 }
 
 check_developer_image(){

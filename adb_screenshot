@@ -6,8 +6,9 @@ choose_device
 echo "📸 Taking screenshot from $SELECTED_DEVICE"
 adb -s $SELECTED_DEVICE shell screencap -p /mnt/sdcard/output.png
 if [ -z "$1" ] ; then
-  adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.png ~/Desktop/screenshot-$(date +%Y-%m-%d-%H-%M-%S).png
+  FILENAME=$SELECTED_DEVICE_MODEL-API$SELECTED_DEVICE_SDK-$(date +%Y-%m-%d-%H-%M-%S)
 else
-  adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.png ~/Desktop/$1.png
+  FILENAME=$1
 fi
+adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.png ~/Desktop/$FILENAME.png &> /dev/null
 adb -s $SELECTED_DEVICE shell rm /mnt/sdcard/output.png

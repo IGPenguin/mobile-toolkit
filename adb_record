@@ -7,11 +7,13 @@ ctrlc()
 {
 sleep 1
 if [ -z "$1" ] ; then
-   adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.mp4 ~/Desktop/video-$(date +%Y-%m-%d-%H-%M-%S).mp4
+   FILENAME=$SELECTED_DEVICE_MODEL-API$SELECTED_DEVICE_SDK-$(date +%Y-%m-%d-%H-%M-%S)
 else
-   adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.mp4 ~/Desktop/$1.mp4
+   FILENAME=$1
 fi
-adb -s $SELECTED_DEVICE shell rm /mnt/sdcard/output.mp4
+echo "📁 Copying the video from device..."
+adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.mp4 ~/Desktop/$FILENAME.mp4 &> /dev/null
+adb -s $SELECTED_DEVICE shell rm /mnt/sdcard/output.mp4 &> /dev/null
 exit
 }
 
