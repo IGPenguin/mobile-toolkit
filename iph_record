@@ -6,7 +6,7 @@ trap 'ctrlc $@' 1 2 3 6 15
 ctrlc()
 {
 echo "Composing footage..."
-cd ~/Desktop/iOS-recording
+cd ~/Desktop/$DIRNAME
  if [ -z "$1" ] ; then
    FILENAME=video-$(date +%Y-%m-%d-%H-%M-%S)
  else
@@ -15,13 +15,15 @@ fi
 ffmpeg -r 10 -f image2 -loglevel quiet -i %d.png -vcodec libx264 -crf 25 -pix_fmt yuv420p ../$FILENAME.mp4
 cd ..
 echo "Cleaning up..."
-rm -rf iOS-recording
+rm -rf $DIRNAME
 exit
 }
 
+DIRNAME=iOS-recording-$(date +%Y-%m-%d-%H-%M-%S)
+
 cd ~/Desktop
-mkdir iOS-recording
-cd iOS-recording
+mkdir $DIRNAME
+cd $DIRNAME
 
 check_developer_image
 
@@ -29,5 +31,12 @@ echo "Recording screen..."
 N=1;
 while :; do
     idevicescreenshot $N.png >/dev/null 2>&1
+    EXIT_CODE=$?
+    if [ $EXIT_CODE -ne 0 ]; then
+      echo "🤷 Recording failed, error code: $EXIT_CODE"
+      cd ..
+      rm -rf $DIRNAME
+      exit
+    fi
     N=$(($N+1));
 done
