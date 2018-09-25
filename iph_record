@@ -1,0 +1,30 @@
+#!/bin/bash
+trap 'ctrlc $@' 1 2 3 6 15
+ctrlc()
+{
+echo "Composing footage..."
+cd ~/Desktop/iOS-recording
+ if [ -z "$1" ] ; then
+   FILENAME=video-$(date +%Y-%m-%d-%H-%M-%S)
+ else
+   FILENAME=$1
+fi
+ffmpeg -r 10 -f image2 -loglevel quiet -i %d.png -vcodec libx264 -crf 25 -pix_fmt yuv420p ../$FILENAME.mp4
+cd ..
+echo "Cleaning up..."
+#read -p "Delete the screenshots?"
+rm -rf iOS-recording
+exit
+}
+
+cd ~/Desktop
+mkdir iOS-recording
+cd iOS-recording
+
+echo "Recording screen..."
+N=1;
+while :; do
+    idevicescreenshot $N.png >/dev/null 2>&1
+    N=$(($N+1));
+    echo $N
+done
