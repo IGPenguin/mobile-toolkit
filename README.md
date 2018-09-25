@@ -21,6 +21,9 @@ You can specify filename by passing it as an argument.
 Records device screen, you can end recording using ^C, after that video is saved to ~/Desktop.
 You can specify filename by passing it as an argument.
 
+#### adb_bounds
+Toggles layout bounds visibility (you may have to restart your app on older devices).
+
 ## Device control
 
 #### adb_paste
