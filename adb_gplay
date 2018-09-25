@@ -3,6 +3,13 @@ location=$(dirname "$0")
 source $location/common_tools
 choose_device
 
+if [ -z "$1" ] ; then
+  read -p "❓ What do you want to search for? " $APP_NAME
+else
+  APP_NAME=$1
+fi
+
+echo "🛍 Searching for $APP_NAME in Google Play..."
 adb -s $SELECTED_DEVICE shell monkey -p com.android.vending -c android.intent.category.LAUNCHER 1 &> /dev/null
 adb -s $SELECTED_DEVICE shell input keyevent 84
-adb_paste $1
+adb_paste $APP_NAME

@@ -4,6 +4,7 @@ source $location/common_tools
 choose_device
 
 app=$(adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+echo "🔪 Killing $app"
 adb -s $SELECTED_DEVICE shell am force-stop $app
-echo Relaunching $app
+echo "▶️ Relaunching $app"
 adb -s $SELECTED_DEVICE shell monkey -p $app -c android.intent.category.LAUNCHER 1 &> /dev/null
