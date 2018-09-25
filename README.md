@@ -26,6 +26,9 @@ You can specify filename by passing it as an argument.
 #### adb_paste
 Inserts the text passed as an argument into focused field on the selected device, if there are multiple arguments, the focus will move into the next field after inserting one (so you can eg. fill in some form by separating the strings with whitespaces). Surround the text with "" if you want to insert multi-word string into one field.
 
+#### adb_launch
+Lists installed third party applications and runs the one you choose. You can specify filename by passing it as an argument.
+
 #### adb_kill
 Force-stops the foreground app and launches it again.
 
@@ -48,9 +51,6 @@ Opens the settings app.
 
 #### adb_logcat
 Prints the system log output.
-
-#### adb_listpackages
-Lists all installed third party packages.
 
 #### adb_devices
 <TBD> Prints info about all connected devices.

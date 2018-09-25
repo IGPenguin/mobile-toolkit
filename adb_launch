@@ -1,0 +1,36 @@
+#!/bin/bash
+location=$(dirname "$0")
+source $location/common_tools
+android_choose_device
+
+if [[ "$1" != "" ]]
+then
+    package=$1
+else
+    IFS=$'\n'
+    ps=($(adb -s $SELECTED_DEVICE shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort))
+    unset IFS
+
+    packages=()
+    for p in "${ps[@]}" #removes trailing \r
+    do
+        p=${p%$'\r'}
+	packages+=($p)
+    done
+
+    if [ ${#packages[@]} -eq 0 ]; then
+        echo "🤷‍ No packages to run."
+        exit
+    fi
+
+    echo "📋 Choose from installed packages:"
+    select opt in "${packages[@]}"
+    do
+     case $opt in
+        *) package=$opt;break; ;;
+      esac
+    done
+fi
+
+echo "🚀 Launching $package"
+adb -s $SELECTED_DEVICE shell monkey -p $package -c android.intent.category.LAUNCHER 1 &> /dev/null

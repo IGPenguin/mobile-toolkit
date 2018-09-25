@@ -1,6 +1,0 @@
-#!/bin/bash
-location=$(dirname "$0")
-source $location/common_tools
-android_choose_device
-
-adb -s $SELECTED_DEVICE shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort
