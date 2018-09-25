@@ -8,7 +8,7 @@ then
     package=$1
 else
     IFS=$'\n'
-    ps=($(adb -s $selected shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort))
+    ps=($(adb -s $SELECTED_DEVICE shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort))
     unset IFS
 
     packages=()
@@ -33,4 +33,4 @@ else
 fi
 
 echo Uninstalling $package
-adb -s $selected shell pm uninstall $package
+adb -s $SELECTED_DEVICE shell pm uninstall $package

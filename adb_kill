@@ -3,7 +3,7 @@ location=$(dirname "$0")
 source $location/device_chooser
 choose_device
 
-app=$(adb -s $selected shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
-adb -s $selected shell am force-stop $app
+app=$(adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+adb -s $SELECTED_DEVICE shell am force-stop $app
 echo Relaunching $app
-adb -s $selected shell monkey -p $app -c android.intent.category.LAUNCHER 1 &> /dev/null
+adb -s $SELECTED_DEVICE shell monkey -p $app -c android.intent.category.LAUNCHER 1 &> /dev/null

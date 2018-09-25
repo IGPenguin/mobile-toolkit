@@ -3,11 +3,11 @@ location=$(dirname "$0")
 source $location/device_chooser
 choose_device
 
-echo "Taking screenshot from $selected"
-adb -s $selected shell screencap -p /mnt/sdcard/output.png
+echo "Taking screenshot from $SELECTED_DEVICE"
+adb -s $SELECTED_DEVICE shell screencap -p /mnt/sdcard/output.png
 if [ -z "$1" ] ; then
-  adb -s $selected pull /mnt/sdcard/output.png ~/Desktop/screenshot-$(date +%Y-%m-%d-%H-%M-%S).png
+  adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.png ~/Desktop/screenshot-$(date +%Y-%m-%d-%H-%M-%S).png
 else
-  adb -s $selected pull /mnt/sdcard/output.png ~/Desktop/$1.png
+  adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.png ~/Desktop/$1.png
 fi
-adb -s $selected shell rm /mnt/sdcard/output.png
+adb -s $SELECTED_DEVICE shell rm /mnt/sdcard/output.png

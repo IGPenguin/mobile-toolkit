@@ -1,32 +1,48 @@
 #!/bin/bash
-
-choose_device() {
-
-#GET device list
-devices=()
-for line in `adb devices | grep -v "List"  | awk '{print $1}'`
+#Populate array with device ids
+DEVICES=()
+for LINE in `adb devices | grep -v "List"  | awk '{print $1}'`
 do
-  device=`echo $line | awk '{print $1}'`
-  devices+=("$device")
+  DEVICE=`echo $LINE | awk '{print $1}'`
+  DEVICES+=("$DEVICE")
 done
 
-if [ ${#devices[@]} -eq 0 ]
+#No device connected
+if [ ${#DEVICES[@]} -eq 0 ]
 then
    echo No device connected, aborting...
    exit
 fi
 
-#If mutliple available
-if [ ${#devices[@]} -gt 1 ]
+#Gather device info and choose device
+if [ ${#DEVICES[@]} -gt 1 ]
 then
-   echo Multiple devices available: ${devices[@]}
-   select opt in "${devices[@]}"
-   do
-     case $opt in
-        *) selected=$opt;break; ;;
-      esac
-  done
+   NUMBER=1
+   echo Multiple devices available:
+   for ID in "${DEVICES[@]}"
+    do
+      MANUFACTURER=$(adb -s $ID shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
+      MODEL=$(adb -s $ID shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
+      VERSION=$(adb -s $ID shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
+      SDK=$(adb -s $ID shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
+      INFO=$(printf "%s)\n%s\n%s\n%s\n(API %s)\n-\n%s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK" "$ID")
+      echo $INFO
+      ((NUMBER++))
+    done
+
+    read -p "Select a device: " CHOICE
+    while :;
+    do
+    if ((CHOICE <= 0 || CHOICE > ${#DEVICES[@]})); then
+      echo -en "\033[1A\033[2K"
+      read -p "Invalid input, try again: " CHOICE
+    else
+      break
+    fi
+    done
+    SELECTED_DEVICE=${DEVICES[(($CHOICE-1))]}
 else
-   selected="${devices[0]}"
+   SELECTED_DEVICE="${DEVICES[0]}"
 fi
-}
+
+echo $SELECTED_DEVICE

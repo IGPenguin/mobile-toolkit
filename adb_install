@@ -9,5 +9,5 @@ package_name=$($aapt_path dump badging $1 | grep package:\ name);
 package_name=$(echo $package_name | sed 's/^[^'\'']*'\''//');
 package_name=$(echo $package_name | sed 's/'\''.*//');
 
-adb -s $selected install -r -d $1
-adb -s $selected shell monkey -p $package_name -c android.intent.category.LAUNCHER 1 &> /dev/null
+adb -s $SELECTED_DEVICE install -r -d $1
+adb -s $SELECTED_DEVICE shell monkey -p $package_name -c android.intent.category.LAUNCHER 1 &> /dev/null

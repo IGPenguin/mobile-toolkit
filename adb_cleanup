@@ -3,7 +3,7 @@ location=$(dirname "$0")
 source $location/device_chooser
 choose_device
 
-read -r -p "Are you sure, you want to remove ALL installed packages and delete the contents of /sdcard/Download on $selected? [y/n] " response
+read -r -p "Are you sure, you want to remove ALL installed packages and delete the contents of /sdcard/Download on $SELECTED_DEVICE? [y/n] " response
 case "$response" in
     [yY])
         ;;
@@ -13,7 +13,7 @@ case "$response" in
 esac
 
 IFS=$'\n'
-packages=($(adb -s $selected shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort))
+packages=($(adb -s $SELECTED_DEVICE shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort))
 unset IFS
 
 for pkg in "${packages[@]}"
@@ -26,9 +26,9 @@ do
 
    pkg=${pkg%$'\r'} #removes trailing \r
    echo Uninstalling $pkg
-   adb -s $selected shell "pm uninstall $pkg"
+   adb -s $SELECTED_DEVICE shell "pm uninstall $pkg"
 
 done
 
 echo Clearing /sdcard/Download
-adb -s $selected shell rm -r /sdcard/Download/*
+adb -s $SELECTED_DEVICE shell rm -r /sdcard/Download/*
