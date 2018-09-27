@@ -17,7 +17,7 @@ adb -s $SELECTED_DEVICE shell rm /mnt/sdcard/output.mp4 &> /dev/null
 exit
 }
 
-choose_device
+android_choose_device
 
 echo "📹 Recording screen on $SELECTED_DEVICE, stop it with ctrl^c"
 adb -s $SELECTED_DEVICE shell screenrecord /mnt/sdcard/output.mp4
