@@ -4,7 +4,7 @@ source $location/common_tools
 android_choose_device
 
 BOUNDS_STATE=$(adb -s $SELECTED_DEVICE shell getprop debug.layout | tr -cd '[[:alnum:]]._-')
-if [ $BOUNDS_STATE = "false" ] ; then
+if [ $BOUNDS_STATE == "false" ] ; then
   echo "🔍 Turning layout bounds on..."
   adb -s $SELECTED_DEVICE shell setprop debug.layout true &> /dev/null
 else
