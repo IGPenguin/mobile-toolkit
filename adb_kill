@@ -1,10 +1,10 @@
 #!/bin/bash
-location=$(dirname "$0")
-source $location/common_tools
+LOCATION=$(dirname "$0")
+source $LOCATION/common_tools
 android_choose_device
 
-app=$(adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
-echo "🔪 Killing $app"
-adb -s $SELECTED_DEVICE shell am force-stop $app
-echo "▶️ Relaunching $app"
-adb -s $SELECTED_DEVICE shell monkey -p $app -c android.intent.category.LAUNCHER 1 &> /dev/null
+PACKAGE_NAME=$(adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+echo "🔪 Killing $PACKAGE_NAME"
+adb -s $SELECTED_DEVICE shell am force-stop $PACKAGE_NAME
+echo "🚀 Relaunching..."
+adb -s $SELECTED_DEVICE shell monkey -p $PACKAGE_NAME -c android.intent.category.LAUNCHER 1 &> /dev/null

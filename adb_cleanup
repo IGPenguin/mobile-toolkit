@@ -1,6 +1,6 @@
 #!/bin/bash
-location=$(dirname "$0")
-source $location/common_tools
+LOCATION=$(dirname "$0")
+source $LOCATION/common_tools
 android_choose_device
 
 read -r -p "🔥 Do you really want to remove ALL third party packages and wipe /sdcard/Download on $SELECTED_DEVICE_MODEL? [y/n] " response
