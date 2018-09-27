@@ -6,10 +6,12 @@ android_choose_device
 LIMIT=20
 IS_NUMBER_REGULAR='^[0-9]+$'
 
-if ! [[ $1 =~ $IS_NUMBER_REGULAR ]] ; then
-  read -p "🤷‍ This is not a number, using default limit $LIMIT, press ENTER"
-else
-  LIMIT=$1
+if [ $# -gt 0 ] ;then
+  if [[ $1 =~ $IS_NUMBER_REGULAR ]] ; then
+    LIMIT=$1
+  else
+    read -p "🤷‍ This is not a number, using default limit $LIMIT, press ENTER"
+  fi
 fi
 
 adb -s $SELECTED_DEVICE logcat | grep -w -C $LIMIT "at"
