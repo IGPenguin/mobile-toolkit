@@ -1,8 +1,7 @@
 #!/bin/bash
-#TODO choose chinesse, emoji blbalbbalbalbalblbal
-#TODO openkeyboard if possible
+#TODO openkeyboard if possible, to simulate max screen occupation
 
-echo -e "👋 Textview rapist 2403:\n     1) LONG VEHICLE - Lorem ipsum\n     2) Ching Chong - Chinesse symbols\n     3) 🔥🔥🔥🔥🔥 - Emojie\n     4) Gopnik "
+echo -e "👋 Textview Breaker 2403:\n     1) LONG VEHICLE - Lorem ipsum\n     2) Ching Chong - Chinesse symbols\n     3) 🔥🔥🔥🔥🔥 - Emojie\n     4) Gopnik "
 read -p "🔫 Choose your weapon: " TYPE
 echo -en "\033[1A\033[2K"
 
@@ -14,12 +13,12 @@ case "$TYPE" in
 
   "2")
   echo "你怎麼吮吸狗屎";
-  adb_paste "你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎" #niet working :(
+  adb_paste "你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎"
   ;;
 
   "3")
   echo "🖕🤣💥🔥";
-  adb_paste "🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥" #niet working :(
+  adb_paste "🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥"
   ;;
 
   *)
