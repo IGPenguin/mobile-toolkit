@@ -1,0 +1,4 @@
+#!/bin/bash
+$ANDROID_HOME/tools/bin/avdmanager list avd #TODO grep the shitty long useless output
+read -p "Enter emulator name: " EMULATOR
+nohup $ANDROID_HOME/tools/emulator -avd $EMULATOR &> /dev/null &

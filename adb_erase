@@ -1,11 +1,11 @@
 #!/bin/bash
-location=$(dirname "$0")
-source $location/common_tools
+LOCATION=$(dirname "$0")
+source $LOCATION/common_tools
 android_choose_device
 
 app=$(adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
 
-read -r -p "🗑 Are you sure, you want to remove the data of $app [y/n] " response
+read -r -p "🔥 Do you really want to remove all data of $app [y/n] " response
 case "$response" in
     [yY])
         ;;
