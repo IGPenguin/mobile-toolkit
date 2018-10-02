@@ -20,15 +20,17 @@ for pkg in "${packages[@]}"
 do
 
    if [[ $pkg = *"funtaster"* ]] || [[ $pkg = *"io.crash.air"* ]] || [[ $pkg = *"de.codenauts.hockeyapp"* ]] || [[ $pkg = *"chrome"* ]]; then
-      echo "⏭ Skipping $pkg"
+      echo "⌛️ Skipping $pkg"
       continue
    fi
 
    pkg=${pkg%$'\r'} #removes trailing \r
-   echo "🗑 Uninstalling $pkg"
+   echo "🔥 Uninstalling $pkg"
    adb -s $SELECTED_DEVICE shell "pm uninstall $pkg" &> /dev/null
 
 done
 
-echo "🗑 Clearing /sdcard/Download"
+echo "🔥 Clearing /sdcard/Download"
 adb -s $SELECTED_DEVICE shell rm -r /sdcard/Download/*
+echo "✅ Device is now clean."
+
