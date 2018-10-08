@@ -62,6 +62,7 @@ ios_check_developer_image(){
             ;;
     esac
     open -a Xcode
+    sleep 8
   fi
 }
 
