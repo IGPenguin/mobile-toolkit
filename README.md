@@ -62,9 +62,9 @@ Prints some useful information device.
 
 # Installation
 1. Make sure you have the latest **xcode and command line tools** version to be able to manipulate with your iOS devices using terminal
-2. Install [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") (required for **ios_screenshot**), prefferably using brew. ```brew install libimobiledevice```
-3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **ios_record**), prefferably using brew. ```brew install ffmpeg```
-4. Install [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller") (required for **ios_install**), prefferably using brew. ```brew install ideviceinstaller```
+2. Install [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") (required for **ios_screenshot**), preferably using brew. ```brew install libimobiledevice```
+3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **ios_record**), preferably using brew. ```brew install ffmpeg```
+4. Install [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller") (required for **ios_install**), preferably using brew. ```brew install ideviceinstaller```
 5. Your iOS device needs to have mounted developer image -> **connect your device via usb and run xcode**
 
 ## Screen capturing
