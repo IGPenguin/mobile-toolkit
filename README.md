@@ -39,7 +39,7 @@ Force-stops the foreground app and launches it again.
 Deletes all data of the foreground app and restarts it.
 
 #### adb_install
-Installs .apk to the device, and runs it (can overwrite existing app with higher version code, grants all permissions).
+Installs .apk file to the device, and runs it (can overwrite existing app with higher version code, grants all permissions).
 
 #### adb_uninstall
 Uninstalls app from the device, you can either choose from the list of all installed third party packages, or pass the package name as an argument.
@@ -65,6 +65,8 @@ Prints some useful information device.
 2. Your iOS device needs to have mounted developer image -> **connect your device via usb and run xcode**
 3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") to be able to use **ios_record**
 4. Make sure you have the latest **xcode and command line tools** updates to be able to take screenshot on newest iOS version
+5. Install **ideviceinstaller** using brew to be able to use **ios_install**
+
 
 ## Screen capturing
 
@@ -75,3 +77,7 @@ You can specify filename by passing it as an argument.
 #### ios_record
 "Records" device screen (actually its taking few screenshots every second 😅), you can end recording using ^C, after that video is composed and saved to ~/Desktop.
 You can specify filename by passing it as an argument.
+
+## Device control
+#### ios_install
+Installs .ipa file to the device.

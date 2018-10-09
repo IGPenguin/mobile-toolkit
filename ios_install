@@ -1,0 +1,13 @@
+#!/bin/bash
+location=$(dirname "$0")
+source $location/common_tools
+ios_check_developer_image
+
+if [ -z "$1" ] ; then
+  echo "🤷‍ What should I install?"
+  exit
+fi
+
+echo "⌛️ Installing..."
+ideviceinstaller -i "$1" &> /dev/null
+echo "✅ Done!"
