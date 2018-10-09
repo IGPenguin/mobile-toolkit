@@ -78,5 +78,5 @@ You can specify filename by passing it as an argument.
 You can specify filename by passing it as an argument.
 
 ## Device control
-#### ios_install
-Installs .ipa file to the device (experimental). 
+#### ios_install (experimental)
+Installs .ipa file to the device. 
