@@ -61,12 +61,11 @@ Prints some useful information device.
 # iOS shortcuts
 
 # Installation
-1. Open source library **libimobiledevice** is required. It has a lot of dependencies, but it is the best way to get **screenshots from iOS devices straight to your desktop**. If you use _brew_ you can easily install it like this (with iOS 11 support) ```brew install https://gist.github.com/Haraguroicha/0dee2ee29c7376999178c5392080c16e/raw/libimobiledevice.rb --HEAD --with-ios11```
-2. Your iOS device needs to have mounted developer image -> **connect your device via usb and run xcode**
-3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") to be able to use **ios_record**
-4. Make sure you have the latest **xcode and command line tools** updates to be able to take screenshot on newest iOS version
-5. Install **ideviceinstaller** using brew to be able to use **ios_install**
-
+1. Make sure you have the latest **xcode and command line tools** version to be able to manipulate with your iOS devices using terminal
+2. Install [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice"), prefferably using brew. ```brew install libimobiledevice```
+3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") to be able to use **ios_record**, prefferably using brew. ```brew install ffmpeg```
+4. Install [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller") to be able to use **ios_install**, prefferably using brew. ```brew install ideviceinstaller```
+5. Your iOS device needs to have mounted developer image -> **connect your device via usb and run xcode**
 
 ## Screen capturing
 
