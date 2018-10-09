@@ -79,4 +79,4 @@ You can specify filename by passing it as an argument.
 
 ## Device control
 #### ios_install
-Installs .ipa file to the device.
+Installs .ipa file to the device (experimental). 
