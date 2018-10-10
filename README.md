@@ -55,6 +55,9 @@ Opens the settings app.
 #### adb_logcat
 Prints the system log output.
 
+#### adb_failhunter
+Prints filtered system log output with crashes only. You can set how many lines surrounding the crash should be printed via argument.
+
 #### adb_deviceinfo
 Prints some useful information device.
 
