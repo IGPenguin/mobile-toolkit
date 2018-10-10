@@ -50,6 +50,9 @@ Uninstalls all third party packages and removes the contents of /sdcard/Download
 #### adb_options
 Opens the settings app.
 
+#### adb_web
+Opens the link passed in argument in web browser.
+
 ## Device info
 
 #### adb_logcat
