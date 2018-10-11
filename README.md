@@ -10,11 +10,13 @@ Execute **powerful mobile device control scripts** using single terminal command
 ## Screen capturing
 
 #### adb_screenshot
-Save device **screenshot** to **~/Desktop**, the **filename** includes **device model**, **system API level** and current time and date
+Save device **screenshot** to **~/Desktop**
+**Filename** includes **device model**, **system API level** and current time and date
 Specify your own filename by passing it as an argument
 
 #### adb_multiscreenshot
-Take **screenshot** on all connected devices, the **filename** includes **device model**, **Android api level** and current time and date
+Take **screenshot** on all connected devices,
+**Filename** includes **device model**, **system API level** and current time and date
 Specify your own filename by passing it as an argument
 
 #### adb_record
@@ -26,7 +28,7 @@ Specify your own filename by passing it as an argument
 ## Device and application control
 
 #### adb_paste
-``adb_paste john.doe@fakemail.com password1``
+``adb_paste "john.doe@fakemail.com" password1``
 Insert text passed as an argument into the focused textfield, any following argument will move focus into the next field
 You can fill quickly some form by using more arguments
 Surround the arguments with "" if you want to insert multi-word string into one field, or use some non-alphanumeric characters
