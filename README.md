@@ -13,9 +13,9 @@
 
 # Installation
 1. [Download](https://developer.android.com/studio/ "Android Studio") **Android Studio** or **Android command line tools**
-2. Add the full path of **platform-tools** folder to **PATH** variable in **.bashrc** (or equivalent file)
+2. Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bashrc** (or equivalent file)
 3. [Clone this repository](https://github.com/IntergalacticPenguin/adb-shortcuts.git "Clone")
-4. **(Recommended)** To be able to use **following commands in any directory**, add full path of the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
+4. **(Recommended)** Use **following commands in any directory**, by adding the absolute path to the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
 
 ## Capture device screen
 
@@ -107,9 +107,11 @@
 # Installation
 1. Install latest **Xcode and iOS command line tools** to control your iOS devices using terminal
 2. Install [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") (required for **iscreenshot**) using brew or apt-get ``brew install libimobiledevice``
-3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **igif**), preferably using brew. `brew install ffmpeg`
+3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **irecord**), preferably using brew. `brew install ffmpeg`
 4. Install [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller") (required for application management), using brew or apt-get ``brew install ideviceinstaller``
-5. Mounted developer image on your device **-> connect the device to USB and run Xcode**
+5. Mount developer image on your device **-> connect the device to USB and run Xcode**
+6. [Clone this repository](https://github.com/IntergalacticPenguin/adb-shortcuts.git "Clone")
+7. **(Recommended)** Use **following commands in any directory**, by adding absolute path to the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
 
 ## Capture device screen
 
