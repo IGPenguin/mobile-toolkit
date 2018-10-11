@@ -119,7 +119,7 @@
 # Installation
 1. Install latest **Xcode and iOS command line tools** to control your iOS devices using terminal
 2. Install [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") (required for **iscreenshot**) using brew or apt-get ``brew install libimobiledevice``
-3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **irecord**), preferably using brew. `brew install ffmpeg`
+3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **irecord**), using brew or apt-get `brew install ffmpeg`
 4. Install [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller") (required for application management), using brew or apt-get ``brew install ideviceinstaller``
 5. Mount developer image on your device **-> connect iOS device to USB and run Xcode**
 6. [Clone this repository](https://github.com/IntergalacticPenguin/adb-shortcuts.git "Clone")
