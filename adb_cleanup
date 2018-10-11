@@ -3,34 +3,27 @@ LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 android_choose_device
 
-read -r -p "🔥 Do you really want to remove ALL third party packages and wipe /sdcard/Download on $SELECTED_DEVICE_MODEL? [y/n] " response
-case "$response" in
-    [yY])
-        ;;
-    *)
-        exit
-        ;;
-esac
+should_proceed "🔥 Delete all third party on $SELECTED_DEVICE?"
 
-IFS=$'\n'
-packages=($(adb -s $SELECTED_DEVICE shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort))
-unset IFS
+IFS=$'\n' #MAGIC
+PACKAGES=($(adb -s $SELECTED_DEVICE shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort))
+unset IFS #MAGIC
 
-for pkg in "${packages[@]}"
+for PKG in "${PACKAGES[@]}"
 do
 
-   if [[ $pkg = *"funtaster"* ]] || [[ $pkg = *"io.crash.air"* ]] || [[ $pkg = *"de.codenauts.hockeyapp"* ]] || [[ $pkg = *"chrome"* ]]; then
-      echo "⌛️ Skipping $pkg"
+   if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"io.crash.air"* ]] || [[ $PKG = *"de.codenauts.hockeyapp"* ]] || [[ $PKG = *"chrome"* ]]; then
+      echo "⌛️ Skipping $PKG"
       continue
    fi
 
-   pkg=${pkg%$'\r'} #removes trailing \r
-   echo "🔥 Uninstalling $pkg"
-   adb -s $SELECTED_DEVICE shell "pm uninstall $pkg" &> /dev/null
+   PKG=${PKG%$'\r'} #removes trailing \r
+   echo "🔥 Uninstalling $PKG"
+   adb -s $SELECTED_DEVICE shell "pm uninstall $PKG" &> /dev/null
 
 done
 
+should_proceed "🔥 Do you want to empty /sdcard/Download?"
 echo "🔥 Clearing /sdcard/Download"
 adb -s $SELECTED_DEVICE shell rm -r /sdcard/Download/*
 echo "✅ Device is now clean."
-
