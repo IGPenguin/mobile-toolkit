@@ -1,8 +1,9 @@
 # What?
 * Execute **powerful mobile device control scripts** using easy terminal commands
-* Useful for mobile application testing or memory cleaning
-* You can target specific device easily, when there is more than one connected (you dont have to use adb -s <device_id> shell, just choose from a list)
-* Saves your time
+* Useful for mobile application testing or clearing memory
+* You can target specific device easily, when there is more than one connected
+  * Finally skip copying device id from ``adb devices`` and targeting it explicitly ``adb -s <device_id> shell screencap``, just choose from a list
+* Saves precious time
 
 # Android scripts
 
