@@ -1,7 +1,7 @@
 # What?
 💥 Execute **powerful mobile device control scripts** using easy terminal commands<br>
 
-🛠 Quick screen capturing, app management and testing, and much more...<br>
+🛠 Quick **screen capturing**, **app management**, **testing**, and much more...<br>
 
 📱 Useful for **mobile application testing** or clearing memory<br>
 
