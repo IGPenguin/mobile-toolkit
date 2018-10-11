@@ -35,6 +35,8 @@
 3. Save screen video footage to ~/Desktop.
   * Specify your own filename by passing it as argument
 
+## Device control
+
 ### apaste
 ``apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004``
 
@@ -42,8 +44,6 @@
 * Surround argument with "" if you want to insert multi-word text into one field or use some non-alphanumeric characters
 * Every following argument will move focus into the next field
   * You can quickly fill some form etc
-
-## Device control
 
 ### abounds
 * Toggle **layout bounds visibility**, on lower APIs, app restart may be necessary
@@ -53,6 +53,9 @@
 
 ### aoptions
 * Open system settings app
+
+### aemulator
+* Start any of your installed Android emulators
 
 ## Application control
 
@@ -90,16 +93,20 @@
 * Search for app on Google Play
 * Pass app name as argument
 
+### aloremipsum
+* Insert long text into focused field
+* Useful for testing layouts
+
 ## Device information
 
-### alogcat
+### alog
 * Print system log output
 
 ### acrash
 * Print log output containing application crashes only
 * Set how many crash surrounding lines to print using argument
 
-### ainfo
+### adeviceinfo
 * Print device information
 
 # iOS scripts
