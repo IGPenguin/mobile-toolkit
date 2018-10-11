@@ -1,8 +1,8 @@
 # What?
-Execute **powerful mobile device control scripts** via single terminal command, useful for mobile application testing or memory cleaning, you can target specific device easily when there is more than one connected.
+Execute **powerful mobile device control scripts** using single terminal command, useful for mobile application testing or memory cleaning, you can target specific device easily when there is more than one connected.
 
 # Installation
-1. [Download](https://developer.android.com/studio/"Android Studio") **Android Studio** or **Android command line tools**
+1. [Download](https://developer.android.com/studio/ "Android Studio") **Android Studio** or **Android command line tools**
 2. Add the full path of **platform-tools** folder to **PATH** variable in **.bashrc** (or equivalent file)
 3. [Clone this repository](https://github.com/IntergalacticPenguin/adb-shortcuts.git "Clone")
 4. (Recommended) To be able to use **following commands in any directory**, add full path of the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
