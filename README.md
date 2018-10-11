@@ -23,16 +23,16 @@ Specify your own filename by passing it as an argument
 
 ### arecord
 1. **Record** device **screen**
-2. End recording using ^C ``ctrl + c``
+2. End recording using ``ctrl + c``
 3. Save screen video footage to ~/Desktop.
 Specify your own filename by passing it as an argument
 
 ### apaste
 ``apaste "john.doe@fakemail.com" password1``
 
-Insert text passed as an argument into the focused textfield, any following argument will move focus into the next field
-You can fill quickly some form by using more arguments
-Surround the arguments with "" if you want to insert multi-word string into one field, or use some non-alphanumeric characters
+Insert text passed as an argument into the focused textfield, any following argument will move focus into the next field\
+You can fill quickly some form by using more arguments\
+Surround the arguments with "" if you want to insert multi-word string into one field, or use some non-alphanumeric characters\
 
 ## Device control
 
