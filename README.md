@@ -1,13 +1,13 @@
 # What?
 ⭐️ Execute **powerful mobile device control scripts** using easy terminal commands<br>
 
-📱 Useful for mobile application testing or clearing memory<br>
+📱 Useful for **mobile application testing** or clearing memory<br>
 
 📋 Target specific device easily, more than one connected<br>
 
-✅ Finally skip copying device id from ``adb devices`` and targeting it explicitly ``adb -s <device_id> shell screencap``<br>
+🎉 No more device id copying from ``adb devices`` and targeting it explicitly using ``adb -s <device_id> shell screencap``<br>
 
-⏳ Save precious time<br>
+⏳ Save your precious time<br>
 
 # Android scripts
 
