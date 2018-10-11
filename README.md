@@ -116,15 +116,16 @@
 ## Capture device screen
 
 ### iscreenshot
-* Take screenshot and save it to ~/Desktop.
-* Specify filename by passing it as argument
+* Save **screenshot** to **~/Desktop**
+* **Filename** includes **device model**, **system API level** and current time and date
+  * Specify your own filename by passing it as argument
 
 ### irecord
-1. **Record screen** (take as many screenshots per second as possible)
-  * Specify your own filename by passing it as argument
+1. **Record screen** (take as many screenshots per second as possible) to **~/Desktop**
 2. **End recording** using ``ctrl + c``
 3. Compose .mp4 from screenshots and save it to ~/Desktop
 4. (Optional) Delete screenshots
+* Specify your own filename by passing it as argument
 
 ## Device control
 ### iinstall (experimental)
