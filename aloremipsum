@@ -2,7 +2,7 @@
 #TODO resolve unicode insertion problems https://github.com/IntergalacticPenguin/adb-shortcuts/issues/44
 #TODO openkeyboard if possible, to simulate max screen occupation
 
-echo -e "👋 Textview Breaker 2403:\n     1) LONG VEHICLE - Lorem ipsum\n     2) Ching Chong - Chinesse symbols\n     3) 🔥🔥🔥🔥🔥 - Emojie\n     4) Gopnik "
+echo -e "👋 Textview Breaker 2403:\n    1) LONG VEHICLE - Lorem ipsum\n    2) Ching Chong - Chinesse symbols\n    3) 🔥🔥🔥🔥🔥 - Emojis\n    4) Gopnik "
 read -p "🔫 Choose your weapon: " TYPE
 echo -en "\033[1A\033[2K"
 
@@ -12,17 +12,17 @@ case "$TYPE" in
   adb_paste "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
   ;;
 
-  "2")
-  echo "你怎麼吮吸狗屎";
-  adb_paste "你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎"
-  ;;
+  #"2")
+  #echo "你怎麼吮吸狗屎";
+  #adb_paste "你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎你怎麼吮吸狗屎"
+  #;;
 
-  "3")
-  echo "🖕🤣💥🔥";
-  adb_paste "🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥"
-  ;;
+  #"3")
+  #echo "🖕🤣💥🔥";
+  #adb_paste "🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥🖕🤣💥🔥"
+  #;;
 
   *)
-  echo "🤷‍ What should I do?";
+  echo "🕑 Sorry, only 1) is currently working, see https://github.com/IntergalacticPenguin/adb-shortcuts/issues/44"
   ;;
 esac

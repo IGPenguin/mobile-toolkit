@@ -1,4 +1,8 @@
 #!/bin/bash
+
+##########################
+### ANDROID SECTION
+
 android_choose_device() {
 #Populate array with device ids
 DEVICES=()
@@ -35,7 +39,7 @@ then
     while :;
     do
     if ((CHOICE <= 0 || CHOICE > ${#DEVICES[@]})); then
-      echo -en "\033[1A\033[2K"
+      echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
       read -p "Invalid input, try again: " CHOICE
     else
       break
@@ -49,6 +53,9 @@ fi
 SELECTED_DEVICE_MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
 SELECTED_DEVICE_SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
 }
+
+##########################
+### IOS SECTION
 
 ios_check_developer_image(){
   IS_MOUNTED=$(ideviceimagemounter -l)
@@ -66,7 +73,25 @@ ios_check_developer_image(){
   fi
 }
 
+ios_choose_device(){
+  IOS_DEVICES=( $(idevice_id -l) )
+  echo "${IOS_DEVICES[*]}"
+}
+
 ios_get_device_info(){
   SELECTED_DEVICE_MODEL=$(ideviceinfo | grep "HardwareModel" | cut -d\   -f2)
   SELECTED_DEVICE_VERSION=$(ideviceinfo | grep "ProductVersion" | cut -d\   -f2)
+}
+
+#####
+### COMMON SECTION
+should_proceed(){
+read -r -p "$1 [y/n] " RESPONSE
+case "$RESPONSE" in
+    [yY])
+        ;;
+    *)
+        exit
+        ;;
+esac
 }

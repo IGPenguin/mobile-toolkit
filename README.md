@@ -1,82 +1,147 @@
-# ADB shortcuts
-Set of shell scripts useful for mobile application testing, you can choose target if multiple devices are detected by ADB.
+# What?
+💥 Execute **powerful mobile device control scripts** using easy terminal commands<br>
+
+🛠 Quick **screen capturing**, **app management**, **testing**, and much more...<br>
+
+📱 Useful for **mobile application testing** or clearing memory<br>
+
+📋 **Target specific device easily**, when more than one connected, no more id copying from ``adb devices`` and explicit targeting using ``adb -s <device_id>``<br>
+
+⏳ **Save** your precious **time**<br>
+
+⁉️ Submit issue if you want to ask something or improve the scripts
+
+⭐️ If you **love it**, hit the **star button** at the top right corner, enjoy...<br>
+
+
+# Android scripts
 
 # Installation
-1. Install Android Debug Bridge
-2. Add platform-tools folder to PATH variable in .bashrc (or equivalent file)
-3. Clone this repository
-4. (Optional) Add the folder with this repository to PATH variable .bashrc (or equivalent file), so you can use ADB shortcuts in any directory
+1. [Download](https://developer.android.com/studio/ "Android Studio") **Android Studio** or **Android command line tools**
+2. Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bashrc** (or equivalent file)
+3. [Clone this repository](https://github.com/IntergalacticPenguin/adb-shortcuts.git "Clone")
+4. **(Recommended)** Use **following commands in any directory** by adding the absolute path to the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
 
-## Screen capturing
+## Capture device screen
 
-#### adb_screenshot
-Takes screenshot and saves it to ~/Desktop.
-You can specify filename by passing it as an argument.
+### ascreenshot
+* Save **screenshot** to **~/Desktop**
+* **Filename** includes **device model**, **system API level** and current time and date
+  * Specify your own filename by passing it as argument
 
-#### adb_multiscreenshot
-Takes screenshot on all connected devices and saves it to ~/Desktop.
-You can specify filename by passing it as an argument.
+### amultiscreenshot
+* Take **screenshot** on all connected devices
+* **Filename** includes **device model**, **system API level** and current time and date
+  * Specify your own filename by passing it as argument
 
-#### adb_record
-Records device screen, you can end recording using ^C, after that video is saved to ~/Desktop.
-You can specify filename by passing it as an argument.
-
-#### adb_bounds
-Toggles layout bounds visibility (you may have to restart your app on older devices).
+### arecord
+1. **Record screen**
+2. **End recording** using ``ctrl + c``
+3. Save screen video footage to ~/Desktop.
+  * Specify your own filename by passing it as argument
 
 ## Device control
 
-#### adb_paste
-Inserts the text passed as an argument into focused field on the selected device, if there are multiple arguments, the focus will move into the next field after inserting one (so you can eg. fill in some form by separating the strings with whitespaces). Surround the text with "" if you want to insert multi-word string into one field.
+### apaste
+``apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004``
 
-#### adb_launch
-Lists installed third party applications and runs the one you choose. You can specify filename by passing it as an argument.
+* Insert text passed as argument into currently focused text field
+* Surround argument with "" if you want to insert multi-word text into one field or use some non-alphanumeric characters
+* Every following argument will move focus into the next field
+  * You can quickly fill some form etc
 
-#### adb_kill
-Force-stops the foreground app and launches it again.
+### abounds
+* Toggle **layout bounds visibility**, on lower APIs, app restart may be necessary
 
-#### adb_erase
-Deletes all data of the foreground app and restarts it.
+### aweb
+* Open link passed as argument in web browser
 
-#### adb_install
-Installs .apk file to the device, and runs it (can overwrite existing app with higher version code, grants all permissions).
+### aoptions
+* Open system settings app
 
-#### adb_uninstall
-Uninstalls app from the device, you can either choose from the list of all installed third party packages, or pass the package name as an argument.
+### aemulator
+* Start any of your installed Android emulators
 
-#### adb_cleanup
-Uninstalls all third party packages and removes the contents of /sdcard/Download.
+## Application control
 
-#### adb_options
-Opens the settings app.
+### alaunch
+``alaunch``
 
-## Device info
+``alaunch com.dummy.package.name.app``
 
-#### adb_logcat
-Prints the system log output.
+* List third party apps and run the chosen one
+* Specify package name by passing it as argument
 
-#### adb_deviceinfo
-Prints some useful information device.
+### akill
+* Restart foreground app
 
-# iOS shortcuts
+### aerase
+* Delete foreground app data and restart it
+
+### ainstall
+``adb_install some-app-file.apk``
+
+* Install and run .apk file
+* Can overwrite existing app
+
+### auninstall
+* Uninstall third party app
+* Choose from the list, or pass package name as argument
+
+### acleanup
+* Uninstall all third party packages
+  * Skips some essential apps
+  * Edit this script yourself or submit issue to customize the list of essential apps
+* (Optional) Remove everything in /sdcard/Download directory
+
+### agoogleplay
+* Search for app on Google Play
+* Pass app name as argument
+
+### aloremipsum
+* Insert long text into focused field
+* Useful for testing layouts
+
+## Device information
+
+### alog
+* Print system log output
+
+### acrash
+* Print log output containing application crashes only
+* Set how many crash surrounding lines to print using argument
+
+### adeviceinfo
+* Print device information
+
+# iOS scripts
 
 # Installation
-1. Make sure you have the latest **xcode and command line tools** version to be able to manipulate with your iOS devices using terminal
-2. Install [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") (required for **ios_screenshot**), preferably using brew. ```brew install libimobiledevice```
-3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **ios_record**), preferably using brew. ```brew install ffmpeg```
-4. Install [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller") (required for **ios_install**), preferably using brew. ```brew install ideviceinstaller```
-5. Your iOS device needs to have mounted developer image -> **connect your device via usb and run xcode**
+1. Install latest **Xcode and iOS command line tools** to control your iOS devices using terminal
+2. Install [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") (required for **iscreenshot**) using brew or apt-get ``brew install libimobiledevice``
+3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **irecord**), using brew or apt-get `brew install ffmpeg`
+4. Install [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller") (required for application management), using brew or apt-get ``brew install ideviceinstaller``
+5. Mount developer image on your device **-> connect iOS device to USB and run Xcode**
+6. [Clone this repository](https://github.com/IntergalacticPenguin/adb-shortcuts.git "Clone")
+7. **(Recommended)** Use **following commands in any directory** by adding absolute path to the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
 
-## Screen capturing
+## Capture device screen
 
-#### ios_screenshot
-Takes screenshot and saves it to ~/Desktop.
-You can specify filename by passing it as an argument.
+### iscreenshot
+* Save **screenshot** to **~/Desktop**
+* **Filename** includes **device model**, **system API level** and current time and date
+  * Specify your own filename by passing it as argument
 
-#### ios_record
-"Records" device screen (actually its taking few screenshots every second 😅), you can end recording using ^C, after that video is composed and saved to ~/Desktop.
-You can specify filename by passing it as an argument.
+### irecord
+1. **Record screen** (take as many screenshots per second as possible) to **~/Desktop**
+2. **End recording** using ``ctrl + c``
+3. Compose .mp4 from screenshots and save it to ~/Desktop
+4. (Optional) Delete screenshots
+* Specify your own filename by passing it as argument
 
 ## Device control
-#### ios_install (experimental)
-Installs .ipa file to the device. 
+### iinstall (experimental)
+``iinstall some-app-file.ipa``
+
+* Install .ipa file
+* Can overwrite existing app

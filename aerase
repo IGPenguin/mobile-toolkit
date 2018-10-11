@@ -14,6 +14,6 @@ case "$response" in
         ;;
 esac
 
-adb -s $SELECTED_DEVICE shell pm clear $app
-echo Relaunching $app
+adb -s $SELECTED_DEVICE shell pm clear $app &> /dev/null
+echo "🚀 Relaunching..."
 adb -s $SELECTED_DEVICE shell monkey -p $app -c android.intent.category.LAUNCHER 1 &> /dev/null
