@@ -1,24 +1,25 @@
-# ADB shortcuts
-Set of shell scripts useful for mobile application testing, you can choose target if multiple devices are detected by ADB.
+# What?
+Execute **powerful mobile device control scripts** via single terminal command, useful for mobile application testing or memory cleaning, you can target specific device easily when there is more than one connected.
 
 # Installation
-1. Install Android Debug Bridge
-2. Add platform-tools folder to PATH variable in .bashrc (or equivalent file)
-3. Clone this repository
-4. (Optional) Add the folder with this repository to PATH variable .bashrc (or equivalent file), so you can use ADB shortcuts in any directory
+1. [Download](https://developer.android.com/studio/"Android Studio") **Android Studio** or **Android command line tools**
+2. Add the full path of **platform-tools** folder to **PATH** variable in **.bashrc** (or equivalent file)
+3. [Clone this repository](https://github.com/IntergalacticPenguin/adb-shortcuts.git "Clone")
+4. (Recommended) To be able to use **following commands in any directory**, add full path of the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
 
 ## Screen capturing
 
 #### adb_screenshot
-Takes screenshot and saves it to ~/Desktop.
-You can specify filename by passing it as an argument.
+Save device **screenshot** to **~/Desktop**, the **filename** includes **device model**, **Android api level** and current time and date
 
 #### adb_multiscreenshot
-Takes screenshot on all connected devices and saves it to ~/Desktop.
-You can specify filename by passing it as an argument.
+Take **screenshots** on all connected devices and save them to **~/Desktop**, the **filename** includes **device model**, **Android api level** and current time and date
+You can specify own filename by passing it as an argument.
 
 #### adb_record
-Records device screen, you can end recording using ^C, after that video is saved to ~/Desktop.
+1. **Record** device **screen**
+2. End recording using ^C (ctrl + c)
+3. Save screen video footage to ~/Desktop.
 You can specify filename by passing it as an argument.
 
 #### adb_bounds
@@ -85,4 +86,4 @@ You can specify filename by passing it as an argument.
 
 ## Device control
 #### ios_install (experimental)
-Installs .ipa file to the device. 
+Installs .ipa file to the device.
