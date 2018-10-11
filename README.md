@@ -22,23 +22,23 @@
 ### ascreenshot
 * Save **screenshot** to **~/Desktop**
 * **Filename** includes **device model**, **system API level** and current time and date
-  * Specify your own filename by passing it as an argument
+  * Specify your own filename by passing it as argument
 
 ### amultiscreenshot
 * Take **screenshot** on all connected devices
 * **Filename** includes **device model**, **system API level** and current time and date
-  * Specify your own filename by passing it as an argument
+  * Specify your own filename by passing it as argument
 
 ### arecord
 1. **Record screen**
 2. **End recording** using ``ctrl + c``
 3. Save screen video footage to ~/Desktop.
-  * Specify your own filename by passing it as an argument
+  * Specify your own filename by passing it as argument
 
 ### apaste
 ``apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004``
 
-* Insert text passed as an argument into currently focused text field
+* Insert text passed as argument into currently focused text field
 * Surround argument with "" if you want to insert multi-word text into one field or use some non-alphanumeric characters
 * Every following argument will move focus into the next field
   * You can quickly fill some form etc
@@ -49,7 +49,7 @@
 * Toggle **layout bounds visibility**, on lower APIs, app restart may be necessary
 
 ### aweb
-* Open link passed as an argument in web browser
+* Open link passed as argument in web browser
 
 ### aoptions
 * Open system settings app
@@ -62,7 +62,7 @@
 ``alaunch com.dummy.package.name.app``
 
 * List third party apps and run the chosen one
-* Specify package name by passing it as an argument
+* Specify package name by passing it as argument
 
 ### akill
 * Restart foreground app
@@ -78,13 +78,17 @@
 
 ### auninstall
 * Uninstall third party app
-* Choose from the list, or pass package name as an argument
+* Choose from the list, or pass package name as argument
 
 ### acleanup
 * Uninstall all third party packages
   * Skips some essential apps
   * Edit this script yourself or submit issue to customize the list of essential apps
 * (Optional) Remove everything in /sdcard/Download directory
+
+### agoogleplay
+* Search for app on Google Play
+* Pass app name as argument
 
 ## Device information
 
@@ -111,11 +115,11 @@
 
 ### iscreenshot
 * Take screenshot and save it to ~/Desktop.
-* Specify filename by passing it as an argument
+* Specify filename by passing it as argument
 
 ### irecord
 * Create device screen gif, you can end recording using ^C, after that video is composed and saved to ~/Desktop.
-* You can specify filename by passing it as an argument.
+* You can specify filename by passing it as argument.
 
 ## Device control
 ### iinstall (experimental)
