@@ -5,7 +5,7 @@
 
 📋 Target specific device easily, more than one connected<br>
 
-🎉 No more device id copying from ``adb devices`` and explicit targeting using ``adb -s <device_id> shell screencap``<br>
+🎉 No more device id copying from ``adb devices`` and explicit targeting using ``adb -s <device_id>``<br>
 
 ⏳ Save your precious time<br>
 
