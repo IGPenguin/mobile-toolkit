@@ -7,37 +7,38 @@ Execute **powerful mobile device control scripts** using single terminal command
 1. [Download](https://developer.android.com/studio/ "Android Studio") **Android Studio** or **Android command line tools**
 2. Add the full path of **platform-tools** folder to **PATH** variable in **.bashrc** (or equivalent file)
 3. [Clone this repository](https://github.com/IntergalacticPenguin/adb-shortcuts.git "Clone")
-4. (Recommended) To be able to use **following commands in any directory**, add full path of the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
+4. **(Recommended)** To be able to use **following commands in any directory**, add full path of the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
 
 ## Capture device screen
 
 ### ascreenshot
-* Save device **screenshot** to **~/Desktop**
+* Save **screenshot** to **~/Desktop**
 * **Filename** includes **device model**, **system API level** and current time and date
-* Specify your own filename by passing it as an argument
+  * Specify your own filename by passing it as an argument
 
 ### amultiscreenshot
-* Take **screenshot** on all connected devices,
+* Take **screenshot** on all connected devices
 * **Filename** includes **device model**, **system API level** and current time and date
-* Specify your own filename by passing it as an argument
+  * Specify your own filename by passing it as an argument
 
 ### arecord
-1. **Record** device **screen**
-2. End recording using ``ctrl + c``
+1. **Record screen**
+2. **End recording** using ``ctrl + c``
 3. Save screen video footage to ~/Desktop.
-* Specify your own filename by passing it as an argument
+  * Specify your own filename by passing it as an argument
 
 ### apaste
-``apaste "john.doe@fakemail.com" password1``
+``apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004``
 
-* Insert text passed as an argument into the focused textfield, any following argument will move focus into the next field
-* You can fill quickly some form by using more arguments
-* Surround the arguments with "" if you want to insert multi-word string into one field, or use some non-alphanumeric characters
+* Insert text passed as an argument into currently focused text field
+* Surround argument with "" if you want to insert multi-word text into one field or use some non-alphanumeric characters
+* Every following argument will move focus into the next field
+  * You can quickly fill some form etc
 
 ## Device control
 
 ### abounds
-* Toggle **layout bounds visibility**, on lower APIs, restarting current app (eg. using adb_kill) may be necessary
+* Toggle **layout bounds visibility**, on lower APIs, app restart may be necessary
 
 ### aweb
 * Open link passed as an argument in web browser
@@ -69,11 +70,12 @@ Execute **powerful mobile device control scripts** using single terminal command
 
 ### auninstall
 * Uninstall third party app
-* Choose from the list, or pass the package name as an argument
+* Choose from the list, or pass package name as an argument
 
 ### acleanup
 * Uninstall all third party packages
-* Remove the contents of /sdcard/Download directory
+  * Skips some essential apps (submit issue or edit this script yourself if you want to protect some app essential for you)
+* (Optional) Remove everything in /sdcard/Download directory
 
 ## Device information
 
@@ -82,7 +84,7 @@ Execute **powerful mobile device control scripts** using single terminal command
 
 ### acrash
 * Print log output containing application crashes only
-* Set how many crash surrounding lines to print via argument
+* Set how many crash surrounding lines to print using argument
 
 ### ainfo
 * Print device information
