@@ -3,7 +3,7 @@ LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 android_choose_device
 
-should_proceed "🔥 Delete all third party on $SELECTED_DEVICE?"
+should_proceed "🔥 Delete all third party apps on $SELECTED_DEVICE?"
 
 IFS=$'\n' #MAGIC
 PACKAGES=($(adb -s $SELECTED_DEVICE shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort))

@@ -15,7 +15,7 @@ cd ~/Desktop/$DIRNAME
    FILENAME=$1
 fi
 ffmpeg -r 10 -f image2 -i %d.png -loglevel quiet -vcodec libx264 -vf scale=1280:-2 -crf 25 -pix_fmt yuv420p ../$FILENAME.mp4
-should_proceed "🔥 Do you to delete the screenshots?"
+should_proceed "🔥 Delete the screenshots?"
 cd ..
 echo "🔥 Cleaning up..."
 rm -rf $DIRNAME
