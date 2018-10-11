@@ -71,7 +71,7 @@
 * Delete foreground app data and restart it
 
 ### ainstall
-``adb_install my-app-debug.apk``
+``adb_install some-app-file.apk``
 
 * Install and run .apk file
 * Can overwrite existing app
@@ -82,7 +82,8 @@
 
 ### acleanup
 * Uninstall all third party packages
-  * Skips some essential apps (submit issue or edit this script yourself if you want to protect some app essential for you)
+  * Skips some essential apps
+  * Edit this script yourself or submit issue to customize the list of essential apps
 * (Optional) Remove everything in /sdcard/Download directory
 
 ## Device information
