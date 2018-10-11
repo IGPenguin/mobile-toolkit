@@ -34,22 +34,28 @@ You can fill quickly some form by using more arguments
 Surround the arguments with "" if you want to insert multi-word string into one field, or use some non-alphanumeric characters
 
 #### adb_launch
-Lists installed third party apps and runs the one you choose. You can specify filename by passing it as an argument
+``adb_launch``
+``adb_launch com.dummy.package.name.app``
+List third party apps and run the chosen one
+Specify package name by passing it as an argument
 
 #### adb_kill
-Force-stops the foreground app and launches it again
+Restart the foreground app
 
 #### adb_erase
-Deletes all data of the foreground app and restarts it
+Delete foreground app data and restart it
 
 #### adb_install
-Install .apk file, and run it (can overwrite existing app with the same package name, grants all permissions)
+``adb_install my-app-debug.apk``
+Install and run .apk file
+Can overwrite existing app
 
 #### adb_uninstall
-Uninstalls app from the device, you can either choose from the list of all installed third party packages, or pass the package name as an argument
+Uninstall third party app 
+Choose from the list, or pass the package name as an argument
 
 #### adb_cleanup
-Uninstalls all third party packages and removes the contents of /sdcard/Download
+Uninstall all third party packages and removes the contents of /sdcard/Download directory
 
 #### adb_bounds
 Toggle **layout bounds visibility**, on lower APIs, restarting current app (eg. using adb_kill) may be necessary
