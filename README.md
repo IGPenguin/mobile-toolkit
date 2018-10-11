@@ -28,7 +28,7 @@ Specify your own filename by passing it as an argument
 Specify your own filename by passing it as an argument
 
 ### apaste
-`apaste "john.doe@fakemail.com" password1``
+``apaste "john.doe@fakemail.com" password1``
 
 Insert text passed as an argument into the focused textfield, any following argument will move focus into the next field
 You can fill quickly some form by using more arguments
