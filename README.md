@@ -118,9 +118,15 @@
 * Specify filename by passing it as argument
 
 ### irecord
-* Create device screen gif, you can end recording using ^C, after that video is composed and saved to ~/Desktop.
-* You can specify filename by passing it as argument.
+1. **Record screen** (take as many screenshots per second as possible)
+  * Specify your own filename by passing it as argument
+2. **End recording** using ``ctrl + c``
+3. Compose .mp4 from screenshots and save it to ~/Desktop
+4. (Optional) Delete screenshots
 
 ## Device control
 ### iinstall (experimental)
+``iinstall some-app-file.ipa``
+
 * Install .ipa file
+* Can overwrite existing app
