@@ -56,7 +56,7 @@ Execute **powerful mobile device control scripts** using single terminal command
 * Specify package name by passing it as an argument
 
 ### akill
-* Restart the foreground app
+* Restart foreground app
 
 ### aerase
 * Delete foreground app data and restart it
@@ -96,7 +96,7 @@ Execute **powerful mobile device control scripts** using single terminal command
 4. Install [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller") (required for application management), using brew or apt-get ``brew install ideviceinstaller``
 5. Mounted developer image on your device **-> connect the device to USB and run Xcode**
 
-## Capture iOS device screen
+## Capture device screen
 
 ### iscreenshot
 * Take screenshot and save it to ~/Desktop.
