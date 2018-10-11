@@ -11,7 +11,7 @@
 
 ⁉️ Submit issue if you want to ask or improve the scripts
 
-⭐️ **If you love it, hit the star button at the top right corner**<br>
+⭐️ If you **love it**, hit the **star button** at the top right corner, enjoy...<br>
 
 
 # Android scripts
