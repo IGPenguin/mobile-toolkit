@@ -10,46 +10,50 @@ Execute **powerful mobile device control scripts** using single terminal command
 ## Screen capturing
 
 #### adb_screenshot
-Save device **screenshot** to **~/Desktop**, the **filename** includes **device model**, **Android api level** and current time and date
+Save device **screenshot** to **~/Desktop**, the **filename** includes **device model**, **system API level** and current time and date
+Specify your own filename by passing it as an argument
 
 #### adb_multiscreenshot
-Take **screenshots** on all connected devices and save them to **~/Desktop**, the **filename** includes **device model**, **Android api level** and current time and date
-You can specify own filename by passing it as an argument.
+Take **screenshot** on all connected devices, the **filename** includes **device model**, **Android api level** and current time and date
+Specify your own filename by passing it as an argument
 
 #### adb_record
 1. **Record** device **screen**
 2. End recording using ^C (ctrl + c)
 3. Save screen video footage to ~/Desktop.
-You can specify filename by passing it as an argument.
+Specify your own filename by passing it as an argument
 
-#### adb_bounds
-Toggles layout bounds visibility (you may have to restart your app on older devices).
-
-## Device control
+## Device and application control
 
 #### adb_paste
-Inserts the text passed as an argument into focused field on the selected device, if there are multiple arguments, the focus will move into the next field after inserting one (so you can eg. fill in some form by separating the strings with whitespaces). Surround the text with "" if you want to insert multi-word string into one field.
+``adb_paste john.doe@fakemail.com password1``
+Insert text passed as an argument into the focused textfield, any following argument will move focus into the next field
+You can fill quickly some form by using more arguments
+Surround the arguments with "" if you want to insert multi-word string into one field, or use some non-alphanumeric characters
 
 #### adb_launch
-Lists installed third party applications and runs the one you choose. You can specify filename by passing it as an argument.
+Lists installed third party apps and runs the one you choose. You can specify filename by passing it as an argument
 
 #### adb_kill
-Force-stops the foreground app and launches it again.
+Force-stops the foreground app and launches it again
 
 #### adb_erase
-Deletes all data of the foreground app and restarts it.
+Deletes all data of the foreground app and restarts it
 
 #### adb_install
-Installs .apk file to the device, and runs it (can overwrite existing app with higher version code, grants all permissions).
+Install .apk file, and run it (can overwrite existing app with the same package name, grants all permissions)
 
 #### adb_uninstall
-Uninstalls app from the device, you can either choose from the list of all installed third party packages, or pass the package name as an argument.
+Uninstalls app from the device, you can either choose from the list of all installed third party packages, or pass the package name as an argument
 
 #### adb_cleanup
-Uninstalls all third party packages and removes the contents of /sdcard/Download.
+Uninstalls all third party packages and removes the contents of /sdcard/Download
+
+#### adb_bounds
+Toggle **layout bounds visibility**, on lower APIs, restarting current app (eg. using adb_kill) may be necessary
 
 #### adb_options
-Opens the settings app.
+Open system settings app
 
 #### adb_web
 Opens the link passed in argument in web browser.
