@@ -3,7 +3,7 @@
 
 📱 Useful for mobile application testing or clearing memory<br>
 
-📋 Target specific device easily, when there is more than one connected<br>
+📋 Target specific device easily, more than one connected<br>
 
 ✅ Finally skip copying device id from ``adb devices`` and targeting it explicitly ``adb -s <device_id> shell screencap``<br>
 
