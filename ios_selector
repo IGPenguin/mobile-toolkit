@@ -1,0 +1,4 @@
+#!/bin/bash
+location=$(dirname "$0")
+source $location/common_tools
+ios_choose_device

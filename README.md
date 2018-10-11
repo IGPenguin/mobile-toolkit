@@ -11,6 +11,8 @@
 
 ⁉️ Submit issue if you want to ask something or improve the scripts
 
+🤝 Feel free to contribute via pull request 
+
 ⭐️ If you **love it**, hit the **star button** at the top right corner, enjoy...<br>
 
 

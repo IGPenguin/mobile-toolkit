@@ -1,0 +1,7 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/common_tools
+
+ideviceinstaller -l #lists installed packages
+#choose
+ideviceinstaller -U $CHOSEN_BUNDLE_ID
