@@ -1,5 +1,8 @@
 # What?
-Execute **powerful mobile device control scripts** using single terminal command, useful for mobile application testing or memory cleaning, you can target specific device easily when there is more than one connected
+* Execute **powerful mobile device control scripts** using easy terminal commands
+* Useful for mobile application testing or memory cleaning
+* You can target specific device easily, when there is more than one connected (you dont have to use adb -s <device_id> shell, just choose from a list)
+* Saves your time
 
 # Android scripts
 
