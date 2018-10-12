@@ -3,7 +3,7 @@
 
 🛠 Quick **screen capturing**, **app management**, **testing**, and much more...<br>
 
-📱 Useful for **mobile application testing** or clearing memory<br>
+📱 Useful for **mobile application testing** or clearing device memory<br>
 
 📋 **Target specific device easily**, when more than one connected, no more id copying from ``adb devices`` and explicit targeting using ``adb -s <device_id>``<br>
 
