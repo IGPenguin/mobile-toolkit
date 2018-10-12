@@ -64,6 +64,10 @@
 ### aemulator
 * Start any of your installed Android emulators
 
+### aloremipsum
+* Insert long text into focused field
+* Useful for testing layouts
+
 ## Application control
 
 ### alaunch
@@ -99,10 +103,6 @@
 ### agoogleplay
 * Search for app on Google Play
 * Pass app name as argument
-
-### aloremipsum
-* Insert long text into focused field
-* Useful for testing layouts
 
 ## Device information
 
