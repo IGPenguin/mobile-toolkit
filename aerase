@@ -3,9 +3,14 @@ LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 android_choose_device
 
-app=$(adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+if [[ "$1" != "" ]];
+then
+    APP=$1
+else
+    APP=$(adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+fi
 
-read -r -p "🔥 Do you really want to remove all data of $app [y/n] " response
+read -r -p "🔥 Do you really want to remove all data of $APP [y/n] " response
 case "$response" in
     [yY])
         ;;
@@ -14,6 +19,14 @@ case "$response" in
         ;;
 esac
 
-adb -s $SELECTED_DEVICE shell pm clear $app &> /dev/null
-echo "🚀 Relaunching..."
-adb -s $SELECTED_DEVICE shell monkey -p $app -c android.intent.category.LAUNCHER 1 &> /dev/null
+
+adb -s $SELECTED_DEVICE shell pm clear $APP &> /dev/null
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -ne 0 ]; then
+    echo "🤷‍ This package is not installed."
+    exit
+fi
+
+echo "🚀 Launching..."
+adb -s $SELECTED_DEVICE shell monkey -p $APP -c android.intent.category.LAUNCHER 1 &> /dev/null
