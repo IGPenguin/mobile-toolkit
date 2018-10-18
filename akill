@@ -15,5 +15,5 @@ android_is_installed $PACKAGE_NAME
 
 echo "🔪 Killing $PACKAGE_NAME"
 adb -s $SELECTED_DEVICE shell am force-stop $PACKAGE_NAME
-echo "🚀 Relaunching..."
+echo "🚀 Launching..."
 adb -s $SELECTED_DEVICE shell monkey -p $PACKAGE_NAME -c android.intent.category.LAUNCHER 1 &> /dev/null
