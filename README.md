@@ -79,10 +79,10 @@
 * Specify package name by passing it as argument
 
 ### akill
-* Restart foreground app
+* Restart foreground app or specify package name by passing it as argument
 
 ### aerase
-* Delete foreground app data and restart it
+* Delete foreground app data and restart it or specify package name by passing it as argument
 
 ### ainstall
 ``adb_install some-app-file.apk``
