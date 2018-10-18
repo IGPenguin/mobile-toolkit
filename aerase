@@ -19,14 +19,7 @@ case "$response" in
         ;;
 esac
 
-
+android_is_installed $APP
 adb -s $SELECTED_DEVICE shell pm clear $APP &> /dev/null
-EXIT_CODE=$?
-
-if [ $EXIT_CODE -ne 0 ]; then
-    echo "🤷‍ This package is not installed."
-    exit
-fi
-
 echo "🚀 Launching..."
 adb -s $SELECTED_DEVICE shell monkey -p $APP -c android.intent.category.LAUNCHER 1 &> /dev/null
