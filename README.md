@@ -79,9 +79,17 @@
 * Specify package name by passing it as argument
 
 ### akill
+``akill``
+
+``akill com.dummy.package.name.app``
+
 * Restart foreground app
 
 ### aerase
+``aerase``
+
+``aerase com.dummy.package.name.app``
+
 * Delete foreground app data and restart it
 
 ### ainstall
