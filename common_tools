@@ -55,7 +55,7 @@ SELECTED_DEVICE_SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk
 }
 
 android_is_installed() {
-adb shell pm list packages -f | sed -e 's/.*=//' | grep $1 &> /dev/null
+adb -s $SELECTED_DEVICE shell pm list packages -f | sed -e 's/.*=//' | grep $1 &> /dev/null
 EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ]; then
     echo "🤷‍ Package $1 is not installed."
