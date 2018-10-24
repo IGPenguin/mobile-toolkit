@@ -145,7 +145,6 @@
 ## Capture device screen
 
 ### iscreenshot
-### igif
 * **Filename** includes **device model**, **system API level** and current time and date
   * Specify your own filename by passing it as argument
 
