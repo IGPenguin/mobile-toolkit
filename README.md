@@ -1,7 +1,7 @@
 # What?
 💥 Execute **powerful mobile device control scripts** using easy terminal commands<br>
 
-🛠 Quick **screen capturing**, **app management**, **testing**, and much more...<br>
+🛠 Quick **screen capturing**, **app management**, **testing**, and much more<br>
 
 📱 Useful for **mobile application testing** or clearing device memory<br>
 
@@ -21,8 +21,9 @@
 # Installation
 1. [Download](https://developer.android.com/studio/ "Android Studio") **Android Studio** or **Android command line tools**
 2. Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bashrc** (or equivalent file)
-3. [Clone this repository](https://github.com/IntergalacticPenguin/adb-shortcuts.git "Clone")
-4. **(Recommended)** Use **following commands in any directory** by adding the absolute path to the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
+3. Clone this repository ``git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git``
+4. **Allow USB debugging** on your device, connect it and **authorize your computer** (click OK on device screen)
+5. **(Recommended)** Use **following commands in any directory** by adding the absolute path to the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
 
 ## Capture device screen
 
