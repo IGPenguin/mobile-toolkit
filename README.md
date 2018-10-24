@@ -5,7 +5,7 @@
 
 📱 Useful for **mobile application testing** or clearing device memory<br>
 
-📋 **Target specific device easily**, when more than one connected, no more id copying from ``adb devices`` and explicit targeting using ``adb -s <device_id>``<br>
+📋 **Target specific device easily**, no more id copying from ``adb devices`` and explicit targeting using ``adb -s <device_id>``<br>
 
 ⏳ **Save** your precious **time**<br>
 
