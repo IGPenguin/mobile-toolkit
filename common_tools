@@ -82,13 +82,116 @@ ios_check_developer_image(){
   fi
 }
 
+ios_translate_name(){
+  NAME=$1
+  case $NAME in
+    "Purple"*|"purple"*)
+      NAME="iPhone"
+      ;;
+    "M68"*)
+      NAME="iPhone"
+      ;;
+    "N90"*|"N92"*)
+      NAME="iPhone4"
+      ;;
+    "N94"*)
+      NAME="iPhone4S"
+      ;;
+    "N88"*)
+      NAME="iPhone3GS"
+      ;;
+    "N82"*)
+      NAME="iPhone3G"
+      ;;
+    "N71"*)
+      NAME="iPhone6S"
+      ;;
+    "N66"*)
+      NAME="iPhone6SPlus"
+      ;;
+    "N61"*)
+      NAME="iPhone6"
+      ;;
+    "N56"*)
+      NAME="iPhone6Plus"
+      ;;
+    "N51"*|"N53"*)
+      NAME="iPhone5S"
+      ;;
+    "N48"*)
+      NAME="iPhone5C"
+      ;;
+    "N41"*|"N42"*)
+      NAME="iPhone5"
+      ;;
+    "D10"*)
+      NAME="iPhone7"
+      ;;
+    "D11"*)
+      NAME="iPhone7Plus"
+      ;;
+    "D20"*)
+      NAME="iPhone8"
+      ;;
+    "D21"*)
+      NAME="iPhone8Plus"
+      ;;
+    "D22"*|"Ferrari"*|"ferrari"*)
+      NAME="iPhoneX"
+      ;;
+    "D32"*)
+      NAME="iPhoneXS"
+      ;;
+    "D33"*)
+      NAME="iPhoneXSMax"
+      ;;
+    "N84"*)
+      NAME="iPhoneXR"
+      ;;
+    "J1"*)
+      NAME="iPad3gen"
+      ;;
+    "J2"*)
+      NAME="iPad3gen"
+      ;;
+    "J72"*)
+      NAME="iPadAir"
+      ;;
+    "J82"*)
+      NAME="iPadAir2"
+      ;;
+    "J85"*)
+      NAME="iPadMiniRetina"
+      ;;
+    "J96"*)
+      NAME="iPadMini4"
+      ;;
+    "J98"*|"J99"*)
+      NAME="iPadPro"
+      ;;
+    "K48"*)
+      NAME="iPad"
+      ;;
+    "K93"*|"K94"*|"K95"*)
+      NAME="iPad2"
+      ;;
+    "P101"*|"P103"*)
+      NAME="iPad4gen"
+      ;;
+    "P105"*|"P107"*)
+      NAME="iPadMini"
+      ;;
+  esac
+  echo $NAME
+}
+
 ios_choose_device(){
   IOS_DEVICES=( $(idevice_id -l) )
   echo "${IOS_DEVICES[*]}"
 }
 
 ios_get_device_info(){
-  SELECTED_DEVICE_MODEL=$(ideviceinfo | grep "HardwareModel" | cut -d\   -f2)
+  SELECTED_DEVICE_MODEL=$(ios_translate_name $(ideviceinfo | grep "HardwareModel" | cut -d\   -f2))
   SELECTED_DEVICE_VERSION=$(ideviceinfo | grep "ProductVersion" | cut -d\   -f2)
 }
 
