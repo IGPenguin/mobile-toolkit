@@ -11,7 +11,7 @@
 
 ⁉️ Submit issue if you want to ask something or improve the scripts
 
-🤝 Feel free to contribute via pull request
+🤝 Feel free to **contribute via pull request**
 
 ⭐️ If you **love it**, hit the **star button** at the top right corner<br>
 
@@ -22,7 +22,7 @@
 1. [Download](https://developer.android.com/studio/ "Android Studio") **Android Studio** or **Android command line tools**
 2. Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bashrc** (or equivalent file)
 3. Clone this repository ``git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git``
-4. **Allow USB debugging** on your device, connect it and **authorize your computer** (click OK on device screen)
+4. **Allow USB debugging** on your device, connect it and **authorize** your computer (click OK on device screen)
 5. **(Recommended)** Use **following commands in any directory** by adding the absolute path to the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
 
 ## Capture device screen
@@ -138,8 +138,8 @@
 2. Install [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") (required for **iscreenshot**) using brew or apt-get ``brew install libimobiledevice``
 3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **irecord**), using brew or apt-get `brew install ffmpeg`
 4. Install [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller") (required for application management), using brew or apt-get ``brew install --HEAD ideviceinstaller``
-5. Mount developer image on your device **-> connect iOS device to USB and run Xcode**
-6. [Clone this repository](https://github.com/IntergalacticPenguin/adb-shortcuts.git "Clone")
+5. Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
+6. Clone this repository ``git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git``
 7. **(Recommended)** Use **following commands in any directory** by adding absolute path to the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
 
 ## Capture device screen
