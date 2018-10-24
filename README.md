@@ -149,7 +149,7 @@
 * **Filename** includes **device model**, **system API level** and current time and date
   * Specify your own filename by passing it as argument
 
-### irecord (macOS only)
+### irecord
 * Run **QuickTime** and open video source picker (so you can choose device right away)
 * You may have to allow some system permissions, to be able to open the source picker
 
