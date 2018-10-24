@@ -18,4 +18,4 @@ case $1 in
 esac
 
 echo "🌎 Opening $WEB in web browser..."
-adb -s $SELECTED_DEVICE shell am start -a android.intent.action.VIEW -d "$WEB"
+adb -s $SELECTED_DEVICE shell am start -a android.intent.action.VIEW -d "$WEB" &> /dev/null
