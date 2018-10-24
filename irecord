@@ -1,45 +1,14 @@
 #!/bin/bash
-location=$(dirname "$0")
-source $location/common_tools
-ios_check_developer_image
-trap 'ctrlc $@' 1 2 3 6 15
+echo "📹 Opening QuickTime..."
 
-ctrlc()
-{
-echo "🏭 Composing footage..."
-cd ~/Desktop/$DIRNAME
- if [ -z "$1" ] ; then
-   ios_get_device_info
-   FILENAME=$SELECTED_DEVICE_MODEL-iOS$SELECTED_DEVICE_VERSION-$(date +%Y-%m-%d-%H-%M-%S)
- else
-   FILENAME=$1
-fi
-ffmpeg -r 10 -f image2 -i %d.png -loglevel quiet -vcodec libx264 -vf scale=1280:-2 -crf 25 -pix_fmt yuv420p ../$FILENAME.mp4
-should_proceed "🔥 Delete the screenshots?"
-cd ..
-echo "🔥 Cleaning up..."
-rm -rf $DIRNAME
-exit
-}
+osascript <<EOD
+tell application "QuickTime Player"
+	activate
+	set newMovieRecording to new movie recording
+end tell
 
-
-
-DIRNAME=iOS-recording-$(date +%Y-%m-%d-%H-%M-%S)
-
-cd ~/Desktop
-mkdir $DIRNAME
-cd $DIRNAME
-
-echo "📹 Recording screen..."
-N=1;
-while :; do
-    idevicescreenshot $N.png >/dev/null 2>&1
-    EXIT_CODE=$?
-    if [ $EXIT_CODE -ne 0 ]; then
-      echo "🤷 Recording failed, error code: $EXIT_CODE"
-      cd ..
-      rm -rf $DIRNAME
-      exit
-    fi
-    N=$(($N+1));
-done
+tell application "System Events" to tell process "QuickTime Player"
+	click button 3 of window 1
+end tell
+return
+EOD

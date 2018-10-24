@@ -136,7 +136,7 @@
 # Installation
 1. Install latest **Xcode and iOS command line tools** to control your iOS devices using terminal
 2. Install [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") (required for **iscreenshot**) using brew or apt-get ``brew install libimobiledevice``
-3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **irecord**), using brew or apt-get `brew install ffmpeg`
+3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **igif**), using brew or apt-get `brew install ffmpeg`
 4. Install [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller") (required for application management), using brew or apt-get ``brew install --HEAD ideviceinstaller``
 5. Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
 6. Clone this repository ``git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git``
@@ -145,11 +145,15 @@
 ## Capture device screen
 
 ### iscreenshot
-* Save **screenshot** to **~/Desktop**
+### igif
 * **Filename** includes **device model**, **system API level** and current time and date
   * Specify your own filename by passing it as argument
 
-### irecord
+### irecord (macOS only)
+* Run **QuickTime** and open video source picker (so you can choose device right away)
+* You may have to allow some system permissions, to be able to open the source picker
+
+### igif
 1. **Record screen** (take as many screenshots per second as possible) to **~/Desktop**
 2. **End recording** using ``ctrl + c``
 3. Compose .mp4 from screenshots and save it to ~/Desktop
@@ -157,7 +161,7 @@
 * Specify your own filename by passing it as argument
 
 ## Application management
-### iinstall (experimental)
+### iinstall
 ``iinstall some-app-file.ipa``
 
 * Install .ipa file
