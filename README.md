@@ -11,9 +11,9 @@
 
 ⁉️ Submit issue if you want to ask something or improve the scripts
 
-🤝 Feel free to contribute via pull request 
+🤝 Feel free to contribute via pull request
 
-⭐️ If you **love it**, hit the **star button** at the top right corner, enjoy...<br>
+⭐️ If you **love it**, hit the **star button** at the top right corner<br>
 
 
 # Android scripts
@@ -84,7 +84,7 @@
 ``akill com.dummy.package.name.app``
 
 * Restart foreground app
-* Target specific app by passing package name as argument 
+* Target specific app by passing package name as argument
 
 ### aerase
 ``aerase``
@@ -92,7 +92,7 @@
 ``aerase com.dummy.package.name.app``
 
 * Delete foreground app data and restart it
-* Target specific app by passing package name as argument 
+* Target specific app by passing package name as argument
 
 ### ainstall
 ``adb_install some-app-file.apk``
@@ -101,6 +101,10 @@
 * Can overwrite existing app
 
 ### auninstall
+``auninstall``
+
+``auninstall com.dummy.package.name.app``
+
 * Uninstall third party app
 * Choose from the list, or pass package name as argument
 
@@ -157,3 +161,16 @@
 
 * Install .ipa file
 * Can overwrite existing app
+
+### iuninstall
+``iuninstall``
+
+``iuninstall com.dummy.package.name.app``
+
+* Uninstall third party app
+* Choose from the list, or pass package name as argument
+
+### icleanup
+* Uninstall all third party packages
+  * Skips some essential apps
+  * Edit this script yourself or submit issue to customize the list of essential apps
