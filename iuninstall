@@ -2,31 +2,11 @@
 LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 
-
-
 if [[ "$1" != "" ]]
 then #package name supplied
   CHOSEN_PACKAGE=$1
 else
-  echo "🔍 Detecting packages..."
-  PACKAGE_LIST=()
-  ALL_INFO_LIST=($(ideviceinstaller -l -o list_user | tail -n +2 | sed -e 's/.*=//' | sort))
-
-  for PACKAGE in "${ALL_INFO_LIST[@]}" #remove redundant information
-    do
-      echo "$PACKAGE" | grep -q '"'
-      EXIT_CODE=$?
-
-      if [ $EXIT_CODE -ne 0 ]; then
-        PACKAGE=${PACKAGE%,*}
-        PACKAGE_LIST+=($PACKAGE)
-      fi
-    done
-
-  if [ ${#PACKAGE_LIST[@]} -eq 0 ]; then
-    echo "🤷‍ No packages to uninstall."
-    exit
-  fi
+  ios_get_package_list
 
   echo "📋 Choose one to uninstall:"
   select OPTION in "${PACKAGE_LIST[@]}"

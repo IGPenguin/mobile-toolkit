@@ -1,0 +1,21 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/common_tools
+
+should_proceed "🔥 Delete all third party apps?"
+
+ios_get_package_list
+
+for PKG in "${PACKAGE_LIST[@]}"
+do
+
+   if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"com.apple.TestFlight"* ]]; then
+      echo "⌛️ Skipping $PKG"
+      continue
+   fi
+
+   echo "🔥 Uninstalling $PKG"
+   ideviceinstaller -U $PKG &> /dev/null
+done
+
+echo "✅ Device is now clean."
