@@ -1,0 +1,22 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/common_tools
+
+PACKAGE_LIST=()
+ALL_INFO_LIST=($(ideviceinstaller -l -o list_user | tail -n +2 | sed -e 's/.*=//' | sort))
+
+for PACKAGE in "${ALL_INFO_LIST[@]}" #remove redundant information
+do
+    echo "$PACKAGE" | grep -q '"'
+    EXIT_CODE=$?
+
+    if [ $EXIT_CODE -ne 0 ]; then
+      PACKAGE=${PACKAGE%,*}
+      PACKAGE_LIST+=($PACKAGE)
+    fi
+done
+
+echo "${PACKAGE_LIST[*]}"
+
+#choose
+#ideviceinstaller -U $CHOSEN_BUNDLE_ID
