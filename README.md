@@ -69,7 +69,7 @@
 * Insert long text into focused field
 * Useful for testing layouts
 
-## Application control
+## Application management
 
 ### alaunch
 ``alaunch``
@@ -156,7 +156,7 @@
 4. (Optional) Delete screenshots
 * Specify your own filename by passing it as argument
 
-## Device control
+## Application management
 ### iinstall (experimental)
 ``iinstall some-app-file.ipa``
 
