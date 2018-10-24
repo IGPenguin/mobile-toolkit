@@ -151,7 +151,7 @@
 
 ### irecord
 * Run **QuickTime** and open video source picker (so you can choose device right away)
-* You may have to allow some system permissions, to be able to open the source picker
+  * You may have to allow some system permission, so the script can access the picker
 
 ### igif
 1. **Record screen** (take as many screenshots per second as possible) to **~/Desktop**
