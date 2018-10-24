@@ -92,6 +92,28 @@ ios_get_device_info(){
   SELECTED_DEVICE_VERSION=$(ideviceinfo | grep "ProductVersion" | cut -d\   -f2)
 }
 
+ios_get_package_list(){
+  echo "🔍 Detecting packages..."
+  PACKAGE_LIST=()
+  ALL_INFO_LIST=($(ideviceinstaller -l -o list_user | tail -n +2 | sed -e 's/.*=//' | sort))
+
+  for PACKAGE in "${ALL_INFO_LIST[@]}" #remove redundant information
+    do
+      echo "$PACKAGE" | grep -q '"'
+      EXIT_CODE=$?
+
+      if [ $EXIT_CODE -ne 0 ]; then
+        PACKAGE=${PACKAGE%,*}
+        PACKAGE_LIST+=($PACKAGE)
+      fi
+    done
+
+  if [ ${#PACKAGE_LIST[@]} -eq 0 ]; then
+    echo "🤷‍ No packages installed."
+    exit
+  fi
+}
+
 #####
 ### COMMON SECTION
 should_proceed(){
