@@ -183,4 +183,4 @@
 ## Device management
 ### ireboot
 
-* Reboots the device
+* Reboot device
