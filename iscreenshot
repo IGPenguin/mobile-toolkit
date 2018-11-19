@@ -1,17 +1,16 @@
 #!/bin/bash
 location=$(dirname "$0")
 source $location/common_tools
-ios_check_developer_image
+ios_choose_device
 
 cd ~/Desktop
 if [ -z "$1" ] ; then
-  ios_get_device_info
   FILENAME=$SELECTED_DEVICE_MODEL-iOS$SELECTED_DEVICE_VERSION-$(date +%Y-%m-%d-%H-%M-%S)
 else
   FILENAME=$1
 fi
 
-idevicescreenshot $FILENAME.png &> /dev/null
+idevicescreenshot -u $SELECTED_DEVICE $FILENAME.png &> /dev/null
 EXIT_CODE=$?
 if [ $EXIT_CODE -eq 0 ]; then
   echo "📸 Screenshot saved into $FILENAME.png"
