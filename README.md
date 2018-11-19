@@ -146,7 +146,7 @@
 
 ### iscreenshot
 * Save **screenshot** to **~/Desktop**
-* **Filename** includes **device model**, **system API level** and current time and date
+* **Filename** includes **device model**, **system version** and current time and date
   * Specify your own filename by passing it as argument
 
 ### irecord
@@ -158,7 +158,8 @@
 2. **End recording** using ``ctrl + c``
 3. Compose .mp4 from screenshots and save it to ~/Desktop
 4. (Optional) Delete screenshots
-* Specify your own filename by passing it as argument
+* **Filename** includes **device model**, **system version** and current time and date
+  * Specify your own filename by passing it as argument
 
 ## Application management
 ### iinstall
