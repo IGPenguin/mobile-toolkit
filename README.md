@@ -179,3 +179,8 @@
 * Uninstall all third party packages
   * Skips some essential apps
   * Edit this script yourself or submit issue to customize the list of essential apps
+
+## Device management
+### ireboot
+
+* Reboots the device
