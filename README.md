@@ -1,7 +1,7 @@
 # What?
 💥 Execute **powerful mobile device control scripts** using easy terminal commands<br>
 
-🛠 Quick **screen capturing**, **app management**, **testing**, and much more<br>
+🛠 Quick **screen capturing**, **app management** and much more<br>
 
 📱 Useful for **mobile application testing** or clearing device memory<br>
 
@@ -180,3 +180,8 @@
 * Uninstall all third party packages
   * Skips some essential apps
   * Edit this script yourself or submit issue to customize the list of essential apps
+
+## Device management
+### ireboot
+
+* Reboot device

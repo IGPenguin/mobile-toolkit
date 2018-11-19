@@ -12,7 +12,7 @@ unset IFS #MAGIC
 for PKG in "${PACKAGES[@]}"
 do
 
-   if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"io.crash.air"* ]] || [[ $PKG = *"de.codenauts.hockeyapp"* ]] || [[ $PKG = *"chrome"* ]]; then
+   if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"io.crash.air"* ]] || [[ $PKG = *"de.codenauts.hockeyapp"* ]] || [[ $PKG = *"chrome"* ]] || [[ $PKG = *"ar.core"* ]]; then 
       echo "⌛️ Skipping $PKG"
       continue
    fi
@@ -25,5 +25,5 @@ done
 
 should_proceed "🔥 Do you want to empty /sdcard/Download?"
 echo "🔥 Clearing /sdcard/Download"
-adb -s $SELECTED_DEVICE shell rm -r /sdcard/Download/*
+adb -s $SELECTED_DEVICE shell rm -rf /sdcard/Download/*
 echo "✅ Device is now clean."

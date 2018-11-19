@@ -1,7 +1,7 @@
 #!/bin/bash
 location=$(dirname "$0")
 source $location/common_tools
-ios_check_developer_image
+ios_choose_device
 trap 'ctrlc $@' 1 2 3 6 15
 
 ctrlc()
@@ -9,7 +9,6 @@ ctrlc()
 echo "🏭 Composing footage..."
 cd ~/Desktop/$DIRNAME
  if [ -z "$1" ] ; then
-   ios_get_device_info
    FILENAME=$SELECTED_DEVICE_MODEL-iOS$SELECTED_DEVICE_VERSION-$(date +%Y-%m-%d-%H-%M-%S)
  else
    FILENAME=$1
@@ -33,7 +32,7 @@ cd $DIRNAME
 echo "📹 Recording screen..."
 N=1;
 while :; do
-    idevicescreenshot $N.png >/dev/null 2>&1
+    idevicescreenshot -u $SELECTED_DEVICE $N.png >/dev/null 2>&1
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ]; then
       echo "🤷 Recording failed, error code: $EXIT_CODE"
