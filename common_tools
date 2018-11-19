@@ -67,7 +67,7 @@ fi
 ### IOS SECTION
 
 ios_check_developer_image(){
-  IS_MOUNTED=$(ideviceimagemounter -l)
+  IS_MOUNTED=$(ideviceimagemounter -u $1 -l)
   if [ ${#IS_MOUNTED} -eq 0 ] ; then
     read -r -p "Developer image probably not mounted, do you want to launch Xcode? [y/n] " RESPONSE
     case "$RESPONSE" in
@@ -80,6 +80,43 @@ ios_check_developer_image(){
     open -a Xcode
     sleep 8
   fi
+}
+
+ios_choose_device(){
+  IOS_DEVICES=( $(idevice_id -l) )
+
+  if [ ${#IOS_DEVICES[@]} -gt 1 ]
+  then
+     NUMBER=1
+     echo Multiple devices available:
+     for ID in "${IOS_DEVICES[@]}"
+      do
+        ios_check_developer_image $ID
+        MANUFACTURER="Apple"
+        MODEL=$(ios_translate_name $(ideviceinfo -u $ID | grep "HardwareModel" | cut -d\   -f2))
+        VERSION=$(ideviceinfo -u $ID | grep "ProductVersion" | cut -d\   -f2)
+        INFO=$(printf "%s)\n%s\n%s\n%s\n-\n%s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
+        echo $INFO
+        ((NUMBER++))
+      done
+
+      read -p "Select a device: " CHOICE
+      while :;
+      do
+      if ((CHOICE <= 0 || CHOICE > ${#IOS_DEVICES[@]})); then
+        echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
+        read -p "Invalid input, try again: " CHOICE
+      else
+        break
+      fi
+      done
+      SELECTED_DEVICE=${IOS_DEVICES[(($CHOICE-1))]}
+  else
+     SELECTED_DEVICE="${IOS_DEVICES[0]}"
+  fi
+
+  SELECTED_DEVICE_MODEL=$(ios_translate_name $(ideviceinfo -u $SELECTED_DEVICE | grep "HardwareModel" | cut -d\   -f2))
+  SELECTED_DEVICE_VERSION=$(ideviceinfo -u $SELECTED_DEVICE | grep "ProductVersion" | cut -d\   -f2)
 }
 
 ios_translate_name(){
@@ -185,20 +222,10 @@ ios_translate_name(){
   echo $NAME
 }
 
-ios_choose_device(){
-  IOS_DEVICES=( $(idevice_id -l) )
-  echo "${IOS_DEVICES[*]}"
-}
-
-ios_get_device_info(){
-  SELECTED_DEVICE_MODEL=$(ios_translate_name $(ideviceinfo | grep "HardwareModel" | cut -d\   -f2))
-  SELECTED_DEVICE_VERSION=$(ideviceinfo | grep "ProductVersion" | cut -d\   -f2)
-}
-
 ios_get_package_list(){
   echo "🔍 Detecting packages..."
   PACKAGE_LIST=()
-  ALL_INFO_LIST=($(ideviceinstaller -l -o list_user | tail -n +2 | sed -e 's/.*=//' | sort))
+  ALL_INFO_LIST=($(ideviceinstaller -u $SELECTED_DEVICE -l -o list_user | tail -n +2 | sed -e 's/.*=//' | sort))
 
   for PACKAGE in "${ALL_INFO_LIST[@]}" #remove redundant information
     do

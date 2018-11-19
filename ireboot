@@ -1,0 +1,7 @@
+#!/bin/bash
+location=$(dirname "$0")
+source $location/common_tools
+ios_choose_device
+
+idevicediagnostics -u $SELECTED_DEVICE restart > /dev/null
+echo "🔄 Restarting device..."
