@@ -1,0 +1,17 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/common_tools
+ios_choose_device
+
+GSM_URL='https://www.gsmarena.com/res.php3?sSearch='
+
+MANUFACTURER=Apple
+INFO=$(printf "%s %s - iOS %s" "$MANUFACTURER" "$SELECTED_DEVICE_MODEL" "$SELECTED_DEVICE_VERSION")
+
+PHONE_URL=$GSM_URL$SELECTED_DEVICE_MODEL
+
+echo "📱 $INFO" 
+echo "  • ID: $SELECTED_DEVICE"
+
+should_proceed "🌐 Search for the device on GSMArena?"
+open $PHONE_URL
