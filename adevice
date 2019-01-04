@@ -3,13 +3,20 @@ LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 android_choose_device
 
+GSM_URL='https://www.gsmarena.com/res.php3?sSearch='
+
 MANUFACTURER=$(adb -s $SELECTED_DEVICE shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
-MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.device | tr -cd '[[:alnum:]]._-')
+MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
 VERSION=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
 SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
-INFO=$(printf "%s %s %s (API %s) - %s" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK" "$SELECTED_DEVICE")
+INFO=$(printf "%s %s %s (API %s)" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK")
 
-echo "📱 $INFO"
+PHONE_URL=$GSM_URL$MODEL
+
+echo "📱 $INFO" 
+echo "  • ID: $SELECTED_DEVICE"
 echo "  • CPU: $(adb -s $SELECTED_DEVICE shell getprop ro.product.cpu.abi | tr -cd '[[:alnum:]]._-')"
 echo "  • Display density: $(adb -s $SELECTED_DEVICE shell getprop ro.sf.lcd_density | tr -cd '[[:alnum:]]._-')"
-echo "  • to be continued..."
+should_proceed "🌐 Search for the device on GSMArena?"
+open $PHONE_URL
+
