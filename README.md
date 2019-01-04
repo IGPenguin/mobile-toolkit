@@ -20,15 +20,11 @@
 2. [Install](https://brew.sh/ "Homberew") Homebrew package manager
 3. Setup Android stuff
 	* [Download](https://developer.android.com/studio/ "Android Studio") and install **Android Studio** or **Android command line tools**
-	* Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bash_profile**
-```
-PATH=$PATH:/Users/dummyuser/mobile-toolkit
-export PATH
-```
+	* Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bash_profile** ``PATH=$PATH:/Users/dummyuser/mobile-toolkit export PATH``
 	* **Allow USB debugging** on your device, connect it and **authorize** your computer (click OK on device screen)
 4. Setup iOS stuff
 	* Install latest **Xcode and iOS command line tools** using App Store
-	* Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")  ```brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller```
+	* Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")  ``brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller``
 	* Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
 5. Use following **commands in any directory** by adding the absolute path to the cloned folder to **PATH** variable in **.bash_profile** (or equivalent file)  
 
