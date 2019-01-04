@@ -15,15 +15,27 @@
 
 ⭐️ If you **love it**, hit the **star button** at the top right corner<br>
 
+# Installation
+1. Clone this repository ``git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`` 
+2. **(Recommended)** [Install](https://brew.sh/ "Homberew") Homebrew package manager
+3. **(Recommended)** Use following **commands in any directory** by adding the absolute path to the cloned folder to **PATH** variable in **.bashrc** (or equivalent file)  
+```
+PATH=$PATH:/Users/dummyuser/mobile-toolkit
+export PATH
+```
+
+## Android
+2. [Download](https://developer.android.com/studio/ "Android Studio") and install **Android Studio** or **Android command line tools**
+3. Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bash_profile** (or equivalent file)
+4. **Allow USB debugging** on your device, connect it and **authorize** your computer (click OK on device screen)
+
+## iOS
+1. Install latest **Xcode and iOS command line tools** using App Store
+2. Install [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") ``brew install libimobiledevice``
+3. Install [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller") ``brew install --HEAD ideviceinstaller``
+4. Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
 
 # Android scripts
-
-# Installation
-1. [Download](https://developer.android.com/studio/ "Android Studio") **Android Studio** or **Android command line tools**
-2. Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bashrc** (or equivalent file)
-3. Clone this repository ``git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git``
-4. **Allow USB debugging** on your device, connect it and **authorize** your computer (click OK on device screen)
-5. **(Recommended)** Use **following commands in any directory** by adding the absolute path to the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
 
 ## Capture device screen
 
@@ -134,15 +146,6 @@
 
 # iOS scripts
 
-# Installation
-1. Install latest **Xcode and iOS command line tools** to control your iOS devices using terminal
-2. Install [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") (required for **iscreenshot**) using brew or apt-get ``brew install libimobiledevice``
-3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **igif**), using brew or apt-get `brew install ffmpeg`
-4. Install [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller") (required for application management), using brew or apt-get ``brew install --HEAD ideviceinstaller``
-5. Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
-6. Clone this repository ``git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git``
-7. **(Recommended)** Use **following commands in any directory** by adding absolute path to the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
-
 ## Capture device screen
 
 ### iscreenshot
@@ -155,6 +158,8 @@
   * You may have to allow some system permission, so the script can access the picker
 
 ### igif
+Required: Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **igif**), using brew or apt-get `brew install ffmpeg`
+
 1. **Record screen** (take as many screenshots per second as possible) to **~/Desktop**
 2. **End recording** using ``ctrl + c``
 3. Compose .mp4 from screenshots and save it to ~/Desktop
