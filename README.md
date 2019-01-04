@@ -128,8 +128,9 @@
 * Print log output containing application crashes only
 * Set how many crash surrounding lines to print using argument
 
-### adeviceinfo
+### adevice
 * Print device information
+* (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
 # iOS scripts
 
@@ -183,5 +184,8 @@
 
 ## Device management
 ### ireboot
-
 * Reboot device
+
+### adevice
+* Print device information
+* (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
