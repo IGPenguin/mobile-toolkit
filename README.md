@@ -5,7 +5,7 @@
 
 📱 Useful for **mobile application testing** or clearing device memory<br>
 
-📋 **Target specific device easily**, no more id copying from ``adb devices`` and explicit using ``adb -s <device_id>``<br>
+📋 **Target specific device easily**, no more id copying from `adb devices` and explicit using `adb -s <device_id>`<br>
 
 ⏳ **Save** your precious **time**<br>
 
@@ -15,15 +15,20 @@
 
 ⭐️ If you **love it**, hit the **star button** at the top right corner<br>
 
+# Installation
+1. Clone this repository `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git` 
+2. Setup **Android** tools
+	* [Download](https://developer.android.com/studio/ "Android Studio") and install **Android Studio** or **Android command line tools**
+	* Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bash_profile** `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools export PATH`
+	* **Allow USB debugging** on your device, connect it and **authorize** your computer (click OK on device screen)
+3. Setup **iOS** tools
+	* Install latest **Xcode and iOS command line tools** using App Store
+	* [Install](https://brew.sh/ "Homberew") Homebrew package manager
+	* Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
+	* Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
+4. (Optional) Use following **commands in any directory** by adding the absolute path to the cloned folder to **PATH** variable in **.bash_profile** (or equivalent file) `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools PATH=$PATH:/Users/dummyuser/mobile-toolkit export PATH`
 
 # Android scripts
-
-# Installation
-1. [Download](https://developer.android.com/studio/ "Android Studio") **Android Studio** or **Android command line tools**
-2. Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bashrc** (or equivalent file)
-3. Clone this repository ``git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git``
-4. **Allow USB debugging** on your device, connect it and **authorize** your computer (click OK on device screen)
-5. **(Recommended)** Use **following commands in any directory** by adding the absolute path to the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
 
 ## Capture device screen
 
@@ -39,14 +44,14 @@
 
 ### arecord
 1. **Record screen**
-2. **End recording** using ``ctrl + c``
+2. **End recording** using `ctrl + c`
 3. Save screen video footage to ~/Desktop.
   * Specify your own filename by passing it as argument
 
 ## Device control
 
 ### apaste
-``apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004``
+`apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004`
 
 * Insert text passed as argument into currently focused text field
 * Surround argument with "" if you want to insert multi-word text into one field or use some non-alphanumeric characters
@@ -54,7 +59,8 @@
   * You can quickly fill some form etc
 
 ### abounds
-* Toggle **layout bounds visibility**, on lower APIs, app restart may be necessary
+* Toggle **layout bounds visibility**
+* App restart may be necessary on lower APIs 
 
 ### aweb
 * Open link passed as argument in web browser
@@ -72,39 +78,39 @@
 ## Application management
 
 ### alaunch
-``alaunch``
+`alaunch`
 
-``alaunch com.dummy.package.name.app``
+`alaunch com.dummy.package.name.app`
 
 * List third party apps and run the chosen one
 * Specify package name by passing it as argument
 
 ### akill
-``akill``
+`akill`
 
-``akill com.dummy.package.name.app``
+`akill com.dummy.package.name.app`
 
 * Restart foreground app
 * Target specific app by passing package name as argument
 
 ### aerase
-``aerase``
+`aerase`
 
-``aerase com.dummy.package.name.app``
+`aerase com.dummy.package.name.app`
 
 * Delete foreground app data and restart it
 * Target specific app by passing package name as argument
 
 ### ainstall
-``adb_install some-app-file.apk``
+`adb_install some-app-file.apk`
 
 * Install and run .apk file
 * Can overwrite existing app
 
 ### auninstall
-``auninstall``
+`auninstall`
 
-``auninstall com.dummy.package.name.app``
+`auninstall com.dummy.package.name.app`
 
 * Uninstall third party app
 * Choose from the list, or pass package name as argument
@@ -112,7 +118,7 @@
 ### acleanup
 * Uninstall all third party packages
   * Skips some essential apps
-  * Edit this script yourself or submit issue to customize the list of essential apps
+  * Edit this script yourself to customize the list of essential apps
 * (Optional) Remove everything in /sdcard/Download directory
 
 ### agoogleplay
@@ -134,15 +140,6 @@
 
 # iOS scripts
 
-# Installation
-1. Install latest **Xcode and iOS command line tools** to control your iOS devices using terminal
-2. Install [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") (required for **iscreenshot**) using brew or apt-get ``brew install libimobiledevice``
-3. Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (required for **igif**), using brew or apt-get `brew install ffmpeg`
-4. Install [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller") (required for application management), using brew or apt-get ``brew install --HEAD ideviceinstaller``
-5. Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
-6. Clone this repository ``git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git``
-7. **(Recommended)** Use **following commands in any directory** by adding absolute path to the cloned files to **PATH** variable in **.bashrc** (or equivalent file)
-
 ## Capture device screen
 
 ### iscreenshot
@@ -155,8 +152,10 @@
   * You may have to allow some system permission, so the script can access the picker
 
 ### igif
+**Required**: Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") `brew install ffmpeg`
+
 1. **Record screen** (take as many screenshots per second as possible) to **~/Desktop**
-2. **End recording** using ``ctrl + c``
+2. **End recording** using `ctrl + c`
 3. Compose .mp4 from screenshots and save it to ~/Desktop
 4. (Optional) Delete screenshots
 * **Filename** includes **device model**, **system version** and current time and date
@@ -164,15 +163,15 @@
 
 ## Application management
 ### iinstall
-``iinstall some-app-file.ipa``
+`iinstall some-app-file.ipa`
 
 * Install .ipa file
 * Can overwrite existing app
 
 ### iuninstall
-``iuninstall``
+`iuninstall`
 
-``iuninstall com.dummy.package.name.app``
+`iuninstall com.dummy.package.name.app`
 
 * Uninstall third party app
 * Choose from the list, or pass package name as argument
@@ -180,7 +179,7 @@
 ### icleanup
 * Uninstall all third party packages
   * Skips some essential apps
-  * Edit this script yourself or submit issue to customize the list of essential apps
+  * Edit this script yourself to customize the list of essential apps
 
 ## Device management
 ### ireboot
