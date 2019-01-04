@@ -59,7 +59,8 @@
   * You can quickly fill some form etc
 
 ### abounds
-* Toggle **layout bounds visibility**, on lower APIs, app restart may be necessary
+* Toggle **layout bounds visibility**
+* App restart may be necessary on lower APIs 
 
 ### aweb
 * Open link passed as argument in web browser
