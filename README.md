@@ -186,6 +186,6 @@
 ### ireboot
 * Reboot device
 
-### adevice
+### idevice
 * Print device information
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
