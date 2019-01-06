@@ -122,6 +122,8 @@
 * (Optional) Remove everything in /sdcard/Download directory
 
 ### agoogleplay
+`agoogleplay "Dummy App"`
+
 * Search for app on Google Play
 * Pass app name as argument
 
