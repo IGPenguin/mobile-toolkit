@@ -127,7 +127,7 @@
 * Search for app on Google Play
 * Pass app name as argument
 
-## Device information
+## Device management
 
 ### alog
 * Print system log output
@@ -184,9 +184,13 @@
   * Edit this script yourself to customize the list of essential apps
 
 ## Device management
-### ireboot
-* Reboot device
+
+### icrashlogs
+* Gathers crash logs from the device to **~/Desktop**
 
 ### idevice
 * Print device information
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
+
+### ireboot
+* Reboot device

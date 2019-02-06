@@ -1,0 +1,25 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/common_tools
+ios_choose_device
+
+if [ -z "$1" ] ; then
+  DIRNAME=CRASH_LOGS_$SELECTED_DEVICE_MODEL-iOS$SELECTED_DEVICE_VERSION-$(date +%Y-%m-%d-%H-%M-%S)
+else
+  DIRNAME=$1
+fi
+
+cd ~/Desktop
+mkdir $DIRNAME
+echo "📁 Copying crash logs from the device..."
+idevicecrashreport -u $SELECTED_DEVICE $DIRNAME &> /dev/null
+echo "🔥 Deleting redundant files..."
+cd $DIRNAME
+rm -R -- */
+if [ -z "$(ls -A)" ]; then
+   cd ..
+   rm -rf $DIRNAME
+   echo "❌ Nothing useful found!"
+else
+   echo "✅ Crash logs gathered to $DIRNAME"
+fi
