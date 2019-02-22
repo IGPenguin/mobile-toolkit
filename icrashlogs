@@ -13,9 +13,16 @@ cd ~/Desktop
 mkdir $DIRNAME
 echo "📁 Copying crash logs from the device..."
 idevicecrashreport -u $SELECTED_DEVICE $DIRNAME &> /dev/null
-echo "🔥 Deleting redundant files..."
+
+echo "🔥 Cleaning up..."
 cd $DIRNAME
-rm -R -- */
+rm -R -- */ #remove unnecessary system logs
+find . -type f ! -name '*.ips' -delete #remove non-crash logs
+
+for file in *.ips; do
+    mv "$file" "$(basename "$file" .ips).crash"
+done
+
 if [ -z "$(ls -A)" ]; then
    cd ..
    rm -rf $DIRNAME
