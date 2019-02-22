@@ -186,7 +186,12 @@
 ## Device management
 
 ### icrashlogs
-* Gathers crash logs from the device to **~/Desktop**
+* Gathers crash logs from the device to **~/Desktop** (be patient 😅)
+* You can import logs to Xcode to make them more readable
+  * Open relevant project in Xcode 
+  * Click on Window > Devices and Simulators > View Device Logs
+  * Drag the .crash file onto the log list
+  * The readable crash log should appear in the list
 
 ### idevice
 * Print device information
