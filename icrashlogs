@@ -12,7 +12,7 @@ fi
 cd ~/Desktop
 mkdir $DIRNAME
 echo "📁 Copying crash logs from the device..."
-idevicecrashreport -k -u $SELECTED_DEVICE $DIRNAME &> /dev/null
+idevicecrashreport -u $SELECTED_DEVICE $DIRNAME &> /dev/null
 
 echo "🔥 Cleaning up..."
 cd $DIRNAME
