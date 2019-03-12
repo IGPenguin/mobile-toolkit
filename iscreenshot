@@ -2,7 +2,7 @@
 location=$(dirname "$0")
 source $location/common_tools
 ios_choose_device
-ios_check_developer_image
+ios_check_developer_image $SELECTED_DEVICE
 
 cd ~/Desktop
 if [ -z "$1" ] ; then
