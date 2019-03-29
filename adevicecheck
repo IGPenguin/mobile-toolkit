@@ -18,26 +18,46 @@ echo "  • ID: $SELECTED_DEVICE"
 echo "  • CPU: $(adb -s $SELECTED_DEVICE shell getprop ro.product.cpu.abi | tr -cd '[[:alnum:]]._-')"
 echo "  • Display density: $(adb -s $SELECTED_DEVICE shell getprop ro.sf.lcd_density | tr -cd '[[:alnum:]]._-')"
 
-echo -n "🔆 Setting max brightness"
-adb -s $SELECTED_DEVICE shell settings put system screen_brightness_mode 0
-adb -s $SELECTED_DEVICE shell settings put system screen_brightness 255
-echo " - ✅ Done"
+echo -n "🔆 Checking brightness"
+BRIGHTNESS=$(adb -s $SELECTED_DEVICE shell settings get system screen_brightness)
+BRIGHTNESS=${BRIGHTNESS%$'\r'} # remove trailing carriage return
+if [ "$BRIGHTNESS" != "255" ];
+then
+  adb -s $SELECTED_DEVICE shell settings put system screen_brightness_mode 0
+  adb -s $SELECTED_DEVICE shell settings put system screen_brightness 255
+  echo " - 🔥 Set to MAX"
+else
+  echo " - ✅ OK"
+fi
+
+echo -n "📢 Checking notification volume"
+RINGER_MODE=$(adb -s $SELECTED_DEVICE shell settings get global mode_ringer)
+RINGER_MODE=${RINGER_MODE%$'\r'} # remove trailing carriage return
+if [ "$RINGER_MODE" != "1" ];
+then
+  adb -s $SELECTED_DEVICE shell input keyevent 164
+  echo " - 🔕 Muted"
+else
+  echo " - ✅ OK"
+fi
 
 echo -n "🌐 Checking network"
 adb -s $SELECTED_DEVICE shell dumpsys netstats | grep -E 'iface=wlan.*networkId' | grep EDGE &> /dev/null
 if [ $? -eq 0 ]
 then
-  echo " - ❗️ EDGE network is connected"
+  echo " - ❗️ EDGE network detected, 👉 resolve manually"
 else
   echo " - ✅ OK"
 fi
 
 echo -n "📆 Checking date"
-LOCAL_DATE=$(date|cut -f1,2 -d':')
-DEVICE_DATE=$(adb -s $SELECTED_DEVICE shell date|cut -f1,2 -d':')
-if [ "$DEVICE_DATE" != "$LOCAL_DATE" ]
+AUTO_TIME=$(adb -s $SELECTED_DEVICE shell settings get global auto_time)
+AUTO_TIME=${AUTO_TIME%$'\r'} # remove trailing carriage return
+if [ "$AUTO_TIME" = "0" ];
 then
-  echo " - ❗️ Date is set manually"
+  echo -n " - ❗️ Automatic date disabled"
+  adb -s $SELECTED_DEVICE shell settings put global auto_time 1
+  echo ", 🔨 FIXED"
 else
   echo " - ✅ OK"
 fi

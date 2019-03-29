@@ -8,6 +8,16 @@ if [ -z "$1" ] ; then
   exit
 fi
 
+if [ ! -f "$PWD/$1" ]; then
+    echo "🤷 File not found!"
+    exit
+fi
+
+if [[ "$1" != *".ipa" ]]; then
+    echo "🤷 Unsupported file!"
+    exit
+fi
+
 echo "⌛️ Installing..."
 ideviceinstaller -u $SELECTED_DEVICE -i "$1" &> /dev/null
 echo "✅ Done!"
