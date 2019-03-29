@@ -3,5 +3,41 @@ LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 android_choose_device
 
-echo "🤖 Launching system settings app..."
-adb -s $SELECTED_DEVICE shell am start -a android.settings.SETTINGS &> /dev/null
+echo "🤖 Settings navigator 3000:"
+echo
+echo -e "1) Developer\n2) Locale\n3) Network\n4) Power usage"
+echo
+read -p "Choose the desired settings: " TOPIC
+echo -en "\033[1A\033[2K"
+
+echo "🚀 Launching system settings app..."
+
+case "$TOPIC" in
+  "1")
+  adb -s $SELECTED_DEVICE shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS &> /dev/null
+  ;;
+
+  "2")
+  adb -s $SELECTED_DEVICE shell am start -a android.settings.LOCALE_SETTINGS &> /dev/null
+  ;;
+
+  "3")
+  adb -s $SELECTED_DEVICE shell am start -a android.net.wifi.PICK_WIFI_NETWORK &> /dev/null
+  ;;
+
+  "4")
+  adb -s $SELECTED_DEVICE shell am start -a android.intent.action.POWER_USAGE_SUMMARY &> /dev/null
+  ;;
+
+  *)
+  echo "🤷‍ Unknown option, opening root settings activity."
+  adb -s $SELECTED_DEVICE shell am start -a android.settings.SETTINGS &> /dev/null
+  ;;
+esac
+
+: '
+https://stackoverflow.com/questions/8971160/what-is-the-exhaustive-list-of-all-android-intent-action-actions-available-in
+
+android.settings.ACCESSIBILITY_SETTINGS
+
+'
