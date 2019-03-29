@@ -13,10 +13,34 @@ INFO=$(printf "%s %s %s (API %s)" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK")
 
 PHONE_URL=$GSM_URL$MODEL
 
-echo "📱 $INFO" 
+echo "📱 $INFO"
 echo "  • ID: $SELECTED_DEVICE"
 echo "  • CPU: $(adb -s $SELECTED_DEVICE shell getprop ro.product.cpu.abi | tr -cd '[[:alnum:]]._-')"
 echo "  • Display density: $(adb -s $SELECTED_DEVICE shell getprop ro.sf.lcd_density | tr -cd '[[:alnum:]]._-')"
-should_proceed "🌐 Search for the device on GSMArena?"
-open $PHONE_URL
 
+echo -n "🔆 Setting max brightness"
+adb -s $SELECTED_DEVICE shell settings put system screen_brightness_mode 0
+adb -s $SELECTED_DEVICE shell settings put system screen_brightness 255
+echo " - ✅ Done"
+
+echo -n "🌐 Checking network"
+adb -s $SELECTED_DEVICE shell dumpsys netstats | grep -E 'iface=wlan.*networkId' | grep EDGE &> /dev/null
+if [ $? -eq 0 ]
+then
+  echo " - ❗️ EDGE network is connected"
+else
+  echo " - ✅ OK"
+fi
+
+echo -n "📆 Checking date"
+LOCAL_DATE=$(date|cut -f1,2 -d':')
+DEVICE_DATE=$(adb -s $SELECTED_DEVICE shell date|cut -f1,2 -d':')
+if [ "$DEVICE_DATE" != "$LOCAL_DATE" ]
+then
+  echo " - ❗️ Date is set manually"
+else
+  echo " - ✅ OK"
+fi
+
+should_proceed "🔍 Search for the device on GSMArena?"
+open $PHONE_URL
