@@ -115,7 +115,7 @@
 * Uninstall third party app
 * Choose from the list, or pass package name as argument
 
-### acleanup
+### awipe
 * Uninstall all third party packages
   * Skips some essential apps
   * Edit this script yourself to customize the list of essential apps
@@ -178,7 +178,7 @@
 * Uninstall third party app
 * Choose from the list, or pass package name as argument
 
-### icleanup
+### iwipe
 * Uninstall all third party packages
   * Skips some essential apps
   * Edit this script yourself to customize the list of essential apps
