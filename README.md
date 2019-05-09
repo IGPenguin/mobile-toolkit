@@ -67,6 +67,11 @@
 
 ### aoptions
 * Open system settings app
+* You can choose target activity
+  * Developer settings
+  * Locale settings
+  * Wifi settings
+  * Power usage
 
 ### aemulator
 * Start any of your installed Android emulators
@@ -136,8 +141,13 @@
 * Print log output containing application crashes only
 * Set how many crash surrounding lines to print using argument
 
-### adevice
+### adevicecheck
 * Print device information
+* Perform basic checks and resolve issues
+  * Enable automatic date (if disabled)
+  * Disable notification sounds
+  * Set max brightness
+  * Check if connected to EDGE wifi
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
 # iOS scripts

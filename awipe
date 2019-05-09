@@ -12,7 +12,7 @@ unset IFS #MAGIC
 for PKG in "${PACKAGES[@]}"
 do
 
-   if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"io.crash.air"* ]] || [[ $PKG = *"de.codenauts.hockeyapp"* ]] || [[ $PKG = *"chrome"* ]] || [[ $PKG = *"ar.core"* ]] || [[ $PKG = *"framerjs"* ]]; then 
+   if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"io.crash.air"* ]] || [[ $PKG = *"de.codenauts.hockeyapp"* ]] || [[ $PKG = *"chrome"* ]] || [[ $PKG = *"ar.core"* ]] || [[ $PKG = *"framer"* ]] || [[ $PKG = *"figma"* ]] || [[ $PKG = *"com.invisionapp.ifa"* ]]; then 
       echo "⌛️ Skipping $PKG"
       continue
    fi
