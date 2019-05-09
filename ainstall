@@ -20,7 +20,7 @@ fi
 
 #get package name from .apk
 echo "🔍 Detecting package name..."
-AAPPT_PATH=$(find $ANDROID_HOME -name 'aapt' | sort | tail -1)
+AAPPT_PATH=$(find ~/Library/Android/sdk -name 'aapt' | sort | tail -1)
 PACKAGE_NAME=$($AAPPT_PATH dump badging "$1" | grep package:\ name);
 PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/^[^'\'']*'\''//');
 PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/'\''.*//');
