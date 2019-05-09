@@ -10,7 +10,7 @@ ios_get_package_list
 for PKG in "${PACKAGE_LIST[@]}"
 do
 
-   if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"com.apple.TestFlight"* ]] || [[ $PKG = *"sketch"* ]]; then
+   if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"com.apple.TestFlight"* ]] || [[ $PKG = *"sketch"* ]] || [[ $PKG = *"figma"* ]] || [[ $PKG = *"framer"* ]] || [[ $PKG = *"invision"* ]]; then
       echo "⌛️ Skipping $PKG"
       continue
    fi
