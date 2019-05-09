@@ -12,6 +12,8 @@ echo -en "\033[1A\033[2K"
 
 echo "🚀 Launching system settings app..."
 
+# More available at https://stackoverflow.com/questions/8971160/what-is-the-exhaustive-list-of-all-android-intent-action-actions-available-in
+
 case "$TOPIC" in
   "1")
   adb -s $SELECTED_DEVICE shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS &> /dev/null
@@ -34,10 +36,3 @@ case "$TOPIC" in
   adb -s $SELECTED_DEVICE shell am start -a android.settings.SETTINGS &> /dev/null
   ;;
 esac
-
-: '
-https://stackoverflow.com/questions/8971160/what-is-the-exhaustive-list-of-all-android-intent-action-actions-available-in
-
-android.settings.ACCESSIBILITY_SETTINGS
-
-'
