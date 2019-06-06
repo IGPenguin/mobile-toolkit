@@ -1,7 +1,6 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
-android_choose_device
 
 if [ -z "$1" ] ; then
   echo "🤷‍ What should I install?"
@@ -17,6 +16,8 @@ if [[ "$1" != *".apk" ]]; then
     echo "🤷 Unsupported file!"
     exit
 fi
+
+android_choose_device
 
 #get package name from .apk
 echo "🔍 Detecting package name..."
