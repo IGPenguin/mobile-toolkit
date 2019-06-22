@@ -3,6 +3,17 @@ TOOLKIT_LOCATION=$(dirname "$0")
 source $TOOLKIT_LOCATION/common_tools
 android_choose_device
 
+LOCAL_SETTINGS_LIST_PATH=$TOOLKIT_LOCATION/toolkit_intent_list.txt
+
+import_intents(){
+  echo "⏳ Importing settings activity list..."
+  ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH=$(find ~/Library/Android/sdk -name 'activity_actions.txt' | sort | tail -1)
+  cat $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH | grep -i android.settings >> $LOCAL_SETTINGS_LIST_PATH # List settings intents
+  cat $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH | grep -i -e android.net.wifi.PICK_WIFI_NETWORK -e android.os.storage.action.MANAGE_STORAGE -e android.intent.action.MANAGE_PERMISSIONS -e android.intent.action.SET_WALLPAPER -e android.intent.action.VIEW_DOWNLOADS >> $LOCAL_SETTINGS_LIST_PATH # List alternate settings intents
+  cat $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH | grep -i android.media.action >> $LOCAL_SETTINGS_LIST_PATH # List media intents
+  echo "✅ Importing from $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH completed successfully"
+}
+
 start_settings_intent(){
   SETTINGS_INTENT=$(sed $LINE!d $LOCAL_SETTINGS_LIST_PATH)
   echo "🚀 Starting $SETTINGS_INTENT"
@@ -18,7 +29,6 @@ search_for_intent(){
     read -p "🤷‍ No \"$1\" intent found, try again or leave blank: " KEYWORD
     search_for_intent $KEYWORD
   fi
-
 }
 
 handle_preset(){
@@ -65,6 +75,11 @@ handle_preset(){
     start_settings_intent
     ;;
 
+    "R")
+    rm $LOCAL_SETTINGS_LIST_PATH
+    import_intents
+    ;;
+
     *)
     search_for_intent $1
 
@@ -73,15 +88,9 @@ handle_preset(){
 }
 
 # Initialize available intent list - inspiration here https://stackoverflow.com/questions/8971160/what-is-the-exhaustive-list-of-all-android-intent-action-actions-available-in
-LOCAL_SETTINGS_LIST_PATH=$TOOLKIT_LOCATION/toolkit_intent_list.txt
 if [ ! -f "$LOCAL_SETTINGS_LIST_PATH" ]; then
     echo "✨ Activity list not initialized yet"
-    echo "⏳ Importing settings activity list..."
-    ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH=$(find ~/Library/Android/sdk -name 'activity_actions.txt' | sort | tail -1)
-    cat $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH | grep -i android.settings >> $LOCAL_SETTINGS_LIST_PATH # List settings intents
-    cat $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH | grep -i -e android.net.wifi.PICK_WIFI_NETWORK -e android.os.storage.action.MANAGE_STORAGE  >> $LOCAL_SETTINGS_LIST_PATH # List alternate settings intents
-    cat $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH | grep -i -e android.intent.action -e android.media.action >> $LOCAL_SETTINGS_LIST_PATH # List various other intents
-    echo "✅ Importing from $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH completed successfully"
+    import_intents
 fi
 
 # If arugment not passed, show preset chooser
@@ -89,7 +98,7 @@ if [[ "$1" == "" ]]; then
   TOOLKIT_INTENT_COUNT=$(cat $LOCAL_SETTINGS_LIST_PATH | wc -l)
   TOOLKIT_INTENT_COUNT=`echo $TOOLKIT_INTENT_COUNT | awk '{print $1}'` # Remove ghost whitespaces 🙃
 
-  echo -e "📋 Available options:\n0) Show all $TOOLKIT_INTENT_COUNT settings options\n1) Developer\n2) Locale\n3) Date & time\n4) Wifi network\n5) Storage management\n6) Power usage\nor\n<text> search in all intents"
+  echo -e "📋 Available options:\n0) Show all $TOOLKIT_INTENT_COUNT settings options\n1) Developer\n2) Locale\n3) Date & time\n4) Wifi network\n5) Storage management\n6) Power usage\nA) Open system settings application\nR) Update intent list from Android sdk folder\nor\n<text> to search in all intents"
   read -p "📝 Enter your selection: " PRESET
   handle_preset $PRESET
   exit
