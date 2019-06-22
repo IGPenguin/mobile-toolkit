@@ -12,5 +12,6 @@ fi
 echo "🛒 Searching for $APP_NAME in Google Play..."
 adb -s $SELECTED_DEVICE shell monkey -p com.android.vending -c android.intent.category.LAUNCHER 1 &> /dev/null
 adb -s $SELECTED_DEVICE shell input keyevent 84
-apaste "$APP_NAME"
+ESCAPED_TEXT=`echo $APPNAME | sed -e 's/ /\%s/g'`
+adb -s $SELECTED_DEVICE shell input text "$ESCAPED_TEXT"
 adb -s $SELECTED_DEVICE shell input keyevent 66
