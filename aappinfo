@@ -11,4 +11,15 @@ else
 fi
 
 adb -s $SELECTED_DEVICE shell am start -a "android.settings.APPLICATION_DETAILS_SETTINGS" -d "package:$PACKAGE_NAME" &> /dev/null
-# TODO echo version, size etc. to terminal
+
+VERSION=$(adb -s $SELECTED_DEVICE shell dumpsys package $PACKAGE_NAME | grep versionName | sed 's/versionName=//')
+VERSION=`echo $VERSION | awk '{print $1}'` # Remove ghost whitespaces
+LAST_UPDATE=$(adb -s $SELECTED_DEVICE shell dumpsys package $PACKAGE_NAME | grep lastUpdateTime | sed 's/lastUpdateTime=//')
+LAST_UPDATE=`echo $LAST_UPDATE | awk '{print $1}'` # Remove ghost whitespaces
+SDK=$(adb -s $SELECTED_DEVICE shell dumpsys package com.thefuntasty.grason.dev | grep versionCode | grep -o 'minSdk.*')
+
+echo "Package name: $PACKAGE_NAME"
+echo "Version: $VERSION"
+echo "Last update: $LAST_UPDATE"
+echo "SDK: $SDK"
+adb -s $SELECTED_DEVICE shell dumpsys package com.thefuntasty.grason.dev | grep  -v "):\|perm=\|installPermissionsFixed=true" |grep -i -e permission
