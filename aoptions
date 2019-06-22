@@ -1,38 +1,104 @@
 #!/bin/bash
-LOCATION=$(dirname "$0")
-source $LOCATION/common_tools
+TOOLKIT_LOCATION=$(dirname "$0")
+source $TOOLKIT_LOCATION/common_tools
 android_choose_device
 
-echo "🤖 Settings navigator 3000:"
-echo
-echo -e "1) Developer\n2) Locale\n3) Network\n4) Power usage"
-echo
-read -p "Choose the desired settings: " TOPIC
-echo -en "\033[1A\033[2K"
+start_settings_intent(){
+  SETTINGS_INTENT=$(sed $LINE!d $LOCAL_SETTINGS_LIST_PATH)
+  echo "🚀 Starting $SETTINGS_INTENT"
+  adb -s $SELECTED_DEVICE shell am start -a $SETTINGS_INTENT | grep error
+}
 
-echo "🚀 Launching system settings app..."
+search_for_intent(){
+  cat $LOCAL_SETTINGS_LIST_PATH | nl | grep "$1"
+  if [[ $? -eq 0 ]]; then
+    read -p "📝 Choose option number: " LINE
+    start_settings_intent
+  else
+    read -p "🤷‍ No \"$1\" settings found, try again or leave blank: " KEYWORD
+    search_for_intent $KEYWORD
+  fi
 
-# More available at https://stackoverflow.com/questions/8971160/what-is-the-exhaustive-list-of-all-android-intent-action-actions-available-in
+}
 
-case "$TOPIC" in
-  "1")
-  adb -s $SELECTED_DEVICE shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS &> /dev/null
-  ;;
+handle_preset(){
+  case "$1" in
+    "A")
+    echo "🚀 Launching system settings app root activity..."
+    adb -s $SELECTED_DEVICE shell am start -a android.settings.SETTINGS &> /dev/null
+    ;;
 
-  "2")
-  adb -s $SELECTED_DEVICE shell am start -a android.settings.LOCALE_SETTINGS &> /dev/null
-  ;;
+    "1")
+    echo "🔨 Opening developer settings..."
+    adb -s $SELECTED_DEVICE shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS &> /dev/null
+    ;;
 
-  "3")
-  adb -s $SELECTED_DEVICE shell am start -a android.net.wifi.PICK_WIFI_NETWORK &> /dev/null
-  ;;
+    "2")
+    echo "🌍 Opening locale settings..."
+    adb -s $SELECTED_DEVICE shell am start -a android.settings.LOCALE_SETTINGS &> /dev/null
+    ;;
 
-  "4")
-  adb -s $SELECTED_DEVICE shell am start -a android.intent.action.POWER_USAGE_SUMMARY &> /dev/null
-  ;;
+    "4")
+    echo "🌐 Opening WIFI network settings..."
+    adb -s $SELECTED_DEVICE shell am start -a android.net.wifi.PICK_WIFI_NETWORK &> /dev/null
+    ;;
 
-  *)
-  echo "🤷‍ Unknown option, opening root settings activity."
-  adb -s $SELECTED_DEVICE shell am start -a android.settings.SETTINGS &> /dev/null
-  ;;
-esac
+    "5")
+    echo "📦 Opening storage management ..."
+    adb -s $SELECTED_DEVICE shell am start -a android.os.storage.action.MANAGE_STORAGE &> /dev/null
+    ;;
+
+    "6")
+    echo "🔋 Opening power usage statistics..."
+    adb -s $SELECTED_DEVICE shell am start -a android.intent.action.POWER_USAGE_SUMMARY &> /dev/null
+    ;;
+
+    "3")
+    echo "📅 Opening date & time settings..."
+    adb -s $SELECTED_DEVICE shell am start -a android.settings.DATE_SETTINGS &> /dev/null
+    ;;
+
+    "0")
+    echo "📜 Available settings activities:"
+    cat $LOCAL_SETTINGS_LIST_PATH | nl
+    read -p "📝 Choose option number: " LINE
+    start_settings_intent
+    ;;
+
+    *)
+    search_for_intent $1
+
+    ;;
+  esac
+}
+
+# Initialize available intent list - inspiration here https://stackoverflow.com/questions/8971160/what-is-the-exhaustive-list-of-all-android-intent-action-actions-available-in
+
+LOCAL_SETTINGS_LIST_PATH=$TOOLKIT_LOCATION/toolkit_intent_list.txt
+if [ ! -f "$LOCAL_SETTINGS_LIST_PATH" ]; then
+    echo "ℹ Activity list not initialized yet."
+    echo "⏳ Loading settings activity list..."
+    ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH=$(find ~/Library/Android/sdk -name 'activity_actions.txt' | sort | tail -1)
+    cat $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH | grep -e android.net.wifi.PICK_WIFI_NETWORK -e android.os.storage.action.MANAGE_STORAGE -e android.settings -e android.intent.action -e android.media.action >> $LOCAL_SETTINGS_LIST_PATH # List only valid target intents
+fi
+TOOLKIT_INTENT_COUNT=$(cat $LOCAL_SETTINGS_LIST_PATH | wc -l)
+
+# If arugment not passed, show option chooser
+if [[ "$1" == "" ]]; then
+  echo -e "📋 Available settings:\n0) Show all $TOOLKIT_INTENT_COUNT options\n1) Developer\n2) Locale\n3) Date & time\n4) Wifi network\n5) Storage management\n6) Power usage\nor\n<text> search for settings"
+  read -p "📝 Enter your option: " PRESET
+  handle_preset $PRESET
+  exit
+fi
+
+# If number argument passed, choose preset right away
+if [[ "$1" =~ ^[0-9]+$ ]]; then
+  handle_preset $1
+  exit
+fi
+
+# If string argument passed, search in available all intents
+if [[ "$1" != "" ]]; then
+  search_for_intent $1
+  exit
+fi
