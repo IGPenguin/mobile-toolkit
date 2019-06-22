@@ -1,4 +1,23 @@
 #!/bin/bash
-$ANDROID_HOME/tools/bin/avdmanager list avd #TODO grep the shitty long useless output
-read -p "Enter emulator name: " EMULATOR
-nohup $ANDROID_HOME/tools/emulator -avd $EMULATOR &> /dev/null &
+TOOLKIT_LOCATION=$(dirname "$0")
+LOCAL_EMULATOR_LIST=$TOOLKIT_LOCATION/android_emulator_list.txt
+
+launch_emulator(){
+  EMULATOR_NAME=$(sed $EMULATOR_INDEX!d $LOCAL_EMULATOR_LIST)
+  if [[ $EMULATOR_NAME == "" ]]; then
+    echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
+    read -p "🤷‍ Invalid choice, try again: " EMULATOR_INDEX
+    launch_emulator
+    exit
+  fi
+  echo  "🚀 Launching emulator..."
+  nohup $ANDROID_HOME/tools/emulator -avd $EMULATOR_NAME &> /dev/null &
+}
+
+echo "⏳ Getting android emulator list..."
+rm -f $LOCAL_EMULATOR_LIST
+~/Library/Android/sdk/tools/bin/avdmanager list avd | grep Name | awk '{print $2}' >> $LOCAL_EMULATOR_LIST
+echo "📱 Available emulators:"
+cat $LOCAL_EMULATOR_LIST | nl
+read -p "📝 Enter emulator number: " EMULATOR_INDEX
+launch_emulator
