@@ -15,7 +15,7 @@ search_for_intent(){
     read -p "📝 Choose option number: " LINE
     start_settings_intent
   else
-    read -p "🤷‍ No \"$1\" settings found, try again or leave blank: " KEYWORD
+    read -p "🤷‍ No \"$1\" intent found, try again or leave blank: " KEYWORD
     search_for_intent $KEYWORD
   fi
 
@@ -73,20 +73,24 @@ handle_preset(){
 }
 
 # Initialize available intent list - inspiration here https://stackoverflow.com/questions/8971160/what-is-the-exhaustive-list-of-all-android-intent-action-actions-available-in
-
 LOCAL_SETTINGS_LIST_PATH=$TOOLKIT_LOCATION/toolkit_intent_list.txt
 if [ ! -f "$LOCAL_SETTINGS_LIST_PATH" ]; then
-    echo "ℹ Activity list not initialized yet."
-    echo "⏳ Loading settings activity list..."
+    echo "✨ Activity list not initialized yet"
+    echo "⏳ Importing settings activity list..."
     ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH=$(find ~/Library/Android/sdk -name 'activity_actions.txt' | sort | tail -1)
-    cat $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH | grep -e android.net.wifi.PICK_WIFI_NETWORK -e android.os.storage.action.MANAGE_STORAGE -e android.settings -e android.intent.action -e android.media.action >> $LOCAL_SETTINGS_LIST_PATH # List only valid target intents
+    cat $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH | grep android.settings >> $LOCAL_SETTINGS_LIST_PATH # List settings intents
+    cat $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH | grep -e android.net.wifi.PICK_WIFI_NETWORK -e android.os.storage.action.MANAGE_STORAGE  >> $LOCAL_SETTINGS_LIST_PATH # List alternate settings intents
+    cat $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH | grep -e android.intent.action -e android.media.action >> $LOCAL_SETTINGS_LIST_PATH # List various other intents
+    echo "✅ Importing from $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH completed successfully"
 fi
 TOOLKIT_INTENT_COUNT=$(cat $LOCAL_SETTINGS_LIST_PATH | wc -l)
+TOOLKIT_INTENT_COUNT=`echo $TOOLKIT_INTENT_COUNT | awk '{print $1}'` # Remove ghost whitespaces 🙃
 
-# If arugment not passed, show option chooser
+
+# If arugment not passed, show preset chooser
 if [[ "$1" == "" ]]; then
-  echo -e "📋 Available settings:\n0) Show all $TOOLKIT_INTENT_COUNT options\n1) Developer\n2) Locale\n3) Date & time\n4) Wifi network\n5) Storage management\n6) Power usage\nor\n<text> search for settings"
-  read -p "📝 Enter your option: " PRESET
+  echo -e "📋 Available options:\n0) Show all $TOOLKIT_INTENT_COUNT settings options\n1) Developer\n2) Locale\n3) Date & time\n4) Wifi network\n5) Storage management\n6) Power usage\nor\n<text> search in all intents"
+  read -p "📝 Enter your selection: " PRESET
   handle_preset $PRESET
   exit
 fi
