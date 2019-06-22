@@ -1,6 +1,6 @@
 #!/bin/bash
 TOOLKIT_LOCATION=$(dirname "$0")
-LOCAL_EMULATOR_LIST=$TOOLKIT_LOCATION/android_emulator_list.txt
+LOCAL_EMULATOR_LIST=$TOOLKIT_LOCATION/toolkit_emulator_list.txt
 
 launch_emulator(){
   EMULATOR_NAME=$(sed $EMULATOR_INDEX!d $LOCAL_EMULATOR_LIST)
