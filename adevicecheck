@@ -18,11 +18,20 @@ echo "  • ID: $SELECTED_DEVICE"
 echo "  • CPU: $(adb -s $SELECTED_DEVICE shell getprop ro.product.cpu.abi | tr -cd '[[:alnum:]]._-')"
 echo "  • Display density: $(adb -s $SELECTED_DEVICE shell getprop ro.sf.lcd_density | tr -cd '[[:alnum:]]._-')"
 
-echo -n "🔆 Checking brightness"
+echo -n "🕓 Checking screen timeout"
+TIMEOUT=$(adb -s $SELECTED_DEVICE shell settings get system screen_off_timeout)
+TIMEOUT=${TIMEOUT%$'\r'} # remove trailing carriage return
+if [ "$TIMEOUT" != "600000" ]; then
+  adb -s $SELECTED_DEVICE shell settings put system screen_off_timeout 600000
+  echo " - 🔨 Set to 10min"
+else
+  echo " - ✅ OK"
+fi
+
+echo -n "🔆 Checking screen brightness"
 BRIGHTNESS=$(adb -s $SELECTED_DEVICE shell settings get system screen_brightness)
 BRIGHTNESS=${BRIGHTNESS%$'\r'} # remove trailing carriage return
-if [ "$BRIGHTNESS" != "255" ];
-then
+if [ "$BRIGHTNESS" != "255" ]; then
   adb -s $SELECTED_DEVICE shell settings put system screen_brightness_mode 0
   adb -s $SELECTED_DEVICE shell settings put system screen_brightness 255
   echo " - 🔥 Set to MAX"
@@ -33,8 +42,7 @@ fi
 echo -n "📢 Checking notification volume"
 RINGER_MODE=$(adb -s $SELECTED_DEVICE shell settings get global mode_ringer)
 RINGER_MODE=${RINGER_MODE%$'\r'} # remove trailing carriage return
-if [ "$RINGER_MODE" != "1" ];
-then
+if [ "$RINGER_MODE" != "1" ]; then
   adb -s $SELECTED_DEVICE shell input keyevent 164
   echo " - 🔕 Muted"
 else
@@ -43,8 +51,7 @@ fi
 
 echo -n "🌐 Checking network"
 adb -s $SELECTED_DEVICE shell dumpsys netstats | grep -E 'iface=wlan.*networkId' | grep EDGE &> /dev/null
-if [ $? -eq 0 ]
-then
+if [ $? -eq 0 ]; then
   echo " - ❗️ EDGE network detected, 👉 resolve manually"
 else
   echo " - ✅ OK"
@@ -53,8 +60,7 @@ fi
 echo -n "📆 Checking date"
 AUTO_TIME=$(adb -s $SELECTED_DEVICE shell settings get global auto_time)
 AUTO_TIME=${AUTO_TIME%$'\r'} # remove trailing carriage return
-if [ "$AUTO_TIME" = "0" ];
-then
+if [ "$AUTO_TIME" = "0" ]; then
   echo -n " - ❗️ Automatic date disabled"
   adb -s $SELECTED_DEVICE shell settings put global auto_time 1
   echo ", 🔨 FIXED"
