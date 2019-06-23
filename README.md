@@ -32,7 +32,7 @@
 
 # Android scripts
 
-## Capture screen contents
+## Capture screen
 
 ### ascreenshot
 * Save **screenshot** to **~/Desktop**
@@ -65,9 +65,7 @@
 * App restart may be necessary on lower APIs
 
 ### aweb
-`aweb "google.com"`
-
-* Open link passed as an argument in web browser
+* `aweb "google.com"` Open link passed as an argument in web browser
 
 ### aoptions
 * `aoptions` Open system settings on a specific activity
@@ -100,13 +98,13 @@
 
 ### aappinfo
 * `aappinfo` List foreground app information
-* `aappinfo com.dummy.package.name.app` Target specific app by passing package name as argument
   * Package name
 	* Version
 	* Last update
 	* minSdk and targetSdk
 	* Permissions
 * (Optional) Open application settings
+* `aappinfo com.dummy.package.name.app` Target specific app by passing package name as argument
 
 ### akill
 * `akill` Restart foreground app
@@ -150,7 +148,7 @@
 ### adevicecheck
 * Print device information
 * Perform basic checks and apply preset settings
-  * Set 10min screen timeout
+	* Set 10min screen timeout
 	* Set maximum brightness
   * Enable automatic date
   * Disable notification sounds
