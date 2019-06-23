@@ -5,7 +5,7 @@
 
 📱 Useful for **mobile application testing** or clearing device memory etc.<br>
 
-📋 **Target specific device easily** via choice from a list
+📋 **Handle multiple devices easily** via choice from a list
 
 ⏳ **Save your precious time**<br>
 
