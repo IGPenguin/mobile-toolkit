@@ -68,7 +68,7 @@
 * Open link passed as argument in web browser
 
 ### aoptions
-* Open system settings on a specific activity
+* `aoptions` Open system settings on a specific activity
 * You can choose from quick presets
 	* Developer settings
 	* Locale settings
@@ -78,6 +78,7 @@
 	* Power usage
 	* Root settings activity
 * Or you can choose from exhaustive list of all available options
+* `aoptions 1` you can also specify preset as argument
 
 ### aloremipsum
 * Insert long text into focused field
