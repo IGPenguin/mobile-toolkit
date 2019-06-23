@@ -33,7 +33,7 @@
 
 # Android scripts
 
-## Capture the screen
+## Capture screen
 
 ### ascreenshot
 * Save **screenshot** to **~/Desktop**
@@ -51,7 +51,7 @@
 3. Save screen video footage to ~/Desktop.
   * Specify your own filename by passing it as argument
 
-## Control the device
+## Control device
 
 ### apaste
 `apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004`
@@ -68,25 +68,9 @@
 ### aweb
 * `aweb "google.com"` Open link passed as an argument in web browser
 
-### aoptions
-* `aoptions` Open system settings on a specific activity
-* You can choose from quick presets
-	* Developer settings
-	* Locale settings
-	* Date & time
-	* Wifi settings
-	* Storage management
-	* Power usage
-	* Root settings activity
-* Or you can choose from exhaustive list of all available options
-* `aoptions 1` you can also specify preset as argument
-
 ### aloremipsum
 * Insert long text into focused field
 * Useful for testing layouts
-
-### aemulator
-* Start any of your installed Android emulators
 
 ### acamera
 * Start camera application
@@ -116,9 +100,7 @@
 * `aerase com.dummy.package.name.app` Target specific app by passing package name as argument
 
 ### ainstall
-`adb_install some-app-file.apk`
-
-* Install and run .apk file
+* `ainstall some-app-file.apk` Install and run .apk file
 * Can overwrite existing app
 
 ### auninstall
@@ -132,12 +114,23 @@
 * (Optional) Remove everything in /sdcard/Download directory
 
 ### agoogleplay
-`agoogleplay "Dummy App"`
-
-* Search for app on Google Play
+* `agoogleplay "Dummy App"` Search for app on Google Play
 * Pass app name as argument
 
-## Manage the device
+## Manage device
+
+### aoptions
+* `aoptions` Open system settings on a specific activity
+* You can choose from quick presets
+	* Developer settings
+	* Locale settings
+	* Date & time
+	* Wifi settings
+	* Storage management
+	* Power usage
+	* Root settings activity
+* Or you can choose from exhaustive list of all available options
+* `aoptions 1` you can also specify preset as argument
 
 ### alog
 * Print system log output
@@ -156,9 +149,12 @@
   * Check if connected to EDGE wifi
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
+### aemulator
+* Start any of your installed Android emulators
+
 # iOS scripts
 
-## Capture the screen
+## Capture screen
 
 ### iscreenshot
 * Save **screenshot** to **~/Desktop**
@@ -195,7 +191,7 @@
   * Skips some essential apps
   * Edit this script yourself to customize the list of essential apps
 
-## Manage the device
+## Manage device
 
 ### icrashlogs
 * Gather crash logs from the device to **~/Desktop** (be patient 😅)
