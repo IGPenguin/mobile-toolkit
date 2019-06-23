@@ -28,7 +28,7 @@
 	* Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
 4. (Optional) Use following **commands in any directory**
 	* Find your **.bash_profile** (or eg. .zshrc if you are using alternate shell) file in your home directory
-	* Add the absolute path to this cloned repository to **PATH** variable in **.bash_profile** (or equivalent file) by inserting the following code at the end of the file, make sure to **replace the dummyuser with your profile name** `PATH=$PATH:/Users/dummyuser/mobile-toolkit export PATH`
+	* Add the absolute path to this cloned repository to **PATH** variable in **.bash_profile** (or equivalent file) by inserting the following code at the end of the file, make sure to **replace the "dummyuser" with your profile name** `PATH=$PATH:/Users/dummyuser/mobile-toolkit export PATH`
 
 # Android scripts
 
