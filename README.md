@@ -1,19 +1,19 @@
-# What?
+# Mobile Toolkit
 💥 Execute **powerful mobile device control scripts** using easy terminal commands<br>
 
-🛠 **Screen capturing and device management**<br>
+🛠 Capture the screen and manage both **Android and iOS** devices<br>
 
-📱 Useful for **mobile application testing** or clearing device memory etc.<br>
+📱 **Test mobile applications**, clear device memory and much more<br>
 
-📋 **Handle multiple devices easily** via choice from a list
+📋 **Handle multiple devices effortlessly** via choosing from the list
 
-⏳ **Save your precious time**<br>
+⏳ **Save your precious time**, stop doing repetitive tasks manually<br>
 
-⁉️ Submit issue if you want to ask something or improve the scripts
+⁉️ **Submit issue** if you want to ask anything or improve the scripts
 
-🤝 Feel free to **contribute via pull request**
+🤝 Any **pull request** contribution is **highly appreciated**
 
-⭐️ If you **love it**, hit the **star button** at the top right corner<br>
+⭐️ If you **love Mobile Toolkit**, hit the **star button** at the top right corner and **make me happy**<br>
 
 # Installation
 1. **Open terminal**
