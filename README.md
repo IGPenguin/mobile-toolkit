@@ -16,24 +16,24 @@
 ⭐️ If you **love it**, hit the **star button** at the top right corner<br>
 
 # Installation
-0. Open terminal
-1. Clone this repository `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
-2. Setup **Android** tools
+1. **Open terminal**
+2. **Clone this repository** `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
+3. **Setup Android** tools
 	* [Download](https://developer.android.com/studio/ "Android Studio") and install **Android Studio** or **Android command line tools**
 	* Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bash_profile** `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools export PATH`
 	* **Allow USB debugging** on your device, connect it and **authorize** your computer (click OK on device screen)
-3. Setup **iOS** tools
+4. **Setup iOS** tools
 	* Install latest **Xcode and iOS command line tools** using App Store
 	* [Install](https://brew.sh/ "Homberew") **Homebrew** package manager
 	* Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
 	* Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
-4. (Optional) Use following **commands in any directory**
+5. (Optional) Use following **commands in any directory** in your terminal
 	* Edit your **.bash_profile** file (or .zshrc if you have zsh shell) in your home directory `nano ~/.bash_profile`
 	* Add the absolute path to this cloned repository to **PATH** variable in **.bash_profile** (or equivalent file) by **inserting the following code at the end of the file**, make sure to **replace the "dummyuser" with your profile name** `PATH=$PATH:/Users/dummyuser/mobile-toolkit export PATH`
 
 # Android scripts
 
-## Capture screen
+## Capture the screen
 
 ### ascreenshot
 * Save **screenshot** to **~/Desktop**
@@ -91,7 +91,7 @@
 ### acamera
 * Start camera application
 
-## Application management
+## Manage applications
 
 ### alaunch
 * `alaunch` List third party apps and choose one to run it
@@ -137,7 +137,7 @@
 * Search for app on Google Play
 * Pass app name as argument
 
-## Device management
+## Manage the device
 
 ### alog
 * Print system log output
@@ -158,7 +158,7 @@
 
 # iOS scripts
 
-## Capture device screen
+## Capture the screen
 
 ### iscreenshot
 * Save **screenshot** to **~/Desktop**
@@ -179,7 +179,7 @@
 * **Filename** includes **device model**, **system version** and current time and date
   * Specify your own filename by passing it as argument
 
-## Application management
+## Manage applications
 ### iinstall
 `iinstall some-app-file.ipa`
 
@@ -195,7 +195,7 @@
   * Skips some essential apps
   * Edit this script yourself to customize the list of essential apps
 
-## Device management
+## Manage the device
 
 ### icrashlogs
 * Gather crash logs from the device to **~/Desktop** (be patient 😅)
