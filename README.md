@@ -204,7 +204,7 @@
   * Drag the .crash file onto the log list
   * The readable crash log should appear in the list
 
-### idevice
+### idevicecheck
 * Print device information
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
