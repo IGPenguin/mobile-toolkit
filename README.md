@@ -16,6 +16,7 @@
 ⭐️ If you **love it**, hit the **star button** at the top right corner<br>
 
 # Installation
+0. Open terminal
 1. Clone this repository `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
 2. Setup **Android** tools
 	* [Download](https://developer.android.com/studio/ "Android Studio") and install **Android Studio** or **Android command line tools**
