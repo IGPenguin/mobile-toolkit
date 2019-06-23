@@ -112,7 +112,7 @@ ios_choose_device(){
       do
       if ((CHOICE <= 0 || CHOICE > ${#IOS_DEVICES[@]})); then
         echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
-        read -p "Invalid input, try again: " CHOICE
+        read -p "🤷 Invalid input, try again: " CHOICE
       else
         break
       fi
