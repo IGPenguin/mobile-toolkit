@@ -1,0 +1,35 @@
+#!/bin/bash
+TOOLKIT_LOCATION=$(dirname "$0")
+source $TOOLKIT_LOCATION/common_tools
+LOCAL_SIMULATOR_LIST=$TOOLKIT_LOCATION/toolkit_simulator_list.txt
+
+import_simulator_list(){
+  echo "⏳ Getting iOS simulator list..."
+  rm -f $LOCAL_SIMULATOR_LIST
+  xcrun simctl list | grep -i "shutdown\|booted\|-- iOS\|-- tvOS\|-- watchOS" | grep -v "unavailable\|Watch:\|Phone:" | sed 's/ (Shutdown) //g' | sed 's/ (Booted) //g' > $LOCAL_SIMULATOR_LIST
+}
+
+choose_simulator(){
+  echo "📱 Available simulators:"
+  cat $LOCAL_SIMULATOR_LIST | nl
+  read -p "📝 Enter simulator number: " SIMULATOR_INDEX
+}
+
+launch_simulator(){
+  SIMULATOR_ID=$(sed $SIMULATOR_INDEX!d $LOCAL_SIMULATOR_LIST)
+  if ! [[ $SIMULATOR_ID == *"("* ]]; then
+    echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
+    read -p "🤷‍ Invalid choice, try again: " SIMULATOR_INDEX
+    launch_simulator
+    exit
+  fi
+  echo  "🚀 Launching simulator..."
+  SIMULATOR_ID=$(echo $SIMULATOR_ID | sed 's/.*(\(.*\))/\1/')
+  xcrun simctl boot $SIMULATOR_ID
+  open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/
+}
+
+
+import_simulator_list
+choose_simulator
+launch_simulator
