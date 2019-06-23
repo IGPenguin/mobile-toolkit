@@ -16,7 +16,7 @@
 ⭐️ If you **love it**, hit the **star button** at the top right corner<br>
 
 # Installation
-1. Clone this repository `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git` 
+1. Clone this repository `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
 2. Setup **Android** tools
 	* [Download](https://developer.android.com/studio/ "Android Studio") and install **Android Studio** or **Android command line tools**
 	* Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bash_profile** `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools export PATH`
@@ -26,7 +26,9 @@
 	* [Install](https://brew.sh/ "Homberew") Homebrew package manager
 	* Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
 	* Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
-4. (Optional) Use following **commands in any directory** by adding the absolute path to the cloned folder to **PATH** variable in **.bash_profile** (or equivalent file) `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools PATH=$PATH:/Users/dummyuser/mobile-toolkit export PATH`
+4. (Optional) Use following **commands in any directory**
+  * Find your **.bash_profile** (or eg. .zshrc if you are using alternate shell) file in your home directory
+  * Add the absolute path to this cloned repository to **PATH** variable in **.bash_profile** (or equivalent file) by inserting the following code at the end of the file, make sure to **replace the dummyuser with your profile name** `PATH=$PATH:/Users/dummyuser/mobile-toolkit export PATH`
 
 # Android scripts
 
@@ -60,25 +62,32 @@
 
 ### abounds
 * Toggle **layout bounds visibility**
-* App restart may be necessary on lower APIs 
+* App restart may be necessary on lower APIs
 
 ### aweb
 * Open link passed as argument in web browser
 
 ### aoptions
-* Open system settings app
-* You can choose target activity
+* Open system settings on a specific activity
+* You can choose from quick presets
   * Developer settings
   * Locale settings
+	* Date & time
   * Wifi settings
+	* Storage management
   * Power usage
-
-### aemulator
-* Start any of your installed Android emulators
+	* Root settings activity
+* Or you can choose from exhaustive list of all available options
 
 ### aloremipsum
 * Insert long text into focused field
 * Useful for testing layouts
+
+### aemulator
+* Start any of your installed Android emulators
+
+### acamera
+* Start camera application
 
 ## Application management
 
@@ -89,6 +98,20 @@
 
 * List third party apps and run the chosen one
 * Specify package name by passing it as argument
+
+### aappinfo
+`aappinfo`
+
+`aappinfo com.dummy.package.name.app`
+
+* List foreground app information
+  * Package name
+	* Version
+	* Last update
+	* minSdk and targetSdk
+	* Permissions
+* Target specific app by passing package name as argument
+* (Optional) Open application settings
 
 ### akill
 `akill`
@@ -143,10 +166,11 @@
 
 ### adevicecheck
 * Print device information
-* Perform basic checks and resolve issues
-  * Enable automatic date (if disabled)
+* Perform basic checks and apply preset settings
+  * Set 10min screen timeout
+	* Set maximum brightness
+  * Enable automatic date
   * Disable notification sounds
-  * Set max brightness
   * Check if connected to EDGE wifi
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
@@ -198,7 +222,7 @@
 ### icrashlogs
 * Gathers crash logs from the device to **~/Desktop** (be patient 😅)
 * You can import logs to Xcode to make them more readable
-  * Open relevant project in Xcode 
+  * Open relevant project in Xcode
   * Click on Window > Devices and Simulators > View Device Logs
   * Drag the .crash file onto the log list
   * The readable crash log should appear in the list
@@ -209,3 +233,6 @@
 
 ### ireboot
 * Reboot device
+
+### isimulator
+* Start any of your installed simulators
