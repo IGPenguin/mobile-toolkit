@@ -32,7 +32,7 @@
 
 # Android scripts
 
-## Capture device screen
+## Capture screen contents
 
 ### ascreenshot
 * Save **screenshot** to **~/Desktop**
@@ -50,7 +50,7 @@
 3. Save screen video footage to ~/Desktop.
   * Specify your own filename by passing it as argument
 
-## Device control
+## Control the device
 
 ### apaste
 `apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004`
@@ -65,7 +65,9 @@
 * App restart may be necessary on lower APIs
 
 ### aweb
-* Open link passed as argument in web browser
+`aweb "google.com"`
+
+* Open link passed as an argument in web browser
 
 ### aoptions
 * `aoptions` Open system settings on a specific activity
@@ -93,42 +95,26 @@
 ## Application management
 
 ### alaunch
-`alaunch`
-
-`alaunch com.dummy.package.name.app`
-
-* List third party apps and run the chosen one
-* Specify package name by passing it as argument
+* `alaunch` List third party apps and choose one to run it
+* `alaunch com.dummy.package.name.app` Run app by package name
 
 ### aappinfo
-`aappinfo`
-
-`aappinfo com.dummy.package.name.app`
-
-* List foreground app information
+* `aappinfo` List foreground app information
+* `aappinfo com.dummy.package.name.app` Target specific app by passing package name as argument
   * Package name
 	* Version
 	* Last update
 	* minSdk and targetSdk
 	* Permissions
-* Target specific app by passing package name as argument
 * (Optional) Open application settings
 
 ### akill
-`akill`
-
-`akill com.dummy.package.name.app`
-
-* Restart foreground app
-* Target specific app by passing package name as argument
+* `akill` Restart foreground app
+* `akill com.dummy.package.name.app` Target specific app by passing package name as argument
 
 ### aerase
-`aerase`
-
-`aerase com.dummy.package.name.app`
-
-* Delete foreground app data and restart it
-* Target specific app by passing package name as argument
+* `aerase` Delete foreground app data and restart it
+* `aerase com.dummy.package.name.app` Target specific app by passing package name as argument
 
 ### ainstall
 `adb_install some-app-file.apk`
@@ -137,12 +123,8 @@
 * Can overwrite existing app
 
 ### auninstall
-`auninstall`
-
-`auninstall com.dummy.package.name.app`
-
-* Uninstall third party app
-* Choose from the list, or pass package name as argument
+* `auninstall` Uninstall third party app, choose from the list
+* `auninstall com.dummy.package.name.app` pass package name as argument
 
 ### awipe
 * Uninstall all third party packages
@@ -206,12 +188,8 @@
 * Can overwrite existing app
 
 ### iuninstall
-`iuninstall`
-
-`iuninstall com.dummy.package.name.app`
-
-* Uninstall third party app
-* Choose from the list, or pass package name as argument
+* `iuninstall` Uninstall third party app, choose from the list
+* `iuninstall com.dummy.package.name.app` pass bundle name as argument
 
 ### iwipe
 * Uninstall all third party packages
@@ -221,8 +199,8 @@
 ## Device management
 
 ### icrashlogs
-* Gathers crash logs from the device to **~/Desktop** (be patient 😅)
-* You can import logs to Xcode to make them more readable
+* Gather crash logs from the device to **~/Desktop** (be patient 😅)
+* You can import logs to Xcode to make them more readable via symbolication
   * Open relevant project in Xcode
   * Click on Window > Devices and Simulators > View Device Logs
   * Drag the .crash file onto the log list
