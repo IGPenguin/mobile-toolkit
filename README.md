@@ -70,12 +70,12 @@
 ### aoptions
 * Open system settings on a specific activity
 * You can choose from quick presets
-  * Developer settings
-  * Locale settings
+	* Developer settings
+	* Locale settings
 	* Date & time
-  * Wifi settings
+	* Wifi settings
 	* Storage management
-  * Power usage
+	* Power usage
 	* Root settings activity
 * Or you can choose from exhaustive list of all available options
 
