@@ -11,10 +11,10 @@ launch_emulator(){
     exit
   fi
   echo  "🚀 Launching emulator..."
-  nohup $ANDROID_HOME/tools/emulator -avd $EMULATOR_NAME &> /dev/null &
+  nohup $ANDROID_HOME/tools/emulator -avd $EMULATOR_NAME -no-snapshot &> /dev/null &
 }
 
-echo "⏳ Getting android emulator list..."
+echo "⏳ Getting Android emulator list..."
 rm -f $LOCAL_EMULATOR_LIST
 ~/Library/Android/sdk/tools/bin/avdmanager list avd | grep Name | awk '{print $2}' >> $LOCAL_EMULATOR_LIST
 echo "📱 Available emulators:"
