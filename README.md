@@ -1,13 +1,13 @@
 # What?
 💥 Execute **powerful mobile device control scripts** using easy terminal commands<br>
 
-🛠 Quick **screen capturing**, **app management** and much more<br>
+🛠 **Screen capturing and device management**<br>
 
-📱 Useful for **mobile application testing** or clearing device memory<br>
+📱 Useful for **mobile application testing** or clearing device memory etc.<br>
 
-📋 **Target specific device easily**, no more id copying from `adb devices` and explicit using `adb -s <device_id>`<br>
+📋 **Target specific device easily** via choice from a list
 
-⏳ **Save** your precious **time**<br>
+⏳ **Save your precious time**<br>
 
 ⁉️ Submit issue if you want to ask something or improve the scripts
 
@@ -23,12 +23,12 @@
 	* **Allow USB debugging** on your device, connect it and **authorize** your computer (click OK on device screen)
 3. Setup **iOS** tools
 	* Install latest **Xcode and iOS command line tools** using App Store
-	* [Install](https://brew.sh/ "Homberew") Homebrew package manager
+	* [Install](https://brew.sh/ "Homberew") **Homebrew** package manager
 	* Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
 	* Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
 4. (Optional) Use following **commands in any directory**
-	* Find your **.bash_profile** (or eg. .zshrc if you are using alternate shell) file in your home directory
-	* Add the absolute path to this cloned repository to **PATH** variable in **.bash_profile** (or equivalent file) by inserting the following code at the end of the file, make sure to **replace the "dummyuser" with your profile name** `PATH=$PATH:/Users/dummyuser/mobile-toolkit export PATH`
+	* Edit your **.bash_profile** file (or .zshrc if you have zsh shell) in your home directory `nano ~/.bash_profile`
+	* Add the absolute path to this cloned repository to **PATH** variable in **.bash_profile** (or equivalent file) by **inserting the following code at the end of the file**, make sure to **replace the "dummyuser" with your profile name** `PATH=$PATH:/Users/dummyuser/mobile-toolkit export PATH`
 
 # Android scripts
 
