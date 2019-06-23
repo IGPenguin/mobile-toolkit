@@ -18,6 +18,8 @@ echo "  • ID: $SELECTED_DEVICE"
 echo "  • CPU: $(adb -s $SELECTED_DEVICE shell getprop ro.product.cpu.abi | tr -cd '[[:alnum:]]._-')"
 echo "  • Display density: $(adb -s $SELECTED_DEVICE shell getprop ro.sf.lcd_density | tr -cd '[[:alnum:]]._-')"
 
+# More settings available at https://developer.android.com/reference/android/provider/Settings.System.html#SCREEN_OFF_TIMEOUT
+
 echo -n "🕓 Checking screen timeout"
 TIMEOUT=$(adb -s $SELECTED_DEVICE shell settings get system screen_off_timeout)
 TIMEOUT=${TIMEOUT%$'\r'} # remove trailing carriage return
