@@ -7,11 +7,11 @@ launch_emulator(){
   EMULATOR_NAME=$(sed $EMULATOR_INDEX!d $LOCAL_EMULATOR_LIST)
   if [[ $EMULATOR_INDEX == "" || $EMULATOR_NAME == "" ]]; then
     echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
-    echo "🤷‍ Invalid choice, try again."
     launch_emulator
+  else
+    echo  "🚀 Launching emulator..."
+    nohup $ANDROID_HOME/tools/emulator -avd $EMULATOR_NAME -no-snapshot &> /dev/null &
   fi
-  echo  "🚀 Launching emulator..."
-  nohup $ANDROID_HOME/tools/emulator -avd $EMULATOR_NAME -no-snapshot &> /dev/null &
 }
 
 echo "⏳ Getting Android emulator list..."
