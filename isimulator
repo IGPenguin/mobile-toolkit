@@ -5,7 +5,12 @@ source $TOOLKIT_LOCATION/common_tools
 LOCAL_SIMULATOR_LIST=$TOOLKIT_LOCATION/toolkit_simulator_list.txt
 
 help(){
-  echo -e "Use one of the following options:\n  launch - choose and launch simulator\n  web <url> - open link in web browser"
+  if [[ $1 != "" ]]; then
+    echo "🤷‍ Unknown option: $1"
+  else
+    echo "🤷 Argument missing."
+  fi
+  echo -e "Use one of the following options:\n  start - choose and launch a simulator\n  paste <text> - insert text into pasteboard\n  web <url> - open link in web browser"
 }
 
 choose_simulator(){
@@ -14,7 +19,6 @@ choose_simulator(){
 
   if [[ $SIMULATOR_INDEX == "" || $SIMULATOR_ID != *"("* ]]; then
     echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
-    echo "🤷‍ Invalid choice, try again."
     choose_simulator
   fi
   SIMULATOR_ID=$(echo $SIMULATOR_ID | sed 's/.*(\(.*\))/\1/')
@@ -61,7 +65,7 @@ launch_app(){
     read -p "📝 Enter bundle id: " BUNDLE_ID
     launch_app "$BUNDLE_ID"
   else
-    echo "🚀 Launching app..."
+    echo "🚀 Launching the app..."
     xcrun simctl launch $SIMULATOR_ID $1
   fi
 }
@@ -93,6 +97,6 @@ case $1 in
     insert_clipboard "$2"
     ;;
    *)
-    help
+    help $1
     ;;
 esac
