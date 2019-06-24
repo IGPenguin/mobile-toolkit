@@ -209,7 +209,7 @@
 
 ### isimulator
 * `isimulator <option>` Handle various simulator related activites
- * start - choose and launch a simulator
- * paste <text> - insert text into pasteboard
- * web <url> - open link in web browser
- * wipe - wipe all simulator data
+  * start - choose and launch a simulator
+  * paste <text> - insert text into pasteboard
+  * web <url> - open link in web browser
+  * wipe - wipe all simulator data
