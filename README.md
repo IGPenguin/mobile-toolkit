@@ -56,10 +56,9 @@
 ### apaste
 `apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004`
 
-* Insert text passed as argument into currently focused text field
-* Surround argument with "" if you want to insert multi-word text into one field or use some non-alphanumeric characters
-* Every following argument will move focus into the next field
-  * You can quickly fill some form etc
+* `apaste <text>` Insert text into currently focused field
+* `apaste "john.doe@fakemail.com" password1 ` Every additional argument will be inserted into subsequent field
+* `apaste "Lorem ipsum dolor sit amet."` use "" to insert multi-word text into one field
 
 ### abounds
 * Toggle **layout bounds visibility**
@@ -209,4 +208,8 @@
 * Reboot device
 
 ### isimulator
-* Start any of your installed simulators
+* `isimulator <option>` Handle various simulator related activites
+  * `start` - choose and launch installed simulator
+  * `paste <text>` - insert text into pasteboard
+  * `web <url>` - open link in web browser
+  * `wipe` - wipe all simulator data

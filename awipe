@@ -3,7 +3,7 @@ LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 android_choose_device
 
-should_proceed "🔥 Delete all third party apps on $SELECTED_DEVICE?"
+should_proceed "💣 Delete all third party apps on $SELECTED_DEVICE?"
 
 IFS=$'\n' #MAGIC
 PACKAGES=($(adb -s $SELECTED_DEVICE shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort))
@@ -11,8 +11,7 @@ unset IFS #MAGIC
 
 for PKG in "${PACKAGES[@]}"
 do
-
-   if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"io.crash.air"* ]] || [[ $PKG = *"de.codenauts.hockeyapp"* ]] || [[ $PKG = *"chrome"* ]] || [[ $PKG = *"ar.core"* ]] || [[ $PKG = *"framer"* ]] || [[ $PKG = *"figma"* ]] || [[ $PKG = *"com.invisionapp.ifa"* ]]; then 
+   if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"io.crash.air"* ]] || [[ $PKG = *"de.codenauts.hockeyapp"* ]] || [[ $PKG = *"chrome"* ]] || [[ $PKG = *"ar.core"* ]] || [[ $PKG = *"framer"* ]] || [[ $PKG = *"figma"* ]] || [[ $PKG = *"com.invisionapp.ifa"* ]]; then
       echo "⌛️ Skipping $PKG"
       continue
    fi
@@ -20,10 +19,9 @@ do
    PKG=${PKG%$'\r'} #removes trailing \r
    echo "🔥 Uninstalling $PKG"
    adb -s $SELECTED_DEVICE shell "pm uninstall $PKG" &> /dev/null
-
 done
 
 should_proceed "🔥 Do you want to empty /sdcard/Download?"
 echo "🔥 Clearing /sdcard/Download"
 adb -s $SELECTED_DEVICE shell rm -rf /sdcard/Download/*
-echo "✅ Device is now clean."
+echo "✅ Done."
