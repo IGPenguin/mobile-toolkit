@@ -2,6 +2,10 @@
 TOOLKIT_LOCATION=$(dirname "$0")
 source $TOOLKIT_LOCATION/common_tools
 
+help(){
+  echo -e "❌ Use one of the following options:\n  launch - choose and launch simulator\n  web <url> - open link in web browser"
+}
+
 launch_simulator(){
   echo "⏳ Getting installed iOS simulator list..."
   rm -f $LOCAL_SIMULATOR_LIST
@@ -18,4 +22,23 @@ launch_simulator(){
   open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/
 }
 
-launch_simulator
+open_web(){
+  check_web_url $1
+  echo $SIMULATOR_ID
+  echo $WEB_URL
+  echo "🌎 Opening link in a web browser..."
+  xcrun simctl openurl $SIMULATOR_ID $WEB_URL
+}
+
+case $1 in
+  'launch')
+    launch_simulator
+    ;;
+  'web')
+    choose_running_simulator
+    open_web $2
+    ;;
+   *)
+    help
+    ;;
+esac
