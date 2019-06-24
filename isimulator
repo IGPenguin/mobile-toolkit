@@ -12,7 +12,7 @@ choose_simulator(){
   read -p "📝 Enter simulator number: " SIMULATOR_INDEX
   SIMULATOR_ID=$(sed $SIMULATOR_INDEX!d $LOCAL_SIMULATOR_LIST)
 
-  if ! [[ $SIMULATOR_ID == *"("* ]]; then
+  if [[ $SIMULATOR_INDEX == "" || $SIMULATOR_ID != *"("* ]]; then
     echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
     echo "🤷‍ Invalid choice, try again."
     choose_simulator
@@ -57,8 +57,13 @@ open_web(){
 }
 
 launch_app(){
-  echo "🚀 Launching app..."
-  xcrun simctl launch $SIMULATOR_ID $1
+  if [[ $1 == "" || $1 != "com."*"."* ]]; then
+    read -p "📝 Enter bundle id: " BUNDLE_ID
+    launch_app "$BUNDLE_ID"
+  else
+    echo "🚀 Launching app..."
+    xcrun simctl launch $SIMULATOR_ID $1
+  fi
 }
 
 insert_clipboard(){
