@@ -83,8 +83,8 @@ insert_clipboard(){
 wipe_contents(){
   should_proceed "💣 Wipe all simulator data?"
   echo "🚫 Shutting down the device..."
-  echo "🔥 Wiping data..."
   xcrun simctl shutdown $SIMULATOR_ID
+  echo "🔥 Wiping data..."
   xcrun simctl erase $SIMULATOR_ID
   echo "🚀 Booting..."
   xcrun simctl boot $SIMULATOR_ID
