@@ -58,7 +58,7 @@
 
 * `apaste <text>` Insert text into currently focused field
 * `apaste "john.doe@fakemail.com" password1 ` Every additional argument will be inserted into subsequent field
-* `apaste "Lorem ipsum dolor sit amet."`use "" to insert multi-word text into one field
+* `apaste "Lorem ipsum dolor sit amet."` use "" to insert multi-word text into one field
 
 ### abounds
 * Toggle **layout bounds visibility**
