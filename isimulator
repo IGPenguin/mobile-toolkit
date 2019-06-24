@@ -26,7 +26,7 @@ choose_simulator(){
 
 choose_running_simulator(){
   xcrun simctl list -v devices | grep -i booted | sed 's/ (Booted) //g' > $LOCAL_SIMULATOR_LIST
-  RUNNING_SIMULATOR_COUNT=$(wc -l < toolkit_simulator_list.txt)
+  RUNNING_SIMULATOR_COUNT=$(wc -l < $LOCAL_SIMULATOR_LIST)
 
   if [[ $RUNNING_SIMULATOR_COUNT -le 0 ]]; then
     echo "❌ No running simulators..."
