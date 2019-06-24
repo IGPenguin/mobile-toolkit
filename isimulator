@@ -80,6 +80,16 @@ insert_clipboard(){
   fi
 }
 
+wipe_contents(){
+  should_proceed "💣 Wipe all simulator data?"
+  echo "🚫 Shutting down the device..."
+  echo "🔥 Wiping data..."
+  xcrun simctl shutdown $SIMULATOR_ID
+  xcrun simctl erase $SIMULATOR_ID
+  echo "🚀 Booting..."
+  xcrun simctl boot $SIMULATOR_ID
+}
+
 case $1 in
   'start')
     start_simulator $2
@@ -95,6 +105,10 @@ case $1 in
   'paste')
     choose_running_simulator
     insert_clipboard "$2"
+    ;;
+  'wipe')
+    choose_running_simulator
+    wipe_contents
     ;;
    *)
     help $1
