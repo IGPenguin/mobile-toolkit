@@ -3,19 +3,6 @@ LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 android_choose_device
 
-WEB=$1
-
-case $1 in
-  'http://'*)
-    ;;
-  'https://'*)
-    ;;
-  *'://'*)
-    ;;
-  *)
-    WEB='http://'$WEB
-    ;;
-esac
-
+check_web_url $1
 echo "🌎 Opening link in a web browser..."
-adb -s $SELECTED_DEVICE shell am start -a android.intent.action.VIEW -d "$WEB" &> /dev/null
+adb -s $SELECTED_DEVICE shell am start -a android.intent.action.VIEW -d "$WEB_URL" &> /dev/null

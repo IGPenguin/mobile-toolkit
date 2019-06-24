@@ -298,3 +298,24 @@ case "$RESPONSE" in
         ;;
 esac
 }
+
+check_web_url(){
+  WEB_URL=$1
+
+  if [[ $WEB_URL == "" ]]; then
+    read -p "📝 Insert web url: " WEB_URL
+    check_web_url $WEB_URL
+  else
+    case $1 in
+      'http://'*)
+        ;;
+      'https://'*)
+        ;;
+      *'://'*)
+        ;;
+      *)
+        WEB_URL='http://'$WEB_URL
+        ;;
+    esac
+  fi
+}
