@@ -8,12 +8,14 @@ help(){
   echo -e "Use one of the following options:\n  launch - choose and launch simulator\n  web <url> - open link in web browser"
 }
 
-check_simulator_choice(){
+choose_simulator(){
+  read -p "📝 Enter simulator number: " SIMULATOR_INDEX
   SIMULATOR_ID=$(sed $SIMULATOR_INDEX!d $LOCAL_SIMULATOR_LIST)
+
   if ! [[ $SIMULATOR_ID == *"("* ]]; then
     echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
-    read -p "🤷‍ Invalid choice, try again: " SIMULATOR_INDEX
-    check_simulator_choice
+    echo "🤷‍ Invalid choice, try again."
+    choose_simulator
   fi
   SIMULATOR_ID=$(echo $SIMULATOR_ID | sed 's/.*(\(.*\))/\1/')
 }
@@ -32,9 +34,7 @@ choose_running_simulator(){
 
   echo "📱 Available simulators:"
   cat $LOCAL_SIMULATOR_LIST | nl
-  read -p "📝 Enter simulator number: " SIMULATOR_INDEX
-  SIMULATOR_ID=$(sed $SIMULATOR_INDEX!d $LOCAL_SIMULATOR_LIST)
-  check_simulator_choice
+  choose_simulator
 }
 
 start_simulator(){
@@ -42,12 +42,9 @@ start_simulator(){
   rm -f $LOCAL_SIMULATOR_LIST
   xcrun simctl list | grep -i "shutdown\|booted\|-- iOS\|-- tvOS\|-- watchOS" | grep -v "unavailable\|Watch:\|Phone:" | sed 's/ (Shutdown) //g' | sed 's/ (Booted) //g' >> $LOCAL_SIMULATOR_LIST
 
-  echo "📱 Available simulators:"
+  echo "📱 Installed simulators:"
   cat $LOCAL_SIMULATOR_LIST | nl
-  read -p "📝 Enter simulator number: " SIMULATOR_INDEX
-
-  SIMULATOR_ID=$(sed $SIMULATOR_INDEX!d $LOCAL_SIMULATOR_LIST)
-  check_simulator_choice
+  choose_simulator
   echo  "🚀 Launching simulator..."
   xcrun simctl boot $SIMULATOR_ID
   open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/
@@ -60,17 +57,23 @@ open_web(){
 }
 
 launch_app(){
-  echo "🚀 <TBD> Launching app..."
+  echo "🚀 Launching app..."
+  xcrun simctl launch $SIMULATOR_ID $1
 }
 
 insert_clipboard(){
-  echo "📥 Inserting text into clipboard..."
-  echo $1 | xcrun simctl pbcopy $SIMULATOR_ID
+  if [[ $1 == "" ]]; then
+    read -p "📝 Enter pasteboard text: " TEXT
+    insert_clipboard "$TEXT"
+  else
+    echo "📥 Inserting text into clipboard..."
+    echo $1 | xcrun simctl pbcopy $SIMULATOR_ID
+  fi
 }
 
 case $1 in
   'start')
-    start_simulator
+    start_simulator $2
     ;;
   'web')
     choose_running_simulator
@@ -82,7 +85,7 @@ case $1 in
     ;;
   'paste')
     choose_running_simulator
-    insert_clipboard $2
+    insert_clipboard "$2"
     ;;
    *)
     help
