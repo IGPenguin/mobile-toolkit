@@ -30,7 +30,7 @@ choose_running_simulator(){
     return
   fi
 
-  echo "📱 Running simulators:"
+  echo "📱 Available simulators:"
   cat $LOCAL_SIMULATOR_LIST | nl
   read -p "📝 Enter simulator number: " SIMULATOR_INDEX
   SIMULATOR_ID=$(sed $SIMULATOR_INDEX!d $LOCAL_SIMULATOR_LIST)
@@ -60,7 +60,12 @@ open_web(){
 }
 
 launch_app(){
-  echo "🚀 Launching app..."
+  echo "🚀 <TBD> Launching app..."
+}
+
+insert_clipboard(){
+  echo "📥 Inserting text into clipboard..."
+  echo $1 | xcrun simctl pbcopy $SIMULATOR_ID
 }
 
 case $1 in
@@ -74,6 +79,10 @@ case $1 in
   'launch')
     choose_running_simulator
     launch_app $2
+    ;;
+  'paste')
+    choose_running_simulator
+    insert_clipboard $2
     ;;
    *)
     help
