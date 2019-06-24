@@ -10,7 +10,7 @@ help(){
   else
     echo "🤷 Argument missing."
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch a simulator\n  paste <text> - insert text into pasteboard\n  web <url> - open link in web browser"
+  echo -e "Use one of the following options:\n  start - choose and launch a simulator\n  paste <text> - insert text into pasteboard\n  web <url> - open link in web browser\n  wipe - wipe all simulator data"
 }
 
 choose_simulator(){
