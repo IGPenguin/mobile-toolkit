@@ -23,7 +23,7 @@ fi
 if [ ${#DEVICES[@]} -gt 1 ]
 then
    NUMBER=1
-   echo Multiple devices available:
+   echo "📱 Available devices:"
    for ID in "${DEVICES[@]}"
     do
       MANUFACTURER=$(adb -s $ID shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
@@ -35,7 +35,7 @@ then
       ((NUMBER++))
     done
 
-    read -p "Select a device: " CHOICE
+    read -p "📝 Select a device: " CHOICE
     while :;
     do
     if ((CHOICE <= 0 || CHOICE > ${#DEVICES[@]})); then
@@ -69,7 +69,7 @@ fi
 ios_check_developer_image(){
   IS_MOUNTED=$(ideviceimagemounter -u $1 -l)
   if [ ${#IS_MOUNTED} -eq 0 ] ; then
-    read -r -p "Developer image probably not mounted, do you want to launch Xcode? [y/n] " RESPONSE
+    read -r -p "❌ Developer image probably not mounted, do you want to launch Xcode? [y/n] " RESPONSE
     case "$RESPONSE" in
         [yY])
             ;;
@@ -95,7 +95,7 @@ ios_choose_device(){
   if [ ${#IOS_DEVICES[@]} -gt 1 ]
   then
      NUMBER=1
-     echo Multiple devices available:
+     echo "📱 Available devices:"
      for ID in "${IOS_DEVICES[@]}"
       do
         ios_check_developer_image $ID
@@ -107,7 +107,7 @@ ios_choose_device(){
         ((NUMBER++))
       done
 
-      read -p "Select a device: " CHOICE
+      read -p "📝 Select a device: " CHOICE
       while :;
       do
       if ((CHOICE <= 0 || CHOICE > ${#IOS_DEVICES[@]})); then
