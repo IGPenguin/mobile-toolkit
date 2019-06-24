@@ -1,6 +1,0 @@
-#!/bin/bash
-TOOLKIT_LOCATION=$(dirname "$0")
-source $TOOLKIT_LOCATION/common_tools
-
-#todo choose simulator
-echo "todo open web"

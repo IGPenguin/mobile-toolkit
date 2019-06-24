@@ -2,11 +2,42 @@
 TOOLKIT_LOCATION=$(dirname "$0")
 source $TOOLKIT_LOCATION/common_tools
 
+LOCAL_SIMULATOR_LIST=$TOOLKIT_LOCATION/toolkit_simulator_list.txt
+
 help(){
-  echo -e "❌ Use one of the following options:\n  launch - choose and launch simulator\n  web <url> - open link in web browser"
+  echo -e "Use one of the following options:\n  launch - choose and launch simulator\n  web <url> - open link in web browser"
 }
 
-launch_simulator(){
+check_simulator_choice(){
+  SIMULATOR_ID=$(sed $SIMULATOR_INDEX!d $LOCAL_SIMULATOR_LIST)
+  if ! [[ $SIMULATOR_ID == *"("* ]]; then
+    echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
+    read -p "🤷‍ Invalid choice, try again: " SIMULATOR_INDEX
+    check_simulator_choice
+  fi
+  SIMULATOR_ID=$(echo $SIMULATOR_ID | sed 's/.*(\(.*\))/\1/')
+}
+
+choose_running_simulator(){
+  xcrun simctl list -v devices | grep -i booted | sed 's/ (Booted) //g' > $LOCAL_SIMULATOR_LIST
+  RUNNING_SIMULATOR_COUNT=$(wc -l < toolkit_simulator_list.txt)
+
+  if [[ $RUNNING_SIMULATOR_COUNT -le 0 ]]; then
+    echo "❌ No running simulators..."
+    exit
+  elif [[ $RUNNING_SIMULATOR_COUNT -eq 1 ]]; then
+    SIMULATOR_ID=$(sed 1!d $LOCAL_SIMULATOR_LIST | sed 's/.*(\(.*\))/\1/')
+    return
+  fi
+
+  echo "📱 Running simulators:"
+  cat $LOCAL_SIMULATOR_LIST | nl
+  read -p "📝 Enter simulator number: " SIMULATOR_INDEX
+  SIMULATOR_ID=$(sed $SIMULATOR_INDEX!d $LOCAL_SIMULATOR_LIST)
+  check_simulator_choice
+}
+
+start_simulator(){
   echo "⏳ Getting installed iOS simulator list..."
   rm -f $LOCAL_SIMULATOR_LIST
   xcrun simctl list | grep -i "shutdown\|booted\|-- iOS\|-- tvOS\|-- watchOS" | grep -v "unavailable\|Watch:\|Phone:" | sed 's/ (Shutdown) //g' | sed 's/ (Booted) //g' >> $LOCAL_SIMULATOR_LIST
@@ -24,19 +55,25 @@ launch_simulator(){
 
 open_web(){
   check_web_url $1
-  echo $SIMULATOR_ID
-  echo $WEB_URL
   echo "🌎 Opening link in a web browser..."
   xcrun simctl openurl $SIMULATOR_ID $WEB_URL
 }
 
+launch_app(){
+  echo "🚀 Launching app..."
+}
+
 case $1 in
-  'launch')
-    launch_simulator
+  'start')
+    start_simulator
     ;;
   'web')
     choose_running_simulator
     open_web $2
+    ;;
+  'launch')
+    choose_running_simulator
+    launch_app $2
     ;;
    *)
     help
