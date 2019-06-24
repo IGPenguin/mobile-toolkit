@@ -3,12 +3,12 @@ TOOLKIT_LOCATION=$(dirname "$0")
 LOCAL_EMULATOR_LIST=$TOOLKIT_LOCATION/toolkit_emulator_list.txt
 
 launch_emulator(){
+  read -p "📝 Enter emulator number: " EMULATOR_INDEX
   EMULATOR_NAME=$(sed $EMULATOR_INDEX!d $LOCAL_EMULATOR_LIST)
-  if [[ $EMULATOR_NAME == "" ]]; then
+  if [[ $EMULATOR_INDEX == "" || $EMULATOR_NAME == "" ]]; then
     echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
-    read -p "🤷‍ Invalid choice, try again: " EMULATOR_INDEX
+    echo "🤷‍ Invalid choice, try again."
     launch_emulator
-    exit
   fi
   echo  "🚀 Launching emulator..."
   nohup $ANDROID_HOME/tools/emulator -avd $EMULATOR_NAME -no-snapshot &> /dev/null &
@@ -19,5 +19,4 @@ rm -f $LOCAL_EMULATOR_LIST
 ~/Library/Android/sdk/tools/bin/avdmanager list avd | grep Name | awk '{print $2}' >> $LOCAL_EMULATOR_LIST
 echo "📱 Available emulators:"
 cat $LOCAL_EMULATOR_LIST | nl
-read -p "📝 Enter emulator number: " EMULATOR_INDEX
 launch_emulator
