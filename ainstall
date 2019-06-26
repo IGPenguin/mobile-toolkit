@@ -2,31 +2,58 @@
 LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 
-if [ -z "$1" ] ; then
-  echo "🤷‍ What should I install?"
+abort(){
+  echo $1
   exit
-fi
+}
 
-if [ ! -f "$PWD/$1" ]; then
-    echo "🤷 File not found!"
-    exit
-fi
+detect_package_name(){
+  echo "🔍 Detecting package name..."
+  AAPPT_PATH=$(find ~/Library/Android/sdk -name 'aapt' | sort | tail -1)
+  PACKAGE_NAME=$($AAPPT_PATH dump badging "$1" | grep package:\ name);
+  PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/^[^'\'']*'\''//');
+  PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/'\''.*//');
+}
 
-if [[ "$1" != *".apk" ]]; then
-    echo "🤷 Unsupported file!"
-    exit
-fi
+install_app(){
+  echo "⌛️ Installing $PACKAGE_NAME to $1"
+  adb -s $1 install -r "$2" &> /dev/null
+  echo "🚀 Launching..."
+  adb -s $1 shell monkey -p $PACKAGE_NAME -c android.intent.category.LAUNCHER 1 &> /dev/null
+}
 
-android_choose_device
+check_args_valid(){
+  if [[ "$1" != "-a" ]]; then
+    FILE=$1
+  else
+    FILE=$2
+  fi
 
-#get package name from .apk
-echo "🔍 Detecting package name..."
-AAPPT_PATH=$(find ~/Library/Android/sdk -name 'aapt' | sort | tail -1)
-PACKAGE_NAME=$($AAPPT_PATH dump badging "$1" | grep package:\ name);
-PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/^[^'\'']*'\''//');
-PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/'\''.*//');
+  if [ ! -f "$PWD/$FILE" ]; then
+      abort "🤷‍ Installation file not found!"
+  fi
 
-echo "⌛️ Installing $PACKAGE_NAME"
-adb -s $SELECTED_DEVICE install -r "$1" &> /dev/null
-echo "🚀 Launching..."
-adb -s $SELECTED_DEVICE shell monkey -p $PACKAGE_NAME -c android.intent.category.LAUNCHER 1 &> /dev/null
+  if [[ "$FILE" != *".apk" ]]; then
+      abort "🤷 Unsupported file!"
+  fi
+}
+
+run()
+{
+  if [[ $1 == "-a" ]]; then
+    detect_package_name $2
+    for line in `adb devices | grep -v "List"  | awk '{print $1}'`
+    do
+      DEVICE=`echo $line | awk '{print $1}'`
+      install_app $DEVICE $2
+    done
+  else
+    android_choose_device
+    detect_package_name $1
+    install_app $SELECTED_DEVICE $1
+  fi
+}
+
+# "$@" - pass all arguments
+check_args_valid "$@"
+run "$@"
