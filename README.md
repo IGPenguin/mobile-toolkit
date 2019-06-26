@@ -100,6 +100,7 @@
 
 ### ainstall
 * `ainstall some-app-file.apk` Install and run .apk file
+* `ainstall -a some-app-file.apk` Install and run on all devices
 * Can overwrite existing app
 
 ### auninstall
