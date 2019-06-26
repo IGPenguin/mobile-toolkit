@@ -285,17 +285,3 @@ check_web_url(){
     esac
   fi
 }
-
-choose_number_max(){
-  read -p "📝 Choose one: " CHOICE
-  while :;
-  do
-    if [[ -z $CHOICE  || $CHOICE -le 0 || $CHOICE -gt $1 ]]; then
-      echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
-      read -p "🤷‍ Invalid input, try again: " CHOICE
-    else
-      break
-    fi
-  done
-  CHOICE=$((CHOICE-1))
-}
