@@ -298,4 +298,5 @@ choose_number(){
       break
     fi
   done
+  CHOICE=$((CHOICE-1))
 }

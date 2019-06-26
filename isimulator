@@ -13,6 +13,36 @@ help(){
   echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  paste <text> - insert text into pasteboard\n  web <url> - open link in web browser\n  wipe - wipe all simulator data"
 }
 
+import_simulator_json(){
+  SIMULATOR_JSON=$(xcrun simctl list -j)
+}
+
+choose_runtime(){
+  echo "⏳ Getting installed runtimes..."
+  SIMULATOR_RUNTIMES=$(echo $SIMULATOR_JSON | jq -r '.runtimes | .[] | .name')
+
+  #newline separated string into array
+  SAVEIFS=$IFS   # Save current IFS
+  IFS=$'\n'      # Change IFS to new line
+  SIMULATOR_RUNTIMES=($SIMULATOR_RUNTIMES) # split to array $names
+  IFS=$SAVEIFS   # Restore IFS
+
+  echo "Got list: ${SIMULATOR_RUNTIMES[@]}"
+  echo "Its lenght: ${#SIMULATOR_RUNTIMES[@]}"
+
+  printf '%s\n' "${SIMULATOR_RUNTIMES[@]}" | nl
+  choose_number "${#SIMULATOR_RUNTIMES[@]}"
+
+  echo "Target runtime: ${SIMULATOR_RUNTIMES[CHOICE]}"
+}
+
+get_runtime_devices(){
+  echo "⏳ Getting installed runtimes..."
+  SIMULATOR_RUNTIMES=$(xcrun simctl list -j | jq -r '.runtimes | .[] | .name')
+}
+
+### OLD FUNCTIONS BELOW
+
 choose_simulator(){
   read -p "📝 Enter simulator number: " SIMULATOR_INDEX
   SIMULATOR_ID=$(sed $SIMULATOR_INDEX!d $LOCAL_SIMULATOR_LIST)
@@ -90,6 +120,11 @@ wipe_contents(){
   xcrun simctl boot $SIMULATOR_ID
 }
 
+import_simulator_json
+choose_runtime
+
+
+: '
 case $1 in
   'start')
     start_simulator $2
@@ -114,3 +149,4 @@ case $1 in
     help $1
     ;;
 esac
+'
