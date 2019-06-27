@@ -3,6 +3,18 @@ LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 android_choose_device
 
+unlock_device(){
+  CURRENT_FOCUS=$(adb -s $1 shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+
+  if [[ $CURRENT_FOCUS == *"StatusBar"* || $CURRENT_FOCUS == *"mCurrentFocus=null"* || $CURRENT_FOCUS == *"Keyguard"* ]]; then
+    echo "🛌 Waking up the device..."
+    adb -s $1 shell input keyevent KEYCODE_POWER
+    adb -s $1 shell input keyevent 82
+  fi
+}
+
+unlock_device $SELECTED_DEVICE
+
 GSM_URL='https://www.gsmarena.com/res.php3?sSearch='
 
 MANUFACTURER=$(adb -s $SELECTED_DEVICE shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
