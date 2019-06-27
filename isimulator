@@ -94,7 +94,7 @@ case $1 in
   'start')
     start_simulator $2
     ;;
-  'web')
+  'url')
     choose_running_simulator
     open_web $2
     ;;
