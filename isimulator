@@ -14,11 +14,10 @@ help(){
 }
 
 choose_simulator(){
-  read -p "📝 Enter simulator number: " SIMULATOR_INDEX
+  read -p "📝 Choose: " SIMULATOR_INDEX
   SIMULATOR_ID=$(sed $SIMULATOR_INDEX!d $LOCAL_SIMULATOR_LIST)
-
   if [[ $SIMULATOR_INDEX == "" || $SIMULATOR_ID != *"("* ]]; then
-    echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
+    delete_lastline
     choose_simulator
   fi
   SIMULATOR_ID=$(echo $SIMULATOR_ID | sed 's/.*(\(.*\))/\1/')
@@ -46,7 +45,7 @@ start_simulator(){
   rm -f $LOCAL_SIMULATOR_LIST
   xcrun simctl list | grep -i "shutdown\|booted\|-- iOS\|-- tvOS\|-- watchOS" | grep -v "unavailable\|Watch:\|Phone:" | sed 's/ (Shutdown) //g' | sed 's/ (Booted) //g' >> $LOCAL_SIMULATOR_LIST
 
-  echo "📱 Installed simulators:"
+  echo "📱 Available:"
   cat $LOCAL_SIMULATOR_LIST | nl
   choose_simulator
   echo  "🚀 Launching simulator..."
