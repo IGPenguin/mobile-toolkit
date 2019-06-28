@@ -1,30 +1,65 @@
 #!/bin/bash
+TOOLKIT_LOCATION=$(dirname "$0")
 
 ##########################
 ### ANDROID SECTION
 
+check_android_connected(){
+  get_android_devices
+  #No device connected
+  if [ ${#DEVICES[@]} -eq 0 ]
+  then
+    echo "❌ No Android devices detected."
+    yes_or_no "❓ Use emulator?"
+    if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
+    then
+      $TOOLKIT_LOCATION/aemulator
+    fi
+  wait_for_android_device
+  fi
+}
+
+wait_for_android_device(){
+  while :;
+  do
+    if [ "$(adb devices | wc -l)" -lt 3 ];
+    then
+      echo "⏳ Waiting for Android device..."
+      sleep 2
+    else
+      break
+    fi
+    delete_lastline
+  done
+  get_android_devices
+  BOOTED=$(adb shell getprop sys.boot_completed | tr -d '\r')
+  while [[ "$BOOTED" != "1" ]]; do
+    echo "⏳ System is booting..."
+    sleep 2
+    delete_lastline
+    BOOTED=$(adb shell getprop sys.boot_completed | tr -d '\r')
+  done
+}
+
+get_android_devices(){
+  #Populate array with device ids
+  DEVICES=()
+  for LINE in `adb devices | grep -v "List"  | awk '{print $1}'`
+  do
+    DEVICE=`echo $LINE | awk '{print $1}'`
+    DEVICES+=("$DEVICE")
+  done
+}
+
 android_choose_device() {
-#Populate array with device ids
-DEVICES=()
-for LINE in `adb devices | grep -v "List"  | awk '{print $1}'`
-do
-  DEVICE=`echo $LINE | awk '{print $1}'`
-  DEVICES+=("$DEVICE")
-done
+  check_android_connected
 
-#No device connected
-if [ ${#DEVICES[@]} -eq 0 ]
-then
-   echo "❌ No device connected, aborting..."
-   exit
-fi
-
-#Gather device info and choose device
-if [ ${#DEVICES[@]} -gt 1 ]
-then
-   NUMBER=1
-   echo "📱 Available devices:"
-   for ID in "${DEVICES[@]}"
+  #Gather device info and choose device
+  if [ ${#DEVICES[@]} -gt 1 ]
+  then
+    NUMBER=1
+    echo "📱 Available devices:"
+    for ID in "${DEVICES[@]}"
     do
       MANUFACTURER=$(adb -s $ID shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
       MODEL=$(adb -s $ID shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
@@ -47,7 +82,7 @@ then
     done
     SELECTED_DEVICE=${DEVICES[(($CHOICE-1))]}
 else
-   SELECTED_DEVICE="${DEVICES[0]}"
+  SELECTED_DEVICE="${DEVICES[0]}"
 fi
 
 SELECTED_DEVICE_MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
@@ -55,12 +90,12 @@ SELECTED_DEVICE_SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk
 }
 
 android_is_installed() {
-adb -s $SELECTED_DEVICE shell pm list packages -f | sed -e 's/.*=//' | grep $1 &> /dev/null
-EXIT_CODE=$?
-if [ $EXIT_CODE -ne 0 ]; then
+  adb -s $SELECTED_DEVICE shell pm list packages -f | sed -e 's/.*=//' | grep $1 &> /dev/null
+  EXIT_CODE=$?
+  if [ $EXIT_CODE -ne 0 ]; then
     echo "🤷‍ Package $1 is not installed."
     exit
-fi
+  fi
 }
 
 ##########################
@@ -253,6 +288,24 @@ ios_get_package_list(){
 
 #####
 ### COMMON SECTION
+
+delete_lastline(){
+  echo -en "\033[1A\033[2K"
+}
+
+yes_or_no(){
+  read -r -p "$1 [y/n] " RESPONSE
+  case "$RESPONSE" in
+      [yY])
+          ;;
+      [nN])
+          ;;
+      *)
+        echo "🤷‍ Invalid option."
+        yes_or_no
+        ;;
+  esac
+}
 
 should_proceed(){
 read -r -p "$1 [y/n] " RESPONSE
