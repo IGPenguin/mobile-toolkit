@@ -11,10 +11,10 @@ VERSION=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.release | tr -c
 SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
 INFO=$(printf "%s %s %s (API %s)" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK")
 
-unlock_device(){
+unlock_device(){ # TODO better screen on check
   CURRENT_FOCUS=$(adb -s $1 shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
 
-  if [[ $CURRENT_FOCUS == *"StatusBar"* || $CURRENT_FOCUS == *"mCurrentFocus=null"* || $CURRENT_FOCUS == *"Keyguard"* ]]; then
+  if [[ $CURRENT_FOCUS == *"StatusBar}"* || $CURRENT_FOCUS == *"mCurrentFocus=null"* || $CURRENT_FOCUS == *"Keyguard"* ]]; then
     echo "🛌 Waking up the device..."
     adb -s $1 shell input keyevent KEYCODE_POWER
     adb -s $1 shell input keyevent 82
@@ -36,7 +36,7 @@ check_screen_timeout(){
     adb -s $SELECTED_DEVICE shell settings put system screen_off_timeout 600000
     echo " - 🔨 Set to 10min"
   else
-    echo " - ✅ OK"
+    echo " - ✅ 10min"
   fi
 }
 
@@ -49,7 +49,7 @@ check_screen_brightness(){
     adb -s $SELECTED_DEVICE shell settings put system screen_brightness 255
     echo " - 🔥 Set to MAX"
   else
-    echo " - ✅ OK"
+    echo " - ✅ MAX"
   fi
 }
 
@@ -61,17 +61,29 @@ check_notification_volume(){
     adb -s $SELECTED_DEVICE shell input keyevent 164
     echo " - 🔕 Muted"
   else
-    echo " - ✅ OK"
+    echo " - ✅ Muted"
   fi
 }
 
 check_network_name(){
-  echo -n "🌐 Checking network"
-  adb -s $SELECTED_DEVICE shell dumpsys netstats | grep -E 'iface=wlan.*networkId' | grep $1 &> /dev/null
+  echo -n "🌐 Checking WIFI network"
+  NET_STATS=$(adb -s $SELECTED_DEVICE shell dumpsys netstats | grep -E 'iface=wlan.*networkId' )
+
+  echo $NET_STATS | grep -i "$1" &> /dev/null
   if [ $? -eq 0 ]; then
-    echo " - ❗️ $1 network detected, 👉 resolve manually"
+    echo " - ❗️ $1 network detected"
+    yes_or_no "❓ Open wifi settings?"
+    if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
+    then
+      $TOOLKIT_LOCATION/aoptions 4
+    fi
+  fi
+
+  echo $NET_STATS | grep -E 'iface=wlan.*networkId' &> /dev/null
+  if [ $? -ne 0 ]; then
+    echo " - ❌ Disconnected"
   else
-    echo " - ✅ OK"
+    echo " - ✅ Connected"
   fi
 }
 
@@ -84,13 +96,34 @@ check_automatic_date(){
     adb -s $SELECTED_DEVICE shell settings put global auto_time 1
     echo ", 🔨 FIXED"
   else
-    echo " - ✅ OK"
+    echo " - ✅ Automatic"
   fi
 }
 
 check_locale(){
+  DEFAULT_LOCALE="en-US"
+
   echo -n "👄 Checking locale"
-  #TODO
+  CURRENT_LOCALE=$(adb -s $SELECTED_DEVICE shell getprop persist.sys.locale)
+  if [ "$CURRENT_LOCALE" != "$DEFAULT_LOCALE" ]; then
+    echo " - ❗️ Current locale is $CURRENT_LOCALE"
+  else
+    echo " - ✅ $CURRENT_LOCALE"
+  fi
+}
+
+check_font_scale(){
+  DEFAULT_SCALE="1.0"
+
+  echo -n "🔠 Checking font scale"
+  SCALE=$(adb -s $SELECTED_DEVICE shell settings get system font_scale)
+  if [ "$SCALE" != "$DEFAULT_SCALE" ]; then
+    echo -n " - ❗️ Current scale is $SCALE"
+    adb -s $SELECTED_DEVICE shell settings put system font_scale $DEFAULT_SCALE
+    echo ", 🔨 set to default $DEFAULT_SCALE"
+  else
+    echo " - ✅ $SCALE"
+  fi
 }
 
 open_gsmarena(){
@@ -106,7 +139,8 @@ check_screen_brightness
 check_notification_volume
 check_automatic_date
 check_locale
-check_network_name
+check_network_name edge
+check_font_scale
 open_gsmarena
 
 # More settings available at https://developer.android.com/reference/android/provider/Settings.System.html#SCREEN_OFF_TIMEOUT
