@@ -3,6 +3,14 @@ LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 android_choose_device
 
+GSM_URL='https://www.gsmarena.com/res.php3?sSearch='
+
+MANUFACTURER=$(adb -s $SELECTED_DEVICE shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
+MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
+VERSION=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
+SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
+INFO=$(printf "%s %s %s (API %s)" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK")
+
 unlock_device(){
   CURRENT_FOCUS=$(adb -s $1 shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
 
@@ -13,74 +21,92 @@ unlock_device(){
   fi
 }
 
+echo_info(){
+  echo "📱 $INFO"
+  echo "  • ID: $SELECTED_DEVICE"
+  echo "  • CPU: $(adb -s $SELECTED_DEVICE shell getprop ro.product.cpu.abi | tr -cd '[[:alnum:]]._-')"
+  echo "  • Display density: $(adb -s $SELECTED_DEVICE shell getprop ro.sf.lcd_density | tr -cd '[[:alnum:]]._-')"
+}
+
+check_screen_timeout(){
+  echo -n "🕓 Checking screen timeout"
+  TIMEOUT=$(adb -s $SELECTED_DEVICE shell settings get system screen_off_timeout)
+  TIMEOUT=${TIMEOUT%$'\r'} # remove trailing carriage return
+  if [ "$TIMEOUT" != "600000" ]; then
+    adb -s $SELECTED_DEVICE shell settings put system screen_off_timeout 600000
+    echo " - 🔨 Set to 10min"
+  else
+    echo " - ✅ OK"
+  fi
+}
+
+check_screen_brightness(){
+  echo -n "🔆 Checking screen brightness"
+  BRIGHTNESS=$(adb -s $SELECTED_DEVICE shell settings get system screen_brightness)
+  BRIGHTNESS=${BRIGHTNESS%$'\r'} # remove trailing carriage return
+  if [ "$BRIGHTNESS" != "255" ]; then
+    adb -s $SELECTED_DEVICE shell settings put system screen_brightness_mode 0
+    adb -s $SELECTED_DEVICE shell settings put system screen_brightness 255
+    echo " - 🔥 Set to MAX"
+  else
+    echo " - ✅ OK"
+  fi
+}
+
+check_notification_volume(){
+  echo -n "📢 Checking notification volume"
+  RINGER_MODE=$(adb -s $SELECTED_DEVICE shell settings get global mode_ringer)
+  RINGER_MODE=${RINGER_MODE%$'\r'} # remove trailing carriage return
+  if [ "$RINGER_MODE" != "1" ]; then
+    adb -s $SELECTED_DEVICE shell input keyevent 164
+    echo " - 🔕 Muted"
+  else
+    echo " - ✅ OK"
+  fi
+}
+
+check_network_name(){
+  echo -n "🌐 Checking network"
+  adb -s $SELECTED_DEVICE shell dumpsys netstats | grep -E 'iface=wlan.*networkId' | grep $1 &> /dev/null
+  if [ $? -eq 0 ]; then
+    echo " - ❗️ $1 network detected, 👉 resolve manually"
+  else
+    echo " - ✅ OK"
+  fi
+}
+
+check_automatic_date(){
+  echo -n "📆 Checking date"
+  AUTO_TIME=$(adb -s $SELECTED_DEVICE shell settings get global auto_time)
+  AUTO_TIME=${AUTO_TIME%$'\r'} # remove trailing carriage return
+  if [ "$AUTO_TIME" = "0" ]; then
+    echo -n " - ❗️ Automatic date disabled"
+    adb -s $SELECTED_DEVICE shell settings put global auto_time 1
+    echo ", 🔨 FIXED"
+  else
+    echo " - ✅ OK"
+  fi
+}
+
+check_locale(){
+  echo -n "👄 Checking locale"
+  #TODO
+}
+
+open_gsmarena(){
+  should_proceed "🔍 Search for the device on GSMArena?"
+  PHONE_URL=$GSM_URL$MODEL
+  open $PHONE_URL
+}
+
 unlock_device $SELECTED_DEVICE
-
-GSM_URL='https://www.gsmarena.com/res.php3?sSearch='
-
-MANUFACTURER=$(adb -s $SELECTED_DEVICE shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
-MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
-VERSION=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
-SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
-INFO=$(printf "%s %s %s (API %s)" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK")
-
-PHONE_URL=$GSM_URL$MODEL
-
-echo "📱 $INFO"
-echo "  • ID: $SELECTED_DEVICE"
-echo "  • CPU: $(adb -s $SELECTED_DEVICE shell getprop ro.product.cpu.abi | tr -cd '[[:alnum:]]._-')"
-echo "  • Display density: $(adb -s $SELECTED_DEVICE shell getprop ro.sf.lcd_density | tr -cd '[[:alnum:]]._-')"
+echo_info
+check_screen_timeout
+check_screen_brightness
+check_notification_volume
+check_automatic_date
+check_locale
+check_network_name
+open_gsmarena
 
 # More settings available at https://developer.android.com/reference/android/provider/Settings.System.html#SCREEN_OFF_TIMEOUT
-
-echo -n "🕓 Checking screen timeout"
-TIMEOUT=$(adb -s $SELECTED_DEVICE shell settings get system screen_off_timeout)
-TIMEOUT=${TIMEOUT%$'\r'} # remove trailing carriage return
-if [ "$TIMEOUT" != "600000" ]; then
-  adb -s $SELECTED_DEVICE shell settings put system screen_off_timeout 600000
-  echo " - 🔨 Set to 10min"
-else
-  echo " - ✅ OK"
-fi
-
-echo -n "🔆 Checking screen brightness"
-BRIGHTNESS=$(adb -s $SELECTED_DEVICE shell settings get system screen_brightness)
-BRIGHTNESS=${BRIGHTNESS%$'\r'} # remove trailing carriage return
-if [ "$BRIGHTNESS" != "255" ]; then
-  adb -s $SELECTED_DEVICE shell settings put system screen_brightness_mode 0
-  adb -s $SELECTED_DEVICE shell settings put system screen_brightness 255
-  echo " - 🔥 Set to MAX"
-else
-  echo " - ✅ OK"
-fi
-
-echo -n "📢 Checking notification volume"
-RINGER_MODE=$(adb -s $SELECTED_DEVICE shell settings get global mode_ringer)
-RINGER_MODE=${RINGER_MODE%$'\r'} # remove trailing carriage return
-if [ "$RINGER_MODE" != "1" ]; then
-  adb -s $SELECTED_DEVICE shell input keyevent 164
-  echo " - 🔕 Muted"
-else
-  echo " - ✅ OK"
-fi
-
-echo -n "🌐 Checking network"
-adb -s $SELECTED_DEVICE shell dumpsys netstats | grep -E 'iface=wlan.*networkId' | grep EDGE &> /dev/null
-if [ $? -eq 0 ]; then
-  echo " - ❗️ EDGE network detected, 👉 resolve manually"
-else
-  echo " - ✅ OK"
-fi
-
-echo -n "📆 Checking date"
-AUTO_TIME=$(adb -s $SELECTED_DEVICE shell settings get global auto_time)
-AUTO_TIME=${AUTO_TIME%$'\r'} # remove trailing carriage return
-if [ "$AUTO_TIME" = "0" ]; then
-  echo -n " - ❗️ Automatic date disabled"
-  adb -s $SELECTED_DEVICE shell settings put global auto_time 1
-  echo ", 🔨 FIXED"
-else
-  echo " - ✅ OK"
-fi
-
-should_proceed "🔍 Search for the device on GSMArena?"
-open $PHONE_URL
