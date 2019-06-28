@@ -15,7 +15,7 @@ set_font_scale(){
 
 restore_font_scale(){
   set_font_scale $PREVIOUS_SCALE
-  echo "🔠 Font scale restored to previous."
+  echo "🔄 Font scale restored to previous."
 }
 
 enlarge_font_scale(){
@@ -28,7 +28,7 @@ PREVIOUS_SCALE=$(adb -s $SELECTED_DEVICE shell settings get system font_scale)
 
 if ! [ -z $1 ]; then
   set_font_scale $1
-  read -p "✏️ Font scale set to $1, hit ENTER to revert."
+  read -p "🔠 Font scale set to $1, hit ENTER to revert."
 else
   set_font_scale 1.5
   read -p "🔍 Font scale se to 1.5., hit ENTER to revert."
