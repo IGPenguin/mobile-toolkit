@@ -5,4 +5,4 @@ android_choose_device
 
 check_url $1
 echo "🌎 Opening link in a web browser..."
-adb -s $SELECTED_DEVICE shell am start -a android.intent.action.VIEW -d "$WEB_URL" &> /dev/null
+adb -s $SELECTED_DEVICE shell am start -a android.intent.action.VIEW -d "$URL" &> /dev/null
