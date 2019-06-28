@@ -73,6 +73,17 @@ SELECTED_DEVICE_MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model |
 SELECTED_DEVICE_SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
 }
 
+android_unlock_device(){
+  adb -s $1 shell input keyevent KEYCODE_HOME
+  CURRENT_FOCUS=$(adb -s $1 shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+
+  if [[ $CURRENT_FOCUS == *"StatusBar"* || $CURRENT_FOCUS == *"mCurrentFocus=null"* || $CURRENT_FOCUS == *"Keyguard"* ]]; then
+    echo "🛌 Waking up the device..."
+    adb -s $1 shell input keyevent KEYCODE_POWER
+    adb -s $1 shell input keyevent 82
+  fi
+}
+
 android_is_installed() {
   adb -s $SELECTED_DEVICE shell pm list packages -f | sed -e 's/.*=//' | grep $1 &> /dev/null
   EXIT_CODE=$?

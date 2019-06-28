@@ -1,28 +1,16 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
-android_choose_device
 
 GSM_URL='https://www.gsmarena.com/res.php3?sSearch='
 
-MANUFACTURER=$(adb -s $SELECTED_DEVICE shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
-MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
-VERSION=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
-SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
-INFO=$(printf "%s %s %s (API %s)" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK")
-
-unlock_device(){
-  adb -s $1 shell input keyevent KEYCODE_HOME
-  CURRENT_FOCUS=$(adb -s $1 shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
-
-  if [[ $CURRENT_FOCUS == *"StatusBar"* || $CURRENT_FOCUS == *"mCurrentFocus=null"* || $CURRENT_FOCUS == *"Keyguard"* ]]; then
-    echo "🛌 Waking up the device..."
-    adb -s $1 shell input keyevent KEYCODE_POWER
-    adb -s $1 shell input keyevent 82
-  fi
-}
-
 echo_info(){
+  MANUFACTURER=$(adb -s $SELECTED_DEVICE shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
+  MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
+  VERSION=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
+  SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
+  INFO=$(printf "%s %s %s (API %s)" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK")
+
   echo "📱 $INFO"
   echo "  • ID: $SELECTED_DEVICE"
   echo "  • CPU: $(adb -s $SELECTED_DEVICE shell getprop ro.product.cpu.abi | tr -cd '[[:alnum:]]._-')"
@@ -134,7 +122,7 @@ open_gsmarena(){
 }
 
 android_choose_device
-unlock_device $SELECTED_DEVICE
+android_unlock_device $SELECTED_DEVICE
 echo_info
 check_screen_timeout
 check_screen_brightness
