@@ -11,10 +11,11 @@ VERSION=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.release | tr -c
 SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
 INFO=$(printf "%s %s %s (API %s)" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK")
 
-unlock_device(){ # TODO better screen on check
+unlock_device(){
+  adb -s $1 shell input keyevent KEYCODE_HOME
   CURRENT_FOCUS=$(adb -s $1 shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
 
-  if [[ $CURRENT_FOCUS == *"StatusBar}"* || $CURRENT_FOCUS == *"mCurrentFocus=null"* || $CURRENT_FOCUS == *"Keyguard"* ]]; then
+  if [[ $CURRENT_FOCUS == *"StatusBar"* || $CURRENT_FOCUS == *"mCurrentFocus=null"* || $CURRENT_FOCUS == *"Keyguard"* ]]; then
     echo "🛌 Waking up the device..."
     adb -s $1 shell input keyevent KEYCODE_POWER
     adb -s $1 shell input keyevent 82
@@ -132,6 +133,7 @@ open_gsmarena(){
   open $PHONE_URL
 }
 
+android_choose_device
 unlock_device $SELECTED_DEVICE
 echo_info
 check_screen_timeout
