@@ -1,7 +1,7 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
-android_choose_device
+trap 'ctrlc $@' 1 2 3 6 15
 
 ctrlc()
 {
@@ -20,16 +20,14 @@ restore_animation_speed(){
   echo "⚡️ Animation speed restored to default."
 }
 
-slow_animation_speed(){
-  set_animation_speed 10
-  read -p "🐌 Slow animations, hit ENTER to stop."
-}
+android_choose_device
 
 if ! [ -z $1 ]; then
   set_animation_speed $1
   read -p "⚡️ Animation scale set to $1 (bigger is slower), hit ENTER to stop."
 else
-  slow_animation_speed
+  set_animation_speed 10
+  read -p "🐌 Slow animations, hit ENTER to stop."
 fi
 
 restore_animation_speed
