@@ -1,0 +1,15 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/common_tools
+android_choose_device
+
+if [ -n "$1" ];
+then
+    PACKAGE_NAME=$1
+    android_is_package_installed $PACKAGE_NAME
+else
+    PACKAGE_NAME=$(android_get_foreground_package)
+fi
+
+should_proceed "🚫 Reset $PACKAGE_NAME granted permissions?"
+adb -s $SELECTED_DEVICE shell pm reset-permissions -p $PACKAGE_NAME
