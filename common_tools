@@ -4,8 +4,8 @@ TOOLKIT_LOCATION=$(dirname "$0")
 ##########################
 ### ANDROID SECTION
 
-check_android_connected(){
-  get_android_devices
+android_check_connected(){
+  android_get_devices
   #No device connected
   if [ ${#DEVICES[@]} -eq 0 ]
   then
@@ -15,17 +15,17 @@ check_android_connected(){
     then
       $TOOLKIT_LOCATION/aemulator
     fi
-  wait_for_android_device
+  android_wait_for_device
   fi
 }
 
-wait_for_android_device(){
+android_wait_for_device(){
   echo "⏳ Waiting for Android device..."
   adb wait-for-any-device
-  get_android_devices
+  android_get_devices
 }
 
-get_android_devices(){
+android_get_devices(){
   #Populate array with device ids
   DEVICES=()
   for LINE in `adb devices | grep -v "List"  | awk '{print $1}'`
@@ -36,7 +36,7 @@ get_android_devices(){
 }
 
 android_choose_device() {
-  check_android_connected
+  android_check_connected
 
   #Gather device info and choose device
   if [ ${#DEVICES[@]} -gt 1 ]
@@ -84,7 +84,11 @@ android_unlock_device(){
   fi
 }
 
-android_is_installed() {
+android_get_foreground_package(){
+  adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev
+}
+
+android_is_package_installed() {
   adb -s $SELECTED_DEVICE shell pm list packages -f | sed -e 's/.*=//' | grep $1 &> /dev/null
   EXIT_CODE=$?
   if [ $EXIT_CODE -ne 0 ]; then
