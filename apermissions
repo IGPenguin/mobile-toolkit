@@ -11,5 +11,5 @@ else
     PACKAGE_NAME=$(android_get_foreground_package)
 fi
 
-should_proceed "🚫 Reset $PACKAGE_NAME granted permissions?"
-adb -s $SELECTED_DEVICE shell pm reset-permissions -p $PACKAGE_NAME
+should_proceed "🚫 Reset all granted permissions?"
+adb -s $SELECTED_DEVICE shell pm reset-permissions
