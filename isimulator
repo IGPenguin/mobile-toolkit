@@ -10,7 +10,7 @@ help(){
   else
     echo "🤷 Argument missing."
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  paste <text> - insert text into pasteboard\n  web <url> - open link in web browser\n  wipe - wipe all simulator data"
+  echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  paste <text> - insert text into pasteboard\n  url <url> - open link in web browser\n  wipe - wipe all simulator data"
 }
 
 choose_simulator(){
@@ -28,7 +28,12 @@ choose_running_simulator(){
   RUNNING_SIMULATOR_COUNT=$(wc -l < $LOCAL_SIMULATOR_LIST)
 
   if [[ $RUNNING_SIMULATOR_COUNT -le 0 ]]; then
-    echo "❌ No running simulators..."
+    echo "❌ No running simulators."
+    yes_or_no "❓ Start a simulator?"
+    if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
+    then
+      $TOOLKIT_LOCATION/isimulator start
+    fi
     exit
   elif [[ $RUNNING_SIMULATOR_COUNT -eq 1 ]]; then
     SIMULATOR_ID=$(sed 1!d $LOCAL_SIMULATOR_LIST | sed 's/.*(\(.*\))/\1/')
@@ -41,7 +46,7 @@ choose_running_simulator(){
 }
 
 start_simulator(){
-  echo "⏳ Getting installed iOS simulator list..."
+  echo "⏳ Getting iOS simulator list..."
   rm -f $LOCAL_SIMULATOR_LIST
   xcrun simctl list | grep -i "shutdown\|booted\|-- iOS\|-- tvOS\|-- watchOS" | grep -v "unavailable\|Watch:\|Phone:" | sed 's/ (Shutdown) //g' | sed 's/ (Booted) //g' >> $LOCAL_SIMULATOR_LIST
 
