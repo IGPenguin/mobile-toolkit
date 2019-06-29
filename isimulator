@@ -56,6 +56,7 @@ start_simulator(){
   echo  "🚀 Launching simulator..."
   xcrun simctl boot $SIMULATOR_ID
   open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/
+  rm $LOCAL_SIMULATOR_LIST
 }
 
 open_url(){
