@@ -29,7 +29,7 @@ choose_running_simulator(){
 
   if [[ $RUNNING_SIMULATOR_COUNT -le 0 ]]; then
     echo "❌ No running simulators."
-    yes_or_no "❓ Start a simulator?"
+    yes_or_no "❓ Do you want to start one?"
     if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
     then
       $TOOLKIT_LOCATION/isimulator start
