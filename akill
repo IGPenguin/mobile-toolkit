@@ -3,15 +3,13 @@ LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 android_choose_device
 
-
 if [[ "$1" != "" ]];
 then
     PACKAGE_NAME=$1
+    android_is_package_installed $PACKAGE_NAME
 else
-    PACKAGE_NAME=$(adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+    PACKAGE_NAME=$(android_get_foreground_package)
 fi
-
-android_is_installed $PACKAGE_NAME
 
 echo "🔪 Killing $PACKAGE_NAME"
 adb -s $SELECTED_DEVICE shell am force-stop $PACKAGE_NAME
