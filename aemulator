@@ -1,20 +1,26 @@
 #!/bin/bash
 TOOLKIT_LOCATION=$(dirname "$0")
+source $TOOLKIT_LOCATION/common_tools
 LOCAL_EMULATOR_LIST=$TOOLKIT_LOCATION/toolkit_emulator_list.txt
 
 get_emulator_list(){
   echo "⏳ Getting Android emulator list..."
   rm -f $LOCAL_EMULATOR_LIST
   ~/Library/Android/sdk/tools/bin/avdmanager list avd | grep Name | awk '{print $2}' >> $LOCAL_EMULATOR_LIST
-  echo "📱 Available:"
-  cat $LOCAL_EMULATOR_LIST | nl
+  if [ "$(cat $LOCAL_EMULATOR_LIST | wc -l)" -eq 0 ]; then
+    echo "🤷‍ No emulators available."
+    exit
+  else
+    echo "📱 Available:"
+    cat $LOCAL_EMULATOR_LIST | nl
+  fi
 }
 
 launch_emulator(){
   read -p "📝 Choose: " EMULATOR_INDEX
   EMULATOR_NAME=$(sed $EMULATOR_INDEX!d $LOCAL_EMULATOR_LIST)
   if [[ $EMULATOR_INDEX == "" || $EMULATOR_NAME == "" ]]; then
-    echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
+    delete_lastline
     launch_emulator
   else
     echo  "🚀 Launching emulator..."
