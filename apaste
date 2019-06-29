@@ -3,7 +3,16 @@ LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 android_choose_device
 
-if [[ "$1" != "" ]]
+escape_spaces(){
+  ESCAPED_TEXT=`echo "$1" | sed -e 's/ /\%s/g'`
+}
+
+send_text(){
+  escape_spaces "$1"
+  adb -s $SELECTED_DEVICE shell "input text '$ESCAPED_TEXT'"
+}
+
+if [ -n "$1" ]
 then
     TEXT=$1
 else
@@ -12,16 +21,14 @@ fi
 
 if [ "$#" -gt 1 ];
 then
-    for var in "$@"
-    do
-        ESCAPED_TEXT=`echo "$var" | sed -e 's/ /\%s/g'`
-        adb -s $SELECTED_DEVICE shell input text "$ESCAPED_TEXT"
-	      sleep 0.5
-	      if ! [ $var = ${@:$#} ]; then #if not last argument, jump to next field
-	      adb -s $SELECTED_DEVICE shell input keyevent 61
-	fi
-    done
+  for ARGUMENT in "$@"
+  do
+    send_text "$ARGUMENT"
+    sleep 0.5
+	  if ! [ $ARGUMENT = ${@:$#} ]; then #if not last argument, jump to next field
+	   adb -s $SELECTED_DEVICE shell input keyevent 61
+	  fi
+  done
 else
-    ESCAPED_TEXT=`echo $TEXT | sed -e 's/ /\%s/g'`
-    adb -s $SELECTED_DEVICE shell input text "$ESCAPED_TEXT"
+  send_text "$TEXT"
 fi
