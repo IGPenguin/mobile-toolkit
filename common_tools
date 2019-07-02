@@ -73,14 +73,25 @@ SELECTED_DEVICE_MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model |
 SELECTED_DEVICE_SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
 }
 
-android_unlock_device(){
-  adb -s $1 shell input keyevent KEYCODE_HOME
+check_screen_on(){
   CURRENT_FOCUS=$(adb -s $1 shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+  if [ "$CURRENT_FOCUS" == *"StatusBar"* ] || [ "$CURRENT_FOCUS" == *"mCurrentFocus=null"* ] || [ "$CURRENT_FOCUS" == *"Keyguard"* ]; then
+    return 1
+  else
+    return 0
+  fi
+}
 
-  if [[ $CURRENT_FOCUS == *"StatusBar"* || $CURRENT_FOCUS == *"mCurrentFocus=null"* || $CURRENT_FOCUS == *"Keyguard"* ]]; then
+android_unlock_device(){
+  if [[ $(check_screen_on $1) -eq 1  ]]; then
     echo "🛌 Waking up the device..."
-    adb -s $1 shell input keyevent KEYCODE_POWER
-    adb -s $1 shell input keyevent 82
+    adb -s $1 shell input keyevent KEYCODE_HOME
+    if [[ $(check_screen_on $1) -eq 1  ]]; then
+      adb -s $1 shell input keyevent KEYCODE_POWER
+      if [[ $(check_screen_on $1) -eq 1  ]]; then
+        adb -s $1 shell input keyevent 82
+      fi
+    fi
   fi
 }
 
@@ -293,7 +304,7 @@ delete_lastline(){
 }
 
 yes_or_no(){
-  read -r -p "$1 [y/n] " RESPONSE
+  read -r -n 1 -p "$1 [y/n] " RESPONSE
   case "$RESPONSE" in
       [yY])
           ;;
@@ -304,10 +315,11 @@ yes_or_no(){
         yes_or_no
         ;;
   esac
+  echo
 }
 
 should_proceed(){
-read -r -p "$1 [y/n] " RESPONSE
+read -r -n 1 -p "$1 [y/n] " RESPONSE
 case "$RESPONSE" in
     [yY])
         ;;
