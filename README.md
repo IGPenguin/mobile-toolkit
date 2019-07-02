@@ -64,8 +64,31 @@
 * Toggle **layout bounds visibility**
 * App restart may be necessary on lower APIs
 
-### aweb
-* `aweb "google.com"` Open link passed as an argument in web browser
+### aurl
+* `aurl "google.com"` Open link passed as an argument in web browser
+
+### aanimationspeed
+* `aanimationspeed` set slow animation speed
+* `aanimationspeed <any-number>` set animation speed to <any-number> times slower than default
+* Press ENTER to reset to default
+
+### afontscale
+* `afontscale` set font scale to largest common setting (1.3)
+* `afontscale <any-number>` set font scale to <any-number> times larger than default
+* Press ENTER to reset to default
+
+### aoptions
+* `aoptions` Open system settings on a specific activity
+* You can choose from quick presets
+	* Developer settings
+	* Locale settings
+	* Date & time
+	* Wifi settings
+	* Storage management
+	* Power usage
+	* Root settings activity
+* Or you can choose from exhaustive list of all available options
+* `aoptions 1` you can also specify preset as argument
 
 ### aloremipsum
 * Insert long text into focused field
@@ -113,29 +136,14 @@
   * Edit this script yourself to customize the list of essential apps
 * (Optional) Remove everything in /sdcard/Download directory
 
+### apermissionreset
+* Revoke ALL runtime permissions for ALL (even system) apps.
+
 ### agoogleplay
 * `agoogleplay "Dummy App"` Search for app on Google Play
 * Pass app name as argument
 
 ## Manage device
-
-### aanimationspeed
-* `aanimationspeed` set slow animation speed
-* `aanimationspeed 5` set animation speed to 5x slower than default
-* Press ENTER to reset to default
-
-### aoptions
-* `aoptions` Open system settings on a specific activity
-* You can choose from quick presets
-	* Developer settings
-	* Locale settings
-	* Date & time
-	* Wifi settings
-	* Storage management
-	* Power usage
-	* Root settings activity
-* Or you can choose from exhaustive list of all available options
-* `aoptions 1` you can also specify preset as argument
 
 ### alog
 * Print system log output
@@ -146,12 +154,14 @@
 
 ### adevicecheck
 * Print device information
-* Perform basic checks and apply preset settings
-	* Set 10min screen timeout
-	* Set maximum brightness
-  * Enable automatic date
-  * Disable notification sounds
-  * Check if connected to EDGE wifi
+* Perform basic checks and apply preset settings if allowed
+  * 10 minutes screen timeout
+  * Manual maximum brightness
+  * Automatic date
+  * Disabled notification sounds
+  * Internet connectivity and WIFI name
+  * Font scale
+  * enUS locale
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
 ### aemulator
@@ -217,5 +227,5 @@
 * `isimulator <option>` Handle various simulator related activites
   * `start` - choose and launch installed simulator
   * `paste <text>` - insert text into pasteboard
-  * `web <url>` - open link in web browser
+  * `url <url>` - open link in web browser
   * `wipe` - wipe all simulator data
