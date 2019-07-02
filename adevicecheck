@@ -18,14 +18,15 @@ echo_info(){
 }
 
 check_screen_timeout(){
-  echo -n "🕓 Checking screen timeout"
+  echo -n "🕑 Checking screen timeout"
   TIMEOUT=$(adb -s $SELECTED_DEVICE shell settings get system screen_off_timeout)
   TIMEOUT=${TIMEOUT%$'\r'} # remove trailing carriage return
+
   if [ "$TIMEOUT" != "600000" ]; then
+    yes_or_no " - 🕤 Timeout is $TIMEOUT miliseconds, set to 10 minutes?"; if ! [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then return; fi
     adb -s $SELECTED_DEVICE shell settings put system screen_off_timeout 600000
-    echo " - 🔨 Set to 10min"
   else
-    echo " - ✅ 10min"
+    echo " - ✅ 10 minutes"
   fi
 }
 
@@ -34,9 +35,9 @@ check_screen_brightness(){
   BRIGHTNESS=$(adb -s $SELECTED_DEVICE shell settings get system screen_brightness)
   BRIGHTNESS=${BRIGHTNESS%$'\r'} # remove trailing carriage return
   if [ "$BRIGHTNESS" != "255" ]; then
+    yes_or_no " - 🔥 Brightness is $BRIGHTNESS, set manual max brightness?"; if ! [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then return; fi
     adb -s $SELECTED_DEVICE shell settings put system screen_brightness_mode 0
     adb -s $SELECTED_DEVICE shell settings put system screen_brightness 255
-    echo " - 🔥 Set to MAX"
   else
     echo " - ✅ MAX"
   fi
@@ -47,30 +48,24 @@ check_notification_volume(){
   RINGER_MODE=$(adb -s $SELECTED_DEVICE shell settings get global mode_ringer)
   RINGER_MODE=${RINGER_MODE%$'\r'} # remove trailing carriage return
   if [ "$RINGER_MODE" != "1" ]; then
+    yes_or_no " - 🔕 Ringer mode is not 1 (~silent), try to set silent mode?"; if ! [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then return; fi
     adb -s $SELECTED_DEVICE shell input keyevent 164
-    echo " - 🔕 Muted"
   else
     echo " - ✅ Muted"
   fi
 }
 
-check_network_name(){
+check_network_name_contains(){
   echo -n "🌐 Checking WIFI network"
   NET_STATS=$(adb -s $SELECTED_DEVICE shell dumpsys netstats | grep -E 'iface=wlan.*networkId' )
 
   echo $NET_STATS | grep -i "$1" &> /dev/null
   if [ $? -eq 0 ]; then
-    echo " - ❗️ $1 network detected"
-    yes_or_no "❓ Open wifi settings?"
-    if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
-    then
-      $TOOLKIT_LOCATION/aoptions 4
-    fi
+    yes_or_no " - ❗️ $1 network detected, open wifi settings?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/aoptions 4; fi
   fi
-
   echo $NET_STATS | grep -E 'iface=wlan.*networkId' &> /dev/null
   if [ $? -ne 0 ]; then
-    echo " - ❌ Disconnected"
+    yes_or_no " - ❌ Disconnected, open wifi settings?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/aoptions 4; fi
   else
     echo " - ✅ Connected"
   fi
@@ -80,10 +75,9 @@ check_automatic_date(){
   echo -n "📆 Checking date"
   AUTO_TIME=$(adb -s $SELECTED_DEVICE shell settings get global auto_time)
   AUTO_TIME=${AUTO_TIME%$'\r'} # remove trailing carriage return
-  if [ "$AUTO_TIME" = "0" ]; then
-    echo -n " - ❗️ Automatic date disabled"
+  if [ "$AUTO_TIME" == "0" ]; then
+    yes_or_no " - 📡 Set automatic date?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then return; fi
     adb -s $SELECTED_DEVICE shell settings put global auto_time 1
-    echo ", 🔨 FIXED"
   else
     echo " - ✅ Automatic"
   fi
@@ -95,7 +89,7 @@ check_locale(){
   echo -n "👄 Checking locale"
   CURRENT_LOCALE=$(adb -s $SELECTED_DEVICE shell getprop persist.sys.locale)
   if [ "$CURRENT_LOCALE" != "$DEFAULT_LOCALE" ]; then
-    echo " - ❗️ Current locale is $CURRENT_LOCALE"
+    yes_or_no "🇺🇸 -  Current locale is $CURRENT_LOCALE, open locale settings?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/aoptions 2; fi
   else
     echo " - ✅ $CURRENT_LOCALE"
   fi
@@ -107,9 +101,8 @@ check_font_scale(){
   echo -n "🔠 Checking font scale"
   SCALE=$(adb -s $SELECTED_DEVICE shell settings get system font_scale)
   if [ "$SCALE" != "$DEFAULT_SCALE" ]; then
-    echo -n " - ❗️ Current scale is $SCALE"
+    yes_or_no "- 🔍 Current scale is $SCALE, change to $DEFAULT_SCALE"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then return; fi
     adb -s $SELECTED_DEVICE shell settings put system font_scale $DEFAULT_SCALE
-    echo ", 🔨 set to default $DEFAULT_SCALE"
   else
     echo " - ✅ $SCALE"
   fi
@@ -129,7 +122,7 @@ check_screen_brightness
 check_notification_volume
 check_automatic_date
 check_locale
-check_network_name edge
+check_network_name_contains edge
 check_font_scale
 open_gsmarena
 
