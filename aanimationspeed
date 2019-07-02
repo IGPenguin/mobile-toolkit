@@ -16,8 +16,8 @@ set_animation_speed(){
 }
 
 restore_animation_speed(){
+  echo "🔄 Restoring animation speed to default..."
   set_animation_speed 1
-  echo "🔄 Animation speed restored to default."
 }
 
 android_choose_device
@@ -26,8 +26,9 @@ if ! [ -z $1 ]; then
   set_animation_speed $1
   read -p "⚡️ Animation scale set to $1 (bigger is slower), hit ENTER to stop."
 else
-  set_animation_speed 10
-  read -p "🐌 Animations slowed down, hit ENTER to stop."
+  echo -n "🐌 Slowing down animation speed..."
+  set_animation_speed 5
+  read -n 1 -p ", press ENTER to stop."
 fi
 
 restore_animation_speed
