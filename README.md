@@ -65,7 +65,7 @@
 * App restart may be necessary on lower APIs
 
 ### aurl
-* `aurl "google.com"` Open link passed as an argument in web browser
+* `aurl "google.com"` Open link passed as an argument in web browser or corresponding application
 
 ### aanimationspeed
 * `aanimationspeed` set slow animation speed
@@ -227,5 +227,5 @@
 * `isimulator <option>` Handle various simulator related activites
   * `start` - choose and launch installed simulator
   * `paste <text>` - insert text into pasteboard
-  * `url <url>` - open link in web browser
+  * `url <url>` - open link in web browser or corresponding application
   * `wipe` - wipe all simulator data
