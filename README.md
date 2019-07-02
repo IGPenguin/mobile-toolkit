@@ -119,6 +119,11 @@
 
 ## Manage device
 
+### aanimationspeed
+* `aanimationspeed` set slow animation speed
+* `aanimationspeed 5` set animation speed to 5x slower than default
+* Press ENTER to reset to default
+
 ### aoptions
 * `aoptions` Open system settings on a specific activity
 * You can choose from quick presets
