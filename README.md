@@ -73,7 +73,7 @@
 * Press ENTER to reset to default
 
 ### afontscale
-* `afontscale` set font scale to largest common setting (1.3)
+* `afontscale` set font scale to largest common setting (1.3x bigger than default)
 * `afontscale <any-number>` set font scale to <any-number> times larger than default
 * Press ENTER to reset to default
 
