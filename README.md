@@ -161,7 +161,7 @@
   * Disabled notification sounds
   * Internet connectivity and WIFI name
   * Font scale
-  * enUS locale
+  * enUS locale
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
 ### aemulator
