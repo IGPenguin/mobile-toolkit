@@ -7,12 +7,13 @@ LOREM="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod t
 escape_spaces(){
   ESCAPED_TEXT=`echo "$1" | sed -e 's/ /\%s/g'`
 }
-
+ 
 send_text(){
   escape_spaces "$1"
 
-  # Insert fist character, then the rest - workaround for API 28+ edittext bug
+  # Insert only first character
   adb -s $SELECTED_DEVICE shell "input text '${ESCAPED_TEXT:0:1}'"
+  # Afterwards the rest - workaround for API 28+ edittext char skip bug
   adb -s $SELECTED_DEVICE shell "input text '${ESCAPED_TEXT:1:${#ESCAPED_TEXT}}'"
 }
 
