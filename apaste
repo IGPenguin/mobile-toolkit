@@ -9,27 +9,15 @@ escape_spaces(){
 }
 
 send_text(){
-  if [ $SDK -ge 28 ];
-  then
-    send_text_char_by_char "$1"
-  else
-    escape_spaces "$1"
-    adb -s $SELECTED_DEVICE shell "input text '$ESCAPED_TEXT'"
-  fi
-}
+  escape_spaces "$1"
 
-send_text_char_by_char(){
-  echo "Char by char mode..."
-
-  for (( i=0; i<${#ESCAPED_TEXT}; i++ )); do
-    CHAR="${ESCAPED_TEXT:$i:1}"
-    echo $CHAR
-    adb -s $SELECTED_DEVICE shell "input text '$CHAR'"
-  done
-  exit
+  # Insert fist character, then the rest - workaround for API 28+ edittext bug
+  adb -s $SELECTED_DEVICE shell "input text '${ESCAPED_TEXT:0:1}'"
+  adb -s $SELECTED_DEVICE shell "input text '${ESCAPED_TEXT:1:${#ESCAPED_TEXT}}'"
 }
 
 execute_by_arguments(){
+  # If 1st argument empty, ask for input text
   if [ -n "$1" ]
   then
       TEXT=$1
@@ -37,12 +25,11 @@ execute_by_arguments(){
       read -p "📝 Enter text you want to insert: " TEXT
   fi
 
+  # Handle arguments
   if [ "$1" == "-l" ];
   then
     send_text "$LOREM"
-  fi
-
-  if [ "$#" -gt 1 ];
+  elif [ "$#" -gt 1 ];
   then
     for ARGUMENT in "$@"
     do
@@ -58,5 +45,4 @@ execute_by_arguments(){
 }
 
 android_choose_device
-SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
 execute_by_arguments $@
