@@ -327,14 +327,15 @@ yes_or_no(){
 }
 
 should_proceed(){
-read -r -n 1 -p "$1 [y/n] " RESPONSE
-case "$RESPONSE" in
+  read -r -n 1 -p "$1 [y/n] " RESPONSE
+  case "$RESPONSE" in
     [yY])
-        ;;
+      ;;
     *)
-        exit
-        ;;
-esac
+      exit
+      ;;
+  esac
+  echo
 }
 
 choose_number(){
