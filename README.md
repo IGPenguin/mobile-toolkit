@@ -58,7 +58,8 @@
 
 * `apaste <text>` Insert text into currently focused field
 * `apaste "john.doe@fakemail.com" password1 ` Every additional argument will be inserted into subsequent field
-* `apaste "Lorem ipsum dolor sit amet."` use "" to insert multi-word text into one field
+* `apaste "This is sample multi-word text."` use "" to insert multi-word text into one field
+* `apaste -l` Paste classic Lorem Ipsum paragraph
 
 ### abounds
 * Toggle **layout bounds visibility**
@@ -76,10 +77,6 @@
 * `afontscale` set font scale to largest common setting (1.3x bigger than default)
 * `afontscale <any-number>` set font scale to <any-number> times larger than default
 * Press ENTER to reset to default
-
-### aloremipsum
-* Insert long text into focused field
-* Useful for testing layouts
 
 ### acamera
 * Start camera application

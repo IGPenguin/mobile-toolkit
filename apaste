@@ -3,6 +3,8 @@ LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
 android_choose_device
 
+LOREM="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
 escape_spaces(){
   ESCAPED_TEXT=`echo "$1" | sed -e 's/ /\%s/g'`
 }
@@ -29,6 +31,9 @@ then
 	   adb -s $SELECTED_DEVICE shell input keyevent 61
 	  fi
   done
+elif [ "$1" == "-l" ];
+then
+  send_text "$LOREM"
 else
   send_text "$TEXT"
 fi
