@@ -32,7 +32,7 @@ choose_running_simulator(){
     yes_or_no "❓ Do you want to start one?"
     if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
     then
-      $TOOLKIT_LOCATION/isimulator start
+      start_simulator
     fi
     exit
   elif [[ $RUNNING_SIMULATOR_COUNT -eq 1 ]]; then
