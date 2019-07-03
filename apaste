@@ -1,7 +1,6 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source $LOCATION/common_tools
-android_choose_device
 
 LOREM="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
@@ -10,30 +9,54 @@ escape_spaces(){
 }
 
 send_text(){
-  escape_spaces "$1"
-  adb -s $SELECTED_DEVICE shell "input text '$ESCAPED_TEXT'"
+  if [ $SDK -ge 28 ];
+  then
+    send_text_char_by_char "$1"
+  else
+    escape_spaces "$1"
+    adb -s $SELECTED_DEVICE shell "input text '$ESCAPED_TEXT'"
+  fi
 }
 
-if [ -n "$1" ]
-then
-    TEXT=$1
-else
-    read -p "📝 Enter text you want to insert: " TEXT
-fi
+send_text_char_by_char(){
+  echo "Char by char mode..."
 
-if [ "$#" -gt 1 ];
-then
-  for ARGUMENT in "$@"
-  do
-    send_text "$ARGUMENT"
-    sleep 0.5
-	  if ! [ $ARGUMENT = ${@:$#} ]; then #if not last argument, jump to next field
-	   adb -s $SELECTED_DEVICE shell input keyevent 61
-	  fi
+  for (( i=0; i<${#ESCAPED_TEXT}; i++ )); do
+    CHAR="${ESCAPED_TEXT:$i:1}"
+    echo $CHAR
+    adb -s $SELECTED_DEVICE shell "input text '$CHAR'"
   done
-elif [ "$1" == "-l" ];
-then
-  send_text "$LOREM"
-else
-  send_text "$TEXT"
-fi
+  exit
+}
+
+execute_by_arguments(){
+  if [ -n "$1" ]
+  then
+      TEXT=$1
+  else
+      read -p "📝 Enter text you want to insert: " TEXT
+  fi
+
+  if [ "$1" == "-l" ];
+  then
+    send_text "$LOREM"
+  fi
+
+  if [ "$#" -gt 1 ];
+  then
+    for ARGUMENT in "$@"
+    do
+      send_text "$ARGUMENT"
+      sleep 0.5
+      if ! [ $ARGUMENT = ${@:$#} ]; then #if not last argument, jump to next field
+       adb -s $SELECTED_DEVICE shell input keyevent 61
+      fi
+    done
+  else
+    send_text "$TEXT"
+  fi
+}
+
+android_choose_device
+SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
+execute_by_arguments $@
