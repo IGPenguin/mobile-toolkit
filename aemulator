@@ -29,5 +29,6 @@ launch_emulator(){
   fi
 }
 
+check_for_update
 get_emulator_list
 launch_emulator
