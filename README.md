@@ -5,13 +5,15 @@
 
 📱 **Test mobile applications**, clear device memory and much more<br>
 
-📋 **Handle multiple devices effortlessly** via choosing from the list
+📋 **Handle multiple devices effortlessly** via choosing from the list<br>
 
 ⏳ **Save your precious time**, stop doing repetitive tasks manually<br>
 
-⁉️ **Submit issue** if you want to ask anything or improve the scripts
+⁉️ **Submit issue** if you want to ask anything or improve the scripts<br>
 
-🤝 Any **pull request** contribution is **highly appreciated**
+🤝 Any **pull request** contribution is **highly appreciated**<br>
+
+🔄 **Check for updates** is performed once a day after using any script<br>
 
 ⭐️ If you **love Mobile Toolkit**, hit the **star button** at the top right corner and **make me happy**<br>
 
