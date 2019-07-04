@@ -9,11 +9,11 @@
 
 ⏳ **Save your precious time**, stop doing repetitive tasks manually<br>
 
+🔄 **Automatic check for update** is performed once a day after using any script<br>
+
 ⁉️ **Submit issue** if you want to ask anything or improve the scripts<br>
 
 🤝 Any **pull request** contribution is **highly appreciated**<br>
-
-🔄 **Check for update** is performed once a day after using any script<br>
 
 ⭐️ If you **love Mobile Toolkit**, hit the **star button** at the top right corner and **make me happy**<br>
 
