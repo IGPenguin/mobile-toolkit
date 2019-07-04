@@ -5,7 +5,7 @@
 
 📱 **Test mobile applications**, clear device memory and much more<br>
 
-📋 **Handle multiple devices effortlessly** via choosing from the list<br>
+📋 **Handle multiple devices effortlessly** via choice from a list<br>
 
 ⏳ **Save your precious time**, stop doing repetitive tasks manually<br>
 
