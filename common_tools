@@ -322,7 +322,8 @@ check_for_update(){
 
   if [[ "$CURRENT_BRANCH" == "master" && "$LAST_CHECK_DATE" != "$TODAY" ]]; then
     echo "🔄 Checking for updates..."
-    git status -uno | grep "up to date"
+    git fetch origin &> /dev/null
+    git status -uno | grep "up to date" &> /dev/null
     if [ $? -ne 0 ]; then
       yes_or_no "🆕 Update available, download?";
       if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
