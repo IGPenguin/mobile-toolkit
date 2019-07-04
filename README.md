@@ -13,7 +13,7 @@
 
 🤝 Any **pull request** contribution is **highly appreciated**<br>
 
-🔄 **Check for updates** is performed once a day after using any script<br>
+🔄 **Check for update** is performed once a day after using any script<br>
 
 ⭐️ If you **love Mobile Toolkit**, hit the **star button** at the top right corner and **make me happy**<br>
 
