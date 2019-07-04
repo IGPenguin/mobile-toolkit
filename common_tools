@@ -321,15 +321,15 @@ check_for_update(){
   CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
   if [[ "$CURRENT_BRANCH" == "master" && "$LAST_CHECK_DATE" != "$TODAY" ]]; then
-    echo "🔄 Checking for updates..."
+    echo "🔄 Checking for Mobile Toolkit update..."
     git fetch origin &> /dev/null
     git status -uno | grep "up to date" &> /dev/null
     if [ $? -ne 0 ]; then
       yes_or_no "🆕 Update available, download?";
       if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
-        echo "♻️ Updating..."
+        echo "⏬ Updating..."
         git pull &> /dev/null
-        echo "✅ Done."
+        echo "✅ Done"
       fi
     fi
   fi
