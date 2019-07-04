@@ -95,6 +95,8 @@ wipe_contents(){
   xcrun simctl boot $SIMULATOR_ID
 }
 
+check_for_update
+
 case $1 in
   'start')
     start_simulator $2

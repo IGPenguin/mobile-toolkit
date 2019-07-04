@@ -1,5 +1,6 @@
 #!/bin/bash
 TOOLKIT_LOCATION=$(dirname "$0")
+LAST_CHECK_DATE_FILE="$TOOLKIT_LOCATION/toolkit_last_check_date.txt"
 
 ##########################
 ### ANDROID SECTION
@@ -32,6 +33,7 @@ android_get_devices(){
 }
 
 android_choose_device() {
+  check_for_update
   android_check_connected
 
   #Gather device info and choose device
@@ -133,6 +135,7 @@ ios_check_developer_image(){
 }
 
 ios_choose_device(){
+  check_for_update
   IOS_DEVICES=( $(idevice_id -l) )
 
   #No device connected
@@ -141,7 +144,6 @@ ios_choose_device(){
      echo "❌ No device connected."
      yes_or_no "❓ Start simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/isimulator start; exit; fi
      ios_wait_for_device
-     exit
   fi
 
   if [ ${#IOS_DEVICES[@]} -gt 1 ]
@@ -305,6 +307,34 @@ ios_get_package_list(){
 
 #####
 ### COMMON SECTION
+
+check_for_update(){
+  TODAY=$(date +%Y-%m-%d)
+  if [ -f "$LAST_CHECK_DATE_FILE" ]; then
+    LAST_CHECK_DATE=$(cat $LAST_CHECK_DATE_FILE)
+  else
+    echo $TODAY > $LAST_CHECK_DATE_FILE
+  fi
+
+  CURRENT_DIR=$PWD
+  cd $TOOLKIT_LOCATION
+  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+  if [[ "$CURRENT_BRANCH" == "master" && "$LAST_CHECK_DATE" != "$TODAY" ]]; then
+    echo "🔄 Checking for updates..."
+    git status -uno | grep "up to date"
+    if [ $? -ne 0 ]; then
+      yes_or_no "🆕 Update available, download?";
+      if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
+        echo "♻️ Updating..."
+        git pull &> /dev/null
+        echo "✅ Done."
+      fi
+    fi
+  fi
+
+  cd $CURRENT_DIR
+}
 
 delete_lastline(){
   echo -en "\033[1A\033[2K"
