@@ -11,15 +11,7 @@ else
     APP=$(adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
 fi
 
-read -r -p "🔥 Do you really want to remove all data of $APP [y/n] " response
-case "$response" in
-    [yY])
-        ;;
-    *)
-        exit
-        ;;
-esac
-
+should_proceed "🔥 Do you really want to remove all data of $APP?"
 
 adb -s $SELECTED_DEVICE shell pm clear $APP &> /dev/null
 echo "🚀 Launching..."
