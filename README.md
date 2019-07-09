@@ -50,7 +50,7 @@
 ### arecord
 1. **Record screen**
 2. **End recording** using `ctrl + c`
-3. Save screen video footage to ~/Desktop.
+3. Save screen video footage to ~/Desktop
   * Specify your own filename by passing it as argument
 
 ## Control device
@@ -123,7 +123,7 @@
 * (Optional) Remove everything in /sdcard/Download directory
 
 ### apermissionreset
-* Revoke ALL runtime permissions for ALL (even system) apps.
+* Revoke ALL runtime permissions for ALL (even system) apps
 
 ### agoogleplay
 * `agoogleplay "Dummy App"` Search for app on Google Play
