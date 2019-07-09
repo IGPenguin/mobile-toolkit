@@ -88,8 +88,10 @@ check_locale(){
 
   echo -n "👄 Checking locale"
   CURRENT_LOCALE=$(adb -s $SELECTED_DEVICE shell getprop persist.sys.locale)
+  CURRENT_LOCALE=${CURRENT_LOCALE%$'\r'} # remove trailing carriage return
+
   if [ "$CURRENT_LOCALE" != "$DEFAULT_LOCALE" ]; then
-    yes_or_no "🇺🇸 -  Current locale is $CURRENT_LOCALE, open locale settings?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/aoptions 2; fi
+    yes_or_no " - ❗️ Current locale is $CURRENT_LOCALE, open locale settings?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/aoptions 2; fi
   else
     echo " - ✅ $CURRENT_LOCALE"
   fi
@@ -100,8 +102,10 @@ check_font_scale(){
 
   echo -n "🔠 Checking font scale"
   SCALE=$(adb -s $SELECTED_DEVICE shell settings get system font_scale)
+  SCALE=${SCALE%$'\r'} # remove trailing carriage return
+
   if [ "$SCALE" != "$DEFAULT_SCALE" ]; then
-    yes_or_no "- 🔍 Current scale is $SCALE, change to $DEFAULT_SCALE"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then return; fi
+    yes_or_no " - 🔍 Current scale is $SCALE, change to $DEFAULT_SCALE"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then return; fi
     adb -s $SELECTED_DEVICE shell settings put system font_scale $DEFAULT_SCALE
   else
     echo " - ✅ $SCALE"
