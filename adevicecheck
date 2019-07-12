@@ -76,8 +76,10 @@ check_automatic_date(){
   AUTO_TIME=$(adb -s $SELECTED_DEVICE shell settings get global auto_time)
   AUTO_TIME=${AUTO_TIME%$'\r'} # remove trailing carriage return
   if [ "$AUTO_TIME" == "0" ]; then
-    yes_or_no " - 📡 Set automatic date?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then return; fi
-    adb -s $SELECTED_DEVICE shell settings put global auto_time 1
+    yes_or_no " - ❗️ Date is set manually, open date settings?"
+    if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
+      adb -s $SELECTED_DEVICE shell am start -a android.settings.DATE_SETTINGS &> /dev/null
+    fi
   else
     echo " - ✅ Automatic"
   fi
@@ -91,7 +93,10 @@ check_locale(){
   CURRENT_LOCALE=${CURRENT_LOCALE%$'\r'} # remove trailing carriage return
 
   if [ "$CURRENT_LOCALE" != "$DEFAULT_LOCALE" ]; then
-    yes_or_no " - ❗️ Current locale is $CURRENT_LOCALE, open locale settings?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/aoptions 2; fi
+    yes_or_no " - ❗️ Current locale is $CURRENT_LOCALE, open locale settings?"
+    if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
+      adb -s $SELECTED_DEVICE shell am start -a android.settings.LOCALE_SETTINGS &> /dev/null
+    fi
   else
     echo " - ✅ $CURRENT_LOCALE"
   fi
