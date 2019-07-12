@@ -322,6 +322,8 @@ check_for_update(){
 
   if [[ "$CURRENT_BRANCH" == "master" && "$LAST_CHECK_DATE" != "$TODAY" ]]; then
     echo "🔄 Checking for Mobile Toolkit update..."
+    echo $TODAY > $LAST_CHECK_DATE_FILE
+
     git fetch origin &> /dev/null
     git status -uno | grep "up to date" &> /dev/null
     if [ $? -ne 0 ]; then
