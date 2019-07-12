@@ -5,13 +5,15 @@
 
 📱 **Test mobile applications**, clear device memory and much more<br>
 
-📋 **Handle multiple devices effortlessly** via choosing from the list
+📋 **Handle multiple devices effortlessly** via choice from a list<br>
 
 ⏳ **Save your precious time**, stop doing repetitive tasks manually<br>
 
-⁉️ **Submit issue** if you want to ask anything or improve the scripts
+🔄 **Automatic check for update** is performed once a day after using any script<br>
 
-🤝 Any **pull request** contribution is **highly appreciated**
+⁉️ **Submit issue** if you want to ask anything or improve the scripts<br>
+
+🤝 Any **pull request** contribution is **highly appreciated**<br>
 
 ⭐️ If you **love Mobile Toolkit**, hit the **star button** at the top right corner and **make me happy**<br>
 
@@ -48,7 +50,7 @@
 ### arecord
 1. **Record screen**
 2. **End recording** using `ctrl + c`
-3. Save screen video footage to ~/Desktop.
+3. Save screen video footage to ~/Desktop
   * Specify your own filename by passing it as argument
 
 ## Control device
@@ -58,18 +60,25 @@
 
 * `apaste <text>` Insert text into currently focused field
 * `apaste "john.doe@fakemail.com" password1 ` Every additional argument will be inserted into subsequent field
-* `apaste "Lorem ipsum dolor sit amet."` use "" to insert multi-word text into one field
+* `apaste "This is sample multi-word text."` use "" to insert multi-word text into one field
+* `apaste -l` Paste classic Lorem Ipsum paragraph
 
 ### abounds
 * Toggle **layout bounds visibility**
 * App restart may be necessary on lower APIs
 
-### aweb
-* `aweb "google.com"` Open link passed as an argument in web browser
+### aurl
+* `aurl "google.com"` Open link passed as an argument in web browser or corresponding application
 
-### aloremipsum
-* Insert long text into focused field
-* Useful for testing layouts
+### aanimationspeed
+* `aanimationspeed` set slow animation speed
+* `aanimationspeed <any-number>` set animation speed to <any-number> times slower than default
+* Press ENTER to reset to default
+
+### afontscale
+* `afontscale` set font scale to largest common setting (1.3x bigger than default)
+* `afontscale <any-number>` set font scale to <any-number> times larger than default
+* Press ENTER to reset to default
 
 ### acamera
 * Start camera application
@@ -113,6 +122,9 @@
   * Edit this script yourself to customize the list of essential apps
 * (Optional) Remove everything in /sdcard/Download directory
 
+### apermissionreset
+* Revoke ALL runtime permissions for ALL (even system) apps
+
 ### agoogleplay
 * `agoogleplay "Dummy App"` Search for app on Google Play
 * Pass app name as argument
@@ -141,12 +153,14 @@
 
 ### adevicecheck
 * Print device information
-* Perform basic checks and apply preset settings
-	* Set 10min screen timeout
-	* Set maximum brightness
-  * Enable automatic date
-  * Disable notification sounds
-  * Check if connected to EDGE wifi
+* Perform basic checks and apply preset settings if allowed
+  * 10 minutes screen timeout
+  * Manual maximum brightness
+  * Automatic date
+  * Disabled notification sounds
+  * Internet connectivity and WIFI name
+  * Font scale
+  * enUS locale
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
 ### aemulator
@@ -212,5 +226,5 @@
 * `isimulator <option>` Handle various simulator related activites
   * `start` - choose and launch installed simulator
   * `paste <text>` - insert text into pasteboard
-  * `web <url>` - open link in web browser
+  * `url <url>` - open link in web browser or corresponding application
   * `wipe` - wipe all simulator data

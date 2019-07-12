@@ -10,15 +10,14 @@ help(){
   else
     echo "🤷 Argument missing."
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  paste <text> - insert text into pasteboard\n  web <url> - open link in web browser\n  wipe - wipe all simulator data"
+  echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  paste <text> - insert text into pasteboard\n  url <url> - open link in web browser\n  wipe - wipe all simulator data"
 }
 
 choose_simulator(){
-  read -p "📝 Enter simulator number: " SIMULATOR_INDEX
+  read -p "📝 Choose: " SIMULATOR_INDEX
   SIMULATOR_ID=$(sed $SIMULATOR_INDEX!d $LOCAL_SIMULATOR_LIST)
-
   if [[ $SIMULATOR_INDEX == "" || $SIMULATOR_ID != *"("* ]]; then
-    echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
+    delete_lastline
     choose_simulator
   fi
   SIMULATOR_ID=$(echo $SIMULATOR_ID | sed 's/.*(\(.*\))/\1/')
@@ -29,7 +28,12 @@ choose_running_simulator(){
   RUNNING_SIMULATOR_COUNT=$(wc -l < $LOCAL_SIMULATOR_LIST)
 
   if [[ $RUNNING_SIMULATOR_COUNT -le 0 ]]; then
-    echo "❌ No running simulators..."
+    echo "❌ No running simulators."
+    yes_or_no "❓ Do you want to start one?"
+    if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
+    then
+      start_simulator
+    fi
     exit
   elif [[ $RUNNING_SIMULATOR_COUNT -eq 1 ]]; then
     SIMULATOR_ID=$(sed 1!d $LOCAL_SIMULATOR_LIST | sed 's/.*(\(.*\))/\1/')
@@ -42,22 +46,23 @@ choose_running_simulator(){
 }
 
 start_simulator(){
-  echo "⏳ Getting installed iOS simulator list..."
+  echo "⏳ Getting iOS simulator list..."
   rm -f $LOCAL_SIMULATOR_LIST
   xcrun simctl list | grep -i "shutdown\|booted\|-- iOS\|-- tvOS\|-- watchOS" | grep -v "unavailable\|Watch:\|Phone:" | sed 's/ (Shutdown) //g' | sed 's/ (Booted) //g' >> $LOCAL_SIMULATOR_LIST
 
-  echo "📱 Installed simulators:"
+  echo "📱 Available:"
   cat $LOCAL_SIMULATOR_LIST | nl
   choose_simulator
   echo  "🚀 Launching simulator..."
   xcrun simctl boot $SIMULATOR_ID
   open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/
+  rm $LOCAL_SIMULATOR_LIST
 }
 
-open_web(){
-  check_web_url $1
+open_url(){
+  check_url $1
   echo "🌎 Opening link in a web browser..."
-  xcrun simctl openurl $SIMULATOR_ID $WEB_URL
+  xcrun simctl openurl $SIMULATOR_ID $URL
 }
 
 launch_app(){
@@ -90,13 +95,15 @@ wipe_contents(){
   xcrun simctl boot $SIMULATOR_ID
 }
 
+check_for_update
+
 case $1 in
   'start')
     start_simulator $2
     ;;
-  'web')
+  'url')
     choose_running_simulator
-    open_web $2
+    open_url $2
     ;;
   'launch')
     choose_running_simulator

@@ -6,20 +6,13 @@ android_choose_device
 if [[ "$1" != "" ]];
 then
     APP=$1
+    android_is_package_installed $APP
 else
     APP=$(adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
 fi
 
-read -r -p "🔥 Do you really want to remove all data of $APP [y/n] " response
-case "$response" in
-    [yY])
-        ;;
-    *)
-        exit
-        ;;
-esac
+should_proceed "🔥 Do you really want to remove all data of $APP?"
 
-android_is_installed $APP
 adb -s $SELECTED_DEVICE shell pm clear $APP &> /dev/null
 echo "🚀 Launching..."
 adb -s $SELECTED_DEVICE shell monkey -p $APP -c android.intent.category.LAUNCHER 1 &> /dev/null

@@ -1,30 +1,47 @@
 #!/bin/bash
+TOOLKIT_LOCATION=$(dirname "$0")
+LAST_CHECK_DATE_FILE="$TOOLKIT_LOCATION/toolkit_last_check_date.txt"
 
 ##########################
 ### ANDROID SECTION
 
+android_check_connected(){
+  android_get_devices
+  #No device connected
+  if [ ${#DEVICES[@]} -eq 0 ]
+  then
+    echo "❌ No Android devices detected."
+    yes_or_no "❓ Use emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/aemulator; fi
+    android_wait_for_device
+  fi
+}
+
+android_wait_for_device(){
+  echo "⏳ Waiting for Android device..."
+  adb wait-for-any-device
+  android_get_devices
+}
+
+android_get_devices(){
+  #Populate array with device ids
+  DEVICES=()
+  for LINE in `adb devices | grep -v "List"  | awk '{print $1}'`
+  do
+    DEVICE=`echo $LINE | awk '{print $1}'`
+    DEVICES+=("$DEVICE")
+  done
+}
+
 android_choose_device() {
-#Populate array with device ids
-DEVICES=()
-for LINE in `adb devices | grep -v "List"  | awk '{print $1}'`
-do
-  DEVICE=`echo $LINE | awk '{print $1}'`
-  DEVICES+=("$DEVICE")
-done
+  check_for_update
+  android_check_connected
 
-#No device connected
-if [ ${#DEVICES[@]} -eq 0 ]
-then
-   echo "❌ No device connected, aborting..."
-   exit
-fi
-
-#Gather device info and choose device
-if [ ${#DEVICES[@]} -gt 1 ]
-then
-   NUMBER=1
-   echo "📱 Available devices:"
-   for ID in "${DEVICES[@]}"
+  #Gather device info and choose device
+  if [ ${#DEVICES[@]} -gt 1 ]
+  then
+    NUMBER=1
+    echo "📱 Available devices:"
+    for ID in "${DEVICES[@]}"
     do
       MANUFACTURER=$(adb -s $ID shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
       MODEL=$(adb -s $ID shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
@@ -47,24 +64,59 @@ then
     done
     SELECTED_DEVICE=${DEVICES[(($CHOICE-1))]}
 else
-   SELECTED_DEVICE="${DEVICES[0]}"
+  SELECTED_DEVICE="${DEVICES[0]}"
 fi
 
 SELECTED_DEVICE_MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
 SELECTED_DEVICE_SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
 }
 
-android_is_installed() {
-adb -s $SELECTED_DEVICE shell pm list packages -f | sed -e 's/.*=//' | grep $1 &> /dev/null
-EXIT_CODE=$?
-if [ $EXIT_CODE -ne 0 ]; then
+check_screen_on(){
+  CURRENT_FOCUS=$(adb -s $1 shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+  if [ "$CURRENT_FOCUS" == *"StatusBar"* ] || [ "$CURRENT_FOCUS" == *"mCurrentFocus=null"* ] || [ "$CURRENT_FOCUS" == *"Keyguard"* ]; then
+    return 1
+  else
+    return 0
+  fi
+}
+
+android_unlock_device(){
+  if [[ $(check_screen_on $1) -eq 1  ]]; then
+    echo "🛌 Waking up the device..."
+    adb -s $1 shell input keyevent KEYCODE_HOME
+    if [[ $(check_screen_on $1) -eq 1  ]]; then
+      adb -s $1 shell input keyevent KEYCODE_POWER
+      if [[ $(check_screen_on $1) -eq 1  ]]; then
+        adb -s $1 shell input keyevent 82
+      fi
+    fi
+  fi
+}
+
+android_get_foreground_package(){
+  adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev
+}
+
+android_is_package_installed() {
+  adb -s $SELECTED_DEVICE shell pm list packages -f | sed -e 's/.*=//' | grep $1 &> /dev/null
+  EXIT_CODE=$?
+  if [ $EXIT_CODE -ne 0 ]; then
     echo "🤷‍ Package $1 is not installed."
     exit
-fi
+  fi
 }
 
 ##########################
 ### IOS SECTION
+
+ios_wait_for_device(){
+  echo "⏳ Waiting for iOS device..."
+  while ! [ "$(idevice_id -l | wc -l)" -ge 1 ];
+  do
+    sleep 1
+  done
+  delete_lastline
+}
 
 ios_check_developer_image(){
   IS_MOUNTED=$(ideviceimagemounter -u $1 -l)
@@ -83,13 +135,15 @@ ios_check_developer_image(){
 }
 
 ios_choose_device(){
+  check_for_update
   IOS_DEVICES=( $(idevice_id -l) )
 
   #No device connected
   if [ ${#IOS_DEVICES[@]} -eq 0 ]
   then
-     echo "❌ No device connected, aborting..."
-     exit
+     echo "❌ No device connected."
+     yes_or_no "❓ Start simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/isimulator start; exit; fi
+     ios_wait_for_device
   fi
 
   if [ ${#IOS_DEVICES[@]} -gt 1 ]
@@ -254,23 +308,87 @@ ios_get_package_list(){
 #####
 ### COMMON SECTION
 
-should_proceed(){
-read -r -p "$1 [y/n] " RESPONSE
-case "$RESPONSE" in
-    [yY])
-        ;;
-    *)
-        exit
-        ;;
-esac
+check_for_update(){
+  TODAY=$(date +%Y-%m-%d)
+  if [ -f "$LAST_CHECK_DATE_FILE" ]; then
+    LAST_CHECK_DATE=$(cat $LAST_CHECK_DATE_FILE)
+  else
+    echo $TODAY > $LAST_CHECK_DATE_FILE
+  fi
+
+  CURRENT_DIR=$PWD
+  cd $TOOLKIT_LOCATION
+  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+  if [[ "$CURRENT_BRANCH" == "master" && "$LAST_CHECK_DATE" != "$TODAY" ]]; then
+    echo "🔄 Checking for Mobile Toolkit update..."
+    git fetch origin &> /dev/null
+    git status -uno | grep "up to date" &> /dev/null
+    if [ $? -ne 0 ]; then
+      yes_or_no "🆕 Update available, download?";
+      if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
+        echo "⏬ Updating..."
+        git pull &> /dev/null
+        echo "✅ Done"
+      fi
+    fi
+  fi
+
+  cd $CURRENT_DIR
 }
 
-check_web_url(){
-  WEB_URL=$1
+delete_lastline(){
+  echo -en "\033[1A\033[2K"
+}
 
-  if [[ $WEB_URL == "" ]]; then
-    read -p "📝 Insert web url: " WEB_URL
-    check_web_url $WEB_URL
+yes_or_no(){
+  read -r -n 1 -p "$1 [y/n] " RESPONSE
+  case "$RESPONSE" in
+      [yY])
+          ;;
+      [nN])
+          ;;
+      *)
+        echo
+        echo "🤷‍ Invalid option."
+        yes_or_no $1
+        ;;
+  esac
+  echo
+}
+
+should_proceed(){
+  read -r -n 1 -p "$1 [y/n] " RESPONSE
+  case "$RESPONSE" in
+    [yY])
+      ;;
+    *)
+      exit
+      ;;
+  esac
+  echo
+}
+
+choose_number(){
+  MAX=$1
+  read -p "📝 Choose number in range 1-$MAX: " CHOICE
+  while :;
+  do
+    if [[ -z $CHOICE  || $CHOICE -le 0 || $CHOICE -gt $MAX ]]; then
+      delete_lastline
+      read -p "🤷‍ Invalid choice, try again: " CHOICE
+    else
+      break
+    fi
+  done
+}
+
+check_url(){
+  URL=$1
+
+  if [[ $URL == "" ]]; then
+    read -p "📝 Insert web url: " URL
+    check_url $URL
   else
     case $1 in
       'http://'*)
@@ -280,7 +398,7 @@ check_web_url(){
       *'://'*)
         ;;
       *)
-        WEB_URL='http://'$WEB_URL
+        URL='http://'$URL
         ;;
     esac
   fi
