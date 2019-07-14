@@ -31,7 +31,7 @@
 	* Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
 5. (Optional) Use following **commands in any directory** in your terminal
 	* Edit your **.bash_profile** file (or .zshrc if you have zsh shell) in your home directory `nano ~/.bash_profile`
-	* Add the path to the script folders to **PATH** variable in **.bash_profile** (or equivalent file) -> **insert the following code at the end of the file**, make sure to **replace "dummyuser" with your profile name and use proper path**
+	* Add the path to the script folders to **PATH** variable in **.bash_profile** (or equivalent file) -> **insert the following lines at the end of the file**, make sure to **replace "dummyuser" with your profile name and use proper path**
 	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/android`
 	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/ios`
 
