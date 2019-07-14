@@ -1,6 +1,6 @@
 #!/bin/bash
 TOOLKIT_LOCATION=$(dirname "$0")
-LAST_CHECK_DATE_FILE="$TOOLKIT_LOCATION/toolkit_last_check_date.txt"
+LAST_CHECK_DATE_FILE="$TOOLKIT_LOCATION/../data/toolkit_last_check_date.txt"
 
 ##########################
 ### ANDROID SECTION
