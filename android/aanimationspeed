@@ -1,15 +1,19 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/common_tools
+source $LOCATION/../common_tools
 trap 'ctrlc $@' 1 2 3 6 15
+CHANGED=0
 
 ctrlc()
 {
-  restore_animation_speed
+  if [ $CHANGED -eq 1 ]; then
+    restore_animation_speed
+  fi
   exit
 }
 
 set_animation_speed(){
+  CHANGED=1
   adb -s $SELECTED_DEVICE shell settings put global animator_duration_scale $1
   adb -s $SELECTED_DEVICE shell settings put global transition_animation_scale $1
   adb -s $SELECTED_DEVICE shell settings put global window_animation_scale $1
