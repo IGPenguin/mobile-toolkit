@@ -1,6 +1,6 @@
 #!/bin/bash
-TOOLKIT_LOCATION=$(dirname "$0")
-LAST_CHECK_DATE_FILE="$TOOLKIT_LOCATION/../data/toolkit_last_check_date.txt"
+SCRIPT_LOCATION=$(dirname "$0")
+LAST_CHECK_DATE_FILE="$SCRIPT_LOCATION/../data/toolkit_last_check_date.txt"
 
 ##########################
 ### ANDROID SECTION
@@ -11,7 +11,7 @@ android_check_connected(){
   if [ ${#DEVICES[@]} -eq 0 ]
   then
     echo "❌ No Android devices detected."
-    yes_or_no "❓ Use emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/aemulator; fi
+    yes_or_no "❓ Use emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $SCRIPT_LOCATION/aemulator; fi
     android_wait_for_device
   fi
 }
@@ -142,7 +142,7 @@ ios_choose_device(){
   if [ ${#IOS_DEVICES[@]} -eq 0 ]
   then
      echo "❌ No device connected."
-     yes_or_no "❓ Start simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/isimulator start; exit; fi
+     yes_or_no "❓ Start simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $SCRIPT_LOCATION/isimulator start; exit; fi
      ios_wait_for_device
   fi
 
@@ -317,7 +317,7 @@ check_for_update(){
   fi
 
   CURRENT_DIR=$PWD
-  cd $TOOLKIT_LOCATION
+  cd $SCRIPT_LOCATION/..
   CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
   if [[ "$CURRENT_BRANCH" == "master" && "$LAST_CHECK_DATE" != "$TODAY" ]]; then
