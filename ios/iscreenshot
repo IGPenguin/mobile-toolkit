@@ -1,6 +1,6 @@
 #!/bin/bash
 location=$(dirname "$0")
-source $location/common_tools
+source $LOCATION/../common_tools
 ios_choose_device
 ios_check_developer_image $SELECTED_DEVICE
 

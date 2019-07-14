@@ -1,6 +1,6 @@
 #!/bin/bash
 location=$(dirname "$0")
-source $location/common_tools
+source $LOCATION/../common_tools
 
 if [ -z "$1" ] ; then
   echo "🤷‍ What should I install?"

@@ -1,8 +1,8 @@
 #!/bin/bash
 TOOLKIT_LOCATION=$(dirname "$0")
-source $TOOLKIT_LOCATION/common_tools
+source $TOOLKIT_LOCATION/../common_tools
 
-LOCAL_SIMULATOR_LIST=$TOOLKIT_LOCATION/toolkit_simulator_list.txt
+LOCAL_SIMULATOR_LIST=$TOOLKIT_LOCATION/../data/toolkit_simulator_list.txt
 
 help(){
   if [[ $1 != "" ]]; then
