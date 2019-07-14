@@ -40,7 +40,7 @@
 ## Capture screen
 
 ### ascreenshot
-* `ascreenshot`Save **screenshot** to **~/Desktop**
+* `ascreenshot` Save **screenshot** to **~/Desktop**
 * **Filename** includes **device model**, **system API level** and current time and date
   * `ascreenshot <custom-name>` Specify your own filename by passing it as argument
 * Use `ascreenshot -a` to take screenshot on all connected devices
