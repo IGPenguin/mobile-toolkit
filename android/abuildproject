@@ -2,25 +2,32 @@
 LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 
+trap 'cleanup $@' 1 2 3 6 15
+
+cleanup()
+{
+  if [ -n "$OLD_PWD" ]; then
+    cd $OLD_PWD
+  fi
+  rm -f $TASK_LIST
+  exit
+}
+
 list_build_variants(){
-  echo "⏳ Detecting build variant list..."
   if [ -n "$1" ];
   then
-    cd $PWD/$1 &> /dev/null
-    if [ $? != "0" ];
-    then
-      echo "🤷‍ Location does not exist"
-      exit
-    fi
+    OLD_PWD=$PWD
+    cd "$1"
   fi
 
   if ! [ -f "gradlew" ];
   then
-    echo "🤷‍ Android project not found"
+    echo "🤷‍ No Android project found"
     exit
   fi
 
   TASK_LIST="toolkit_task_list.txt"
+  echo "⏳ Detecting build variant list..."
   ./gradlew tasks | grep '^install' > $TASK_LIST
 
   if [ "$(cat $TASK_LIST | wc -l)" -eq 0 ]; then
@@ -51,9 +58,7 @@ build_project_variant(){
   fi
 }
 
-OLD_PWD="$PWD"
 android_choose_device
 list_build_variants "$@"
 build_project_variant
-rm $TASK_LIST
-cd $OLD_PWD
+cleanup
