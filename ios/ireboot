@@ -1,5 +1,5 @@
 #!/bin/bash
-location=$(dirname "$0")
+LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 ios_choose_device
 
