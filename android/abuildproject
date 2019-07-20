@@ -1,0 +1,55 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/../common_tools
+
+list_build_variants(){
+  echo "⏳ Detecting build variant list..."
+  if [ -n "$1" ];
+  then
+    cd $PWD/$1 &> /dev/null
+    if [ $? != "0" ];
+    then
+      echo "🤷‍ Location does not exist"
+      exit
+    fi
+  fi
+
+  TASK_LIST="toolkit_task_list.txt"
+
+  if [ -f $TASK_LIST ];
+  then
+    TASK_LIST_DATE=$(stat -f "%Sm" -t "%Y-%m-%d %H:%M" $TASK_LIST)
+    CURRENT_DATE=$(date +"%Y-%m-%d %H:%M")
+    if [ "$TASK_LIST_DATE" != "$CURRENT_DATE" ] || [ "$(cat $TASK_LIST | wc -l)" -eq 0 ];
+    then
+      ./gradlew tasks | grep Installs > $TASK_LIST
+    fi
+  else
+    ./gradlew tasks | grep Installs > $TASK_LIST
+  fi
+
+  if [ "$(cat $TASK_LIST | wc -l)" -eq 0 ]; then
+    echo "🤷‍ No Android project build variants available"
+    exit
+  else
+    echo "🔨 Available:"
+    cat $TASK_LIST | nl
+  fi
+}
+
+build_project_variant(){
+  read -p "📝 Choose build variant: " VARIANT_INDEX
+  VARIANT=$(sed $VARIANT_INDEX!d $TASK_LIST | awk '{ print $1 }' )
+  if [[ $VARIANT_INDEX == "" || $VARIANT == "" ]]; then
+    delete_lastline
+    build_project_variant
+  else
+    echo  "🚀 Triggering new build..."
+    ./gradlew $VARIANT
+  fi
+}
+
+OLD_PWD="$PWD"
+list_build_variants "$@"
+build_project_variant
+cd $OLD_PWD
