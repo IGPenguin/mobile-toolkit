@@ -53,6 +53,10 @@
 
 ## Control device
 
+### awireless
+* Enable or disable wireless ADB connection
+* Allows script or any ADB command usage without USB connection
+
 ### apaste
 `apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004`
 
@@ -109,6 +113,10 @@
 * `ainstall some-app-file.apk` Install and run .apk file
 * `ainstall -a some-app-file.apk` Install and run on all devices
 * Can overwrite existing app
+
+### abuildproject
+* `abuildproject` Build Android project located in current directory and install it
+* `abuildproject <project-path>` Build Android project located in <project-path> and install it
 
 ### auninstall
 * `auninstall` Uninstall third party app, choose from the list
