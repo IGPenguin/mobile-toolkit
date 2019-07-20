@@ -24,8 +24,8 @@ else
   else
     FILENAME=$1
   fi
+  echo "📸 Saving screenshot into $FILENAME.png"
   adb -s $SELECTED_DEVICE shell screencap -p /mnt/sdcard/output.png
   adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.png ~/Desktop/$FILENAME.png &> /dev/null
   adb -s $SELECTED_DEVICE shell rm /mnt/sdcard/output.png
-  echo "📸 Screenshot saved into $FILENAME.png"
 fi
