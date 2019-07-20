@@ -8,7 +8,7 @@ help(){
   if [[ $1 != "" ]]; then
     echo "🤷‍ Unknown option: $1"
   else
-    echo "🤷 Argument missing."
+    echo "🤷 Argument missing"
   fi
   echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  paste <text> - insert text into pasteboard\n  url <url> - open link in web browser\n  wipe - wipe all simulator data"
 }
