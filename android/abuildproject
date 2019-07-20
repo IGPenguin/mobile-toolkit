@@ -14,19 +14,14 @@ list_build_variants(){
     fi
   fi
 
-  TASK_LIST="toolkit_task_list.txt"
-
-  if [ -f $TASK_LIST ];
+  if ! [ -f "gradlew" ];
   then
-    TASK_LIST_DATE=$(stat -f "%Sm" -t "%Y-%m-%d %H:%M" $TASK_LIST)
-    CURRENT_DATE=$(date +"%Y-%m-%d %H:%M")
-    if [ "$TASK_LIST_DATE" != "$CURRENT_DATE" ] || [ "$(cat $TASK_LIST | wc -l)" -eq 0 ];
-    then
-      ./gradlew tasks | grep Installs > $TASK_LIST
-    fi
-  else
-    ./gradlew tasks | grep Installs > $TASK_LIST
+    echo "🤷‍ Android project not found"
+    exit
   fi
+
+  TASK_LIST="toolkit_task_list.txt"
+  ./gradlew tasks | grep '^install' > $TASK_LIST
 
   if [ "$(cat $TASK_LIST | wc -l)" -eq 0 ]; then
     echo "🤷‍ No Android project build variants available"
@@ -39,17 +34,26 @@ list_build_variants(){
 
 build_project_variant(){
   read -p "📝 Choose build variant: " VARIANT_INDEX
-  VARIANT=$(sed $VARIANT_INDEX!d $TASK_LIST | awk '{ print $1 }' )
-  if [[ $VARIANT_INDEX == "" || $VARIANT == "" ]]; then
+  TASK=$(sed $VARIANT_INDEX!d $TASK_LIST | awk '{ print $1 }' )
+  if [[ $VARIANT_INDEX == "" || $TASK == "" ]]; then
     delete_lastline
     build_project_variant
   else
     echo  "🚀 Triggering new build..."
-    ./gradlew $VARIANT
+    ANDROID_SERIAL=$SELECTED_DEVICE ./gradlew $TASK
+  fi
+  if [ $? == "0" ];
+  then
+    VARIANT=${TASK#"install"}
+    echo  "✅ $VARIANT build variant successfully installed"
+  else
+    echo  "❌ $VARIANT build variant installation failed"
   fi
 }
 
 OLD_PWD="$PWD"
+android_choose_device
 list_build_variants "$@"
 build_project_variant
+rm $TASK_LIST
 cd $OLD_PWD
