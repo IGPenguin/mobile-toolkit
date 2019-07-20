@@ -8,7 +8,7 @@ get_emulator_list(){
   rm -f $LOCAL_EMULATOR_LIST
   ~/Library/Android/sdk/tools/bin/avdmanager list avd | grep Name | awk '{print $2}' >> $LOCAL_EMULATOR_LIST
   if [ "$(cat $LOCAL_EMULATOR_LIST | wc -l)" -eq 0 ]; then
-    echo "🤷‍ No emulators available."
+    echo "🤷‍ No emulators available"
     exit
   else
     echo "📱 Available:"
