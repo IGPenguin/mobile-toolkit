@@ -114,10 +114,6 @@
 * `ainstall -a some-app-file.apk` Install and run on all devices
 * Can overwrite existing app
 
-### abuildproject
-* `abuildproject` Build Android project located in current directory and install it
-* `abuildproject <project-path>` Build Android project located in <project-path> and install it
-
 ### auninstall
 * `auninstall` Uninstall third party app, choose from the list
 * `auninstall com.dummy.package.name.app` pass package name as argument
