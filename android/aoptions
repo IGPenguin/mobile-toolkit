@@ -3,7 +3,7 @@ TOOLKIT_LOCATION=$(dirname "$0")
 source $TOOLKIT_LOCATION/../common_tools
 android_choose_device
 
-LOCAL_SETTINGS_LIST_PATH=$TOOLKIT_LOCATION/toolkit_intent_list.txt
+LOCAL_SETTINGS_LIST_PATH=$TOOLKIT_LOCATION/../data/toolkit_intent_list.txt
 
 import_intents(){
   echo "⏳ Importing settings activity list..."
