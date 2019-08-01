@@ -15,10 +15,9 @@ setup_network_connection(){
   echo "🌎 Device IP: $DEVICE_IP"
   echo "🌎 Connecting..."
   STATUS=$(adb connect "$DEVICE_IP:5555")
-  if [ $(echo $STATUS | grep "Connection refused") -n ];
-  then
-    echo "❌ Connection refused - already connected?"
-  fi
+
+  echo $STATUS | grep "refused" && echo "❌ Connection refused - already connected?" && return
+  echo "✅ Connected successfully, you can unplug the USB cable"
 }
 
 setup_usb_connection(){
@@ -30,7 +29,7 @@ setup_usb_connection(){
 choose_connection(){
   echo "📝 Available connections:"
   echo -e "w) 🌎 WIFI\nu) 🔌 USB"
-  read -r -n 1 -p "Select variant [w/u]" RESPONSE
+  read -r -n 1 -p "Select variant [w/u] " RESPONSE
   case "$RESPONSE" in
     [wW])
         ;;
