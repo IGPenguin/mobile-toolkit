@@ -1,0 +1,7 @@
++ areboot
++ ascreenshot -a
++ awireless
+folder cleanup
+output improvements
+README.md update
+echo changelog after update
