@@ -35,7 +35,7 @@
 	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/android`
 	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/ios`
 	
-_The scripts are primarily designed for macOS, but should work on any Unix system._
+_The scripts are primarily designed for macOS, but majority of functions should work on any Unix system._
 
 # Android scripts
 
