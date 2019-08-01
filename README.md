@@ -165,6 +165,9 @@
   * enUS locale
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
+### areboot
+* Reboot a device
+
 ### aemulator
 * Start any of your installed Android emulators
 
@@ -222,7 +225,7 @@
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
 ### ireboot
-* Reboot device
+* Reboot a device
 
 ### isimulator
 * `isimulator <option>` Handle various simulator related activites
