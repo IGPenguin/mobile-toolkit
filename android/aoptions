@@ -98,7 +98,9 @@ if [[ "$1" == "" ]]; then
   TOOLKIT_INTENT_COUNT=$(cat $LOCAL_SETTINGS_LIST_PATH | wc -l)
   TOOLKIT_INTENT_COUNT=`echo $TOOLKIT_INTENT_COUNT | awk '{print $1}'` # Remove ghost whitespaces 🙃
 
-  echo -e "📋 Available options:\n0) Show all $TOOLKIT_INTENT_COUNT settings options\n1) Developer\n2) Locale\n3) Date & time\n4) Wifi network\n5) Storage management\n6) Power usage\nA) Open system settings application\nR) Update settings list from Android sdk\nor\n<text> to search in all settings"
+  echo "📋 Available options:"
+  tput setaf 3; echo "0) Show all $TOOLKIT_INTENT_COUNT settings options"; tput sgr0
+  echo -e "1) Developer\n2) Locale\n3) Date & time\n4) Wifi network\n5) Storage management\n6) Power usage\nA) Open system settings application\nR) Update settings list from Android sdk\nor\n<text> to search in all settings"
   read -p "📝 Enter your selection: " PRESET
   handle_preset $PRESET
   exit
@@ -110,7 +112,7 @@ if [[ "$1" =~ ^[0-9]+$ ]]; then
   exit
 fi
 
-# If string argument passed, search in all available  intents
+# If string argument passed, search in all available intents
 if [[ "$1" != "" ]]; then
   search_for_intent $1
   exit
