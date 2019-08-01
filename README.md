@@ -9,7 +9,7 @@
 
 ⏳ **Save your precious time**, stop doing repetitive tasks manually<br>
 
-🔄 **Automatic check for update** is performed once a day after using any script<br>
+🔄 **Automatic check for update** is performed once a day<br>
 
 ⁉️ **Submit issue** if you want to ask anything or improve the scripts<br>
 
