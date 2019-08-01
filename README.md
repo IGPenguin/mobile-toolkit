@@ -34,6 +34,8 @@
 	* Add the path to the script folders to **PATH** variable in **.bash_profile** (or equivalent file) -> **insert the following lines at the end of the file**, make sure to **replace "dummyuser" with your profile name and use proper path**
 	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/android`
 	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/ios`
+	
+_The scripts are primarily designed for macOS, but shloud work on any Unix._
 
 # Android scripts
 
