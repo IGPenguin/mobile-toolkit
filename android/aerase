@@ -1,0 +1,18 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/../common_tools
+android_choose_device
+
+if [[ "$1" != "" ]];
+then
+    APP=$1
+    android_is_package_installed $APP
+else
+    APP=$(adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+fi
+
+should_proceed "🔥 Do you really want to remove all data of $APP?"
+
+adb -s $SELECTED_DEVICE shell pm clear $APP &> /dev/null
+echo "🚀 Launching..."
+adb -s $SELECTED_DEVICE shell monkey -p $APP -c android.intent.category.LAUNCHER 1 &> /dev/null

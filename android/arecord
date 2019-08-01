@@ -1,0 +1,30 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/../common_tools
+trap 'ctrlc $@' 1 2 3 6 15
+
+ctrlc()
+{
+if $RECORDING ; then
+  sleep 1
+  if [ -z "$1" ] ; then
+    FILENAME=$SELECTED_DEVICE_MODEL-API$SELECTED_DEVICE_SDK-$(date +%Y-%m-%d-%H-%M-%S)
+  else
+    FILENAME=$1
+  fi
+  echo "📁 Copying the video from the device..."
+  adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.mp4 ~/Desktop/$FILENAME.mp4 &> /dev/null
+  adb -s $SELECTED_DEVICE shell rm /mnt/sdcard/output.mp4 &> /dev/null
+  adb -s $SELECTED_DEVICE shell settings put system show_touches 0
+  echo "✅ Done"
+fi
+exit
+}
+
+RECORDING=false
+android_choose_device
+
+RECORDING=true
+echo "📹 Recording screen on $SELECTED_DEVICE, stop it with ctrl^c"
+adb -s $SELECTED_DEVICE shell settings put system show_touches 1
+adb -s $SELECTED_DEVICE shell screenrecord /mnt/sdcard/output.mp4

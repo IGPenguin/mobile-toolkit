@@ -31,21 +31,19 @@
 	* Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
 5. (Optional) Use following **commands in any directory** in your terminal
 	* Edit your **.bash_profile** file (or .zshrc if you have zsh shell) in your home directory `nano ~/.bash_profile`
-	* Add the absolute path to this cloned repository to **PATH** variable in **.bash_profile** (or equivalent file) by **inserting the following code at the end of the file**, make sure to **replace the "dummyuser" with your profile name** `PATH=$PATH:/Users/dummyuser/mobile-toolkit export PATH`
+	* Add the path to the script folders to **PATH** variable in **.bash_profile** (or equivalent file) -> **insert the following lines at the end of the file**, make sure to **replace "dummyuser" with your profile name and use proper path**
+	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/android`
+	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/ios`
 
 # Android scripts
 
 ## Capture screen
 
 ### ascreenshot
-* Save **screenshot** to **~/Desktop**
+* `ascreenshot` Save **screenshot** to **~/Desktop**
 * **Filename** includes **device model**, **system API level** and current time and date
-  * Specify your own filename by passing it as argument
-
-### amultiscreenshot
-* Take **screenshot** on all connected devices
-* **Filename** includes **device model**, **system API level** and current time and date
-  * Specify your own filename by passing it as argument
+  * `ascreenshot <custom-name>` Specify your own filename by passing it as argument
+* Use `ascreenshot -a` to take screenshot on all connected devices
 
 ### arecord
 1. **Record screen**
@@ -54,6 +52,10 @@
   * Specify your own filename by passing it as argument
 
 ## Control device
+
+### awireless
+* Enable or disable wireless ADB connection
+* Allows script or any ADB command usage without USB connection
 
 ### apaste
 `apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004`
@@ -163,6 +165,9 @@
   * enUS locale
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
+### areboot
+* Reboot a device
+
 ### aemulator
 * Start any of your installed Android emulators
 
@@ -220,7 +225,7 @@
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
 ### ireboot
-* Reboot device
+* Reboot a device
 
 ### isimulator
 * `isimulator <option>` Handle various simulator related activites

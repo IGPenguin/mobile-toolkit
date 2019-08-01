@@ -1,6 +1,6 @@
 #!/bin/bash
-TOOLKIT_LOCATION=$(dirname "$0")
-LAST_CHECK_DATE_FILE="$TOOLKIT_LOCATION/toolkit_last_check_date.txt"
+SCRIPT_LOCATION=$(dirname "$0")
+LAST_CHECK_DATE_FILE="$SCRIPT_LOCATION/../data/toolkit_last_check_date.txt"
 
 ##########################
 ### ANDROID SECTION
@@ -10,8 +10,8 @@ android_check_connected(){
   #No device connected
   if [ ${#DEVICES[@]} -eq 0 ]
   then
-    echo "❌ No Android devices detected."
-    yes_or_no "❓ Use emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/aemulator; fi
+    echo "❌ No Android devices detected"
+    yes_or_no "❓ Use emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $SCRIPT_LOCATION/aemulator; fi
     android_wait_for_device
   fi
 }
@@ -121,7 +121,7 @@ ios_wait_for_device(){
 ios_check_developer_image(){
   IS_MOUNTED=$(ideviceimagemounter -u $1 -l)
   if [ ${#IS_MOUNTED} -eq 0 ] ; then
-    read -r -p "❌ Developer image probably not mounted, do you want to launch Xcode? [y/n] " RESPONSE
+    read -r -n 1 -p "❌ Developer image probably not mounted, do you want to launch Xcode? [y/n] " RESPONSE
     case "$RESPONSE" in
         [yY])
             ;;
@@ -141,8 +141,8 @@ ios_choose_device(){
   #No device connected
   if [ ${#IOS_DEVICES[@]} -eq 0 ]
   then
-     echo "❌ No device connected."
-     yes_or_no "❓ Start simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/isimulator start; exit; fi
+     echo "❌ No iOS devices detected"
+     yes_or_no "❓ Start simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $SCRIPT_LOCATION/isimulator start; exit; fi
      ios_wait_for_device
   fi
 
@@ -317,7 +317,7 @@ check_for_update(){
   fi
 
   CURRENT_DIR=$PWD
-  cd $TOOLKIT_LOCATION
+  cd $SCRIPT_LOCATION/..
   CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
   if [[ "$CURRENT_BRANCH" == "master" && "$LAST_CHECK_DATE" != "$TODAY" ]]; then
@@ -331,7 +331,8 @@ check_for_update(){
       if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
         echo "⏬ Updating..."
         git pull &> /dev/null
-        echo "✅ Done"
+        echo -e "✅ Done\n✨ New features:"
+        cat $SCRIPT_LOCATION/../changelog.txt
       fi
     fi
   fi

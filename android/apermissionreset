@@ -1,0 +1,7 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/../common_tools
+android_choose_device
+
+should_proceed "🚫 REVOKE ALL PERMISSIONS on $SELECTED_DEVICE?"
+adb -s $SELECTED_DEVICE shell pm reset-permissions

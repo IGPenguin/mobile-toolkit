@@ -1,0 +1,24 @@
+#!/bin/bash
+location=$(dirname "$0")
+source $LOCATION/../common_tools
+
+if [ -z "$1" ] ; then
+  echo "🤷‍ What should I install?"
+  exit
+fi
+
+if [ ! -f "$PWD/$1" ]; then
+    echo "🤷 File not found!"
+    exit
+fi
+
+if [[ "$1" != *".ipa" ]]; then
+    echo "🤷 Unsupported file!"
+    exit
+fi
+
+ios_choose_device
+
+echo "⌛️ Installing..."
+ideviceinstaller -u $SELECTED_DEVICE -i "$1" &> /dev/null
+echo "✅ Done!"

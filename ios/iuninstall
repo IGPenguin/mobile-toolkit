@@ -1,0 +1,23 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/../common_tools
+ios_choose_device
+
+if [[ "$1" != "" ]]
+then #package name supplied
+  CHOSEN_PACKAGE=$1
+else
+  ios_get_package_list
+
+  echo "📋 Choose one to uninstall:"
+  select OPTION in "${PACKAGE_LIST[@]}"
+  do
+    case $OPTION in
+      *) CHOSEN_PACKAGE=$OPTION;break; ;;
+    esac
+  done
+fi
+
+echo "🔥 Uninstalling $CHOSEN_PACKAGE"
+ideviceinstaller -u $SELECTED_DEVICE -U $CHOSEN_PACKAGE &> /dev/null
+echo "✅ Done"

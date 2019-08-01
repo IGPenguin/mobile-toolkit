@@ -1,0 +1,22 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/../common_tools
+ios_choose_device
+
+should_proceed "💣 Delete all third party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+
+ios_get_package_list
+
+for PKG in "${PACKAGE_LIST[@]}"
+do
+
+   if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"com.apple.TestFlight"* ]] || [[ $PKG = *"sketch"* ]] || [[ $PKG = *"figma"* ]] || [[ $PKG = *"framer"* ]] || [[ $PKG = *"invision"* ]]; then
+      echo "⌛️ Skipping $PKG"
+      continue
+   fi
+
+   echo "🔥 Uninstalling $PKG"
+   ideviceinstaller -u $SELECTED_DEVICE -U $PKG &> /dev/null
+done
+
+echo "✅ Done."
