@@ -12,3 +12,4 @@ or you won't be able to use mobile-toolkit while being in any directory
 
 PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/android
 PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/ios
+
