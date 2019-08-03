@@ -316,8 +316,8 @@ check_for_update(){
     echo $TODAY > $LAST_CHECK_DATE_FILE
   fi
 
-  CURRENT_DIR=$PWD
-  cd $SCRIPT_LOCATION/..
+  CURRENT_DIR="$PWD"
+  cd "$SCRIPT_LOCATION/.."
   CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
   if [[ "$CURRENT_BRANCH" == "master" && "$LAST_CHECK_DATE" != "$TODAY" ]]; then
@@ -337,7 +337,7 @@ check_for_update(){
     fi
   fi
 
-  cd $CURRENT_DIR
+  cd "$CURRENT_DIR"
 }
 
 delete_lastline(){
