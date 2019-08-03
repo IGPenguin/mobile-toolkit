@@ -1,7 +1,7 @@
 # Mobile Toolkit
 💥 Execute **powerful mobile device control scripts** using easy terminal commands<br>
 
-🛠 Capture the screen and manage both **Android and iOS** devices<br>
+🛠 **Capture the screen and manage both Android and iOS** devices<br>
 
 📱 **Test mobile applications**, clear device memory and much more<br>
 
