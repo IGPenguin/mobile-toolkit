@@ -1,1 +1,6 @@
+add simulator commands
++ isimulator screenshot
++ isimulator record
++ isimulator import <file>
++ isimulator logs
 fix update check while directory contains space

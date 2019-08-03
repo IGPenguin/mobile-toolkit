@@ -10,7 +10,7 @@ help(){
   else
     echo "🤷 Argument missing"
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  paste <text> - insert text into pasteboard\n  url <url> - open link in web browser\n  wipe - wipe all simulator data"
+  echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  screenshot <filename> - save screenshot to Desktop\n  record <filename> - save screen recording to Desktop\n  paste <text> - insert text into pasteboard\n  url <url> - open link in web browser\n  logs - print simulator logs\n  import <file> - import photo or video into gallery\n  wipe - wipe all simulator data"
 }
 
 choose_simulator(){
@@ -95,29 +95,83 @@ wipe_contents(){
   xcrun simctl boot $SIMULATOR_ID
 }
 
+record_screen(){
+  echo "📹 Recording screen on $SIMULATOR_ID, stop it with ctrl^c"
+  if [ -z "$1" ] ; then
+    FILENAME="Simulator-$(date +%Y-%m-%d-%H-%M-%S).mp4"
+  else
+    FILENAME=$1
+  fi
+  xcrun simctl io $SIMULATOR_ID recordVideo --type=mp4 "~/DESKTOP/$FILENAME"
+  echo "📁 Copying the video from the device..."
+  echo "✅ Done"
+}
+
+take_screenshot(){
+  echo "📸 Taking screenshot from on $SIMULATOR_ID"
+  if [ -z "$1" ] ; then
+    FILENAME="Simulator-$(date +%Y-%m-%d-%H-%M-%S).png"
+  else
+    FILENAME=$1
+  fi
+  xcrun simctl io $SIMULATOR_ID screenshot "~/Desktop/$FILENAME"
+  echo "✅ Screenshot saved to ~/Desktop/$FILENAME"
+}
+
+import_file(){
+  if [ -z "$1" ] ; then
+    echo "🤷‍ No file for import, use - isimulator import <file>"
+    exit
+  fi
+  echo "⏬ Importing file to $SIMULATOR_ID..."
+  xcrun simctl addmedia $SIMULATOR_ID "$PWD/$1"
+  echo "✅ File imported successfully"
+}
+
+print_logs(){
+  echo "📜 Simulator logs:"
+  xcrun simctl spawn $SIMULATOR_ID log stream
+}
+
 check_for_update
 
 case $1 in
   'start')
-    start_simulator $2
+    start_simulator "$2"
+    ;;
+  'screenshot')
+    choose_running_simulator
+    take_screenshot "$2"
+    ;;
+  'record')
+    choose_running_simulator
+    record_screen "$2"
+    ;;
+  'import')
+    choose_running_simulator
+    import_file "$2"
     ;;
   'url')
     choose_running_simulator
-    open_url $2
+    open_url "$2"
     ;;
   'launch')
     choose_running_simulator
-    launch_app $2
+    launch_app "$2"
     ;;
   'paste')
     choose_running_simulator
     insert_clipboard "$2"
+    ;;
+  'logs')
+    choose_running_simulator
+    print_logs "$2"
     ;;
   'wipe')
     choose_running_simulator
     wipe_contents
     ;;
    *)
-    help $1
+    help "$1"
     ;;
 esac
