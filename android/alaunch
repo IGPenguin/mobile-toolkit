@@ -3,27 +3,31 @@ LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 android_choose_device
 
-if [[ "$1" != "" ]]
+if [[ "$1" != "" && "$1" != "-a" ]]
 then
     package=$1
 else
     IFS=$'\n'
-    ps=($(adb -s $SELECTED_DEVICE shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort))
+    if [[ "$1" == "-a" ]]; then
+      ps=($(adb -s $SELECTED_DEVICE shell 'pm list packages -f' | sed -e 's/.*=//' | sort))
+    else
+      ps=($(adb -s $SELECTED_DEVICE shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort))
+    fi
     unset IFS
 
     packages=()
     for p in "${ps[@]}" #removes trailing \r
     do
-        p=${p%$'\r'}
-	packages+=($p)
+      p=${p%$'\r'}
+      packages+=($p)
     done
 
     if [ ${#packages[@]} -eq 0 ]; then
-        echo "🤷‍ No packages to run."
+        echo "🤷‍ No third-party apps installed, use alaunch -a to list system packages"
         exit
     fi
 
-    echo "📋 Choose from installed packages:"
+    echo "📋 Choose package to launch:"
     select opt in "${packages[@]}"
     do
      case $opt in
