@@ -130,7 +130,7 @@ import_file(){
 
 print_logs(){
   echo "📜 Simulator logs:"
-  xcrun simctl spawn $SIMULATOR_ID log stream
+  xcrun simctl spawn $SIMULATOR_ID log stream --level=debug
 }
 
 check_for_update
