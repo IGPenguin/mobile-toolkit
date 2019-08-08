@@ -9,10 +9,9 @@ help(){
 
 
 set_gps(){
-  echo "🌎 Doing stuff..."
-  TOKEN=$(cat $HOME/.emulator_console_auth_token)
-  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "geo fix $2 $1"; } | telnet
-  echo "🗺 Fake gps location set"
+  echo "🌎 Setting manual GPS location..."
+  android_telnet_command "geo fix $2 $1"
+  echo "✅ Done"
 }
 
 if [ -n "$2" ]; then

@@ -7,11 +7,9 @@ help(){
   echo "Usage: afakecall <phone_number>"
 }
 
-
 call(){
   echo "📞 Making a call..."
-  TOKEN=$(cat $HOME/.emulator_console_auth_token)
-  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "gsm call $1"; } | telnet
+  android_telnet_command "gsm call $1"
   echo "✅ Done"
 }
 
