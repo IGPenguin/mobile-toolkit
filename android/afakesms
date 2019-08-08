@@ -1,0 +1,21 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/../common_tools
+android_choose_device
+
+help(){
+  echo "Usage: afakesms <phone_number> <sms_text>"
+}
+
+
+send_sms(){
+  echo "🌎 Doing stuff..."
+  TOKEN=$(cat $HOME/.emulator_console_auth_token)
+  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "sms send $1 $2"; } | telnet
+}
+
+if [ -n "$2" ]; then
+    send_sms "$1" "$2"
+else
+    help
+fi
