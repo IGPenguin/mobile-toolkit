@@ -1,7 +1,6 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
-android_choose_device
 
 help(){
   echo "Usage: afakecall <phone_number>"
