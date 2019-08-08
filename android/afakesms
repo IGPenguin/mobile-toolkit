@@ -9,9 +9,10 @@ help(){
 
 
 send_sms(){
-  echo "🌎 Doing stuff..."
+  echo "📝 Sending fake SMS..."
   TOKEN=$(cat $HOME/.emulator_console_auth_token)
   { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "sms send $1 $2"; } | telnet
+  echo "✅ Done"
 }
 
 if [ -n "$2" ]; then
