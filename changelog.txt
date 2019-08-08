@@ -2,5 +2,4 @@
 + isimulator record
 + isimulator import <file>
 + isimulator logs
-+ alaunch -s
 fix update check while directory contains space
