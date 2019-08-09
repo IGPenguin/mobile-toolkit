@@ -50,3 +50,4 @@ fi
 
 echo "🔥 Uninstalling $PACKAGE"
 adb -s $SELECTED_DEVICE shell pm uninstall $PACKAGE &> /dev/null
+echo "✅ Done"
