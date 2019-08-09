@@ -7,7 +7,9 @@ UNINSTALL_COUNT=0
 ios_get_package_list
 
 if [[  "$1" == "-a" ]]; then
+  tput setaf 1
   should_proceed "💣 Delete all third party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+  tput sgr0
   for PKG in "${PACKAGE_LIST[@]}"
   do
     if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"com.apple.TestFlight"* ]] || [[ $PKG = *"sketch"* ]] || [[ $PKG = *"figma"* ]] || [[ $PKG = *"framer"* ]] || [[ $PKG = *"invision"* ]]; then
