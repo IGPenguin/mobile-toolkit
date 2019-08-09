@@ -3,6 +3,15 @@ LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 LOCAL_EMULATOR_LIST=$LOCATION/../data/toolkit_emulator_list.txt
 
+help(){
+  if [[ $1 != "" ]]; then
+    echo "🤷‍ Unknown option: $1"
+  else
+    echo "🤷 Argument missing"
+  fi
+  echo -e "Use one of the following options:\n  start - choose and launch installed emulator\n  call <number> - receive fake call\n  sms <number> <text> - recieve fake sms\n  gps <lat> <long> - set manual gps location\n  telnet <command> - call telnet command (see README.md)"
+}
+
 get_emulator_list(){
   echo "⏳ Getting Android emulator list..."
   rm -f $LOCAL_EMULATOR_LIST
@@ -19,7 +28,11 @@ get_emulator_list(){
 }
 
 launch_emulator(){
-  read -p "📝 Choose: " EMULATOR_INDEX
+  if [ -z "$1" ]; then
+    read -p "📝 Choose: " EMULATOR_INDEX
+  else
+    EMULATOR_INDEX=$1
+  fi
   EMULATOR_NAME=$(sed $EMULATOR_INDEX!d $LOCAL_EMULATOR_LIST)
   if [[ $EMULATOR_INDEX == "" || $EMULATOR_NAME == "" ]]; then
     delete_lastline
@@ -31,6 +44,81 @@ launch_emulator(){
   fi
 }
 
+telnet_command() {
+  if [ -z "$1" ];then
+    read -p "📝 Insert telnet command: " COMMAND
+  else
+    COMMAND=$1
+  fi
+  TOKEN=$(cat $HOME/.emulator_console_auth_token)
+  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $COMMAND; } | telnet &> /dev/null
+  echo "✅ Done"
+}
+
+call(){
+  if [ -z "$1" ];then
+    read -p "📝 Insert caller number: " NUMBER
+  else
+    NUMBER=$1
+  fi
+  echo "📞 Making a call..."
+  telnet_command "gsm call $NUMBER"
+}
+
+send_sms(){
+  if [ -z "$1" ];then
+    read -p "📝 Insert sender number: " NUMBER
+  else
+    NUMBER=$1
+  fi
+
+  if [ -z "$2" ];then
+    read -p "📝 Insert text: " TEXT
+  else
+    TEXT=$2
+  fi
+
+  echo "📝 Sending fake SMS..."
+  telnet_command "sms send $NUMBER $TEXT"
+}
+
+set_gps(){
+  if [ -z "$1" ];then
+    read -p "📝 Insert latitude: " LAT
+  else
+    LAT=$1
+  fi
+
+  if [ -z "$2" ];then
+    read -p "📝 Insert longtitude: " LONG
+  else
+    LONG=$2
+  fi
+
+  echo "🌎 Setting manual GPS location..."
+  telnet_command "geo fix $LONG $LAT"
+}
+
 check_for_update
-get_emulator_list
-launch_emulator
+
+case $1 in
+  'start')
+    get_emulator_list
+    launch_emulator "$2"
+    ;;
+  'call')
+    call "$2"
+    ;;
+  'sms')
+    send_sms "$2" "$3"
+    ;;
+  'gps')
+    set_gps "$2" "$3"
+    ;;
+  'telnet')
+    telnet_command "$2"
+    ;;
+   *)
+    help "$1"
+    ;;
+esac

@@ -1,1 +1,5 @@
-fix update check while directory contains space
++aemulator start
++aemulator call
++aemulator sms
++aemulator gps
++aemulator telnet

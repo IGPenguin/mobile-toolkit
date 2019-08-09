@@ -374,13 +374,14 @@ should_proceed(){
 
 choose_number(){
   MAX=$1
-  read -p "📝 Choose number in range 1-$MAX: " CHOICE
+  read -p "📝 Choose number: " CHOICE
   while :;
   do
     if [[ -z $CHOICE  || $CHOICE -le 0 || $CHOICE -gt $MAX ]]; then
       delete_lastline
       read -p "🤷‍ Invalid choice, try again: " CHOICE
     else
+      ((++CHOICE))
       break
     fi
   done
