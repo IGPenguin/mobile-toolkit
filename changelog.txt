@@ -1,5 +1,9 @@
++aemulator start
++aemulator call
++aemulator sms
++aemulator gps
++aemulator telnet
 + isimulator screenshot
 + isimulator record
 + isimulator import <file>
 + isimulator logs
-fix update check while directory contains space
