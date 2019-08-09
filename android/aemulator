@@ -9,7 +9,7 @@ help(){
   else
     echo "🤷 Argument missing"
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch installed emulator\n  call <number> - trigger fake call\n  sms <number> <text> - recieve fake sms\n  gps <lat> <long> - set manual gps location"
+  echo -e "Use one of the following options:\n  start - choose and launch installed emulator\n  call <number> - trigger fake call\n  sms <number> <text> - recieve fake sms\n  gps <lat> <long> - set manual gps location\n  telnet <command> - call telnet command (see README.md)"
 }
 
 get_emulator_list(){
@@ -45,8 +45,14 @@ launch_emulator(){
 }
 
 telnet_command() {
+  if [ -z "$1" ];then
+    read -p "📝 Insert telnet command: " COMMAND
+  else
+    COMMAND=$1
+  fi
   TOKEN=$(cat $HOME/.emulator_console_auth_token)
-  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $1; } | telnet
+  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $COMMAND; } | telnet
+  echo "✅ Done"
 }
 
 call(){
@@ -57,7 +63,6 @@ call(){
   fi
   echo "📞 Making a call..."
   telnet_command "gsm call $NUMBER"
-  echo "✅ Done"
 }
 
 send_sms(){
@@ -75,7 +80,6 @@ send_sms(){
 
   echo "📝 Sending fake SMS..."
   telnet_command "sms send $NUMBER $TEXT"
-  echo "✅ Done"
 }
 
 set_gps(){
@@ -93,7 +97,6 @@ set_gps(){
 
   echo "🌎 Setting manual GPS location..."
   telnet_command "geo fix $LONG $LAT"
-  echo "✅ Done"
 }
 
 check_for_update
@@ -111,6 +114,9 @@ case $1 in
     ;;
   'gps')
     set_gps "$2" "$3"
+    ;;
+  'telnet')
+    telnet_command "$2"
     ;;
    *)
     help "$1"
