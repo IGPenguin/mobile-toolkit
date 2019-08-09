@@ -3,21 +3,43 @@ LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 ios_choose_device
 
-if [[ "$1" != "" ]]
-then #package name supplied
-  CHOSEN_PACKAGE=$1
-else
-  ios_get_package_list
+UNINSTALL_COUNT=0
+ios_get_package_list
 
-  echo "📋 Choose one to uninstall:"
+if [[  "$1" == "-a" ]]; then
+  should_proceed "💣 Delete all third party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+  for PKG in "${PACKAGE_LIST[@]}"
+  do
+    if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"com.apple.TestFlight"* ]] || [[ $PKG = *"sketch"* ]] || [[ $PKG = *"figma"* ]] || [[ $PKG = *"framer"* ]] || [[ $PKG = *"invision"* ]]; then
+      echo "⏩ Skipping $PKG"
+      continue
+    fi
+    echo "🔥 Uninstalling $PKG"
+    ideviceinstaller -u $SELECTED_DEVICE -U $PKG &> /dev/null
+    ((++UNINSTALL_COUNT))
+  done
+  echo "✅ Apps uninstalled: $UNINSTALL_COUNT"
+  exit
+elif [[ -n "$1" ]]; then
+  PACKAGE=$1
+  echo $PACKAGE_LIST | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; exit; }
+fi
+
+if [ -z "$PACKAGE" ]; then
+  if [ ${#PACKAGE_LIST[@]} -eq 0 ]; then
+      echo "🤷‍ Nothing to uninstall"
+      exit
+  fi
+
+  echo "📋 Choose package number:"
   select OPTION in "${PACKAGE_LIST[@]}"
   do
-    case $OPTION in
-      *) CHOSEN_PACKAGE=$OPTION;break; ;;
+   case $OPTION in
+      *) PACKAGE=$OPTION;break; ;;
     esac
   done
 fi
 
-echo "🔥 Uninstalling $CHOSEN_PACKAGE"
-ideviceinstaller -u $SELECTED_DEVICE -U $CHOSEN_PACKAGE &> /dev/null
+echo "🔥 Uninstalling $PACKAGE"
+ideviceinstaller -u $SELECTED_DEVICE -U $PACKAGE &> /dev/null
 echo "✅ Done"
