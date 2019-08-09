@@ -179,7 +179,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 	* `telnet <command>` - call command via telnet, for more information see [Documentation](https://developer.android.com/studio/run/emulator-console#console-session)
 ```
 Some useful telnet commands:
-	event
+  event
   redir
   sensor
   physics
