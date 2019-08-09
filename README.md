@@ -171,7 +171,13 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Reboot a device
 
 ### aemulator
-* Start any of your installed Android emulators
+* `aeimulator <option>` Handle various emulator related activites
+  * `start` - choose and launch installed emulator
+  * `call <number>` - receive fake call
+  * `sms <number> <text>` - receive fake sms
+  * `gps <lat> <long>` - set manual GPS location
+  * `telnet <command>` - call command via telnet, see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
+	   * example commands `event redir sensor physics finger rotate fold unfold`
 
 # iOS scripts
 

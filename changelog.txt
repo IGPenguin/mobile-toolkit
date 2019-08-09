@@ -3,3 +3,8 @@
 awipe -> wipe internal storage
 +iuninstall -a
 -iwipe
++aemulator start
++aemulator call
++aemulator sms
++aemulator gps
++aemulator telnet
