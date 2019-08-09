@@ -176,7 +176,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * `call <number>` - trigger fake call
   * `sms <number> <text>` - receive fake sms
   * `gps <lat> <long>` - set manual GPS location
-  * `telnet <command>` - call command via telnet, for more information see [Documentation](https://developer.android.com/studio/run/emulator-console#console-session)
+  * `telnet <command>` - call command via telnet, see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
 	   * example commands `event redir sensor physics finger rotate fold unfold`
 
 # iOS scripts
