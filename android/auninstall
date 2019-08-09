@@ -17,12 +17,12 @@ if [[  "$1" == "-a" ]]; then
     adb -s $SELECTED_DEVICE shell "pm uninstall $PKG" &> /dev/null
     ((++UNINSTALL_COUNT))
   done
-  echo "✅ Applications uninstalled: $UNINSTALL_COUNT"
+  echo "✅ Apps uninstalled: $UNINSTALL_COUNT"
   exit
 elif [[ -n "$1" ]]; then
   PACKAGE=$1
   echo $PACKAGES | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; exit; }
-  echo $IGNORED_PACKAGES | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" is whitelisted"; exit; }
+  echo $IGNORED_PACKAGES | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; exit; }
 fi
 
 if [ -z "$PACKAGE" ]; then
