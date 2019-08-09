@@ -121,7 +121,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `auninstall` Uninstall third party app, choose from the list
 * `auninstall com.dummy.package.name.app` pass package name as argument
 * `auninstall -a` Uninstall all third party packages
-  * Skips some essential apps
+	* Skips some essential apps
 	* Edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 ### awipe
