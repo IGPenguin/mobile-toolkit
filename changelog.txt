@@ -1,1 +1,5 @@
 +alaunch -s
++auinstall -a
+awipe -> wipes sdcard
++iuninstall -a
+-iwipe
