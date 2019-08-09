@@ -51,7 +51,7 @@ telnet_command() {
     COMMAND=$1
   fi
   TOKEN=$(cat $HOME/.emulator_console_auth_token)
-  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $COMMAND; } | telnet
+  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $COMMAND; } | telnet &> /dev/null
   echo "✅ Done"
 }
 
