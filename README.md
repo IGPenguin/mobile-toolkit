@@ -34,7 +34,7 @@
 	* Add the path to the script folders to **PATH** variable in **.bash_profile** (or equivalent file) -> **insert the following lines at the end of the file**, make sure to **replace "dummyuser" with your profile name and use proper path**
 	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/android`
 	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/ios`
-	
+
 _The scripts are primarily designed for macOS, but majority of functions should work on any Unix system._
 
 # Android scripts
@@ -171,7 +171,23 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Reboot a device
 
 ### aemulator
-* Start any of your installed Android emulators
+* `aeimulator <option>` Handle various emulator related activites
+  * `start` - choose and launch installed emulator
+  * `call <number>` - trigger fake call
+  * `sms <number> <text>` - receive fake sms
+  * `gps <lat> <long>` - set manual GPS location
+	* `telnet <command>` - call command via telnet, for more information see [Documentation](https://developer.android.com/studio/run/emulator-console#console-session)
+	```
+	Some useful telnet commands:
+	event
+  redir
+  sensor
+  physics
+  finger
+  rotate
+  fold
+  unfold
+	```
 
 # iOS scripts
 
