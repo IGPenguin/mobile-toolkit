@@ -34,7 +34,7 @@
 	* Add the path to the script folders to **PATH** variable in **.bash_profile** (or equivalent file) -> **insert the following lines at the end of the file**, make sure to **replace "dummyuser" with your profile name and use proper path**
 	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/android`
 	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/ios`
-	
+
 _The scripts are primarily designed for macOS, but majority of functions should work on any Unix system._
 
 # Android scripts
@@ -91,6 +91,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### alaunch
 * `alaunch` List third party apps and choose one to run it
+* `alaunch -a` List all available apps and choose one to run it
 * `alaunch com.dummy.package.name.app` Run app by package name
 
 ### aappinfo
@@ -119,12 +120,12 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 ### auninstall
 * `auninstall` Uninstall third party app, choose from the list
 * `auninstall com.dummy.package.name.app` pass package name as argument
+* `auninstall -a` Uninstall all third party packages
+  * Skips some essential apps
+	* Edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 ### awipe
-* Uninstall all third party packages
-  * Skips some essential apps
-  * Edit this script yourself to customize the list of essential apps
-* (Optional) Remove everything in /sdcard/Download directory
+* Wipe internal storage - remove everything in /sdcard directory
 
 ### apermissionreset
 * Revoke ALL runtime permissions for ALL (even system) apps
