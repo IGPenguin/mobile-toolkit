@@ -1,3 +1,5 @@
-+afakesms
-+afakecall
-+afakegps
++aemulator start
++aemulator call
++aemulator sms
++aemulator gps
++aemulator telnet
