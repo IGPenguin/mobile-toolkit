@@ -121,8 +121,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `auninstall` Uninstall third party app, choose from the list
 * `auninstall com.dummy.package.name.app` pass package name as argument
 * `auninstall -a` Uninstall all third party packages
-	* Skips some essential apps
-	* Edit IGNORED_PACKAGES in this script to customize the list to your needs
+	* Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 ### awipe
 * Wipe internal storage - remove everything in /sdcard directory
@@ -207,11 +206,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 ### iuninstall
 * `iuninstall` Uninstall third party app, choose from the list
 * `iuninstall com.dummy.package.name.app` pass bundle name as argument
-
-### iwipe
-* Uninstall all third party packages
-  * Skips some essential apps
-  * Edit this script yourself to customize the list of essential apps
+* `iuninstall -a` Uninstall all third party packages
+  * Skips some essential apps, edit this script yourself to customize the list of essential apps
 
 ## Manage device
 
