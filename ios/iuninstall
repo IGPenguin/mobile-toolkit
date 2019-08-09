@@ -4,7 +4,7 @@ source $LOCATION/../common_tools
 ios_choose_device
 
 UNINSTALL_COUNT=0
-IGNORED_PACKAGES=( "com.thefuntasty.funtaster" "io.crash.air" "de.codenauts.hockeyapp" "ar.core" "com.framerjs.ios" "com.figma.mirror" "com.invisionapp.ifa") #TODO validate
+IGNORED_PACKAGES=( "com.apple.TestFlight" "com.thefuntasty.funtaster" "io.crash.air" "de.codenauts.hockeyapp" "com.framerjs.ios" "com.figma.mirror" "com.invisionapp.ifa") #TODO validate
 ios_get_package_list
 
 if [[  "$1" == "-a" ]]; then
