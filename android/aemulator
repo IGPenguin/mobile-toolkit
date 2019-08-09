@@ -44,6 +44,11 @@ launch_emulator(){
   fi
 }
 
+telnet_command() {
+  TOKEN=$(cat $HOME/.emulator_console_auth_token)
+  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $1; } | telnet
+}
+
 call(){
   if [ -z "$1" ];then
     read -p "📝 Insert caller number: " NUMBER
@@ -51,7 +56,7 @@ call(){
     NUMBER=$1
   fi
   echo "📞 Making a call..."
-  android_telnet_command "gsm call $NUMBER"
+  telnet_command "gsm call $NUMBER"
   echo "✅ Done"
 }
 
@@ -69,7 +74,7 @@ send_sms(){
   fi
 
   echo "📝 Sending fake SMS..."
-  android_telnet_command "sms send $NUMBER $TEXT"
+  telnet_command "sms send $NUMBER $TEXT"
   echo "✅ Done"
 }
 
@@ -87,7 +92,7 @@ set_gps(){
   fi
 
   echo "🌎 Setting manual GPS location..."
-  android_telnet_command "geo fix $LONG $LAT"
+  telnet_command "geo fix $LONG $LAT"
   echo "✅ Done"
 }
 

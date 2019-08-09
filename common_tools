@@ -106,11 +106,6 @@ android_is_package_installed() {
   fi
 }
 
-android_telnet_command() {
-  TOKEN=$(cat $HOME/.emulator_console_auth_token)
-  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $1; } | telnet
-}
-
 ##########################
 ### IOS SECTION
 
