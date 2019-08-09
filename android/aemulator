@@ -9,7 +9,7 @@ help(){
   else
     echo "🤷 Argument missing"
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch installed emulator\n  call <number> - trigger fake call\n  sms <number> <text> - recieve fake sms\n  gps <lat> <long> - set manual gps location\n  telnet <command> - call telnet command (see README.md)"
+  echo -e "Use one of the following options:\n  start - choose and launch installed emulator\n  call <number> - receive fake call\n  sms <number> <text> - recieve fake sms\n  gps <lat> <long> - set manual gps location\n  telnet <command> - call telnet command (see README.md)"
 }
 
 get_emulator_list(){

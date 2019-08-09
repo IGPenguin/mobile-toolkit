@@ -173,7 +173,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 ### aemulator
 * `aeimulator <option>` Handle various emulator related activites
   * `start` - choose and launch installed emulator
-  * `call <number>` - trigger fake call
+  * `call <number>` - receive fake call
   * `sms <number> <text>` - receive fake sms
   * `gps <lat> <long>` - set manual GPS location
   * `telnet <command>` - call command via telnet, see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
