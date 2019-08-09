@@ -98,10 +98,10 @@ android_get_foreground_package(){
 }
 
 android_is_package_installed() {
-  adb -s $SELECTED_DEVICE shell pm list packages -f | sed -e 's/.*=//' | grep $1 &> /dev/null
+  adb -s $SELECTED_DEVICE shell pm list packages -f | sed -e 's/.*=//' | grep -xw $1 &> /dev/null
   EXIT_CODE=$?
   if [ $EXIT_CODE -ne 0 ]; then
-    echo "🤷‍ Package $1 is not installed."
+    echo "🤷‍ Package \"$1\" is not installed."
     exit
   fi
 }
