@@ -207,7 +207,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `iuninstall` Uninstall third party app, choose from the list
 * `iuninstall com.dummy.package.name.app` pass bundle name as argument
 * `iuninstall -a` Uninstall all third party packages
-  * Skips some essential apps, edit this script yourself to customize the list of essential apps
+  * Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 ## Manage device
 
