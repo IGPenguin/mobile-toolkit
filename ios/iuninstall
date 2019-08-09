@@ -13,7 +13,7 @@ if [[  "$1" == "-a" ]]; then
   tput sgr0
   for PKG in "${PACKAGE_LIST[@]}"
   do
-    echo $IGNORED_PACKAGES | grep "$PKG" &> /dev/null && { echo "⏩ Skipped $PKG"; continue; }
+    echo $IGNORED_PACKAGES | grep -wx "$PKG" &> /dev/null && { echo "⏩ Skipped $PKG"; continue; }
     echo "🔥 Uninstalling $PKG"
     ideviceinstaller -u $SELECTED_DEVICE -U $PKG &> /dev/null
     ((++UNINSTALL_COUNT))
@@ -22,8 +22,8 @@ if [[  "$1" == "-a" ]]; then
   exit
 elif [[ -n "$1" ]]; then
   PACKAGE=$1
-  echo $PACKAGE_LIST | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; exit; }
-  echo $IGNORED_PACKAGES | grep -w "$PACKAGE" &> /dev/null && { echo "🤷‍ Package \"$PACKAGE\" is whitelisted"; exit; }
+  echo $PACKAGE_LIST | grep -wx "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; exit; }
+  echo $IGNORED_PACKAGES | grep -wx "$PACKAGE" &> /dev/null && { echo "🤷‍ Package \"$PACKAGE\" is whitelisted"; exit; }
 fi
 
 if [ -z "$PACKAGE" ]; then
