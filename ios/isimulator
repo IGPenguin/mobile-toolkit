@@ -13,6 +13,11 @@ help(){
   echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  screenshot <filename> - save screenshot to Desktop\n  record <filename> - save screen recording to Desktop\n  paste <text> - insert text into pasteboard\n  url <url> - open link in web browser\n  logs - print simulator logs\n  import <file> - import photo or video into gallery\n  wipe - wipe all simulator data"
 }
 
+import_simulator_list(){
+  xcrun simctl list -v devices | grep -i booted | sed 's/ (Booted) //g' > $LOCAL_SIMULATOR_LIST
+  RUNNING_SIMULATOR_COUNT=$(wc -l < $LOCAL_SIMULATOR_LIST)
+}
+
 choose_simulator(){
   read -p "📝 Choose: " SIMULATOR_INDEX
   SIMULATOR_ID=$(sed $SIMULATOR_INDEX!d $LOCAL_SIMULATOR_LIST)
@@ -24,9 +29,6 @@ choose_simulator(){
 }
 
 choose_running_simulator(){
-  xcrun simctl list -v devices | grep -i booted | sed 's/ (Booted) //g' > $LOCAL_SIMULATOR_LIST
-  RUNNING_SIMULATOR_COUNT=$(wc -l < $LOCAL_SIMULATOR_LIST)
-
   if [[ $RUNNING_SIMULATOR_COUNT -le 0 ]]; then
     echo "❌ No running simulators"
     yes_or_no "❓ Do you want to start one?"
@@ -103,8 +105,7 @@ record_screen(){
     FILENAME=$1
   fi
   xcrun simctl io $SIMULATOR_ID recordVideo --type=mp4 "~/DESKTOP/$FILENAME" &> /dev/null
-  echo "📁 Copying the video from the device..."
-  echo "✅ Done"
+  echo "✅ Video saved to ~/Desktop/$FILENAME"
 }
 
 take_screenshot(){
@@ -134,6 +135,7 @@ print_logs(){
 }
 
 check_for_update
+import_simulator_list
 
 case $1 in
   'start')
