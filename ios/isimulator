@@ -10,7 +10,7 @@ help(){
   else
     echo "🤷 Argument missing"
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  screenshot <filename> - save screenshot to Desktop\n  record <filename> - save screen recording to Desktop\n  paste <text> - insert text into pasteboard\n  url <url> - open link in web browser\n  logs - print simulator logs\n  import <file> - import photo or video into gallery\n  wipe - wipe all simulator data"
+  echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  screenshot <filename> - save screenshot to Desktop\n  record <filename> - save screen recording to Desktop\n  paste <text> - insert text into pasteboard\n  url <url> - open link in web browser\n  logs - print simulator logs\n  battery <0-100> - set battery level\n  time <hh:mm> - set time\n  import <file> - import photo or video into gallery\n  wipe - wipe all simulator data"
 }
 
 import_simulator_list(){
@@ -29,6 +29,8 @@ choose_simulator(){
 }
 
 choose_running_simulator(){
+  import_simulator_list
+
   if [[ $RUNNING_SIMULATOR_COUNT -le 0 ]]; then
     echo "❌ No running simulators"
     yes_or_no "❓ Do you want to start one?"
@@ -73,7 +75,7 @@ launch_app(){
     launch_app "$BUNDLE_ID"
   else
     echo "🚀 Launching the app..."
-    xcrun simctl launch $SIMULATOR_ID $1 &> /dev/null
+    xcrun simctl launch $SIMULATOR_ID $1
   fi
 }
 
@@ -134,11 +136,40 @@ print_logs(){
   xcrun simctl spawn $SIMULATOR_ID log stream --level=debug
 }
 
+check_xcode_version(){
+  if [ "$(FirefoxmdlsVersion= mdls -name kMDItemVersion /Applications/Xcode.app | tr -d "." | grep -oE '[0-9]+')" -lt 110 ]; then
+    should_proceed "🔄 Xcode 11 or later is required, open App Store?"
+    open -a "App Store"
+    exit 1
+  fi
+}
+
+set_battery_level(){
+  check_xcode_version
+  if [[ -z "$1" ]]; then
+    read -p "📝 Enter battery level: " LEVEL
+    set_battery_level "$LEVEL"
+  else
+    echo "🔋 Setting battery level to: $1"
+    xcrun simctl status_bar $SIMULATOR_ID override --batteryLevel $1 # --batteryState charged
+  fi
+}
+
+set_time(){
+  check_xcode_version
+  if [[ -z "$1" ]]; then
+    read -p "📝 Enter battery level: " TIME
+    set_time "$TIME"
+  else
+    xcrun simctl status_bar $SIMULATOR_ID override --time $1
+  fi
+}
+
 check_for_update
-import_simulator_list
 
 case $1 in
   'start')
+    import_simulator_list
     start_simulator "$2"
     ;;
   'screenshot')
@@ -156,6 +187,14 @@ case $1 in
   'url')
     choose_running_simulator
     open_url "$2"
+    ;;
+  'battery')
+    choose_running_simulator
+    set_battery_level "$2"
+    ;;
+  'time')
+    choose_running_simulator
+    set_time "$2"
     ;;
   'launch')
     choose_running_simulator
