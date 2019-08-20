@@ -12,6 +12,19 @@ help(){
   echo -e "Use one of the following options:\n  start - choose and launch installed emulator\n  call <number> - receive fake call\n  sms <number> <text> - recieve fake sms\n  gps <lat> <long> - set manual gps location\n  telnet <command> - call telnet command (see README.md)"
 }
 
+check_running_emulator(){
+  adb devices | grep emulator &> /dev/null
+  if [ $? -ne 0 ]; then
+    echo "❌ No running emulators"
+    yes_or_no "❓ Do you want to start one?"
+    if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
+    then
+      launch_emulator
+    fi
+    exit
+  fi
+}
+
 get_emulator_list(){
   echo "⏳ Getting Android emulator list..."
   rm -f $LOCAL_EMULATOR_LIST
@@ -28,6 +41,8 @@ get_emulator_list(){
 }
 
 launch_emulator(){
+  get_emulator_list
+
   if [ -z "$1" ]; then
     read -p "📝 Choose: " EMULATOR_INDEX
   else
@@ -103,20 +118,23 @@ check_for_update
 
 case $1 in
   'start')
-    get_emulator_list
     launch_emulator "$2"
     ;;
   'call')
+    check_running_emulator
     call "$2"
     ;;
   'sms')
+    check_running_emulator
     send_sms "$2" "$3"
     ;;
   'gps')
-    set_gps "$2" "$3"
+   check_running_emulator
+   set_gps "$2" "$3"
     ;;
   'telnet')
-    telnet_command "$2"
+   check_running_emulator
+   telnet_command "$2"
     ;;
    *)
     help "$1"
