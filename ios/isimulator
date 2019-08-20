@@ -28,7 +28,7 @@ choose_running_simulator(){
   RUNNING_SIMULATOR_COUNT=$(wc -l < $LOCAL_SIMULATOR_LIST)
 
   if [[ $RUNNING_SIMULATOR_COUNT -le 0 ]]; then
-    echo "❌ No running simulators."
+    echo "❌ No running simulators"
     yes_or_no "❓ Do you want to start one?"
     if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
     then
@@ -62,7 +62,7 @@ start_simulator(){
 open_url(){
   check_url $1
   echo "🌎 Opening link in a web browser..."
-  xcrun simctl openurl $SIMULATOR_ID $URL
+  xcrun simctl openurl $SIMULATOR_ID $URL &> /dev/null
 }
 
 launch_app(){
@@ -71,7 +71,7 @@ launch_app(){
     launch_app "$BUNDLE_ID"
   else
     echo "🚀 Launching the app..."
-    xcrun simctl launch $SIMULATOR_ID $1
+    xcrun simctl launch $SIMULATOR_ID $1 &> /dev/null
   fi
 }
 
@@ -81,7 +81,7 @@ insert_clipboard(){
     insert_clipboard "$TEXT"
   else
     echo "📥 Inserting text into clipboard..."
-    echo $1 | xcrun simctl pbcopy $SIMULATOR_ID
+    echo $1 | xcrun simctl pbcopy $SIMULATOR_ID &> /dev/null
   fi
 }
 
@@ -102,7 +102,7 @@ record_screen(){
   else
     FILENAME=$1
   fi
-  xcrun simctl io $SIMULATOR_ID recordVideo --type=mp4 "~/DESKTOP/$FILENAME"
+  xcrun simctl io $SIMULATOR_ID recordVideo --type=mp4 "~/DESKTOP/$FILENAME" &> /dev/null
   echo "📁 Copying the video from the device..."
   echo "✅ Done"
 }
@@ -114,7 +114,7 @@ take_screenshot(){
   else
     FILENAME=$1
   fi
-  xcrun simctl io $SIMULATOR_ID screenshot "~/Desktop/$FILENAME"
+  xcrun simctl io $SIMULATOR_ID screenshot "~/Desktop/$FILENAME" &> /dev/null
   echo "✅ Screenshot saved to ~/Desktop/$FILENAME"
 }
 
