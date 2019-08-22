@@ -3,6 +3,7 @@
 +aemulator sms
 +aemulator gps
 +aemulator telnet
++aemulator battery <percentage>
 + isimulator screenshot
 + isimulator record
 + isimulator import <file>
