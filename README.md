@@ -241,7 +241,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * `start` - choose and launch installed simulator
   * `screenshot` - save screenshot to ~/Desktop
   * `record` - save screen recording to ~/Desktop
-  * `import <file>` - import image or video to gallery
+  * `import <file>` - import image or video to simulator gallery
   * `battery <0-100>` - set battery level
   * `time <hh:mm>` - set time
   * `logs` - print simulator logs
