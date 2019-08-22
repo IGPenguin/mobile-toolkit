@@ -59,15 +59,17 @@ launch_emulator(){
   fi
 }
 
+get_token(){
+  TOKEN=$(cat $HOME/.emulator_console_auth_token)
+}
+
 telnet_command() {
   if [ -z "$1" ];then
     read -p "📝 Insert telnet command: " COMMAND
   else
     COMMAND=$1
   fi
-  TOKEN=$(cat $HOME/.emulator_console_auth_token)
   { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $COMMAND; } | telnet &> /dev/null
-  echo "✅ Done"
 }
 
 call(){
@@ -78,6 +80,7 @@ call(){
   fi
   echo "📞 Making a call..."
   telnet_command "gsm call $NUMBER"
+  echo "🔔 Ringing..."
 }
 
 send_sms(){
@@ -95,6 +98,7 @@ send_sms(){
 
   echo "📝 Sending fake SMS..."
   telnet_command "sms send $NUMBER $TEXT"
+  echo "✅ Done"
 }
 
 set_gps(){
@@ -112,19 +116,22 @@ set_gps(){
 
   echo "🌎 Setting manual GPS location..."
   telnet_command "geo fix $LONG $LAT"
+  echo "✅ Done"
 }
 
 set_battery_level(){
   if [ -z "$1" ];then
     read -p "📝 Insert battery level: " LEVEL
-    set_battery_level $LEVEL
   else
-    echo "🔋 Setting manual battery level..."
-    telnet_command "power capacity $1"
+    LEVEL=$1
   fi
+    echo "🔋 Setting manual battery level..."
+    { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "power ac off"; echo "power status discharging"; echo "power capacity $LEVEL"; } | telnet &> /dev/null
+    echo "✅ Done"
 }
 
 check_for_update
+get_token
 
 case $1 in
   'start')
