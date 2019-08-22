@@ -9,7 +9,20 @@ help(){
   else
     echo "🤷 Argument missing"
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch installed emulator\n  call <number> - receive fake call\n  sms <number> <text> - recieve fake sms\n  gps <lat> <long> - set manual gps location\n  telnet <command> - call telnet command (see README.md)"
+  echo -e "Use one of the following options:\n  start - choose and launch installed emulator\n  call <number> - receive fake call\n  sms <number> <text> - recieve fake sms\n  gps <lat> <long> - set manual gps location\n  battery <0-100> - set manual battery level\n  telnet <command> - call telnet command (see README.md)"
+}
+
+check_running_emulator(){
+  adb devices | grep emulator &> /dev/null
+  if [ $? -ne 0 ]; then
+    echo "❌ No running emulators"
+    yes_or_no "❓ Do you want to start one?"
+    if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
+    then
+      launch_emulator
+    fi
+    exit
+  fi
 }
 
 get_emulator_list(){
@@ -28,6 +41,8 @@ get_emulator_list(){
 }
 
 launch_emulator(){
+  get_emulator_list
+
   if [ -z "$1" ]; then
     read -p "📝 Choose: " EMULATOR_INDEX
   else
@@ -44,15 +59,17 @@ launch_emulator(){
   fi
 }
 
+get_token(){
+  TOKEN=$(cat $HOME/.emulator_console_auth_token)
+}
+
 telnet_command() {
   if [ -z "$1" ];then
     read -p "📝 Insert telnet command: " COMMAND
   else
     COMMAND=$1
   fi
-  TOKEN=$(cat $HOME/.emulator_console_auth_token)
   { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $COMMAND; } | telnet &> /dev/null
-  echo "✅ Done"
 }
 
 call(){
@@ -63,6 +80,7 @@ call(){
   fi
   echo "📞 Making a call..."
   telnet_command "gsm call $NUMBER"
+  echo "🔔 Ringing..."
 }
 
 send_sms(){
@@ -80,6 +98,7 @@ send_sms(){
 
   echo "📝 Sending fake SMS..."
   telnet_command "sms send $NUMBER $TEXT"
+  echo "✅ Done"
 }
 
 set_gps(){
@@ -97,26 +116,46 @@ set_gps(){
 
   echo "🌎 Setting manual GPS location..."
   telnet_command "geo fix $LONG $LAT"
+  echo "✅ Done"
+}
+
+set_battery_level(){
+  if [ -z "$1" ];then
+    read -p "📝 Insert battery level: " LEVEL
+  else
+    LEVEL=$1
+  fi
+    echo "🔋 Setting manual battery level..."
+    { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "power ac off"; echo "power status discharging"; echo "power capacity $LEVEL"; } | telnet &> /dev/null
+    echo "✅ Done"
 }
 
 check_for_update
+get_token
 
 case $1 in
   'start')
-    get_emulator_list
     launch_emulator "$2"
     ;;
   'call')
+    check_running_emulator
     call "$2"
     ;;
   'sms')
+    check_running_emulator
     send_sms "$2" "$3"
     ;;
   'gps')
-    set_gps "$2" "$3"
+   check_running_emulator
+   set_gps "$2" "$3"
     ;;
+  'battery')
+   check_running_emulator
+   set_battery_level $2
+      ;;
   'telnet')
-    telnet_command "$2"
+   check_running_emulator
+   telnet_command "$2"
     ;;
    *)
     help "$1"

@@ -1,5 +1,10 @@
-+aemulator start
-+aemulator call
-+aemulator sms
-+aemulator gps
-+aemulator telnet
++ aemulator start
++ aemulator call
++ aemulator sms
++ aemulator gps
++ aemulator telnet
++ aemulator battery
++ isimulator screenshot
++ isimulator record
++ isimulator import
++ isimulator logs
