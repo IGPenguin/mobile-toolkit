@@ -1,9 +1,9 @@
-+aemulator start
-+aemulator call
-+aemulator sms
-+aemulator gps
-+aemulator telnet
-+aemulator battery <percentage>
++ aemulator start
++ aemulator call
++ aemulator sms
++ aemulator gps
++ aemulator telnet
++ aemulator battery <percentage>
 + isimulator screenshot
 + isimulator record
 + isimulator import <file>
