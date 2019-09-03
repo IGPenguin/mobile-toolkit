@@ -1,1 +1,5 @@
 #TODO
++aemulator gprs
++aemulator edge
++aemulator 3g
+details at: https://github.com/IntergalacticPenguin/mobile-toolkit/pull/143
