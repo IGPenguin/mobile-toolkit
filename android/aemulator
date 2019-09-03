@@ -3,13 +3,21 @@ LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 LOCAL_EMULATOR_LIST=$LOCATION/../data/toolkit_emulator_list.txt
 
+trap 'ctrlc $@' 1 2 3 6 15
+ctrlc(){
+  if $NET_CHANGED ; then
+    telnet_command "network delay none"
+  fi
+  exit
+}
+
 help(){
   if [[ $1 != "" ]]; then
     echo "🤷‍ Unknown option: $1"
   else
     echo "🤷 Argument missing"
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch installed emulator\n  call <number> - receive fake call\n  sms <number> <text> - recieve fake sms\n  gps <lat> <long> - set manual gps location\n  battery <0-100> - set manual battery level\n  telnet <command> - call telnet command (see README.md)"
+  echo -e "Use one of the following options:\n  start - choose and launch installed emulator\n  gprs | edge | 3g - set network latency\n  call <number> - receive fake call\n  sms <number> <text> - recieve fake sms\n  gps <lat> <long> - set manual gps location\n  battery <0-100> - set manual battery level\n  telnet <command> - call telnet command (see README.md)"
 }
 
 check_running_emulator(){
@@ -69,7 +77,7 @@ telnet_command() {
   else
     COMMAND=$1
   fi
-  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $COMMAND; } | telnet &> /dev/null
+  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $COMMAND; } | telnet
 }
 
 call(){
@@ -130,12 +138,27 @@ set_battery_level(){
     echo "✅ Done"
 }
 
+set_network_delay(){
+  DELAY=$1
+  NET_CHANGED=true
+  echo "🌐 Setting network latency..."
+  telnet_command "network delay $DELAY"
+  read -n 1 -p "⚡️ Press ENTER to stop"
+  telnet_command "network delay none"
+  NET_CHANGED=false
+  echo "✅ Done"
+}
+
 check_for_update
 get_token
 
 case $1 in
   'start')
     launch_emulator "$2"
+    ;;
+  'gprs' | 'edge' | '3g')
+    check_running_emulator
+    set_network_delay "$1"
     ;;
   'call')
     check_running_emulator
