@@ -45,7 +45,7 @@ handle_preset(){
     adb -s $SELECTED_DEVICE shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS &> /dev/null
     ;;
 
-    "2")
+    "2" | "locale")
     echo "🌍 Opening locale settings..."
     adb -s $SELECTED_DEVICE shell am start -a android.settings.LOCALE_SETTINGS &> /dev/null
     ;;
@@ -106,16 +106,6 @@ if [[ "$1" == "" ]]; then
   read -p "📝 Enter your selection: " PRESET
   handle_preset $PRESET
   exit
-fi
-
-# If number argument passed, choose preset right away
-if [[ "$1" =~ ^[0-9]+$ ]]; then
+else
   handle_preset $1
-  exit
-fi
-
-# If string argument passed, search in all available intents
-if [[ "$1" != "" ]]; then
-  search_for_intent $1
-  exit
 fi
