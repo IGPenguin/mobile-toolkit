@@ -6,7 +6,7 @@ LOCAL_EMULATOR_LIST=$LOCATION/../data/toolkit_emulator_list.txt
 trap 'ctrlc $@' 1 2 3 6 15
 ctrlc(){
   if $NET_CHANGED ; then
-    telnet_command "network delay none"
+    disable_network_delay
   fi
   exit
 }
@@ -77,7 +77,7 @@ telnet_command() {
   else
     COMMAND=$1
   fi
-  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $COMMAND; } | telnet
+  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $COMMAND; } | telnet &> /dev/null
 }
 
 call(){
@@ -140,13 +140,21 @@ set_battery_level(){
 
 set_network_delay(){
   DELAY=$1
+  if [[ "$DELAY" == "3g" ]]; then
+    DELAY="umts"
+  fi
   NET_CHANGED=true
-  echo "🌐 Setting network latency..."
-  telnet_command "network delay $DELAY"
-  read -n 1 -p "⚡️ Press ENTER to stop"
-  telnet_command "network delay none"
-  NET_CHANGED=false
+  echo "🌐 Simulating network limit..."
+  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "network delay $DELAY"; echo "network speed $DELAY"; } | telnet &> /dev/null
+  read -n 1 -p "⚡️ Press ENTER to stop..."
+  disable_network_delay
   echo "✅ Done"
+}
+
+disable_network_delay(){
+  echo "🔄 Disabling network limits..."
+  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "network delay none"; echo "network speed full"; } | telnet &> /dev/null
+  NET_CHANGED=false
 }
 
 check_for_update
