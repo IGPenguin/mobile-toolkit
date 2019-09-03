@@ -90,7 +90,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 ## Manage applications
 
 ### alaunch
-* `alaunch` List third party apps and choose one to run it
+* `alaunch` List third-party apps and choose one to run it
 * `alaunch -a` List all available apps and choose one to run it
 * `alaunch com.dummy.package.name.app` Run app by package name
 
@@ -118,9 +118,9 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Can overwrite existing app
 
 ### auninstall
-* `auninstall` Uninstall third party app, choose from the list
+* `auninstall` Uninstall third-party app, choose from the list
 * `auninstall com.dummy.package.name.app` pass package name as argument
-* `auninstall -a` Uninstall all third party packages
+* `auninstall -a` Uninstall all-third party packages
 	* Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 ### awipe
@@ -210,9 +210,9 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Can overwrite existing app
 
 ### iuninstall
-* `iuninstall` Uninstall third party app, choose from the list
+* `iuninstall` Uninstall third-party app, choose from the list
 * `iuninstall com.dummy.package.name.app` pass bundle name as argument
-* `iuninstall -a` Uninstall all third party packages
+* `iuninstall -a` Uninstall all third-party packages
   * Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 ## Manage device
