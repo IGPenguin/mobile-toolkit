@@ -3,6 +3,20 @@ LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 ios_choose_device
 
+select_option(){
+    echo "📋 Choose package number:"
+    select OPTION in "${PACKAGE_LIST[@]}"
+    do
+     case $OPTION in
+        *) PACKAGE=$OPTION;break; ;;
+      esac
+    done
+    if [[ -z $PACKAGE ]]; then
+      echo "❌ Invalid option picked, retry"
+      select_option
+    fi
+}
+
 UNINSTALL_COUNT=0
 IGNORED_PACKAGES=( "com.apple.TestFlight" "com.thefuntasty.funtaster" "io.crash.air" "de.codenauts.hockeyapp" "com.framerjs.ios" "com.figma.mirror" "com.invisionapp.ifa") #TODO validate
 ios_get_package_list
@@ -31,14 +45,8 @@ if [ -z "$PACKAGE" ]; then
       echo "🤷‍ Nothing to uninstall"
       exit
   fi
-
-  echo "📋 Choose package number:"
-  select OPTION in "${PACKAGE_LIST[@]}"
-  do
-   case $OPTION in
-      *) PACKAGE=$OPTION;break; ;;
-    esac
-  done
+  
+  select_option
 fi
 
 echo "🔥 Uninstalling $PACKAGE"

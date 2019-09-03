@@ -31,6 +31,20 @@ uninstall_package(){
   adb -s $SELECTED_DEVICE shell pm uninstall $PACKAGE &> /dev/null
 }
 
+select_option(){
+    echo "📋 Choose package number:"
+    select OPTION in "${PACKAGES_LISTED[@]}"
+    do
+     case $OPTION in
+        *) PACKAGE=$OPTION;break; ;;
+      esac
+    done
+    if [[ -z $PACKAGE ]]; then
+      echo "❌ Invalid option picked, retry"
+      select_option
+    fi
+}
+
 choose_package(){
     PACKAGES_LISTED=()
     for PKG in "${PACKAGES[@]}" #removes trailing \r
@@ -44,14 +58,7 @@ choose_package(){
         echo "🤷‍ Nothing to uninstall"
         exit
     fi
-
-    echo "📋 Choose package number:"
-    select OPTION in "${PACKAGES_LISTED[@]}"
-    do
-     case $OPTION in
-        *) PACKAGE=$OPTION;break; ;;
-      esac
-    done
+    select_option
 }
 
 handle_arguments(){
