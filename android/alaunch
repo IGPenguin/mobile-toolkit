@@ -3,7 +3,7 @@ LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 android_choose_device
 
-if [[ "$1" == "-a" ]]; then
+if [[ "$1" == "-s" ]]; then
   PACKAGES=($(adb -s $SELECTED_DEVICE shell pm list packages -f | sed -e 's/.*=//' | sort))
 elif [[ -n "$1" ]]; then
   PACKAGE=$1
