@@ -8,7 +8,7 @@ wipe_data(){
   yes_or_no "💣 Wipe internal storage on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
   tput sgr0
   if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
-    echo "🔥 Deleting all data..."
+    echo "🔥 Deleting everything in mnt/sdcard..."
     adb -s $SELECTED_DEVICE shell rm -rf mnt/sdcard/*
   fi
 }
@@ -18,7 +18,7 @@ wipe_apps(){
   yes_or_no "💣 Wipe internal storage on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
   tput sgr0
   if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
-    echo "🔥 Deleting all apps..."
+    echo "🔥 Deleting all third-party apps..."
     $LOCATION/auninstall "-a" "$SELECTED_DEVICE"
   fi
 }
