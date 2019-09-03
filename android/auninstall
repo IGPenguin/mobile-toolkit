@@ -1,55 +1,80 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
-android_choose_device
 
-UNINSTALL_COUNT=0
-IGNORED_PACKAGES=( "com.thefuntasty.funtaster" "io.crash.air" "de.codenauts.hockeyapp" "ar.core" "com.framerjs.android" "com.figma.mirror" "com.invisionapp.ifa")
-PACKAGES=($(adb -s $SELECTED_DEVICE shell pm list packages -f -3 | sed -e 's/.*=//' | sort))
+init_uninstalling(){
+  echo "⏳ Getting third-party package list..."
+  UNINSTALL_COUNT=0
+  IGNORED_PACKAGES=( "com.thefuntasty.funtaster" "io.crash.air" "de.codenauts.hockeyapp" "ar.core" "com.framerjs.android" "com.figma.mirror" "com.invisionapp.ifa")
+  PACKAGES=($(adb -s $SELECTED_DEVICE shell pm list packages -f -3 | sed -e 's/.*=//' | sort))
+}
 
-if [[  "$1" == "-a" ]]; then
-  tput setaf 1
-  should_proceed "💣 Delete all third party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
-  tput sgr0
-  for PKG in "${PACKAGES[@]}"
-  do
-    PKG=${PKG%$'\r'} #removes trailing \r
-    echo $IGNORED_PACKAGES | grep -wx "$PKG" &> /dev/null && { echo "⏩ Skipped $PKG"; continue; }
-    echo "🔥 Uninstalling $PKG"
-    adb -s $SELECTED_DEVICE shell "pm uninstall $PKG" &> /dev/null
-    ((++UNINSTALL_COUNT))
-  done
-  echo "✅ Apps uninstalled: $UNINSTALL_COUNT"
-  exit
-elif [[ -n "$1" ]]; then
-  PACKAGE=$1
-  echo $PACKAGES | grep -wx "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; exit; }
-  echo $IGNORED_PACKAGES | grep -wx "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; exit; }
-fi
+uninstall_all(){
+    tput setaf 1
+    should_proceed "💣 Delete all third-party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+    tput sgr0
+    for PKG in "${PACKAGES[@]}"
+    do
+      PKG=${PKG%$'\r'} #removes trailing \r
+      echo $IGNORED_PACKAGES | grep -wx "$PKG" &> /dev/null && { echo "⏩ Skipped $PKG"; continue; }
+      echo "🔥 Uninstalling $PKG"
+      adb -s $SELECTED_DEVICE shell "pm uninstall $PKG" &> /dev/null
+      ((++UNINSTALL_COUNT))
+    done
+    echo "✅ Apps uninstalled: $UNINSTALL_COUNT"
+    exit
+}
 
-if [ -z "$PACKAGE" ]; then
-  PACKAGES_LISTED=()
-  for PKG in "${PACKAGES[@]}" #removes trailing \r
-  do
-    PKG=${PKG%$'\r'}
-    echo "${IGNORED_PACKAGES[@]}" | grep "$PKG" &> /dev/null && { echo "⏩ Skipped $PKG"; continue; }
-    PACKAGES_LISTED+=($PKG)
-  done
+uninstall_package(){
+  PACKAGE="$1"
+  echo ${PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; exit; }
+  echo ${IGNORED_PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; exit; }
 
-  if [ ${#PACKAGES_LISTED[@]} -eq 0 ]; then
-      echo "🤷‍ Nothing to uninstall"
-      exit
+  echo "🔥 Uninstalling $PACKAGE"
+  adb -s $SELECTED_DEVICE shell pm uninstall $PACKAGE &> /dev/null
+}
+
+choose_package(){
+    PACKAGES_LISTED=()
+    for PKG in "${PACKAGES[@]}" #removes trailing \r
+    do
+      PKG=${PKG%$'\r'}
+      echo "${IGNORED_PACKAGES[@]}" | grep "$PKG" &> /dev/null && { echo "⏩ Skipped $PKG"; continue; }
+      PACKAGES_LISTED+=($PKG)
+    done
+
+    if [ ${#PACKAGES_LISTED[@]} -eq 0 ]; then
+        echo "🤷‍ Nothing to uninstall"
+        exit
+    fi
+
+    echo "📋 Choose package number:"
+    select OPTION in "${PACKAGES_LISTED[@]}"
+    do
+     case $OPTION in
+        *) PACKAGE=$OPTION;break; ;;
+      esac
+    done
+}
+
+handle_arguments(){
+  if [[ -z "$2" ]]; then
+    android_choose_device
+  else
+    SELECTED_DEVICE=$2
   fi
 
-  echo "📋 Choose package number:"
-  select OPTION in "${PACKAGES_LISTED[@]}"
-  do
-   case $OPTION in
-      *) PACKAGE=$OPTION;break; ;;
-    esac
-  done
-fi
+  init_uninstalling
 
-echo "🔥 Uninstalling $PACKAGE"
-adb -s $SELECTED_DEVICE shell pm uninstall $PACKAGE &> /dev/null
+  if [ -z "$1" ]; then
+    choose_package
+    uninstall_package "$PACKAGE"
+  elif [[  "$1" == "-a" ]]; then
+    uninstall_all
+  elif [[ -n "$1" ]]; then
+    uninstall_package "$1"
+  fi
+}
+
+handle_arguments "$@"
 echo "✅ Done"
