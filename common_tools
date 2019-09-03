@@ -331,8 +331,9 @@ check_for_update(){
       if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
         echo "⏬ Updating..."
         git pull &> /dev/null
-        echo -e "✅ Done\n✨ New features:"
+        echo "✨ New features:"
         cat $SCRIPT_LOCATION/../changelog.txt
+        echo "✅ Update complete"
       fi
     fi
   fi

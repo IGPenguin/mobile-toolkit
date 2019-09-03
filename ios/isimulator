@@ -10,7 +10,12 @@ help(){
   else
     echo "🤷 Argument missing"
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  paste <text> - insert text into pasteboard\n  url <url> - open link in web browser\n  wipe - wipe all simulator data"
+  echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  screenshot <filename> - save screenshot to Desktop\n  record <filename> - save screen recording to Desktop\n  paste <text> - insert text into pasteboard\n  url <url> - open link in web browser\n  logs - print simulator logs\n  battery <0-100> - set battery level\n  time <hh:mm> - set time\n  import <file> - import photo or video into gallery\n  wipe - wipe all simulator data"
+}
+
+import_simulator_list(){
+  xcrun simctl list -v devices | grep -i booted | sed 's/ (Booted) //g' > $LOCAL_SIMULATOR_LIST
+  RUNNING_SIMULATOR_COUNT=$(wc -l < $LOCAL_SIMULATOR_LIST)
 }
 
 choose_simulator(){
@@ -24,11 +29,10 @@ choose_simulator(){
 }
 
 choose_running_simulator(){
-  xcrun simctl list -v devices | grep -i booted | sed 's/ (Booted) //g' > $LOCAL_SIMULATOR_LIST
-  RUNNING_SIMULATOR_COUNT=$(wc -l < $LOCAL_SIMULATOR_LIST)
+  import_simulator_list
 
   if [[ $RUNNING_SIMULATOR_COUNT -le 0 ]]; then
-    echo "❌ No running simulators."
+    echo "❌ No running simulators"
     yes_or_no "❓ Do you want to start one?"
     if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
     then
@@ -62,7 +66,7 @@ start_simulator(){
 open_url(){
   check_url $1
   echo "🌎 Opening link in a web browser..."
-  xcrun simctl openurl $SIMULATOR_ID $URL
+  xcrun simctl openurl $SIMULATOR_ID $URL &> /dev/null
 }
 
 launch_app(){
@@ -81,7 +85,7 @@ insert_clipboard(){
     insert_clipboard "$TEXT"
   else
     echo "📥 Inserting text into clipboard..."
-    echo $1 | xcrun simctl pbcopy $SIMULATOR_ID
+    echo $1 | xcrun simctl pbcopy $SIMULATOR_ID &> /dev/null
   fi
 }
 
@@ -95,29 +99,120 @@ wipe_contents(){
   xcrun simctl boot $SIMULATOR_ID
 }
 
+record_screen(){
+  echo "📹 Recording screen on $SIMULATOR_ID, stop it with ctrl^c"
+  if [ -z "$1" ] ; then
+    FILENAME="Simulator-$(date +%Y-%m-%d-%H-%M-%S).mp4"
+  else
+    FILENAME=$1
+  fi
+  xcrun simctl io $SIMULATOR_ID recordVideo --type=mp4 "~/DESKTOP/$FILENAME" &> /dev/null
+  echo "✅ Video saved to ~/Desktop/$FILENAME"
+}
+
+take_screenshot(){
+  echo "📸 Taking screenshot from on $SIMULATOR_ID"
+  if [ -z "$1" ] ; then
+    FILENAME="Simulator-$(date +%Y-%m-%d-%H-%M-%S).png"
+  else
+    FILENAME=$1
+  fi
+  xcrun simctl io $SIMULATOR_ID screenshot "~/Desktop/$FILENAME" &> /dev/null
+  echo "✅ Screenshot saved to ~/Desktop/$FILENAME"
+}
+
+import_file(){
+  if [ -z "$1" ] ; then
+    echo "🤷‍ No file for import, use - isimulator import <file>"
+    exit
+  fi
+  echo "⏬ Importing file to $SIMULATOR_ID..."
+  xcrun simctl addmedia $SIMULATOR_ID "$PWD/$1"
+  echo "✅ File imported successfully"
+}
+
+print_logs(){
+  echo "📜 Simulator logs:"
+  xcrun simctl spawn $SIMULATOR_ID log stream --level=debug
+}
+
+check_xcode_version(){
+  if [ "$(FirefoxmdlsVersion= mdls -name kMDItemVersion /Applications/Xcode.app | tr -d "." | grep -oE '[0-9]+')" -lt 110 ]; then
+    should_proceed "🔄 Xcode 11 or later is required, open App Store?"
+    open -a "App Store"
+    exit 1
+  fi
+}
+
+set_battery_level(){
+  check_xcode_version
+  if [[ -z "$1" ]]; then
+    read -p "📝 Enter battery level: " LEVEL
+    set_battery_level "$LEVEL"
+  else
+    echo "🔋 Setting battery level to: $1"
+    xcrun simctl status_bar $SIMULATOR_ID override --batteryLevel $1 # --batteryState charged
+  fi
+}
+
+set_time(){
+  check_xcode_version
+  if [[ -z "$1" ]]; then
+    read -p "📝 Enter battery level: " TIME
+    set_time "$TIME"
+  else
+    xcrun simctl status_bar $SIMULATOR_ID override --time $1
+  fi
+}
+
 check_for_update
 
 case $1 in
   'start')
-    start_simulator $2
+    import_simulator_list
+    start_simulator "$2"
+    ;;
+  'screenshot')
+    choose_running_simulator
+    take_screenshot "$2"
+    ;;
+  'record')
+    choose_running_simulator
+    record_screen "$2"
+    ;;
+  'import')
+    choose_running_simulator
+    import_file "$2"
     ;;
   'url')
     choose_running_simulator
-    open_url $2
+    open_url "$2"
+    ;;
+  'battery')
+    choose_running_simulator
+    set_battery_level "$2"
+    ;;
+  'time')
+    choose_running_simulator
+    set_time "$2"
     ;;
   'launch')
     choose_running_simulator
-    launch_app $2
+    launch_app "$2"
     ;;
   'paste')
     choose_running_simulator
     insert_clipboard "$2"
+    ;;
+  'logs')
+    choose_running_simulator
+    print_logs "$2"
     ;;
   'wipe')
     choose_running_simulator
     wipe_contents
     ;;
    *)
-    help $1
+    help "$1"
     ;;
 esac
