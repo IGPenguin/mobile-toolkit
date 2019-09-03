@@ -3,10 +3,26 @@ LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 android_choose_device
 
-tput setaf 1
-should_proceed "💣 Wipe internal storage on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
-tput sgr0
+wipe_data(){
+  tput setaf 1
+  yes_or_no "💣 Wipe internal storage on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+  tput sgr0
+  if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
+    echo "🔥 Deleting all data..."
+    adb -s $SELECTED_DEVICE shell rm -rf mnt/sdcard/*
+  fi
+}
 
-echo "🔥 Deleting all data..."
-adb -s $SELECTED_DEVICE shell rm -rf mnt/sdcard/*
+wipe_apps(){
+  tput setaf 1
+  yes_or_no "💣 Wipe internal storage on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+  tput sgr0
+  if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
+    echo "🔥 Deleting all apps..."
+    $LOCATION/auninstall "-a" "$SELECTED_DEVICE"
+  fi
+}
+
+wipe_data
+wipe_apps
 echo "✅ Done"

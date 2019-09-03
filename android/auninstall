@@ -10,9 +10,6 @@ init_uninstalling(){
 }
 
 uninstall_all(){
-    tput setaf 1
-    should_proceed "💣 Delete all third-party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
-    tput sgr0
     for PKG in "${PACKAGES[@]}"
     do
       PKG=${PKG%$'\r'} #removes trailing \r
@@ -70,6 +67,11 @@ handle_arguments(){
     choose_package
     uninstall_package "$PACKAGE"
   elif [[  "$1" == "-a" ]]; then
+    if [[ -z "$2" ]]; then
+      tput setaf 1
+      should_proceed "💣 Delete all third-party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+      tput sgr0
+    fi
     uninstall_all
   elif [[ -n "$1" ]]; then
     uninstall_package "$1"
