@@ -173,8 +173,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 ### aemulator
 * `aeimulator <option>` Handle various emulator related activites
   * `start` - choose and launch installed emulator
-  * `call <number>` - receive fake call
   * `gprs | edge | 3g` - simulate network latency, choose one
+  * `call <number>` - receive fake call
   * `sms <number> <text>` - receive fake sms
   * `gps <lat> <long>` - set manual GPS location
   * `battery <0-100>` - set battery level
