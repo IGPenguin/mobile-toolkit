@@ -13,9 +13,7 @@ uninstall_all(){
     for PKG in "${PACKAGES[@]}"
     do
       PKG=${PKG%$'\r'} #removes trailing \r
-      echo $IGNORED_PACKAGES | grep -wx "$PKG" &> /dev/null && { echo "⏩ Skipped $PKG"; continue; }
-      echo "🔥 Uninstalling $PKG"
-      adb -s $SELECTED_DEVICE shell "pm uninstall $PKG" &> /dev/null
+      uninstall_package $PKG
       ((++UNINSTALL_COUNT))
     done
     echo "✅ Apps uninstalled: $UNINSTALL_COUNT"
@@ -24,8 +22,8 @@ uninstall_all(){
 
 uninstall_package(){
   PACKAGE="$1"
-  echo ${PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; exit; }
-  echo ${IGNORED_PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; exit; }
+  echo ${PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; return; }
+  echo ${IGNORED_PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; return; }
 
   echo "🔥 Uninstalling $PACKAGE"
   adb -s $SELECTED_DEVICE shell pm uninstall $PACKAGE &> /dev/null
