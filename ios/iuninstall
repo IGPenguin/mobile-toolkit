@@ -17,6 +17,15 @@ select_option(){
     fi
 }
 
+uninstall_package(){
+  PACKAGE="$1"
+  echo ${PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; return; }
+  echo ${IGNORED_PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; return; }
+
+  echo "🔥 Uninstalling $PACKAGE"
+  ideviceinstaller -u $SELECTED_DEVICE -U $PKG &> /dev/null
+}
+
 UNINSTALL_COUNT=0
 IGNORED_PACKAGES=( "com.apple.TestFlight" "com.thefuntasty.funtaster" "io.crash.air" "de.codenauts.hockeyapp" "com.framerjs.ios" "com.figma.mirror" "com.invisionapp.ifa")
 ios_get_package_list
@@ -27,28 +36,21 @@ if [[  "$1" == "-a" ]]; then
   tput sgr0
   for PKG in "${PACKAGE_LIST[@]}"
   do
-    echo ${IGNORED_PACKAGES[*]} | grep -w "$PKG" &> /dev/null && { echo "⏩ Skipped $PKG"; continue; }
-    echo "🔥 Uninstalling $PKG"
-    ideviceinstaller -u $SELECTED_DEVICE -U $PKG &> /dev/null
+    uninstall_package $PKG
     ((++UNINSTALL_COUNT))
   done
   echo "✅ Apps uninstalled: $UNINSTALL_COUNT"
   exit
 elif [[ -n "$1" ]]; then
-  PACKAGE=$1
-  echo ${PACKAGE_LIST[*]}  | grep -wx "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; exit; }
-  echo ${IGNORED_PACKAGES[*]}  | grep -wx "$PACKAGE" &> /dev/null && { echo "🤷‍ Package \"$PACKAGE\" is whitelisted"; exit; }
+  uninstall_package $1
 fi
 
-if [ -z "$PACKAGE" ]; then
+if [ -z "$1" ]; then
   if [ ${#PACKAGE_LIST[@]} -eq 0 ]; then
       echo "🤷‍ Nothing to uninstall"
       exit
   fi
-
   select_option
 fi
 
-echo "🔥 Uninstalling $PACKAGE"
-ideviceinstaller -u $SELECTED_DEVICE -U $PACKAGE &> /dev/null
 echo "✅ Done"
