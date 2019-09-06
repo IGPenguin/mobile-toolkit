@@ -48,10 +48,10 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Use `ascreenshot -a` to take screenshot on all connected devices
 
 ### arecord
-1. **Record screen**
+1. `arecord` **Record screen**
 2. **End recording** using `ctrl + c`
 3. Save screen video footage to ~/Desktop
-  * Specify your own filename by passing it as argument
+  * `arecord <custom-name>` Specify your own filename by passing it as argument
 
 ## Control device
 
