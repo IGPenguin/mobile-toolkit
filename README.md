@@ -146,7 +146,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 	* Power usage
 	* Root settings activity
 * Or you can choose from exhaustive list of all available options
-* `aoptions 1` you can also specify preset as argument
+* `aoptions 1,2,3... | dev | locale | date | wifi | storage | power` or use a preset, choose one
 
 ### alog
 * Print system log output
