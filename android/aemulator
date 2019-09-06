@@ -183,7 +183,7 @@ case $1 in
   'battery')
    check_running_emulator
    set_battery_level $2
-      ;;
+    ;;
   'telnet')
    check_running_emulator
    telnet_command "$2"
