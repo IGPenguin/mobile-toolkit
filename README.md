@@ -124,7 +124,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 	* Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 ### awipe
-* Wipe internal storage - remove everything in /sdcard directory
+* Wipe internal storage (/mnt/sdcard directory) and delete all third-party apps
 
 ### apermissionreset
 * Revoke ALL runtime permissions for ALL (even system) apps
