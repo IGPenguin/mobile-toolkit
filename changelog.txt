@@ -2,4 +2,7 @@
 +aemulator gprs
 +aemulator edge
 +aemulator 3g
-details at: https://github.com/IntergalacticPenguin/mobile-toolkit/pull/143
++auninstall -a
++iuninstall -a
+-iwipe
++proper package whitelisting
