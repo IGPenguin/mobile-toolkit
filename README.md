@@ -57,7 +57,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### awireless
 * Enable or disable wireless ADB connection
-* Allows script or any ADB command usage without USB connection
+* Allows wireless usage of toolkit scripts and any other ADB commands
 
 ### apaste
 `apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004`
@@ -65,7 +65,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `apaste <text>` Insert text into currently focused field
 * `apaste "john.doe@fakemail.com" password1 ` Every additional argument will be inserted into subsequent field
 * `apaste "This is sample multi-word text."` use "" to insert multi-word text into one field
-* `apaste -l` Paste classic Lorem Ipsum paragraph
+* `apaste -l` Paste Lorem Ipsum paragraph
 
 ### abounds
 * Toggle **layout bounds visibility**
