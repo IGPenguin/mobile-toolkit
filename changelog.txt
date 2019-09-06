@@ -6,3 +6,4 @@
 +iuninstall -a
 -iwipe
 +proper package whitelisting
++fixiinstall
