@@ -18,7 +18,7 @@ select_option(){
 }
 
 UNINSTALL_COUNT=0
-IGNORED_PACKAGES=( "com.apple.TestFlight" "com.thefuntasty.funtaster" "io.crash.air" "de.codenauts.hockeyapp" "com.framerjs.ios" "com.figma.mirror" "com.invisionapp.ifa") #TODO validate
+IGNORED_PACKAGES=( "com.apple.TestFlight" "com.thefuntasty.funtaster" "io.crash.air" "de.codenauts.hockeyapp" "com.framerjs.ios" "com.figma.mirror" "com.invisionapp.ifa")
 ios_get_package_list
 
 if [[  "$1" == "-a" ]]; then
@@ -27,7 +27,7 @@ if [[  "$1" == "-a" ]]; then
   tput sgr0
   for PKG in "${PACKAGE_LIST[@]}"
   do
-    echo ${IGNORED_PACKAGES[*]} | grep -wx "$PKG" &> /dev/null && { echo "⏩ Skipped $PKG"; continue; } #TODO FIX
+    echo ${IGNORED_PACKAGES[*]} | grep -w "$PKG" &> /dev/null && { echo "⏩ Skipped $PKG"; continue; }
     echo "🔥 Uninstalling $PKG"
     ideviceinstaller -u $SELECTED_DEVICE -U $PKG &> /dev/null
     ((++UNINSTALL_COUNT))
