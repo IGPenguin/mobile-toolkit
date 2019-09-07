@@ -2,6 +2,7 @@
 +aemulator gprs
 +aemulator edge
 +aemulator 3g
++aservices
 +auninstall -a
 +iuninstall -a
 -iwipe
