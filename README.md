@@ -1,21 +1,21 @@
 # Mobile Toolkit
 💥 **Control Android and iOS devices** or Emulators/Simulators using easy terminal commands<br>
 
-🛠 **Capture the screen and manage both Android and iOS** devices<br>
+🛠 **Capture screen, manage storage and settings, gather various information**<br>
 
-📱 **Test mobile applications**, clear device memory and much more<br>
+📱 **Test mobile applications**, install, restart, wipe storage and much more<br>
 
 📋 **Handle multiple devices effortlessly** via choice from a list<br>
 
 ⏳ **Save your precious time**, stop doing repetitive tasks manually<br>
 
-🔄 **Automatic check for update** is performed once a day<br>
+🔄 **Automatic check for update** is performed every day, changes are listed afterwards<br>
 
-⁉️ **Submit issue** if you want to ask anything or improve the scripts<br>
+⁉️ **Submit issue** if you want to ask anything, improve the scripts or bring new inspiration<br>
 
-🤝 Any **pull request** contribution is **highly appreciated**<br>
+🤝 Any **pull request** contribution is **highly appreciated**, critical issues are marked with "help wanted" tag<br>
 
-⭐️ If you **love Mobile Toolkit**, hit the **star button** at the top right corner and **make me happy**<br>
+⭐️ If you **love using Mobile Toolkit, hit the star button** at the top right corner and **make me happy**<br>
 
 # Installation
 1. **Open terminal**
