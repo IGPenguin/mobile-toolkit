@@ -1,0 +1,77 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source $LOCATION/../common_tools
+
+trap 'cleanup $@' 1 2 3 6 15
+
+cleanup()
+{
+  if [ -n "$OLD_PWD" ]; then
+    cd $OLD_PWD
+  fi
+  rm -f $TASK_LIST
+  exit
+}
+
+list_build_variants(){
+  if [ -n "$1" ];
+  then
+    OLD_PWD=$PWD
+    cd "$1"
+  fi
+
+  if ! [ -f "gradlew" ];
+  then
+    echo "🤷‍ No Android project found in current directory"
+    exit
+  fi
+
+  TASK_LIST="toolkit_task_list.txt"
+  echo "⏳ Detecting build variant list, this may take a while..."
+  ./gradlew tasks | grep '^install' > $TASK_LIST
+
+  if [ "$(cat $TASK_LIST | wc -l)" -eq 0 ]; then
+    echo "🤷‍ No Android project build variants available"
+    exit
+  else
+    echo "🔨 Available:"
+    cat $TASK_LIST | nl
+  fi
+}
+
+build_project_variant(){
+  read -p "📝 Choose build variant: " VARIANT_INDEX
+  TASK=$(sed $VARIANT_INDEX!d $TASK_LIST | awk '{ print $1 }' )
+  if [[ $VARIANT_INDEX == "" || $TASK == "" ]]; then
+    delete_lastline
+    build_project_variant
+  else
+    echo  "🚀 Triggering new build..."
+    ANDROID_SERIAL=$SELECTED_DEVICE ./gradlew $TASK
+  fi
+  if [ $? == "0" ];
+  then
+    VARIANT=${TASK#"install"}
+    echo  "✅ $VARIANT build variant successfully installed"
+  else
+    echo  "❌ $VARIANT build variant installation failed"
+  fi
+}
+
+find_apk_path(){
+  VARIANT_NAME=${VARIANT#"install"}
+  APK_PATH=$(find . -iname "*$VARIANT_NAME*.apk" | sort | tail -1)
+}
+
+launch(){
+  detect_package_name "$1"
+  echo "🚀 Launching..."
+  adb shell monkey -p $PACKAGE_NAME -c android.intent.category.LAUNCHER 1 &> /dev/null
+}
+
+android_choose_device
+list_build_variants "$@"
+build_project_variant
+find_apk_path
+launch "$APK_PATH"
+cleanup
