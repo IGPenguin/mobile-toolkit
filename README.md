@@ -159,7 +159,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Print device information
 * Perform basic checks and apply preset settings if allowed
   * 10 minutes screen timeout
-  * Manual maximum brightness
+  * Highest brightness
   * Automatic date
   * Disabled notification sounds
   * Internet connectivity and WIFI name
@@ -179,7 +179,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * `gps <lat> <long>` - set manual GPS location
   * `battery <0-100>` - set battery level
   * `telnet <command>` - call command via telnet
-	   * example commands `event redir sensor physics finger rotate fold unfold...` see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
+	   * example commands `event | redir | sensor | physics | finger | rotate | fold | unfold...` see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
 
 # iOS scripts
 
@@ -206,9 +206,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ## Manage applications
 ### iinstall
-`iinstall some-app-file.ipa`
 
-* Install .ipa file
+* `iinstall some-app-file.ipa` Install .ipa file, make sure to use proper build
 * Can overwrite existing app
 
 ### iuninstall
