@@ -246,3 +246,6 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * `paste <text>` - insert text into pasteboard
   * `url <url>` - open link in web browser or corresponding application
   * `wipe` - wipe all simulator data
+
+# About
+You can read about my motivation in this [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence")
