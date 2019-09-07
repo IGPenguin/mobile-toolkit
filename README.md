@@ -134,6 +134,10 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `agoogleplay "Dummy App"` Search for app on Google Play
 * Pass app name as argument
 
+### abuildproject
+* `abuildproject` Build, install and run Android project located in current directory
+* `abuildproject <relative-path>` Build, install and run Android project located in <relative-path>
+
 ## Manage device
 
 ### aoptions

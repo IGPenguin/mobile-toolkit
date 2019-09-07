@@ -106,6 +106,14 @@ android_is_package_installed() {
   fi
 }
 
+detect_package_name(){
+  echo "🔍 Detecting package name..."
+  AAPPT_PATH=$(find ~/Library/Android/sdk -name 'aapt' | sort | tail -1)
+  PACKAGE_NAME=$($AAPPT_PATH dump badging "$1" | grep package:\ name);
+  PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/^[^'\'']*'\''//');
+  PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/'\''.*//');
+}
+
 ##########################
 ### IOS SECTION
 
@@ -375,7 +383,11 @@ should_proceed(){
 
 choose_number(){
   MAX=$1
-  read -p "📝 Choose number: " CHOICE
+  if [ -n "$2" ]; then
+    read -p "$2" CHOICE
+  else
+    read -p "📝 Choose number: " CHOICE
+  fi
   while :;
   do
     if [[ -z $CHOICE  || $CHOICE -le 0 || $CHOICE -gt $MAX ]]; then
