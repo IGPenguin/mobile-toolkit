@@ -11,7 +11,7 @@ fi
 
 cd ~/Desktop
 mkdir $DIRNAME
-echo "📁 Copying crash logs from the device..."
+echo "📁 Copying crash logs from the device, this may take a while..."
 idevicecrashreport -u $SELECTED_DEVICE $DIRNAME &> /dev/null
 
 echo "🔥 Cleaning up..."
@@ -26,7 +26,7 @@ done
 if [ -z "$(ls -A)" ]; then
    cd ..
    rm -rf $DIRNAME
-   echo "❌ Nothing useful found!"
+   echo "❌ No useful logs found!"
 else
-   echo "✅ Crash logs gathered to $DIRNAME"
+   echo "✅ Crash logs saved to $DIRNAME"
 fi
