@@ -3,6 +3,7 @@
 +aemulator edge
 +aemulator 3g
 +aservices
++abuildproject
 +auninstall -a
 +iuninstall -a
 -iwipe
