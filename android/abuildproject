@@ -52,7 +52,7 @@ build_project_variant(){
   if [ $? == "0" ];
   then
     VARIANT=${TASK#"install"}
-    echo  "✅ $VARIANT build variant successfully installed"
+    echo  "✅ $VARIANT build variant installed successfully"
   else
     echo  "❌ $VARIANT build variant installation failed"
   fi
@@ -69,9 +69,15 @@ launch(){
   adb shell monkey -p $PACKAGE_NAME -c android.intent.category.LAUNCHER 1 &> /dev/null
 }
 
+copy_apk_to_desktop(){
+  cp "$APK_PATH" "$HOME/Desktop"
+  echo "💾 \"$PACKAGE_NAME\" .apk saved to ~/Desktop"
+}
+
 android_choose_device
 list_build_variants "$@"
 build_project_variant
 find_apk_path
 launch "$APK_PATH"
+copy_apk_to_desktop
 cleanup
