@@ -59,14 +59,14 @@ build_project_variant(){
 }
 
 find_apk_path(){
-  VARIANT_NAME=${VARIANT#"install"}
-  APK_PATH=$(find . -iname "*$VARIANT_NAME*.apk" | sort | tail -1)
+  rm -rf "./outputs/apk/*"
+  APK_PATH=$(find . -iname "*.apk" | sort | tail -1)
 }
 
 launch(){
   detect_package_name "$1"
   echo "🚀 Launching..."
-  adb shell monkey -p $PACKAGE_NAME -c android.intent.category.LAUNCHER 1 &> /dev/null
+  adb shell monkey -p "$PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
 }
 
 copy_apk_to_desktop(){
