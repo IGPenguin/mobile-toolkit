@@ -248,4 +248,4 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * `wipe` - wipe all simulator data
 
 # About
-You can read about my motivation in this [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"), if you made it this far in readme and you like my work, please be so kind and leave a star on Github or some claps on Medium. Every appreciation encourages me to continue the development of this little project. 🤞
+**You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"), if you made it this far in readme and you like my work, please be so kind and star this repository or leave some claps on Medium. Every appreciation empowers my will to work on this project. 🤞
