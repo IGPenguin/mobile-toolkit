@@ -146,8 +146,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 	* Storage management
 	* Power usage
 	* Root settings activity
-* Or you can choose from exhaustive list of all available options
-* `aoptions 1,2,3... | dev | locale | date | wifi | storage | power` or use a preset, choose one
+* `aoptions A` Choose from exhaustive list of all available options
+* `aoptions 1,2,3... | dev | locale | date | wifi | storage | power` Use a preset, choose one
 
 ### alog
 * Print system log output
@@ -167,6 +167,9 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * Font scale
   * enUS locale
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
+
+### aservices
+* Print running background services, search for more information about any listed item
 
 ### areboot
 * Reboot a device
