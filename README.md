@@ -1,5 +1,5 @@
 # Mobile Toolkit
-💥 Execute **powerful mobile device control scripts** using easy terminal commands<br>
+💥 Control **Android and iOS devices** or Emulators/Simulators using easy terminal commands<br>
 
 🛠 **Capture the screen and manage both Android and iOS** devices<br>
 
