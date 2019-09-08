@@ -31,15 +31,15 @@ ios_get_package_list(){
 }
 
 filter_packages(){
-  PACKAGES_LISTED=()
+  PACKAGES_FILTERED=()
   for PKG in "${PACKAGE_LIST[@]}" #removes trailing \r
   do
     PKG=${PKG%$'\r'}
     echo ${IGNORED_PACKAGES[*]} | grep -w "$PKG" &> /dev/null && { echo "⏩ Skipped \"$PKG\""; continue; }
-    PACKAGES_LISTED+=($PKG)
+    PACKAGES_FILTERED+=($PKG)
   done
 
-  if [ ${#PACKAGES_LISTED[@]} -eq 0 ]; then
+  if [ ${#PACKAGES_FILTERED[@]} -eq 0 ]; then
       echo "🤷‍ Nothing to uninstall"
       exit
   fi
@@ -47,7 +47,7 @@ filter_packages(){
 
 select_option(){
   echo "📋 Choose package number:"
-  select OPTION in "${PACKAGES_LISTED[@]}"
+  select OPTION in "${PACKAGES_FILTERED[@]}"
   do
    case $OPTION in
       *) PACKAGE=$OPTION;break; ;;
@@ -74,7 +74,6 @@ handle_arguments(){
     tput setaf 1
     should_proceed "💣 Delete all third-party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
     tput sgr0
-    filter_packages
     for PKG in "${PACKAGE_LIST[@]}"
     do
       uninstall_package $PKG
@@ -93,6 +92,7 @@ handle_arguments(){
         echo "🤷‍ Nothing to uninstall"
         exit
     fi
+    filter_packages
     select_option
     uninstall_package $PACKAGE
   fi
