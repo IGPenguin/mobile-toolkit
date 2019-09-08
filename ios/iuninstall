@@ -74,6 +74,7 @@ handle_arguments(){
     tput setaf 1
     should_proceed "💣 Delete all third-party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
     tput sgr0
+    filter_packages
     for PKG in "${PACKAGE_LIST[@]}"
     do
       uninstall_package $PKG
@@ -99,6 +100,5 @@ handle_arguments(){
 
 init
 ios_get_package_list
-filter_packages
 handle_arguments "$@"
 echo "✅ Done"
