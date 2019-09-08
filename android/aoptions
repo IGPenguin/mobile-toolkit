@@ -35,49 +35,49 @@ search_for_intent(){
 
 handle_preset(){
   case "$1" in
-    "A")
+    "S" | "s")
     echo "🚀 Launching system settings app root activity..."
     adb -s $SELECTED_DEVICE shell am start -a android.settings.SETTINGS &> /dev/null
     ;;
 
-    "1")
+    "1" | "dev" | "developer")
     echo "🔨 Opening developer settings..."
     adb -s $SELECTED_DEVICE shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS &> /dev/null
     ;;
 
-    "2")
+    "2" | "locale")
     echo "🌍 Opening locale settings..."
     adb -s $SELECTED_DEVICE shell am start -a android.settings.LOCALE_SETTINGS &> /dev/null
     ;;
 
-    "4")
+    "4" | "wifi" | "network")
     echo "🌐 Opening WIFI network settings..."
     adb -s $SELECTED_DEVICE shell am start -a android.net.wifi.PICK_WIFI_NETWORK &> /dev/null
     ;;
 
-    "5")
+    "5" | "storage")
     echo "📦 Opening storage management ..."
     adb -s $SELECTED_DEVICE shell am start -a android.os.storage.action.MANAGE_STORAGE &> /dev/null
     ;;
 
-    "6")
+    "6" | "power")
     echo "🔋 Opening power usage statistics..."
     adb -s $SELECTED_DEVICE shell am start -a android.intent.action.POWER_USAGE_SUMMARY &> /dev/null
     ;;
 
-    "3")
+    "3" | "date" | "time" | "datetime")
     echo "📅 Opening date & time settings..."
     adb -s $SELECTED_DEVICE shell am start -a android.settings.DATE_SETTINGS &> /dev/null
     ;;
 
-    "0")
+    "0" | "all" | "list" | "A" | "a")
     echo "📜 Available settings activities:"
     cat $LOCAL_SETTINGS_LIST_PATH | nl
     read -p "📝 Choose option number: " LINE
     start_settings_intent
     ;;
 
-    "R")
+    "U" | "update" | "u")
     rm $LOCAL_SETTINGS_LIST_PATH
     import_intents
     ;;
@@ -101,21 +101,11 @@ if [[ "$1" == "" ]]; then
   TOOLKIT_INTENT_COUNT=`echo $TOOLKIT_INTENT_COUNT | awk '{print $1}'` # Remove ghost whitespaces 🙃
 
   echo "📋 Available options:"
-  tput setaf 3; echo "0) Show all $TOOLKIT_INTENT_COUNT settings options"; tput sgr0
-  echo -e "1) Developer\n2) Locale\n3) Date & time\n4) Wifi network\n5) Storage management\n6) Power usage\nA) Open system settings application\nR) Update settings list from Android sdk\nor\n<text> to search in all settings"
+  tput setaf 3; echo "A) Show all $TOOLKIT_INTENT_COUNT settings options"; tput sgr0
+  echo -e "1) Developer\n2) Locale\n3) Date & time\n4) Wifi network\n5) Storage management\n6) Power usage\nS) Open system settings application\nU) Update settings list from Android sdk\nor\n<text> to search in all settings"
   read -p "📝 Enter your selection: " PRESET
   handle_preset $PRESET
   exit
-fi
-
-# If number argument passed, choose preset right away
-if [[ "$1" =~ ^[0-9]+$ ]]; then
+else
   handle_preset $1
-  exit
-fi
-
-# If string argument passed, search in all available intents
-if [[ "$1" != "" ]]; then
-  search_for_intent $1
-  exit
 fi

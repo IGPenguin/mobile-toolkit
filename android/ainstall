@@ -7,16 +7,8 @@ abort(){
   exit
 }
 
-detect_package_name(){
-  echo "🔍 Detecting package name..."
-  AAPPT_PATH=$(find ~/Library/Android/sdk -name 'aapt' | sort | tail -1)
-  PACKAGE_NAME=$($AAPPT_PATH dump badging "$1" | grep package:\ name);
-  PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/^[^'\'']*'\''//');
-  PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/'\''.*//');
-}
-
 install_app(){
-  echo "⌛️ Installing $PACKAGE_NAME to $1"
+  echo "⌛️ Installing \"$PACKAGE_NAME\" to $1"
   adb -s $1 install -r "$2" &> /dev/null
   echo "🚀 Launching..."
   adb -s $1 shell monkey -p $PACKAGE_NAME -c android.intent.category.LAUNCHER 1 &> /dev/null
@@ -29,7 +21,7 @@ check_args_valid(){
     FILE=$2
   fi
 
-  if [ ! -f "$PWD/$FILE" ]; then
+  if [ ! -f "$PWD/$FILE" ] && [ ! -f "$FILE" ]; then
       abort "🤷‍ Installation file not found!"
   fi
 

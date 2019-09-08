@@ -3,25 +3,25 @@ LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 android_choose_device
 
-should_proceed "💣 Delete all third party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+prompt(){
+  tput setaf 1
+  yes_or_no "💣 Wipe all data on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+  tput sgr0
+  if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
+    wipe_apps
+    wipe_data
+  fi
+}
 
-IFS=$'\n' #MAGIC
-PACKAGES=($(adb -s $SELECTED_DEVICE shell 'pm list packages -3 -f' | sed -e 's/.*=//' | sort))
-unset IFS #MAGIC
+wipe_data(){
+  echo "🔥 Deleting everything in mnt/sdcard..."
+  adb -s $SELECTED_DEVICE shell rm -rf mnt/sdcard/*
+}
 
-for PKG in "${PACKAGES[@]}"
-do
-   if [[ $PKG = *"funtaster"* ]] || [[ $PKG = *"io.crash.air"* ]] || [[ $PKG = *"de.codenauts.hockeyapp"* ]] || [[ $PKG = *"chrome"* ]] || [[ $PKG = *"ar.core"* ]] || [[ $PKG = *"framer"* ]] || [[ $PKG = *"figma"* ]] || [[ $PKG = *"com.invisionapp.ifa"* ]]; then
-      echo "⌛️ Skipping $PKG"
-      continue
-   fi
+wipe_apps(){
+  echo "🔥 Deleting all third-party apps..."
+  $LOCATION/auninstall "-a" "$SELECTED_DEVICE"
+}
 
-   PKG=${PKG%$'\r'} #removes trailing \r
-   echo "🔥 Uninstalling $PKG"
-   adb -s $SELECTED_DEVICE shell "pm uninstall $PKG" &> /dev/null
-done
-
-should_proceed "🔥 Do you want to empty /sdcard/Download?"
-echo "🔥 Clearing /sdcard/Download"
-adb -s $SELECTED_DEVICE shell rm -rf /sdcard/Download/*
-echo "✅ Done."
+prompt
+echo "✅ Done"

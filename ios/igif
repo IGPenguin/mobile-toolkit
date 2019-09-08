@@ -1,30 +1,28 @@
 #!/bin/bash
-location=$(dirname "$0")
+LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 ios_choose_device
 trap 'ctrlc $@' 1 2 3 6 15
 
 ctrlc()
 {
-echo "🏭 Composing footage..."
-cd ~/Desktop/$DIRNAME
- if [ -z "$1" ] ; then
-   FILENAME=$SELECTED_DEVICE_MODEL-iOS$SELECTED_DEVICE_VERSION-$(date +%Y-%m-%d-%H-%M-%S)
- else
-   FILENAME=$1
-fi
-ffmpeg -r 10 -f image2 -i %d.png -loglevel quiet -vcodec libx264 -vf scale=1280:-2 -crf 25 -pix_fmt yuv420p ../$FILENAME.mp4
-should_proceed "🔥 Delete the screenshots?"
-cd ..
-echo "🔥 Cleaning up..."
-rm -rf $DIRNAME
-exit
+  echo "🏭 Composing footage..."
+  cd ~/Desktop/$DIRNAME
+   if [ -z "$1" ] ; then
+     FILENAME=$SELECTED_DEVICE_MODEL-iOS$SELECTED_DEVICE_VERSION-$(date +%Y-%m-%d-%H-%M-%S)
+   else
+     FILENAME=$1
+  fi
+  ffmpeg -r 10 -f image2 -i %d.png -loglevel quiet -vcodec libx264 -vf scale=1280:-2 -crf 25 -pix_fmt yuv420p ../$FILENAME.mp4
+  should_proceed "🔥 Delete the screenshots?"
+  cd ..
+  echo "🔥 Cleaning up..."
+  rm -rf $DIRNAME
+  exit
+  echo "✅ Recording saved into $FILENAME"
 }
 
-
-
 DIRNAME=iOS-recording-$(date +%Y-%m-%d-%H-%M-%S)
-
 cd ~/Desktop
 mkdir $DIRNAME
 cd $DIRNAME

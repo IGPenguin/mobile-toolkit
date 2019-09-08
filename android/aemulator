@@ -3,13 +3,21 @@ LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 LOCAL_EMULATOR_LIST=$LOCATION/../data/toolkit_emulator_list.txt
 
+trap 'ctrlc $@' 1 2 3 6 15
+ctrlc(){
+  if $NET_CHANGED ; then
+    disable_network_delay
+  fi
+  exit
+}
+
 help(){
   if [[ $1 != "" ]]; then
     echo "🤷‍ Unknown option: $1"
   else
     echo "🤷 Argument missing"
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch installed emulator\n  call <number> - receive fake call\n  sms <number> <text> - recieve fake sms\n  gps <lat> <long> - set manual gps location\n  battery <0-100> - set manual battery level\n  telnet <command> - call telnet command (see README.md)"
+  echo -e "Use one of the following options:\n  start - choose and launch installed emulator\n  gprs | edge | 3g - set network latency\n  call <number> - receive fake call\n  sms <number> <text> - recieve fake sms\n  gps <lat> <long> - set manual gps location\n  battery <0-100> - set manual battery level\n  telnet <command> - call telnet command (see README.md)"
 }
 
 check_running_emulator(){
@@ -130,12 +138,35 @@ set_battery_level(){
     echo "✅ Done"
 }
 
+set_network_delay(){
+  DELAY=$1
+  if [[ "$DELAY" == "3g" ]]; then
+    DELAY="umts"
+  fi
+  NET_CHANGED=true
+  echo "🌐 Simulating network limit..."
+  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "network delay $DELAY"; echo "network speed $DELAY"; } | telnet &> /dev/null
+  read -n 1 -p "⚡️ Press ENTER to stop..."
+  disable_network_delay
+  echo "✅ Done"
+}
+
+disable_network_delay(){
+  echo "🔄 Disabling network limits..."
+  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "network delay none"; echo "network speed full"; } | telnet &> /dev/null
+  NET_CHANGED=false
+}
+
 check_for_update
 get_token
 
 case $1 in
   'start')
     launch_emulator "$2"
+    ;;
+  'gprs' | 'edge' | '3g')
+    check_running_emulator
+    set_network_delay "$1"
     ;;
   'call')
     check_running_emulator
@@ -152,7 +183,7 @@ case $1 in
   'battery')
    check_running_emulator
    set_battery_level $2
-      ;;
+    ;;
   'telnet')
    check_running_emulator
    telnet_command "$2"

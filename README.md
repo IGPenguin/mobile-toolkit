@@ -1,21 +1,22 @@
+![Header](/header.png?raw=true)
 # Mobile Toolkit
-💥 Execute **powerful mobile device control scripts** using easy terminal commands<br>
+💥 **Control Android and iOS devices** or Emulators/Simulators using easy terminal commands<br>
 
-🛠 **Capture the screen and manage both Android and iOS** devices<br>
+🛠 **Capture screen, manage storage and settings, gather various information**<br>
 
-📱 **Test mobile applications**, clear device memory and much more<br>
+📱 **Test mobile applications** - install, restart, wipe storage and much more<br>
 
 📋 **Handle multiple devices effortlessly** via choice from a list<br>
 
 ⏳ **Save your precious time**, stop doing repetitive tasks manually<br>
 
-🔄 **Automatic check for update** is performed once a day<br>
+🔄 **Automatic check for update** is performed every day<br>
 
-⁉️ **Submit issue** if you want to ask anything or improve the scripts<br>
+⁉️ **Submit issue** if you want to ask anything, improve the scripts or bring new inspiration<br>
 
-🤝 Any **pull request** contribution is **highly appreciated**<br>
+🤝 Any **pull request** contribution is **highly appreciated**, critical issues are marked with "help wanted" tag<br>
 
-⭐️ If you **love Mobile Toolkit**, hit the **star button** at the top right corner and **make me happy**<br>
+⭐️ If you **love using Mobile Toolkit, hit the star button** at the top right corner and **make me happy**<br>
 
 # Installation
 1. **Open terminal**
@@ -48,16 +49,16 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Use `ascreenshot -a` to take screenshot on all connected devices
 
 ### arecord
-1. **Record screen**
+1. `arecord` **Record screen**
 2. **End recording** using `ctrl + c`
 3. Save screen video footage to ~/Desktop
-  * Specify your own filename by passing it as argument
+  * `arecord <custom-name>` Specify your own filename by passing it as argument
 
 ## Control device
 
 ### awireless
 * Enable or disable wireless ADB connection
-* Allows script or any ADB command usage without USB connection
+* Allows wireless usage of toolkit scripts and any other ADB commands
 
 ### apaste
 `apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004`
@@ -65,7 +66,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `apaste <text>` Insert text into currently focused field
 * `apaste "john.doe@fakemail.com" password1 ` Every additional argument will be inserted into subsequent field
 * `apaste "This is sample multi-word text."` use "" to insert multi-word text into one field
-* `apaste -l` Paste classic Lorem Ipsum paragraph
+* `apaste -l` Paste Lorem Ipsum paragraph
 
 ### abounds
 * Toggle **layout bounds visibility**
@@ -90,7 +91,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 ## Manage applications
 
 ### alaunch
-* `alaunch` List third party apps and choose one to run it
+* `alaunch` List third-party apps and choose one to run it
+* `alaunch -a` List all available apps and choose one to run it
 * `alaunch com.dummy.package.name.app` Run app by package name
 
 ### aappinfo
@@ -117,14 +119,13 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Can overwrite existing app
 
 ### auninstall
-* `auninstall` Uninstall third party app, choose from the list
+* `auninstall` Uninstall third-party app, choose from the list
 * `auninstall com.dummy.package.name.app` pass package name as argument
+* `auninstall -a` Uninstall all-third party packages
+	* Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 ### awipe
-* Uninstall all third party packages
-  * Skips some essential apps
-  * Edit this script yourself to customize the list of essential apps
-* (Optional) Remove everything in /sdcard/Download directory
+* Wipe internal storage (/mnt/sdcard directory) and delete all third-party apps
 
 ### apermissionreset
 * Revoke ALL runtime permissions for ALL (even system) apps
@@ -132,6 +133,10 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 ### agoogleplay
 * `agoogleplay "Dummy App"` Search for app on Google Play
 * Pass app name as argument
+
+### abuildproject
+* `abuildproject` Build, install and run Android project located in current directory
+* `abuildproject <relative-path>` Build, install and run Android project located in <relative-path>
 
 ## Manage device
 
@@ -145,8 +150,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 	* Storage management
 	* Power usage
 	* Root settings activity
-* Or you can choose from exhaustive list of all available options
-* `aoptions 1` you can also specify preset as argument
+* `aoptions A` Choose from exhaustive list of all available options
+* `aoptions 1,2,3... | dev | locale | date | wifi | storage | power` Use a preset, choose one
 
 ### alog
 * Print system log output
@@ -155,11 +160,11 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Print log output containing application crashes only
 * Set how many crash surrounding lines to print using argument
 
-### adevicecheck
+### acheckdevice
 * Print device information
 * Perform basic checks and apply preset settings if allowed
   * 10 minutes screen timeout
-  * Manual maximum brightness
+  * Highest brightness
   * Automatic date
   * Disabled notification sounds
   * Internet connectivity and WIFI name
@@ -167,18 +172,22 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * enUS locale
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
+### aservices
+* Print running background services, search for more information about any listed item
+
 ### areboot
 * Reboot a device
 
 ### aemulator
 * `aeimulator <option>` Handle various emulator related activites
   * `start` - choose and launch installed emulator
+  * `gprs | edge | 3g` - simulate network latency, choose one
   * `call <number>` - receive fake call
   * `sms <number> <text>` - receive fake sms
   * `gps <lat> <long>` - set manual GPS location
   * `battery <0-100>` - set battery level
-  * `telnet <command>` - call command via telnet, see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
-	   * example commands `event redir sensor physics finger rotate fold unfold`
+  * `telnet <command>` - call command via telnet
+	   * example commands `event | redir | sensor | physics | finger | rotate | fold | unfold...` see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
 
 # iOS scripts
 
@@ -205,19 +214,15 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ## Manage applications
 ### iinstall
-`iinstall some-app-file.ipa`
 
-* Install .ipa file
+* `iinstall some-app-file.ipa` Install .ipa file, make sure to use proper build
 * Can overwrite existing app
 
 ### iuninstall
-* `iuninstall` Uninstall third party app, choose from the list
+* `iuninstall` Uninstall third-party app, choose from the list
 * `iuninstall com.dummy.package.name.app` pass bundle name as argument
-
-### iwipe
-* Uninstall all third party packages
-  * Skips some essential apps
-  * Edit this script yourself to customize the list of essential apps
+* `iuninstall -a` Uninstall all third-party packages
+  * Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 ## Manage device
 
@@ -229,7 +234,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * Drag the .crash file onto the log list
   * The readable crash log should appear in the list
 
-### idevicecheck
+### icheckdevice
 * Print device information
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
@@ -248,3 +253,6 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * `paste <text>` - insert text into pasteboard
   * `url <url>` - open link in web browser or corresponding application
   * `wipe` - wipe all simulator data
+
+# About
+**You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"), if you made it this far in readme and you like my work, please be so kind and star this repository or leave some claps on Medium. Every appreciation empowers my will to work on this project.

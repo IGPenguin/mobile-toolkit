@@ -11,7 +11,7 @@ android_check_connected(){
   if [ ${#DEVICES[@]} -eq 0 ]
   then
     echo "❌ No Android devices detected"
-    yes_or_no "❓ Use emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $SCRIPT_LOCATION/aemulator; fi
+    yes_or_no "❓ Use emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $SCRIPT_LOCATION/aemulator "start"; fi
     android_wait_for_device
   fi
 }
@@ -98,12 +98,20 @@ android_get_foreground_package(){
 }
 
 android_is_package_installed() {
-  adb -s $SELECTED_DEVICE shell pm list packages -f | sed -e 's/.*=//' | grep $1 &> /dev/null
+  adb -s $SELECTED_DEVICE shell pm list packages -f | sed -e 's/.*=//' | grep -xw $1 &> /dev/null
   EXIT_CODE=$?
   if [ $EXIT_CODE -ne 0 ]; then
-    echo "🤷‍ Package $1 is not installed."
+    echo "🤷‍ Package \"$1\" is not installed."
     exit
   fi
+}
+
+detect_package_name(){
+  echo "🔍 Detecting package name..."
+  AAPPT_PATH=$(find ~/Library/Android/sdk -name 'aapt' | sort | tail -1)
+  PACKAGE_NAME=$($AAPPT_PATH dump badging "$1" | grep package:\ name);
+  PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/^[^'\'']*'\''//');
+  PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/'\''.*//');
 }
 
 ##########################
@@ -136,7 +144,7 @@ ios_check_developer_image(){
 
 ios_choose_device(){
   check_for_update
-  IOS_DEVICES=( $(idevice_id -l) )
+  IOS_DEVICES=( $(idevice_id -l | sort -u) )
 
   #No device connected
   if [ ${#IOS_DEVICES[@]} -eq 0 ]
@@ -283,28 +291,6 @@ ios_translate_name(){
   echo $NAME
 }
 
-ios_get_package_list(){
-  echo "🔍 Detecting packages..."
-  PACKAGE_LIST=()
-  ALL_INFO_LIST=($(ideviceinstaller -u $SELECTED_DEVICE -l -o list_user | tail -n +2 | sed -e 's/.*=//' | sort))
-
-  for PACKAGE in "${ALL_INFO_LIST[@]}" #remove redundant information
-    do
-      echo "$PACKAGE" | grep -q '"'
-      EXIT_CODE=$?
-
-      if [ $EXIT_CODE -ne 0 ]; then
-        PACKAGE=${PACKAGE%,*}
-        PACKAGE_LIST+=($PACKAGE)
-      fi
-    done
-
-  if [ ${#PACKAGE_LIST[@]} -eq 0 ]; then
-    echo "🤷‍ No packages installed."
-    exit
-  fi
-}
-
 #####
 ### COMMON SECTION
 
@@ -375,7 +361,11 @@ should_proceed(){
 
 choose_number(){
   MAX=$1
-  read -p "📝 Choose number: " CHOICE
+  if [ -n "$2" ]; then
+    read -p "$2" CHOICE
+  else
+    read -p "📝 Choose number: " CHOICE
+  fi
   while :;
   do
     if [[ -z $CHOICE  || $CHOICE -le 0 || $CHOICE -gt $MAX ]]; then
