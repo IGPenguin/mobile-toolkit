@@ -51,7 +51,7 @@ filter_packages(){
     for PKG in "${PACKAGES[@]}" #removes trailing \r
     do
       PKG=${PKG%$'\r'}
-      echo "${IGNORED_PACKAGES[@]}" | grep "$PKG" &> /dev/null && { echo "⏩ Skipped \"$PKG\""; continue; }
+      echo "${IGNORED_PACKAGES[@]}" | grep -w "$PKG" &> /dev/null && { echo "⏩ Skipped \"$PKG\""; continue; }
       PACKAGES_LISTED+=($PKG)
     done
 
