@@ -160,7 +160,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Print log output containing application crashes only
 * Set how many crash surrounding lines to print using argument
 
-### adevicecheck
+### acheckdevice
 * Print device information
 * Perform basic checks and apply preset settings if allowed
   * 10 minutes screen timeout
@@ -234,7 +234,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * Drag the .crash file onto the log list
   * The readable crash log should appear in the list
 
-### idevicecheck
+### icheckdevice
 * Print device information
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
