@@ -4,13 +4,13 @@
 
 🛠 **Capture screen, manage storage and settings, gather various information**<br>
 
-📱 **Test mobile applications**, install, restart, wipe storage and much more<br>
+📱 **Test mobile applications** - install, restart, wipe storage and much more<br>
 
 📋 **Handle multiple devices effortlessly** via choice from a list<br>
 
 ⏳ **Save your precious time**, stop doing repetitive tasks manually<br>
 
-🔄 **Automatic check for update** is performed every day, changes are listed afterwards<br>
+🔄 **Automatic check for update** is performed every day<br>
 
 ⁉️ **Submit issue** if you want to ask anything, improve the scripts or bring new inspiration<br>
 
