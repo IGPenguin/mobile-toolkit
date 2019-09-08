@@ -7,7 +7,7 @@ if [ -z "$1" ] ; then
   exit
 fi
 
-if [ ! -f "$PWD/$1" ]; then
+if [ ! -f "$PWD/$1" ] && [ ! -f "$FILE" ]; then
     echo "🤷 File not found!"
     exit
 fi

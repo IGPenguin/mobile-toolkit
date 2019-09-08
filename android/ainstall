@@ -21,7 +21,7 @@ check_args_valid(){
     FILE=$2
   fi
 
-  if [ ! -f "$PWD/$FILE" ]; then
+  if [ ! -f "$PWD/$FILE" ] && [ ! -f "$FILE" ]; then
       abort "🤷‍ Installation file not found!"
   fi
 
