@@ -70,8 +70,10 @@ launch(){
 }
 
 copy_apk_to_desktop(){
-  cp "$APK_PATH" "$HOME/Desktop"
-  echo "💾 \"$PACKAGE_NAME\" .apk saved to ~/Desktop"
+  FILENAME=$(echo "$PACKAGE_NAME" | tr . _)
+  FILENAME="$FILENAME.apk"
+  cp "$APK_PATH" "$HOME/Desktop/$FILENAME"
+  echo "💾 \"$FILENAME\" saved to ~/Desktop"
 }
 
 android_choose_device
