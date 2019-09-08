@@ -4,7 +4,7 @@
 
 🛠 **Capture screen, manage storage and settings, gather various information**<br>
 
-📱 **Test mobile applications** - install, restart, wipe storage and much more<br>
+📱 **Test mobile applications** - install, restart, wipe data and much more<br>
 
 📋 **Handle multiple devices effortlessly** via choice from a list<br>
 
