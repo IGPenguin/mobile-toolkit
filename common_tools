@@ -144,7 +144,7 @@ ios_check_developer_image(){
 
 ios_choose_device(){
   check_for_update
-  IOS_DEVICES=( $(idevice_id -l) )
+  IOS_DEVICES=( $(idevice_id -l | sort -u) )
 
   #No device connected
   if [ ${#IOS_DEVICES[@]} -eq 0 ]
@@ -289,28 +289,6 @@ ios_translate_name(){
       ;;
   esac
   echo $NAME
-}
-
-ios_get_package_list(){
-  echo "🔍 Detecting packages..."
-  PACKAGE_LIST=()
-  ALL_INFO_LIST=($(ideviceinstaller -u $SELECTED_DEVICE -l -o list_user | tail -n +2 | sed -e 's/.*=//' | sort))
-
-  for PACKAGE in "${ALL_INFO_LIST[@]}" #remove redundant information
-    do
-      echo "$PACKAGE" | grep -q '"'
-      EXIT_CODE=$?
-
-      if [ $EXIT_CODE -ne 0 ]; then
-        PACKAGE=${PACKAGE%,*}
-        PACKAGE_LIST+=($PACKAGE)
-      fi
-    done
-
-  if [ ${#PACKAGE_LIST[@]} -eq 0 ]; then
-    echo "🤷‍ No packages installed."
-    exit
-  fi
 }
 
 #####
