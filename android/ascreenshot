@@ -1,31 +1,36 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
-android_choose_device
+
+screenshot(){
+  android_device_info $1
+  FILENAME=$SELECTED_DEVICE_MODEL-API$SELECTED_DEVICE_SDK-$(date +%Y-%m-%d-%H-%M-%S)
+  echo "📸 Saving screenshot into $FILENAME.png"
+  adb -s $1 shell screencap -p /mnt/sdcard/output.png
+  adb -s $1 pull /mnt/sdcard/output.png ~/Desktop/screenshot-$1-$(date +%Y-%m-%d-%H-%M-%S).png &> /dev/null
+  adb -s $1 shell rm /mnt/sdcard/output.png
+}
 
 screenshot_all(){
   for line in `adb devices | grep -v "List"  | awk '{print $1}'`
   do
     device=`echo $line | awk '{print $1}'`
-    echo "📸 Taking screenshot from $device"
-    adb -s $device shell screencap -p /mnt/sdcard/output.png
-    adb -s $device pull /mnt/sdcard/output.png ~/Desktop/screenshot-$device-$(date +%Y-%m-%d-%H-%M-%S).png &> /dev/null
-    adb -s $device shell rm /mnt/sdcard/output.png
+    echo $device
+    screenshot "$device" &
   done
+  wait
 }
 
 if [ "$1" == "-a" ];
 then
   screenshot_all
 else
+  android_choose_device
   if [ -z "$1" ];
   then
     FILENAME=$SELECTED_DEVICE_MODEL-API$SELECTED_DEVICE_SDK-$(date +%Y-%m-%d-%H-%M-%S)
   else
     FILENAME=$1
   fi
-  echo "📸 Saving screenshot into $FILENAME.png"
-  adb -s $SELECTED_DEVICE shell screencap -p /mnt/sdcard/output.png
-  adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.png ~/Desktop/$FILENAME.png &> /dev/null
-  adb -s $SELECTED_DEVICE shell rm /mnt/sdcard/output.png
+  screenshot $SELECTED_DEVICE
 fi
