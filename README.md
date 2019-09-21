@@ -92,7 +92,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### alaunch
 * `alaunch` List third-party apps and choose one to run it
-* `alaunch -a` List all available apps and choose one to run it
+* `alaunch -s` List all available apps (including os pre-installed) and choose one to run it
 * `alaunch com.dummy.package.name.app` Run app by package name
 
 ### aappinfo
