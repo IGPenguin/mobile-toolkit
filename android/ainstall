@@ -34,7 +34,6 @@ run()
 {
   if [[ $1 == "-a" ]]; then
     detect_package_info $2
-    echo $PERMISSIONS
     for line in `adb devices | grep -v "List"  | awk '{print $1}'`
     do
       DEVICE=`echo $line | awk '{print $1}'`
