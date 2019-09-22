@@ -4,12 +4,13 @@ source $LOCATION/../common_tools
 android_choose_device
 
 filter_by_package(){
-  echo "Filtering by package name: $1"
+  echo "🔍 Filtering by package name: $1"
   PID=`adb shell ps | grep -i "$1" | cut -c10-15`;
   adb logcat | grep $PID
 }
 
 raw_log(){
+  echo "📜 Device log:"
   adb -s $SELECTED_DEVICE logcat
 }
 
