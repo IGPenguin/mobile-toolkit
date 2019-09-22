@@ -177,18 +177,19 @@ case $1 in
     send_sms "$2" "$3"
     ;;
   'gps')
-   check_running_emulator
-   set_gps "$2" "$3"
+    check_running_emulator
+    set_gps "$2" "$3"
     ;;
   'battery')
-   check_running_emulator
-   set_battery_level $2
+    check_running_emulator
+    set_battery_level $2
     ;;
   'telnet')
-   check_running_emulator
-   telnet_command "$2"
+    check_running_emulator
+    telnet_command "$2"
     ;;
-   *)
+  *)
     help "$1"
+    check_running_emulator
     ;;
 esac
