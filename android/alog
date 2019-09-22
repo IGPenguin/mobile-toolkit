@@ -4,6 +4,7 @@ source $LOCATION/../common_tools
 android_choose_device
 
 filter_by_package(){
+  android_is_package_installed "$1"
   echo "🔍 Filtering by package name: $1"
   PID=`adb shell ps | grep -i "$1" | cut -c10-15`;
   adb logcat | grep $PID
@@ -15,11 +16,13 @@ raw_log(){
 }
 
 if [ $# -eq 0 ]; then
-  read -p "🔬 Insert package name or leave empty:" PACKAGE
+  read -p "🔬 Insert package name (Android 7+) or leave empty to proceed: " PACKAGE
   if [ -z "$PACKAGE" ]; then
     raw_log
     exit
   fi
+else
+  PACKAGE="$1"
 fi
 
-filter_by_package $1
+filter_by_package $PACKAGE
