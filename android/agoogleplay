@@ -8,7 +8,7 @@ search_gp(){
   echo "🛒 Searching for $APP_NAME in Google Play..."
   APP_NAME=$(echo $APP_NAME | sed -e 's/ /\%20/g')
   GOOGLE_PLAY_URL="http://play.google.com/store/search\?q\=$APP_NAME\&c\=apps"
-  $LOCATION/aurl "$GOOGLE_PLAY_URL"
+  adb -s $SELECTED_DEVICE shell am start -a android.intent.action.VIEW -d "$GOOGLE_PLAY_URL" &> /dev/null
 }
 
 if [ -z "$1" ] ; then
