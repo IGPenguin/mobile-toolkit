@@ -1,11 +1,9 @@
-+aemulator gprs
-+aemulator edge
-+aemulator 3g
-+aservices
-+abuildproject
-+auninstall -a
-+iuninstall -a
--iwipe
-+proper package whitelisting
-+many fixes
-more at: https://github.com/IntergalacticPenguin/mobile-toolkit/pull/138
+Running much faster:
+  ainstall -a
+  auninstall -a
+  awipe
+  ascreenshot -a
+alog <pkg>
+  filter log by package name
++ fixes
+more at: https://github.com/IntergalacticPenguin/mobile-toolkit/pull/146
