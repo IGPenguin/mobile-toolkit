@@ -5,6 +5,9 @@ Running much faster:
   ascreenshot -a
 alog <pkg>
   filter log by package name
+agoogleplay
+  fixed for new store
+  search for foreground app
 icrashlogs - keep logs on device option
 + fixes
 more at: https://github.com/IntergalacticPenguin/mobile-toolkit/pull/146

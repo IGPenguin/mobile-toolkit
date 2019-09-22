@@ -131,8 +131,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Revoke ALL runtime permissions for ALL (even system) apps
 
 ### agoogleplay
-* `agoogleplay "Dummy App"` Search for app on Google Play
-* Pass app name as argument
+* `agoogleplay "Dummy App"` Search for "Dummy App" on Google Play
+* `agoogleplay` Search for currently foreground app on Google Play
 
 ### abuildproject
 * `abuildproject` Build, install and run Android project located in current directory
