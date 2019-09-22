@@ -154,7 +154,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `aoptions 1,2,3... | dev | locale | date | wifi | storage | power` Use a preset, choose one
 
 ### alog
-* Print system log output
+* `alog` Print system log output
+* `alog <package-name>` Filter log by package name
 
 ### acrash
 * Print log output containing application crashes only
@@ -228,11 +229,12 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### icrashlogs
 * Gather crash logs from the device to **~/Desktop** (be patient 😅)
-* You can import logs to Xcode to make them more readable via symbolication
+* Choose whether to keep the logs on the device afterwards
+* You can import these logs to Xcode to make them more readable via symbolication
   * Open relevant project in Xcode
   * Click on Window > Devices and Simulators > View Device Logs
   * Drag the .crash file onto the log list
-  * The readable crash log should appear in the list
+  * Readable crash log should appear in the list
 
 ### icheckdevice
 * Print device information
