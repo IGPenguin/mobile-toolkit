@@ -6,8 +6,8 @@ android_choose_device
 filter_by_package(){
   android_is_package_installed "$1"
   echo "🔍 Filtering by package name: $1"
-  PID=`adb shell ps | grep -i "$1" | cut -c10-15`;
-  adb logcat | grep $PID
+  PID=`adb -s $SELECTED_DEVICE shell ps | grep -i "$1" | cut -c10-15`;
+  adb -s $SELECTED_DEVICE logcat | grep $PID
 }
 
 raw_log(){
