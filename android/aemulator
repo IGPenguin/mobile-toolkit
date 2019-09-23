@@ -2,6 +2,7 @@
 LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 LOCAL_EMULATOR_LIST=$LOCATION/../data/toolkit_emulator_list.txt
+NET_CHANGED=false
 
 trap 'ctrlc $@' 1 2 3 6 15
 ctrlc(){
