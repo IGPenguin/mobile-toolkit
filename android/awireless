@@ -9,12 +9,12 @@ get_device_ip(){
 }
 
 setup_network_connection(){
-  echo "🌎 Connecting the device via local network..."
+  echo "🌎 Setting up wireless ADB..."
   adb -s $SELECTED_DEVICE tcpip 5555 &> /dev/null
   echo "🌎 Getting device IP..."
   delete_lastline
   echo "🌎 Device IP: $DEVICE_IP"
-  echo "🌎 Connecting via local network..."
+  echo "⏳ Connecting via local network..."
   STATUS=$(adb connect "$DEVICE_IP:5555")
 
   echo $STATUS | grep "refused" && echo "❌ Connection refused - already connected?" && return
