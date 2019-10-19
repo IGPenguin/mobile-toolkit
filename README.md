@@ -86,8 +86,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Press ENTER to reset to default
 
 ### acontrol
-* Start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
-* [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides display and control of Android devices
+* `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
+* [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides realtime display and control of Android devices
 
 ### acamera
 * Start camera application
