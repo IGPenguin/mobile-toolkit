@@ -28,6 +28,12 @@ setup_usb_connection(){
 }
 
 get_device_ip
+
+if [[ "$SELECTED_DEVICE" == "emulator"* ]]; then
+  echo "❌ Emulator is wireless by default..."
+  exit 1
+fi
+
 if [ "$SELECTED_DEVICE" == "$DEVICE_IP:5555" ]; then
   setup_usb_connection
 else
