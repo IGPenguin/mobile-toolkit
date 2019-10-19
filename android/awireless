@@ -14,7 +14,7 @@ setup_network_connection(){
   echo "🌎 Getting device IP..."
   delete_lastline
   echo "🌎 Device IP: $DEVICE_IP"
-  echo "🌎 Connecting..."
+  echo "🌎 Connecting via local network..."
   STATUS=$(adb connect "$DEVICE_IP:5555")
 
   echo $STATUS | grep "refused" && echo "❌ Connection refused - already connected?" && return
