@@ -4,5 +4,7 @@ source $LOCATION/../common_tools
 
 check_dependency "scrcpy"
 check_adb_dependency
-echo "🔌 Connecting device..."
-scrcpy &> /dev/null &
+android_choose_device
+android_device_info $SELECTED_DEVICE
+echo "🔌 Connecting to $MANUFACTURER $MODEL (API $SDK)..."
+scrcpy -s $SELECTED_DEVICE &> /dev/null &
