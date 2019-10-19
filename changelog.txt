@@ -18,5 +18,7 @@ enhance settings revert options
   - afontscale
   - aanimationspeed
   - abounds
+awireless
+  toggle automatically
 more @ https://github.com/IntergalacticPenguin/mobile-toolkit/pull/146
 #hacktoberfest
