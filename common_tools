@@ -43,6 +43,7 @@ android_device_info(){
 
 android_choose_device() {
   check_for_update
+  check_adb_dependency
   android_check_connected
 
   #Gather device info and choose device
@@ -301,6 +302,26 @@ ios_translate_name(){
 
 #####
 ### COMMON SECTION
+
+check_adb_dependency(){
+  if ! [ -x "$(command -v "adb")" ]; then
+    echo "🤷‍ Android Debug Bridge required!"
+    should_proceed "🔄 Install via homebrew? (this may take a while)"
+    brew cask install "android-platform-tools"
+  fi
+}
+
+check_dependency(){
+  if ! [ -x "$(command -v "$1")" ]; then
+    echo "⚠️ \"$1\" required!"
+    should_proceed "🔄 Install via homebrew? (this may take a while)"
+    if [ $2 == "-c" ];then
+      brew cask install $1
+    else
+      brew install $1
+    fi
+  fi
+}
 
 check_for_update(){
   TODAY=$(date +%Y-%m-%d)

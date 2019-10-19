@@ -85,6 +85,10 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `afontscale <any-number>` set font scale to <any-number> times larger than default
 * Press ENTER to reset to default
 
+### acontrol
+* `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
+* [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides realtime display and control of Android devices
+
 ### acamera
 * Start camera application
 
