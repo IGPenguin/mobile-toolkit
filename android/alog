@@ -15,14 +15,13 @@ raw_log(){
   adb -s $SELECTED_DEVICE logcat
 }
 
-if [ $# -eq 0 ]; then
-  read -p "🔬 Insert package name (Android 7+) or leave empty to proceed: " PACKAGE
-  if [ -z "$PACKAGE" ]; then
-    raw_log
-    exit
+if [ $1 == "-f" ]; then
+  if [ -z $2 ]; then
+    read -p "🔬 Insert package name (Android 7+) or leave empty to proceed: " PACKAGE
+  else
+    PACKAGE=$2
   fi
+  filter_by_package $PACKAGE
 else
-  PACKAGE="$1"
+    raw_log
 fi
-
-filter_by_package $PACKAGE
