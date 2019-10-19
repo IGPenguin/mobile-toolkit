@@ -6,6 +6,7 @@ trap 'ctrlc $@' 1 2 3 6 15
 
 ctrlc()
 {
+  echo
   turn_off_bounds
   exit
 }
