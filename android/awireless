@@ -5,15 +5,16 @@ source $LOCATION/../common_tools
 get_device_ip(){
   android_choose_device
   DEVICE_IP=$(adb -s $SELECTED_DEVICE shell ip route | awk '{print $9}')
+  DEVICE_IP=$(echo $DEVICE_IP | cut -d' ' -f1)
 }
 
 setup_network_connection(){
-  echo "🌎 Connecting the device via local network..."
+  echo "🌎 Setting up wireless connection..."
   adb -s $SELECTED_DEVICE tcpip 5555 &> /dev/null
   echo "🌎 Getting device IP..."
   delete_lastline
   echo "🌎 Device IP: $DEVICE_IP"
-  echo "🌎 Connecting..."
+  echo "⏳ Connecting via local network..."
   STATUS=$(adb connect "$DEVICE_IP:5555")
 
   echo $STATUS | grep "refused" && echo "❌ Connection refused - already connected?" && return
@@ -26,29 +27,15 @@ setup_usb_connection(){
   adb usb &> /dev/null
 }
 
-choose_connection(){
-  echo "📝 Available connections:"
-  echo -e "w) 🌎 WIFI\nu) 🔌 USB"
-  read -r -n 1 -p "Select variant [w/u] " RESPONSE
-  case "$RESPONSE" in
-    [wW])
-        ;;
-    [uU])
-        ;;
-    *)
-      echo
-      echo "🤷‍ Invalid option."
-      choose_connection $1
-      ;;
-  esac
-  echo
-
-  if [[ "$RESPONSE" == "w" ||  "$RESPONSE" == "W" ]]; then
-    setup_network_connection
-  else
-    setup_usb_connection
-  fi
-}
-
 get_device_ip
-choose_connection
+
+if [[ "$SELECTED_DEVICE" == "emulator"* ]]; then
+  echo "❌ Emulator is wireless by default..."
+  exit 1
+fi
+
+if [ "$SELECTED_DEVICE" == "$DEVICE_IP:5555" ]; then
+  setup_usb_connection
+else
+  setup_network_connection
+fi
