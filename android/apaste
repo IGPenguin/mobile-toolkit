@@ -35,6 +35,11 @@ execute_by_arguments(){
   then
     for ARGUMENT in $@
     do
+      
+      if [ "$ARGUMENT" == "-e" ]; then
+        continue
+      fi
+
       send_text "$ARGUMENT"
       sleep 0.5
       if ! [ $ARGUMENT = ${@:$#} ]; then #if not last argument, jump to next field
@@ -43,6 +48,11 @@ execute_by_arguments(){
     done
   else
     send_text "$TEXT"
+  fi
+
+  if [ "$1" == "-e" ];
+  then
+    adb -s $SELECTED_DEVICE shell input keyevent 66
   fi
 }
 
