@@ -9,7 +9,7 @@ get_device_ip(){
 }
 
 setup_network_connection(){
-  echo "🌎 Setting up wireless ADB..."
+  echo "🌎 Setting up wireless connection..."
   adb -s $SELECTED_DEVICE tcpip 5555 &> /dev/null
   echo "🌎 Getting device IP..."
   delete_lastline
