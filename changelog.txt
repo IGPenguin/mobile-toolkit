@@ -15,3 +15,4 @@ add acontrol
   - start scrcpy session
 add automatic dependency checks
 more @ https://github.com/IntergalacticPenguin/mobile-toolkit/pull/146
+#hacktoberfest
