@@ -5,9 +5,9 @@ When contributing to this repository, please first discuss the change you wish t
 ## Pull Request Requirements
 
 1. Implement all functions thoroughly and remove any unused or non-working code
-3. Let the user know what's happening the same way as existing commands
-2. Ensure every code change and usage variant is tested
-3. Update the README.md and changelog.txt with details of changes to the commands
+2. Let the user know what's happening the same way as existing commands
+3. Ensure every code change and usage variant is tested
+4. Update the README.md and changelog.txt with details of changes to the commands
 
 ### Right to make changes
 
