@@ -159,7 +159,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### alog
 * `alog` Print system log output
-* `alog <package-name>` Filter log by package name
+* `alog -f <package-name>` Filter log by package name
 
 ### acrash
 * Print log output containing application crashes only
