@@ -68,24 +68,24 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `apaste "This is sample multi-word text."` use "" to insert multi-word text into one field
 * `apaste -l` Paste Lorem Ipsum paragraph
 
+### aurl
+* `aurl "google.com"` Open link passed as an argument in web browser or corresponding application
+
 ### abounds
 * `abounds` Display **layout bounds**
 	* Press ENTER to turn off
 * `abounds -k` Toggle **layout bounds visibility**
 * App restart may be necessary on lower APIs
 
-### aurl
-* `aurl "google.com"` Open link passed as an argument in web browser or corresponding application
-
 ### aanimationspeed
 * `aanimationspeed` set slow animation speed
-* `aanimationspeed <speed>` set animation speed to <speed> times slower than default
+* `aanimationspeed <speed>` set animation speed to \<speed> times slower than default
 	* Press ENTER to reset to default
 * `afontscale <scale> -k` save changed settings
 
 ### afontscale
 * `afontscale` set font scale to large (1.3x bigger than default)
-* `afontscale <scale>` set font scale to <scale> times larger than default
+* `afontscale <scale>` set font scale to \<scale> times larger than default
 	* Press ENTER to reset to default
 * `afontscale <scale> -k` save changed settings
 
