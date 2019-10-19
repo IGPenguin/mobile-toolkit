@@ -14,5 +14,9 @@ icrashlogs - keep logs on device option
 add acontrol
   - start scrcpy session
 add automatic dependency checks
+enhance settings revert options
+  - afontscale
+  - aanimationspeed
+  - abounds
 more @ https://github.com/IntergalacticPenguin/mobile-toolkit/pull/146
 #hacktoberfest
