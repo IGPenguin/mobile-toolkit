@@ -69,7 +69,9 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `apaste -l` Paste Lorem Ipsum paragraph
 
 ### abounds
-* Toggle **layout bounds visibility**
+* `abounds` Display **layout bounds**
+	* Press ENTER to turn off
+* `abounds -k` Toggle **layout bounds visibility**
 * App restart may be necessary on lower APIs
 
 ### aurl
@@ -77,13 +79,15 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### aanimationspeed
 * `aanimationspeed` set slow animation speed
-* `aanimationspeed <any-number>` set animation speed to <any-number> times slower than default
-* Press ENTER to reset to default
+* `aanimationspeed <speed>` set animation speed to <speed> times slower than default
+	* Press ENTER to reset to default
+* `afontscale <scale> -k` save changed settings
 
 ### afontscale
-* `afontscale` set font scale to largest common setting (1.3x bigger than default)
-* `afontscale <any-number>` set font scale to <any-number> times larger than default
-* Press ENTER to reset to default
+* `afontscale` set font scale to large (1.3x bigger than default)
+* `afontscale <scale>` set font scale to <scale> times larger than default
+	* Press ENTER to reset to default
+* `afontscale <scale> -k` save changed settings
 
 ### acontrol
 * `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
