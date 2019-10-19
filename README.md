@@ -69,7 +69,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `apaste -l` Paste Lorem Ipsum paragraph
 
 ### aurl
-* `aurl "google.com"` Open link passed as an argument in web browser or corresponding application
+* `aurl "google.com"` Open link in web browser or corresponding application
 
 ### abounds
 * `abounds` Display **layout bounds**
