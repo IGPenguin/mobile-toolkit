@@ -14,7 +14,7 @@
 
 ⁉️ **Submit issue** if you want to ask anything, improve the scripts or bring new inspiration<br>
 
-🤝 Any **pull request** contribution is **highly appreciated**, critical issues are marked with "help wanted" tag<br>
+🤝 Any **pull request** [contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") is **highly appreciated**, critical issues are marked with "help wanted" tag<br>
 
 ⭐️ If you **love using Mobile Toolkit, hit the star button** at the top right corner and **make me happy**<br>
 
