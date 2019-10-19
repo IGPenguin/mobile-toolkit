@@ -23,7 +23,7 @@ set_animation_speed(){
 restore_animation_speed(){
   set_animation_speed 1
   echo
-  echo "🔄 Animation speed restored to default..."
+  echo "🔄 Animation speed restored to default"
 }
 
 android_choose_device

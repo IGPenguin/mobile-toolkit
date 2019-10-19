@@ -18,7 +18,7 @@ set_font_scale(){
 restore_font_scale(){
   set_font_scale $PREVIOUS_SCALE
   echo
-  echo "🔄 Font scale restored to previous"
+  echo "🔄 Font scale restored to previous settings"
 }
 
 android_choose_device
