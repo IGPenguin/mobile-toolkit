@@ -1,11 +1,17 @@
-+aemulator gprs
-+aemulator edge
-+aemulator 3g
-+aservices
-+abuildproject
-+auninstall -a
-+iuninstall -a
--iwipe
-+proper package whitelisting
-+many fixes
-more at: https://github.com/IntergalacticPenguin/mobile-toolkit/pull/138
+Running much faster:
+  ainstall -a
+  auninstall -a
+  awipe
+  ascreenshot -a
+  iuninstall -a
+alog -f <pkg>
+  filter log by package name
+agoogleplay
+  fixed for new store
+  search for foreground app
+icrashlogs - keep logs on device option
++ fixes
+add acontrol
+  - start scrcpy session
+add automatic dependency checks
+more @ https://github.com/IntergalacticPenguin/mobile-toolkit/pull/146

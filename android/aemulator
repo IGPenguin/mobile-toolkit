@@ -2,6 +2,7 @@
 LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 LOCAL_EMULATOR_LIST=$LOCATION/../data/toolkit_emulator_list.txt
+NET_CHANGED=false
 
 trap 'ctrlc $@' 1 2 3 6 15
 ctrlc(){
@@ -177,18 +178,19 @@ case $1 in
     send_sms "$2" "$3"
     ;;
   'gps')
-   check_running_emulator
-   set_gps "$2" "$3"
+    check_running_emulator
+    set_gps "$2" "$3"
     ;;
   'battery')
-   check_running_emulator
-   set_battery_level $2
+    check_running_emulator
+    set_battery_level $2
     ;;
   'telnet')
-   check_running_emulator
-   telnet_command "$2"
+    check_running_emulator
+    telnet_command "$2"
     ;;
-   *)
+  *)
     help "$1"
+    check_running_emulator
     ;;
 esac

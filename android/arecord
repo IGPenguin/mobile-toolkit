@@ -8,7 +8,8 @@ ctrlc()
 if $RECORDING ; then
   sleep 1
   if [ -z "$1" ] ; then
-    FILENAME=$SELECTED_DEVICE_MODEL-API$SELECTED_DEVICE_SDK-$(date +%Y-%m-%d-%H-%M-%S)
+    android_device_info $SELECTED_DEVICE
+    FILENAME=$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S)
   else
     FILENAME=$1
   fi
@@ -16,7 +17,7 @@ if $RECORDING ; then
   adb -s $SELECTED_DEVICE pull /mnt/sdcard/output.mp4 ~/Desktop/$FILENAME.mp4 &> /dev/null
   adb -s $SELECTED_DEVICE shell rm /mnt/sdcard/output.mp4 &> /dev/null
   adb -s $SELECTED_DEVICE shell settings put system show_touches 0
-  echo "✅ Done"
+  echo "✅ Saved into ~/Desktop/$FILENAME.mp4"
 fi
 exit
 }

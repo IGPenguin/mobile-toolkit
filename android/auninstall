@@ -13,23 +13,18 @@ uninstall_all(){
     for PKG in "${PACKAGES[@]}"
     do
       PKG=${PKG%$'\r'} #removes trailing \r
-      uninstall_package $PKG
-      if [ "$?" -eq 0 ]; then
-        ((++UNINSTALL_COUNT))
-      fi
+      uninstall_package $PKG &
     done
-    echo "✅ Apps uninstalled: $UNINSTALL_COUNT"
+    wait
     exit
 }
 
 uninstall_package(){
   PACKAGE="$1"
   echo ${PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; return 1; }
-  echo ${IGNORED_PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; return 1; }
-
+  echo ${IGNORED_PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; return 1; } 
   echo "🔥 Uninstalling \"$PACKAGE\""
   adb -s $SELECTED_DEVICE shell pm uninstall $PACKAGE &> /dev/null
-  return 0
 }
 
 select_option(){

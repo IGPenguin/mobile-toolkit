@@ -1,6 +1,7 @@
 #!/bin/bash
 SCRIPT_LOCATION=$(dirname "$0")
 LAST_CHECK_DATE_FILE="$SCRIPT_LOCATION/../data/toolkit_last_check_date.txt"
+TEMPORARY_FILE="/private/tmp/mobile-toolkit-cache"
 
 ##########################
 ### ANDROID SECTION
@@ -32,8 +33,17 @@ android_get_devices(){
   done
 }
 
+android_device_info(){
+  MANUFACTURER=$(adb -s $1 shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
+  MODEL=$(adb -s $1 shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
+  VERSION=$(adb -s $1 shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
+  SDK=$(adb -s $1 shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
+  INFO=$(printf "%s)\n%s\n%s\n%s\n(API %s)\n-\n%s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK" "$1")
+}
+
 android_choose_device() {
   check_for_update
+  check_adb_dependency
   android_check_connected
 
   #Gather device info and choose device
@@ -43,11 +53,7 @@ android_choose_device() {
     echo "📱 Available devices:"
     for ID in "${DEVICES[@]}"
     do
-      MANUFACTURER=$(adb -s $ID shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
-      MODEL=$(adb -s $ID shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
-      VERSION=$(adb -s $ID shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
-      SDK=$(adb -s $ID shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
-      INFO=$(printf "%s)\n%s\n%s\n%s\n(API %s)\n-\n%s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK" "$ID")
+      android_device_info $ID
       echo $INFO
       ((NUMBER++))
     done
@@ -106,12 +112,15 @@ android_is_package_installed() {
   fi
 }
 
-detect_package_name(){
+detect_package_info(){
   echo "🔍 Detecting package name..."
   AAPPT_PATH=$(find ~/Library/Android/sdk -name 'aapt' | sort | tail -1)
-  PACKAGE_NAME=$($AAPPT_PATH dump badging "$1" | grep package:\ name);
+  PACKAGE_INFO=$($AAPPT_PATH dump badging "$1" > $TEMPORARY_FILE)
+  PACKAGE_NAME=$(cat $TEMPORARY_FILE | grep package:\ name);
   PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/^[^'\'']*'\''//');
   PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/'\''.*//');
+  APP_NAME=$(cat $TEMPORARY_FILE  | grep application-label:)
+  APP_NAME=${APP_NAME#"application-label:"}
 }
 
 ##########################
@@ -293,6 +302,26 @@ ios_translate_name(){
 
 #####
 ### COMMON SECTION
+
+check_adb_dependency(){
+  if ! [ -x "$(command -v "adb")" ]; then
+    echo "🤷‍ Android Debug Bridge required!"
+    should_proceed "🔄 Install via homebrew? (this may take a while)"
+    brew cask install "android-platform-tools"
+  fi
+}
+
+check_dependency(){
+  if ! [ -x "$(command -v "$1")" ]; then
+    echo "⚠️ \"$1\" required!"
+    should_proceed "🔄 Install via homebrew? (this may take a while)"
+    if [ $2 == "-c" ];then
+      brew cask install $1
+    else
+      brew install $1
+    fi
+  fi
+}
 
 check_for_update(){
   TODAY=$(date +%Y-%m-%d)

@@ -214,5 +214,6 @@ case $1 in
     ;;
    *)
     help "$1"
+    choose_running_simulator
     ;;
 esac

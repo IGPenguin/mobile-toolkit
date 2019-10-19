@@ -11,8 +11,14 @@ fi
 
 cd ~/Desktop
 mkdir $DIRNAME
-echo "📁 Copying crash logs from the device, this may take a while..."
-idevicecrashreport -u $SELECTED_DEVICE $DIRNAME &> /dev/null
+yes_or_no "🔥 Delete the logs from the device afterwards?"
+if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
+  echo "⏳ Moving crash logs to \"$DIRNAME\", this may take a while..."
+  idevicecrashreport -u $SELECTED_DEVICE $DIRNAME &> /dev/null
+else
+  echo "📂 Copying crash logs to \"$DIRNAME\", this may take a while..."
+  idevicecrashreport -k -u $SELECTED_DEVICE $DIRNAME &> /dev/null
+fi
 
 echo "🔥 Cleaning up..."
 cd $DIRNAME

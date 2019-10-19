@@ -69,20 +69,21 @@ uninstall_package(){
   return 0
 }
 
+uninstall_all(){
+  tput setaf 1
+  should_proceed "💣 Delete all third-party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+  tput sgr0
+  for PKG in "${PACKAGE_LIST[@]}"
+  do
+    uninstall_package $PKG &
+  done
+  wait
+  exit
+}
+
 handle_arguments(){
   if [[  "$1" == "-a" ]]; then
-    tput setaf 1
-    should_proceed "💣 Delete all third-party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
-    tput sgr0
-    for PKG in "${PACKAGE_LIST[@]}"
-    do
-      uninstall_package $PKG
-      if [ "$?" -eq 0 ]; then
-        ((++UNINSTALL_COUNT))
-      fi
-    done
-    echo "✅ Apps uninstalled: $UNINSTALL_COUNT"
-    exit
+    uninstall_all
   elif [[ -n "$1" ]]; then
     uninstall_package $1
   fi

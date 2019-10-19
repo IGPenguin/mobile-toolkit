@@ -85,6 +85,10 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `afontscale <any-number>` set font scale to <any-number> times larger than default
 * Press ENTER to reset to default
 
+### acontrol
+* `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
+* [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides realtime display and control of Android devices
+
 ### acamera
 * Start camera application
 
@@ -92,7 +96,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### alaunch
 * `alaunch` List third-party apps and choose one to run it
-* `alaunch -a` List all available apps and choose one to run it
+* `alaunch -s` List all available apps (including os pre-installed) and choose one to run it
 * `alaunch com.dummy.package.name.app` Run app by package name
 
 ### aappinfo
@@ -131,8 +135,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Revoke ALL runtime permissions for ALL (even system) apps
 
 ### agoogleplay
-* `agoogleplay "Dummy App"` Search for app on Google Play
-* Pass app name as argument
+* `agoogleplay "Dummy App"` Search for "Dummy App" on Google Play
+* `agoogleplay` Search for currently foreground app on Google Play
 
 ### abuildproject
 * `abuildproject` Build, install and run Android project located in current directory
@@ -154,7 +158,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `aoptions 1,2,3... | dev | locale | date | wifi | storage | power` Use a preset, choose one
 
 ### alog
-* Print system log output
+* `alog` Print system log output
+* `alog <package-name>` Filter log by package name
 
 ### acrash
 * Print log output containing application crashes only
@@ -228,11 +233,12 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### icrashlogs
 * Gather crash logs from the device to **~/Desktop** (be patient 😅)
-* You can import logs to Xcode to make them more readable via symbolication
+* Choose whether to keep the logs on the device afterwards
+* You can import these logs to Xcode to make them more readable via symbolication
   * Open relevant project in Xcode
   * Click on Window > Devices and Simulators > View Device Logs
   * Drag the .crash file onto the log list
-  * The readable crash log should appear in the list
+  * Readable crash log should appear in the list
 
 ### icheckdevice
 * Print device information
@@ -247,12 +253,12 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * `screenshot` - save screenshot to ~/Desktop
   * `record` - save screen recording to ~/Desktop
   * `import <file>` - import image or video to simulator gallery
-  * `battery <0-100>` - set battery level
-  * `time <hh:mm>` - set time
   * `logs` - print simulator logs
   * `paste <text>` - insert text into pasteboard
   * `url <url>` - open link in web browser or corresponding application
   * `wipe` - wipe all simulator data
+	* `battery <0-100>` - set battery level displayed in status bar (no other impact)
+	* `time <hh:mm>` - set time displayed in status bar (no other impact)
 
 # About
-**You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"), if you made it this far in readme and you like my work, please be so kind and star this repository or leave some claps on Medium. Every appreciation empowers my will to work on this project.
+**You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"), if you made it this far in readme and you like my work, please be so kind and star this repository or leave some claps on Medium. Every appreciation empowers my motivation.

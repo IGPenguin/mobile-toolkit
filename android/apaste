@@ -3,6 +3,7 @@ LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 
 LOREM="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+ARGUMENT_COUNT="$#"
 
 escape_spaces(){
   ESCAPED_TEXT=`echo "$1" | sed -e 's/ /\%s/g'`
@@ -30,9 +31,9 @@ execute_by_arguments(){
   if [ "$1" == "-l" ];
   then
     send_text "$LOREM"
-  elif [ "$#" -gt 1 ];
+  elif [ "$ARGUMENT_COUNT" -gt 1 ];
   then
-    for ARGUMENT in "$@"
+    for ARGUMENT in $@
     do
       send_text "$ARGUMENT"
       sleep 0.5
@@ -46,4 +47,4 @@ execute_by_arguments(){
 }
 
 android_choose_device
-execute_by_arguments $@
+execute_by_arguments "$@"
