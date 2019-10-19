@@ -58,7 +58,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### awireless
 * Enable or disable wireless ADB connection
-* Allows wireless usage of toolkit scripts and any other ADB commands
+* Use ADB and toolkit without having USB cable attached
 
 ### apaste
 `apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004`
