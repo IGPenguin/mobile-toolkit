@@ -3,11 +3,12 @@ Running much faster:
   auninstall -a
   awipe
   ascreenshot -a
-alog <pkg>
+  iuninstall -a
+alog -f <pkg>
   filter log by package name
 agoogleplay
   fixed for new store
   search for foreground app
 icrashlogs - keep logs on device option
 + fixes
-more at: https://github.com/IntergalacticPenguin/mobile-toolkit/pull/146
+more @ https://github.com/IntergalacticPenguin/mobile-toolkit/pull/146
