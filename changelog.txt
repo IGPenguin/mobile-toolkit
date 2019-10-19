@@ -1,4 +1,4 @@
-Running much faster:
+increased efficiency
   ainstall -a
   auninstall -a
   awipe
@@ -10,7 +10,6 @@ agoogleplay
   fixed for new store
   search for foreground app
 icrashlogs - keep logs on device option
-+ fixes
 add acontrol
   - start scrcpy session
 add automatic dependency checks
@@ -20,5 +19,6 @@ enhance settings revert options
   - abounds
 awireless
   toggle automatically
-more @ https://github.com/IntergalacticPenguin/mobile-toolkit/pull/146
-#hacktoberfest
+many fixes
+
+#hacktoberfest2019

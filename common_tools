@@ -346,7 +346,7 @@ check_for_update(){
     git fetch origin &> /dev/null
     git status -uno | grep "up to date" &> /dev/null
     if [ $? -ne 0 ]; then
-      yes_or_no "🆕 Update available, download?";
+      yes_or_no "🆕 Update available, download now?";
       if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
         echo "⏬ Updating..."
         git pull &> /dev/null
