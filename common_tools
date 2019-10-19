@@ -263,6 +263,9 @@ ios_translate_name(){
     "N84"*)
       NAME="iPhoneXR"
       ;;
+    "N69"*)
+      NAME="iPhoneSE"
+      ;;
     "J1"*)
       NAME="iPad3gen"
       ;;
