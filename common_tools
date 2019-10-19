@@ -198,6 +198,7 @@ ios_choose_device(){
 }
 
 ios_translate_name(){
+  # Translations here https://www.theiphonewiki.com/wiki/Models
   NAME=$1
   case $NAME in
     "Purple"*|"purple"*)
