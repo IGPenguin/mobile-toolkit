@@ -1,5 +1,5 @@
 ![Header](/header.png?raw=true)
-# Mobile Toolkit
+# 🗜 Mobile Toolkit
 💥 **Control Android and iOS devices** or Emulators/Simulators using easy terminal commands<br>
 
 🛠 **Capture screen, manage storage and settings, gather various information**<br>
@@ -144,7 +144,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### 🏭 abuildproject
 * `abuildproject` Build, install and run Android project located in current directory
-* `abuildproject <relative-path>` Build, install and run Android project located in <relative-path>
+* `abuildproject <relative-path>` Build, install and run Android project located in \<relative-path>
 
 ## Manage device
 
@@ -166,8 +166,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `alog -f <package-name>` Filter log by package name
 
 ### 💥 acrash
-* Print log output containing application crashes only
-* Set how many crash surrounding lines to print using argument
+* `acrash` Print log output containing application crashes only
+* `acrash <line-count>` Print \<line-count> lines above and below crash log
 
 ### 📋 acheckdevice
 * Print device information
