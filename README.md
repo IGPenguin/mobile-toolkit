@@ -18,7 +18,7 @@
 
 ⭐️ If you **love using Mobile Toolkit, hit the star button** at the top right corner and **make me happy**<br>
 
-# Installation
+# 💻 Installation
 1. **Open terminal**
 2. **Clone this repository** `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
 3. **Setup Android** tools
@@ -38,29 +38,25 @@
 
 _The scripts are primarily designed for macOS, but majority of functions should work on any Unix system._
 
-# Android scripts
+# 🤖 Android scripts
 
-## Capture screen
+## 📸📱 Capture screen
 
-### ascreenshot
+### 📸 ascreenshot
 * `ascreenshot` Save **screenshot** to **~/Desktop**
 * **Filename** includes **device model**, **system API level** and current time and date
   * `ascreenshot <custom-name>` Specify your own filename by passing it as argument
 * Use `ascreenshot -a` to take screenshot on all connected devices
 
-### arecord
+### 🎥 arecord
 1. `arecord` **Record screen**
 2. **End recording** using `ctrl + c`
 3. Save screen video footage to ~/Desktop
   * `arecord <custom-name>` Specify your own filename by passing it as argument
 
-## Control device
+## 👉📱 Control device
 
-### awireless
-* Enable or disable wireless ADB connection
-* Use ADB and toolkit without having USB cable attached
-
-### apaste
+### ✏️ apaste
 `apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004`
 
 * `apaste <text>` Insert text into currently focused field
@@ -68,42 +64,42 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `apaste "This is sample multi-word text."` use "" to insert multi-word text into one field
 * `apaste -l` Paste Lorem Ipsum paragraph
 
-### aurl
+### 🌐 aurl
 * `aurl "google.com"` Open link in web browser or corresponding application
 
-### abounds
+### 📐 abounds
 * `abounds` Display **layout bounds**
 	* Press ENTER to turn off
 * `abounds -k` Toggle **layout bounds visibility**
 * App restart may be necessary on lower APIs
 
-### aanimationspeed
+### 🚗 aanimationspeed
 * `aanimationspeed` set slow animation speed
 * `aanimationspeed <speed>` set animation speed to \<speed> times slower than default
 	* Press ENTER to reset to default
 * `afontscale <scale> -k` save changed settings
 
-### afontscale
+### 🅰 afontscale
 * `afontscale` set font scale to large (1.3x bigger than default)
 * `afontscale <scale>` set font scale to \<scale> times larger than default
 	* Press ENTER to reset to default
 * `afontscale <scale> -k` save changed settings
 
-### acontrol
+### 🎹 acontrol
 * `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
 * [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides realtime display and control of Android devices
 
-### acamera
+### 📷 acamera
 * Start camera application
 
-## Manage applications
+## 🛒📦 Manage applications
 
-### alaunch
+### 🚀 alaunch
 * `alaunch` List third-party apps and choose one to run it
 * `alaunch -s` List all available apps (including os pre-installed) and choose one to run it
 * `alaunch com.dummy.package.name.app` Run app by package name
 
-### aappinfo
+### 🕵️ aappinfo
 * `aappinfo` List foreground app information
   * Package name
 	* Version
@@ -113,36 +109,36 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * (Optional) Open application settings
 * `aappinfo com.dummy.package.name.app` Target specific app by passing package name as argument
 
-### akill
+### 🔪 akill
 * `akill` Restart foreground app
 * `akill com.dummy.package.name.app` Target specific app by passing package name as argument
 
-### aerase
+### 🗑 aerase
 * `aerase` Delete foreground app data and restart it
 * `aerase com.dummy.package.name.app` Target specific app by passing package name as argument
 
-### ainstall
+### ⏬ ainstall
 * `ainstall some-app-file.apk` Install and run .apk file
 * `ainstall -a some-app-file.apk` Install and run on all devices
 * Can overwrite existing app
 
-### auninstall
+### 🥾 auninstall
 * `auninstall` Uninstall third-party app, choose from the list
 * `auninstall com.dummy.package.name.app` pass package name as argument
 * `auninstall -a` Uninstall all-third party packages
 	* Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
-### awipe
+### 🔥 awipe
 * Wipe internal storage (/mnt/sdcard directory) and delete all third-party apps
 
-### apermissionreset
+### 🐁 apermissionreset
 * Revoke ALL runtime permissions for ALL (even system) apps
 
-### agoogleplay
+### 🛍 agoogleplay
 * `agoogleplay "Dummy App"` Search for "Dummy App" on Google Play
 * `agoogleplay` Search for currently foreground app on Google Play
 
-### abuildproject
+### 🏭 abuildproject
 * `abuildproject` Build, install and run Android project located in current directory
 * `abuildproject <relative-path>` Build, install and run Android project located in <relative-path>
 
