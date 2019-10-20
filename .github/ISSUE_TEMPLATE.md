@@ -1,8 +1,8 @@
-### 🐞 Whats wrong:
+### 🐞 Whats wrong
 ~Describe requested functionality or existing bug~
-### 🌈 Desired state:
+### 🌈 Desired state
 ~Describe desired code and functional changes~
-### 📏 Challenges:
+### 📏 Challenges
 ~Hint any special or complicated tasks~
-### 📂 Sources:
+### 📂 Sources
 ~Recommend related code samples or documentation~
