@@ -235,6 +235,10 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ## Manage device
 
+### 📜 ilog
+* `ilog` Open console log output
+* Examine macOS or iOS system logs
+
 ### 💥 icrashlogs
 * Gather crash logs from the device to **~/Desktop** (be patient 😅)
 * Choose whether to keep the logs on the device afterwards
