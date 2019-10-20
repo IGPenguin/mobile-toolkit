@@ -1,5 +1,5 @@
 ![Header](/header.png?raw=true)
-# Mobile Toolkit
+# 🗜 Mobile Toolkit
 💥 **Control Android and iOS devices** or Emulators/Simulators using easy terminal commands<br>
 
 🛠 **Capture screen, manage storage and settings, gather various information**<br>
@@ -18,7 +18,7 @@
 
 ⭐️ If you **love using Mobile Toolkit, hit the star button** at the top right corner and **make me happy**<br>
 
-# Installation
+# 💻 Installation
 1. **Open terminal**
 2. **Clone this repository** `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
 3. **Setup Android** tools
@@ -38,17 +38,17 @@
 
 _The scripts are primarily designed for macOS, but majority of functions should work on any Unix system._
 
-# Android scripts
+# 🤖 Android scripts
 
 ## Capture screen
 
-### ascreenshot
+### 📸 ascreenshot
 * `ascreenshot` Save **screenshot** to **~/Desktop**
 * **Filename** includes **device model**, **system API level** and current time and date
   * `ascreenshot <custom-name>` Specify your own filename by passing it as argument
 * Use `ascreenshot -a` to take screenshot on all connected devices
 
-### arecord
+### 🎥 arecord
 1. `arecord` **Record screen**
 2. **End recording** using `ctrl + c`
 3. Save screen video footage to ~/Desktop
@@ -56,11 +56,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ## Control device
 
-### awireless
-* Enable or disable wireless ADB connection
-* Use ADB and toolkit without having USB cable attached
-
-### apaste
+### ✏️ apaste
 `apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004`
 
 * `apaste <text>` Insert text into currently focused field
@@ -68,42 +64,46 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `apaste "This is sample multi-word text."` use "" to insert multi-word text into one field
 * `apaste -l` Paste Lorem Ipsum paragraph
 
-### aurl
+### 🌐 aurl
 * `aurl "google.com"` Open link in web browser or corresponding application
 
-### abounds
+### 📐 abounds
 * `abounds` Display **layout bounds**
 	* Press ENTER to turn off
 * `abounds -k` Toggle **layout bounds visibility**
 * App restart may be necessary on lower APIs
 
-### aanimationspeed
+### 🚗 aanimationspeed
 * `aanimationspeed` set slow animation speed
 * `aanimationspeed <speed>` set animation speed to \<speed> times slower than default
 	* Press ENTER to reset to default
 * `afontscale <scale> -k` save changed settings
 
-### afontscale
+### 🔠 afontscale
 * `afontscale` set font scale to large (1.3x bigger than default)
 * `afontscale <scale>` set font scale to \<scale> times larger than default
 	* Press ENTER to reset to default
 * `afontscale <scale> -k` save changed settings
 
-### acontrol
+### 🎹 acontrol
 * `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
 * [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides realtime display and control of Android devices
 
-### acamera
+### 📷 acamera
 * Start camera application
 
-## Manage applications
+### ⚡️ awireless
+* Enable or disable wireless ADB connection
+* Use ADB and toolkit without having USB cable attached
 
-### alaunch
+## Manage packages
+
+### 🚀 alaunch
 * `alaunch` List third-party apps and choose one to run it
 * `alaunch -s` List all available apps (including os pre-installed) and choose one to run it
 * `alaunch com.dummy.package.name.app` Run app by package name
 
-### aappinfo
+### 🕵️ aappinfo
 * `aappinfo` List foreground app information
   * Package name
 	* Version
@@ -113,42 +113,42 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * (Optional) Open application settings
 * `aappinfo com.dummy.package.name.app` Target specific app by passing package name as argument
 
-### akill
+### 🔪 akill
 * `akill` Restart foreground app
 * `akill com.dummy.package.name.app` Target specific app by passing package name as argument
 
-### aerase
+### 🧽 aerase
 * `aerase` Delete foreground app data and restart it
 * `aerase com.dummy.package.name.app` Target specific app by passing package name as argument
 
-### ainstall
+### 🚚 ainstall
 * `ainstall some-app-file.apk` Install and run .apk file
 * `ainstall -a some-app-file.apk` Install and run on all devices
 * Can overwrite existing app
 
-### auninstall
+### 🗑 auninstall
 * `auninstall` Uninstall third-party app, choose from the list
 * `auninstall com.dummy.package.name.app` pass package name as argument
 * `auninstall -a` Uninstall all-third party packages
 	* Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
-### awipe
+### 🔥 awipe
 * Wipe internal storage (/mnt/sdcard directory) and delete all third-party apps
 
-### apermissionreset
+### 🐁 apermissionreset
 * Revoke ALL runtime permissions for ALL (even system) apps
 
-### agoogleplay
+### 🛍 agoogleplay
 * `agoogleplay "Dummy App"` Search for "Dummy App" on Google Play
 * `agoogleplay` Search for currently foreground app on Google Play
 
-### abuildproject
+### 🏭 abuildproject
 * `abuildproject` Build, install and run Android project located in current directory
-* `abuildproject <relative-path>` Build, install and run Android project located in <relative-path>
+* `abuildproject <relative-path>` Build, install and run Android project located in \<relative-path>
 
 ## Manage device
 
-### aoptions
+### ⚙️ aoptions
 * `aoptions` Open system settings on a specific activity
 * You can choose from quick presets
 	* Developer settings
@@ -161,15 +161,15 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `aoptions A` Choose from exhaustive list of all available options
 * `aoptions 1,2,3... | dev | locale | date | wifi | storage | power` Use a preset, choose one
 
-### alog
+### 📜 alog
 * `alog` Print system log output
 * `alog -f <package-name>` Filter log by package name
 
-### acrash
-* Print log output containing application crashes only
-* Set how many crash surrounding lines to print using argument
+### 💥 acrash
+* `acrash` Print log output containing application crashes only
+* `acrash <line-count>` Print \<line-count> lines above and below crash log
 
-### acheckdevice
+### 📋 acheckdevice
 * Print device information
 * Perform basic checks and apply preset settings if allowed
   * 10 minutes screen timeout
@@ -181,14 +181,14 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * enUS locale
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
-### aservices
+### 😎 aservices
 * Print running background services, search for more information about any listed item
 
-### areboot
-* Reboot a device
+### ♻ areboot
+* Reboot the device
 
-### aemulator
-* `aeimulator <option>` Handle various emulator related activites
+### 📱 aemulator
+* `aeimulator <option>` Handle various Android emulator activites
   * `start` - choose and launch installed emulator
   * `gprs | edge | 3g` - simulate network latency, choose one
   * `call <number>` - receive fake call
@@ -198,20 +198,20 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * `telnet <command>` - call command via telnet
 	   * example commands `event | redir | sensor | physics | finger | rotate | fold | unfold...` see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
 
-# iOS scripts
+# 🍎 iOS scripts
 
 ## Capture screen
 
-### iscreenshot
+### 📸 iscreenshot
 * Save **screenshot** to **~/Desktop**
 * **Filename** includes **device model**, **system version** and current time and date
   * Specify your own filename by passing it as argument
 
-### irecord
+### 🎥 irecord
 * Run **QuickTime** and open video source picker (so you can choose device right away)
   * You may have to allow some system permission, so the script can access the picker
 
-### igif
+### 🖼 igif
 **Required**: Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") `brew install ffmpeg`
 
 1. **Record screen** (take as many screenshots per second as possible) to **~/Desktop**
@@ -222,12 +222,12 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * Specify your own filename by passing it as argument
 
 ## Manage applications
-### iinstall
+### 🚚 iinstall
 
 * `iinstall some-app-file.ipa` Install .ipa file, make sure to use proper build
 * Can overwrite existing app
 
-### iuninstall
+### 🗑 iuninstall
 * `iuninstall` Uninstall third-party app, choose from the list
 * `iuninstall com.dummy.package.name.app` pass bundle name as argument
 * `iuninstall -a` Uninstall all third-party packages
@@ -235,7 +235,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ## Manage device
 
-### icrashlogs
+### 💥 icrashlogs
 * Gather crash logs from the device to **~/Desktop** (be patient 😅)
 * Choose whether to keep the logs on the device afterwards
 * You can import these logs to Xcode to make them more readable via symbolication
@@ -244,14 +244,14 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * Drag the .crash file onto the log list
   * Readable crash log should appear in the list
 
-### icheckdevice
+### 📋 icheckdevice
 * Print device information
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
-### ireboot
-* Reboot a device
+### ♻ ireboot
+* Reboot the device
 
-### isimulator
+### 📱 isimulator
 * `isimulator <option>` Handle various simulator related activites
   * `start` - choose and launch installed simulator
   * `screenshot` - save screenshot to ~/Desktop
@@ -264,5 +264,5 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 	* `battery <0-100>` - set battery level displayed in status bar (no other impact)
 	* `time <hh:mm>` - set time displayed in status bar (no other impact)
 
-# About
+# 💭 About
 **You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"), if you made it this far in readme and you like my work, please be so kind and star this repository or leave some claps on Medium. Every appreciation empowers my motivation.
