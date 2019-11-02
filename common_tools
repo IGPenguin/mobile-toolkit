@@ -100,7 +100,7 @@ android_unlock_device(){
 }
 
 android_get_foreground_package(){
-  adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev
+  adb -s $SELECTED_DEVICE shell dumpsys activity recents | grep 'Recent #0' | cut -d= -f2 | sed 's| .*||' | cut -d '/' -f1
 }
 
 android_is_package_installed() {
