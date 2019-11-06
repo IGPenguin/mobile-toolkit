@@ -87,7 +87,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### 🎹 acontrol
 * `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
-* [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides realtime device screen mirror and operation
+* [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides realtime device screen mirroring and operation
 
 ### 📷 acamera
 * Start the default camera application
@@ -170,8 +170,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `acrash <line-count>` Print \<line-count> lines above and below crash log
 
 ### 📋 acheckdevice
-* Print device information
-* Perform basic checks and apply preset settings if allowed
+* Print genereal device information
+* Perform basic safety-checks and toggle "testing firendly" settings
   * 10 minutes screen timeout
   * Highest brightness
   * Automatic date
@@ -182,12 +182,13 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
 ### 😎 aservices
-* Print running background services, search for more information about any listed item
+* Print running background services, search for more information about any service listed via Google search
 
 ### ♻ areboot
 * Reboot the device
 
 ### 📱 aemulator
+* Android emulator supports all listed scripts by default + extra actions listed below
 * `aeimulator <option>` Handle various Android emulator activites
   * `start` - choose and launch installed emulator
   * `gprs | edge | 3g` - simulate network latency, choose one
@@ -256,6 +257,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Reboot the device
 
 ### 📱 isimulator
+* iOS simulator offers limited functionality (no camera, biometrics, Appstore...), but features some extra functions listed below, which are not available for physical devices
 * `isimulator <option>` Handle various simulator related activites
   * `start` - choose and launch installed simulator
   * `screenshot` - save screenshot to ~/Desktop
