@@ -87,10 +87,10 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### 🎹 acontrol
 * `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
-* [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides realtime display and control of Android devices
+* [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides realtime device screen mirror and operation
 
 ### 📷 acamera
-* Start camera application
+* Start the default camera application
 
 ### ⚡️ awireless
 * Enable or disable wireless ADB connection
@@ -114,16 +114,16 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `aappinfo com.dummy.package.name.app` Target specific app by passing package name as argument
 
 ### 🔪 akill
-* `akill` Restart foreground app
+* `akill` Restart the foreground app
 * `akill com.dummy.package.name.app` Target specific app by passing package name as argument
 
 ### 🧽 aerase
-* `aerase` Delete foreground app data and restart it
+* `aerase` Delete all local data of the foreground app and restart it
 * `aerase com.dummy.package.name.app` Target specific app by passing package name as argument
 
 ### 🚚 ainstall
 * `ainstall some-app-file.apk` Install and run .apk file
-* `ainstall -a some-app-file.apk` Install and run on all devices
+* `ainstall -a some-app-file.apk` Install and run on all connected devices
 * Can overwrite existing app
 
 ### 🗑 auninstall
