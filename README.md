@@ -267,8 +267,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * `paste <text>` - insert text into pasteboard
   * `url <url>` - open link in web browser or corresponding application
   * `wipe` - wipe all simulator data
-  * `battery <0-100>` - set battery level displayed in status bar (no other impact)
-  * `time <hh:mm>` - set time displayed in status bar (no other impact)
+  * `battery <0-100>` - set battery level displayed in status bar (no functional impact)
+  * `time <hh:mm>` - set time displayed in status bar (no functional impact)
 
 # 💭 About
 **You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"), if you made it this far in readme and you like my work, please be so kind and star this repository or leave some claps on Medium. Every appreciation empowers my motivation.
