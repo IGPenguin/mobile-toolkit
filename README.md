@@ -87,10 +87,10 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### 🎹 acontrol
 * `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
-* [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides realtime display and control of Android devices
+* [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides realtime device screen mirroring and operation
 
 ### 📷 acamera
-* Start camera application
+* Start the default camera application
 
 ### ⚡️ awireless
 * Enable or disable wireless ADB connection
@@ -114,16 +114,16 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `aappinfo com.dummy.package.name.app` Target specific app by passing package name as argument
 
 ### 🔪 akill
-* `akill` Restart foreground app
+* `akill` Restart the foreground app
 * `akill com.dummy.package.name.app` Target specific app by passing package name as argument
 
 ### 🧽 aerase
-* `aerase` Delete foreground app data and restart it
+* `aerase` Delete all local data of the foreground app and restart it
 * `aerase com.dummy.package.name.app` Target specific app by passing package name as argument
 
 ### 🚚 ainstall
 * `ainstall some-app-file.apk` Install and run .apk file
-* `ainstall -a some-app-file.apk` Install and run on all devices
+* `ainstall -a some-app-file.apk` Install and run on all connected devices
 * Can overwrite existing app
 
 ### 🗑 auninstall
@@ -170,8 +170,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `acrash <line-count>` Print \<line-count> lines above and below crash log
 
 ### 📋 acheckdevice
-* Print device information
-* Perform basic checks and apply preset settings if allowed
+* Print genereal device information
+* Perform basic safety-checks and toggle "testing firendly" settings
   * 10 minutes screen timeout
   * Highest brightness
   * Automatic date
@@ -182,12 +182,13 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
 ### 😎 aservices
-* Print running background services, search for more information about any listed item
+* Print running background services, search for more information about any service listed via Google search
 
 ### ♻ areboot
 * Reboot the device
 
 ### 📱 aemulator
+* Android emulator supports all listed scripts by default + extra actions listed below
 * `aeimulator <option>` Handle various Android emulator activites
   * `start` - choose and launch installed emulator
   * `gprs | edge | 3g` - simulate network latency, choose one
@@ -256,6 +257,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Reboot the device
 
 ### 📱 isimulator
+* iOS simulator offers limited functionality (no camera, biometrics, Appstore...), but features some extra functions listed below, which are not available for physical devices
 * `isimulator <option>` Handle various simulator related activites
   * `start` - choose and launch installed simulator
   * `screenshot` - save screenshot to ~/Desktop
@@ -265,8 +267,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
   * `paste <text>` - insert text into pasteboard
   * `url <url>` - open link in web browser or corresponding application
   * `wipe` - wipe all simulator data
-	* `battery <0-100>` - set battery level displayed in status bar (no other impact)
-	* `time <hh:mm>` - set time displayed in status bar (no other impact)
+  * `battery <0-100>` - set battery level displayed in status bar (no functional impact)
+  * `time <hh:mm>` - set time displayed in status bar (no functional impact)
 
 # 💭 About
 **You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"), if you made it this far in readme and you like my work, please be so kind and star this repository or leave some claps on Medium. Every appreciation empowers my motivation.
