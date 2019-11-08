@@ -78,7 +78,6 @@ uninstall_all(){
     uninstall_package $PKG &
   done
   wait
-  exit
 }
 
 handle_arguments(){

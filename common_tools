@@ -100,6 +100,19 @@ android_unlock_device(){
 }
 
 android_get_foreground_package(){
+  SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
+  if (( $SDK < 21 )); then
+    android_get_foreground_package_sdk_low
+  else
+    android_get_foreground_package_sdk_21_plus
+  fi
+}
+
+android_get_foreground_package_sdk_21_plus(){
+  adb -s $SELECTED_DEVICE shell dumpsys activity recents | grep 'Recent #0' | cut -d= -f2 | sed 's| .*||' | cut -d '/' -f1
+}
+
+android_get_foreground_package_sdk_low(){
   adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev
 }
 
