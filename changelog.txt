@@ -1,24 +1,3 @@
-increased efficiency
-  ainstall -a
-  auninstall -a
-  awipe
-  ascreenshot -a
-  iuninstall -a
-alog -f <pkg>
-  filter log by package name
-agoogleplay
-  fixed for new store
-  search for foreground app
-icrashlogs - keep logs on device option
-add acontrol
-  - start scrcpy session
-add automatic dependency checks
-enhance settings revert options
-  - afontscale
-  - aanimationspeed
-  - abounds
-awireless
-  toggle automatically
-many fixes
-
-#hacktoberfest2019
+fix foreground package detection on Android 10
+polish terminal output
+update README.md
