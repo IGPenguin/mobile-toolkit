@@ -365,6 +365,7 @@ check_for_update(){
         git pull &> /dev/null
         echo "✨ New features:"
         cat $SCRIPT_LOCATION/../changelog.txt
+	echo
         echo "✅ Update complete"
       fi
     fi
