@@ -361,12 +361,12 @@ check_for_update(){
     if [ $? -ne 0 ]; then
       yes_or_no "🆕 Update available, download now?";
       if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
-        echo "⏬ Updating..."
-        git pull &> /dev/null
-        echo "✨ New features:"
-        cat $SCRIPT_LOCATION/../changelog.txt
+	echo "⏬ Updating..."
+	git pull &> /dev/null
+	echo "✨ New features:"
+	cat $SCRIPT_LOCATION/../changelog.txt
 	echo
-        echo "✅ Update complete"
+	echo "✅ Update complete"
       fi
     fi
   fi
