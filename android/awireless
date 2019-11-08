@@ -22,7 +22,7 @@ setup_network_connection(){
 }
 
 setup_usb_connection(){
-  echo "🔌 Connecting the device via USB..."
+  echo "🔌 Disabling wireless connection..."
   adb disconnect "$DEVICE_IP:5555" &> /dev/null
   adb usb &> /dev/null
 }
@@ -30,7 +30,7 @@ setup_usb_connection(){
 get_device_ip
 
 if [[ "$SELECTED_DEVICE" == "emulator"* ]]; then
-  echo "❌ Emulator is wireless by default..."
+  echo "🤷‍ Emulator is wireless by default..."
   exit 1
 fi
 
