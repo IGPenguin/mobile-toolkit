@@ -182,7 +182,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
 ### 😎 aservices
-* Print running background services, search for more information about any service listed via Google search
+* Print running background services
+* Search for more information via Google
 
 ### ♻ areboot
 * Reboot the device
