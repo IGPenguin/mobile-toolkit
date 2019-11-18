@@ -5,7 +5,7 @@ ios_choose_device
 
 init(){
   UNINSTALL_COUNT=0
-  IGNORED_PACKAGES=( "com.apple.TestFlight" "com.thefuntasty.funtaster.beta" "motif.FramerPreview" "com.figma.FigmaMirror" "com.invisionapp.InVisionApp-iOS")
+  IGNORED_PACKAGES=( "com.apple.TestFlight" "motif.FramerPreview" "com.figma.FigmaMirror" "com.invisionapp.InVisionApp-iOS" )
 }
 
 ios_get_package_list(){
