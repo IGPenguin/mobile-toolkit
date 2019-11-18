@@ -1,3 +1,1 @@
-fix foreground package detection on Android 10
-polish terminal output
-update README.md
+update package whitelist
