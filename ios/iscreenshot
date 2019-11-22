@@ -4,6 +4,19 @@ source $LOCATION/../common_tools
 ios_choose_device
 ios_check_developer_image $SELECTED_DEVICE
 
+take_screenshot(){
+  idevicescreenshot -u $SELECTED_DEVICE $FILENAME.png &> /dev/null
+  EXIT_CODE=$?
+  if [ $EXIT_CODE -eq 0 ]; then
+    echo "📸 Screenshot saved into $FILENAME.png"
+  else
+    echo "🤷 Screenshot failed, error code: $EXIT_CODE"
+    should_proceed "❓ Try opening Xcode to fix it?"
+    open -a Xcode
+    take_screenshot
+  fi
+}
+
 cd ~/Desktop
 if [ -z "$1" ] ; then
   FILENAME=$SELECTED_DEVICE_MODEL-iOS$SELECTED_DEVICE_VERSION-$(date +%Y-%m-%d-%H-%M-%S)
@@ -11,10 +24,6 @@ else
   FILENAME=$1
 fi
 
-idevicescreenshot -u $SELECTED_DEVICE $FILENAME.png &> /dev/null
-EXIT_CODE=$?
-if [ $EXIT_CODE -eq 0 ]; then
-  echo "📸 Screenshot saved into $FILENAME.png"
-else
-  echo "🤷 Screenshot failed, error code: $EXIT_CODE"
-fi
+take_screenshot
+
+#TODO add -a

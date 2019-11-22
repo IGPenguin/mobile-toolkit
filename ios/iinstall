@@ -22,3 +22,5 @@ ios_choose_device
 echo "⌛️ Installing..."
 ideviceinstaller -u $SELECTED_DEVICE -i "$1" &> /dev/null
 echo "✅ Done!"
+
+#TODO add -a
