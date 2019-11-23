@@ -1,1 +1,5 @@
-update package whitelist
+fix ghost iOS device bug
+launch Xcode on error code 255
++ iscreenshot -a
++ iinstall -a
+https://github.com/IntergalacticPenguin/mobile-toolkit/pull/159

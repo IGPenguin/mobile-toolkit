@@ -44,9 +44,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### 📸 ascreenshot
 * `ascreenshot` Save **screenshot** to **~/Desktop**
-* **Filename** includes **device model**, **system API level** and current time and date
-  * `ascreenshot <custom-name>` Specify your own filename by passing it as argument
-* Use `ascreenshot -a` to take screenshot on all connected devices
+* `ascreenshot -a` to take screenshot on all connected devices
 
 ### 🎥 arecord
 1. `arecord` **Record screen**
@@ -122,9 +120,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `aerase com.dummy.package.name.app` Target specific app by passing package name as argument
 
 ### 🚚 ainstall
-* `ainstall some-app-file.apk` Install and run .apk file
-* `ainstall -a some-app-file.apk` Install and run on all connected devices
-* Can overwrite existing app
+* `ainstall some-app-file.apk` Install and run .apk
+* `ainstall -a some-app-file.apk` Install and run .apk on all connected devices
 
 ### 🗑 auninstall
 * `auninstall` Uninstall third-party app, choose from the list
@@ -205,9 +202,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 ## Capture screen
 
 ### 📸 iscreenshot
-* Save **screenshot** to **~/Desktop**
-* **Filename** includes **device model**, **system version** and current time and date
-  * Specify your own filename by passing it as argument
+* `iscreenshot` Save **screenshot** to **~/Desktop**
+* `iscreenshot -a` to take screenshot on all connected devices
 
 ### 🎥 irecord
 * Run **QuickTime** and open video source picker (so you can choose device right away)
@@ -225,9 +221,8 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ## Manage applications
 ### 🚚 iinstall
-
-* `iinstall some-app-file.ipa` Install .ipa file, make sure to use proper build
-* Can overwrite existing app
+* `iinstall some-app-file.ipa` Install .ipa (make sure to use properly signed build)
+* `iinstall -a some-app-file.ipa` Install .ipa to all connected devices
 
 ### 🗑 iuninstall
 * `iuninstall` Uninstall third-party app, choose from the list
