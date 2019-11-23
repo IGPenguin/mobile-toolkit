@@ -139,6 +139,14 @@ detect_package_info(){
 ##########################
 ### IOS SECTION
 
+prompt_xcode_launch(){
+  echo "❌ Developer image is not mounted and/or device screen is locked"
+  should_proceed "❓ Do you want to open Xcode to fix it?"
+  open -a Xcode
+  echo "⏳ Waiting for Xcode to launch..."
+  sleep 8
+}
+
 ios_wait_for_device(){
   echo "⏳ Waiting for iOS device..."
   while ! [ "$(idevice_id -l | wc -l)" -ge 1 ];
@@ -149,18 +157,9 @@ ios_wait_for_device(){
 }
 
 ios_check_developer_image(){
-  IS_MOUNTED=$(ideviceimagemounter -u $1 -l)
+  IS_MOUNTED=$(ideviceimagemounter -u $1 -l) #Probably does not work on iOS 13
   if [ ${#IS_MOUNTED} -eq 0 ] ; then
-    read -r -n 1 -p "❌ Developer image probably not mounted, do you want to launch Xcode? [y/n] " RESPONSE
-    case "$RESPONSE" in
-        [yY])
-            ;;
-        *)
-            exit
-            ;;
-    esac
-    open -a Xcode
-    sleep 8
+    prompt_xcode_launch
   fi
 }
 
@@ -186,7 +185,7 @@ ios_choose_device(){
         MANUFACTURER="Apple"
         MODEL=$(ios_translate_name $(ideviceinfo -u $ID | grep "HardwareModel" | cut -d\   -f2))
         if [ -z "$MODEL" ];then
-          echo "Ghost device detected - $ID"
+          #echo "Ghost device detected, not sure why - $ID"
           continue
         fi
         VERSION=$(ideviceinfo -u $ID | grep "ProductVersion" | cut -d\   -f2)
@@ -302,7 +301,7 @@ ios_translate_name(){
     "J96"*)
       NAME="iPadMini4"
       ;;
-    "J98"*|"J99"*)
+    "J98"*|"J99"*|"J31"*)
       NAME="iPadPro"
       ;;
     "K48"*)

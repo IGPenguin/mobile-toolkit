@@ -11,8 +11,7 @@ take_screenshot(){
     echo "📸 Screenshot saved into $FILENAME.png"
   else
     echo "🤷 Screenshot failed, error code: $EXIT_CODE"
-    should_proceed "❓ Try opening Xcode to fix it?"
-    open -a Xcode
+    prompt_xcode_launch
     take_screenshot
   fi
 }
