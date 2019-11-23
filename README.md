@@ -1,22 +1,22 @@
 ![Header](/header.png?raw=true)
 # 🗜 Mobile Toolkit
-💥 **Control Android and iOS devices** or Emulators/Simulators using easy terminal commands<br>
+📲 **Control Android and iOS devices** or Emulators/Simulators using terminal commands<br>
 
-🛠 **Capture screen, manage storage and settings, gather various information**<br>
+🛠 **Take screeshots, change developer settings**, gather app & device intel<br>
 
-📱 **Test mobile applications** - install, restart, wipe data and much more<br>
+⚙️ **Manage mobile applications** - install, restart, wipe data and much more<br>
 
-📋 **Handle multiple devices effortlessly** via choice from a list<br>
+📋 **Handle multiple devices effortlessly** - select from list or target all connected devices<br>
 
-⏳ **Save your precious time**, stop doing repetitive tasks manually<br>
+⏳ **Save your precious time** - stop doing repetitive tasks manually<br>
 
-🔄 **Automatic check for update** is performed every day<br>
+🔄 **Automatic update** - get new features and fixes ASAP<br>
 
-⁉️ **Submit issue** if you want to ask anything, improve the scripts or bring new inspiration<br>
+⁉️ **Submit issue** - report bugs, bring inspiration, ask questions<br>
 
-🤝 Any [pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") is **highly appreciated**, critical issues are marked with "help wanted" tag<br>
+🤝 [Pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules")**is highly appreciated, critical issues are marked with help wanted**<br>
 
-⭐️ If you **love using Mobile Toolkit, hit the star button** at the top right corner and **make me happy**<br>
+⭐️ **Love Mobile Toolkit? -> Hit the star button and bring me joy!**<br>
 
 # 💻 Installation
 1. **Open terminal**
