@@ -43,7 +43,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 ## Capture screen
 
 ### 📸 ascreenshot
-* `ascreenshot` Save screenshot** to ~/Desktop
+* `ascreenshot` Save screenshot to ~/Desktop
 * `ascreenshot -a` to take screenshot on all connected devices
 
 ### 🎥 arecord
