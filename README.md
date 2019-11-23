@@ -44,7 +44,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### 📸 ascreenshot
 * `ascreenshot` Save screenshot to ~/Desktop
-* `ascreenshot -a` to take screenshot on all connected devices
+* `ascreenshot -a` Take screenshot on all connected devices
 
 ### 🎥 arecord
 1. `arecord` Record screen
@@ -203,7 +203,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 
 ### 📸 iscreenshot
 * `iscreenshot` Save screenshot to ~/Desktop
-* `iscreenshot -a` to take screenshot on all connected devices
+* `iscreenshot -a` Take screenshot on all connected devices
 
 ### 🎥 irecord
 * Run QuickTime and open video source picker (so you can choose a device right away)
