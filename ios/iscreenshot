@@ -31,6 +31,3 @@ else
   ios_choose_device
   screenshot $SELECTED_DEVICE
 fi
-
-
-#TODO add -a
