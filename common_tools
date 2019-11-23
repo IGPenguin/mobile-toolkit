@@ -153,6 +153,7 @@ ios_wait_for_device(){
   do
     sleep 1
   done
+  IOS_DEVICES=( $(idevice_id -l | sort -u) )
   delete_lastline
 }
 
