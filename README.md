@@ -14,7 +14,7 @@
 
 ⁉️ **Submit issue** - report bugs, bring inspiration, ask questions<br>
 
-🤝 [Pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") **is highly appreciated, critical issues are marked with help wanted**<br>
+🤝 [Pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") **is highly appreciated, see** [Issues section](https://github.com/IntergalacticPenguin/mobile-toolkit/issues)<br>
 
 ⭐️ **Love Mobile Toolkit? -> Hit the star button and bring me joy!**<br>
 
