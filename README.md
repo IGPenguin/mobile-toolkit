@@ -43,12 +43,12 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 ## Capture screen
 
 ### 📸 ascreenshot
-* `ascreenshot` Save **screenshot** to **~/Desktop**
+* `ascreenshot` Save screenshot** to ~/Desktop
 * `ascreenshot -a` to take screenshot on all connected devices
 
 ### 🎥 arecord
-1. `arecord` **Record screen**
-2. **End recording** using `ctrl + c`
+1. `arecord` Record screen
+2. End recording using `ctrl + c`
 3. Save screen video footage to ~/Desktop
   * `arecord <custom-name>` Specify your own filename by passing it as argument
 
@@ -66,9 +66,9 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `aurl "google.com"` Open link in web browser or corresponding application
 
 ### 📐 abounds
-* `abounds` Display **layout bounds**
+* `abounds` Display layout bounds
 	* Press ENTER to turn off
-* `abounds -k` Toggle **layout bounds visibility**
+* `abounds -k` Toggle layout bounds visibility
 * App restart may be necessary on lower APIs
 
 ### 🚗 aanimationspeed
@@ -202,22 +202,21 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 ## Capture screen
 
 ### 📸 iscreenshot
-* `iscreenshot` Save **screenshot** to **~/Desktop**
+* `iscreenshot` Save screenshot to ~/Desktop
 * `iscreenshot -a` to take screenshot on all connected devices
 
 ### 🎥 irecord
-* Run **QuickTime** and open video source picker (so you can choose device right away)
+* Run QuickTime and open video source picker (so you can choose a device right away)
   * You may have to allow some system permission, so the script can access the picker
 
 ### 🖼 igif
 **Required**: Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") `brew install ffmpeg`
 
-1. **Record screen** (take as many screenshots per second as possible) to **~/Desktop**
-2. **End recording** using `ctrl + c`
+1. Record screen (take as many screenshots per second as possible) to ~/Desktop
+2. End recording using `ctrl + c`
 3. Compose .mp4 from screenshots and save it to ~/Desktop
 4. (Optional) Delete screenshots
-* **Filename** includes **device model**, **system version** and current time and date
-  * Specify your own filename by passing it as argument
+* Specify your own filename by passing it as argument
 
 ## Manage applications
 ### 🚚 iinstall
@@ -237,7 +236,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Examine macOS or iOS system logs
 
 ### 💥 icrashlogs
-* Gather crash logs from the device to **~/Desktop** (be patient 😅)
+* Gather crash logs from the device to ~/Desktop (be patient 😅)
 * Choose whether to keep the logs on the device afterwards
 * You can import these logs to Xcode to make them more readable via symbolication
   * Open relevant project in Xcode
