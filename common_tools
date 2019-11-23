@@ -185,8 +185,7 @@ ios_choose_device(){
         MANUFACTURER="Apple"
         MODEL=$(ios_translate_name $(ideviceinfo -u $ID | grep "HardwareModel" | cut -d\   -f2))
         if [ -z "$MODEL" ];then
-          #echo "Ghost device detected, not sure why - $ID"
-          continue
+          continue #ghost device, skipping
         fi
         VERSION=$(ideviceinfo -u $ID | grep "ProductVersion" | cut -d\   -f2)
         INFO=$(printf "%s)\n%s\n%s\n%s\n-\n%s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
