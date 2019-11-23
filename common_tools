@@ -163,6 +163,14 @@ ios_check_developer_image(){
   fi
 }
 
+ios_device_info(){
+  ios_check_developer_image $1
+  MANUFACTURER="Apple"
+  MODEL=$(ios_translate_name $(ideviceinfo -u $1 | grep "HardwareModel" | cut -d\   -f2))
+  VERSION=$(ideviceinfo -u $1 | grep "ProductVersion" | cut -d\   -f2)
+  INFO=$(printf "%s)\n%s\n%s\n%s\n-\n%s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
+}
+
 ios_choose_device(){
   check_for_update
   IOS_DEVICES=( $(idevice_id -l | sort -u) )
@@ -181,14 +189,8 @@ ios_choose_device(){
      echo "📱 Available devices:"
      for ID in "${IOS_DEVICES[@]}"
       do
-        ios_check_developer_image $ID
-        MANUFACTURER="Apple"
-        MODEL=$(ios_translate_name $(ideviceinfo -u $ID | grep "HardwareModel" | cut -d\   -f2))
-        if [ -z "$MODEL" ];then
-          continue #ghost device, skipping
-        fi
-        VERSION=$(ideviceinfo -u $ID | grep "ProductVersion" | cut -d\   -f2)
-        INFO=$(printf "%s)\n%s\n%s\n%s\n-\n%s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
+        ios_device_info $ID
+        if [ -z "$MODEL" ];then continue; fi; #ghost device, skipping
         echo $INFO
         ((NUMBER++))
       done
