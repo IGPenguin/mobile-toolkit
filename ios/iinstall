@@ -2,25 +2,39 @@
 LOCATION=$(dirname "$0")
 source $LOCATION/../common_tools
 
-if [ -z "$1" ] ; then
-  echo "🤷‍ What should I install?"
-  exit
-fi
+install_app(){
+  echo "⌛️ Installing \"$2\" to $1"
+  ideviceinstaller -u "$1" -i "$2" &> /dev/null
+}
 
-if [ ! -f "$PWD/$1" ] && [ ! -f "$FILE" ]; then
-    echo "🤷 File not found!"
-    exit
-fi
+check_args_valid(){
+  if [[ "$1" != "-a" ]]; then
+    FILE=$1
+  else
+    FILE=$2
+  fi
 
-if [[ "$1" != *".ipa" ]]; then
-    echo "🤷 Unsupported file!"
-    exit
-fi
+  if [ ! -f "$PWD/$FILE" ] && [ ! -f "$FILE" ]; then
+      abort "🤷 Installation file not found!"
+  fi
 
-ios_choose_device
+  if [[ "$FILE" != *".ipa" ]]; then
+      abort "🤷 Unsupported file!"
+  fi
+}
 
-echo "⌛️ Installing..."
-ideviceinstaller -u $SELECTED_DEVICE -i "$1" &> /dev/null
-echo "✅ Done!"
+run(){
+  if [[ $1 == "-a" ]]; then
+    for ID in `idevice_id -l | sort -u`
+     do
+      install_app "$ID" "$2" &
+    done
+    wait
+  else
+    ios_choose_device
+    install_app $SELECTED_DEVICE $1
+  fi
+}
 
-#TODO add -a
+check_args_valid "$@"
+run "$@"

@@ -450,3 +450,8 @@ check_url(){
     esac
   fi
 }
+
+abort(){
+  echo $1
+  exit
+}
