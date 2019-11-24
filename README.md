@@ -252,7 +252,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Reboot the device
 
 ### 📱 isimulator
-* Simulator offers limited functionality (no camera, biometrics, Appstore...), but **has some extra options, which are not available for physical iOS devices**
+* Simulator has limited functionality (no camera, biometrics, Appstore...), but **offers some extra options, unvailable on physical iOS devices**
 * `isimulator <option>` Handle various simulator related activites
   * `start` - choose and launch installed simulator
   * `screenshot` - save screenshot to ~/Desktop
