@@ -106,7 +106,7 @@ record_screen(){
   else
     FILENAME=$1
   fi
-  xcrun simctl io $SIMULATOR_ID recordVideo --type=mp4 "~/DESKTOP/$FILENAME" &> /dev/null
+  xcrun simctl io $SIMULATOR_ID recordVideo "~/DESKTOP/$FILENAME.mp4"
   echo "✅ Video saved to ~/Desktop/$FILENAME"
 }
 
