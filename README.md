@@ -252,14 +252,14 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * Reboot the device
 
 ### 📱 isimulator
-* iOS simulator offers limited functionality (no camera, biometrics, Appstore...), but features some extra functions listed below, which are not available for physical devices
+* iOS simulator offers limited functionality (no camera, biometrics, Appstore...), but has some extra options listed below, which are not available for physical devices
 * `isimulator <option>` Handle various simulator related activites
   * `start` - choose and launch installed simulator
   * `screenshot` - save screenshot to ~/Desktop
-  * `record` - save screen recording to ~/Desktop
-  * `import <file>` - import image or video to simulator gallery
-  * `logs` - print simulator logs
+  * `record` - save screen recording to ~/Desktop (full resolution and frame rate, without Quick Time hassle)
   * `paste <text>` - insert text into pasteboard
+  * `import <file>` - import image or video to simulator gallery app
+  * `log` - print simulator log
   * `url <url>` - open link in web browser or corresponding application
   * `wipe` - wipe all simulator data
   * `battery <0-100>` - set battery level displayed in status bar (no functional impact)
