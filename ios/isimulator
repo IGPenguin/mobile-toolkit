@@ -204,7 +204,7 @@ case $1 in
     choose_running_simulator
     insert_clipboard "$2"
     ;;
-  'logs')
+  'logs'|'log')
     choose_running_simulator
     print_logs "$2"
     ;;
