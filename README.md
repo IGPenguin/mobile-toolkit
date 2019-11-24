@@ -256,7 +256,7 @@ _The scripts are primarily designed for macOS, but majority of functions should 
 * `isimulator <option>` Handle various simulator related activites
   * `start` - choose and launch installed simulator
   * `screenshot` - save screenshot to ~/Desktop
-  * `record` - save screen recording to ~/Desktop (full resolution and frame rate, without Quick Time hassle)
+  * `record` - save screen recording to ~/Desktop (full resolution and frame rate, without QuickTime hassle)
   * `paste <text>` - insert text into pasteboard
   * `import <file>` - import image or video to simulator gallery app
   * `log` - print simulator log
