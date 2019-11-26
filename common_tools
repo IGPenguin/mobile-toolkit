@@ -174,7 +174,15 @@ ios_device_info(){
 
 ios_choose_device(){
   check_for_update
-  IOS_DEVICES=( $(idevice_id -l | sort -u) )
+  ALL_IOS_DEVICES=( $(idevice_id -l | sort -u) )
+  IOS_DEVICES=()
+
+  for ID in "${ALL_IOS_DEVICES[@]}" #Remove ghost devices
+   do
+     MODEL=$(ios_translate_name $(ideviceinfo -u $ID | grep "HardwareModel" | cut -d\   -f2))
+     if [ -z "$MODEL" ];then continue; fi;
+     IOS_DEVICES+=$ID
+   done
 
   #No device connected
   if [ ${#IOS_DEVICES[@]} -eq 0 ]
@@ -191,7 +199,6 @@ ios_choose_device(){
      for ID in "${IOS_DEVICES[@]}"
       do
         ios_device_info $ID
-        if [ -z "$MODEL" ];then continue; fi; #ghost device, skipping
         echo $INFO
         ((NUMBER++))
       done
