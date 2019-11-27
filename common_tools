@@ -180,7 +180,7 @@ ios_choose_device(){
   for ID in "${ALL_IOS_DEVICES[@]}" #Remove ghost devices
    do
      MODEL=$(ios_translate_name $(ideviceinfo -u $ID | grep "HardwareModel" | cut -d\   -f2))
-     if [ -z "$MODEL" ];then continue; fi;
+     if [ -z "$MODEL" ];then continue; echo "skipping ghost id: $ID"; fi;
      IOS_DEVICES+=$ID
    done
 
