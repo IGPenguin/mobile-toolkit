@@ -191,7 +191,7 @@ ios_choose_device(){
      for ID in "${ALL_IOS_DEVICES[@]}"
       do
         ios_device_info $ID
-        if [ -z "$MODEL" ];then continue; echo "skipping ghost id: $ID"; fi;
+        if [ -z "$MODEL" ];then continue; fi;
         IOS_DEVICES+=($ID)
         echo $INFO
         ((NUMBER++))
@@ -209,7 +209,7 @@ ios_choose_device(){
       done
       SELECTED_DEVICE=${IOS_DEVICES[(($CHOICE-1))]}
   else
-     SELECTED_DEVICE="${IOS_DEVICES[0]}"
+     SELECTED_DEVICE="${ALL_IOS_DEVICES[0]}"
   fi
 
   SELECTED_DEVICE_MODEL=$(ios_translate_name $(ideviceinfo -u $SELECTED_DEVICE | grep "HardwareModel" | cut -d\   -f2))
