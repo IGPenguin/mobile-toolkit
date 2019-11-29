@@ -177,27 +177,22 @@ ios_choose_device(){
   ALL_IOS_DEVICES=( $(idevice_id -l | sort -u) )
   IOS_DEVICES=()
 
-  for ID in "${ALL_IOS_DEVICES[@]}" #Remove ghost devices
-   do
-     MODEL=$(ios_translate_name $(ideviceinfo -u $ID | grep "HardwareModel" | cut -d\   -f2))
-     if [ -z "$MODEL" ];then continue; echo "skipping ghost id: $ID"; fi;
-     IOS_DEVICES+=($ID)
-   done
-
-  if [ ${#IOS_DEVICES[@]} -eq 0 ] #No device connected
+  if [ ${#ALL_IOS_DEVICES[@]} -eq 0 ] #No device connected
   then
      echo "❌ No iOS devices detected"
      yes_or_no "❓ Start simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $SCRIPT_LOCATION/isimulator start; exit; fi
      ios_wait_for_device
   fi
 
-  if [ ${#IOS_DEVICES[@]} -gt 1 ]
+  if [ ${#ALL_IOS_DEVICES[@]} -gt 1 ]
   then
      NUMBER=1
      echo "📱 Available devices:"
-     for ID in "${IOS_DEVICES[@]}"
+     for ID in "${ALL_IOS_DEVICES[@]}"
       do
         ios_device_info $ID
+        if [ -z "$MODEL" ];then continue; echo "skipping ghost id: $ID"; fi;
+        IOS_DEVICES+=($ID)
         echo $INFO
         ((NUMBER++))
       done
