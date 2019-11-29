@@ -104,10 +104,14 @@ record_screen(){
   if [ -z "$1" ] ; then
     FILENAME="Simulator-$(date +%Y-%m-%d-%H-%M-%S).mp4"
   else
-    FILENAME=$1
+    FILENAME="$1.mp4"
   fi
-  xcrun simctl io $SIMULATOR_ID recordVideo --type=mp4 "~/DESKTOP/$FILENAME" &> /dev/null
-  echo "✅ Video saved to ~/Desktop/$FILENAME"
+  xcrun simctl io $SIMULATOR_ID recordVideo "~/DESKTOP/$FILENAME"
+  if [[ $? -ne 0 ]]; then
+    echo "❌ Recording failed!"
+  else
+    echo "✅ Video saved to ~/Desktop/$FILENAME"
+  fi
 }
 
 take_screenshot(){
