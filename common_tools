@@ -181,11 +181,10 @@ ios_choose_device(){
    do
      MODEL=$(ios_translate_name $(ideviceinfo -u $ID | grep "HardwareModel" | cut -d\   -f2))
      if [ -z "$MODEL" ];then continue; echo "skipping ghost id: $ID"; fi;
-     IOS_DEVICES+=$ID
+     IOS_DEVICES+=($ID)
    done
 
-  #No device connected
-  if [ ${#IOS_DEVICES[@]} -eq 0 ]
+  if [ ${#IOS_DEVICES[@]} -eq 0 ] #No device connected
   then
      echo "❌ No iOS devices detected"
      yes_or_no "❓ Start simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $SCRIPT_LOCATION/isimulator start; exit; fi
