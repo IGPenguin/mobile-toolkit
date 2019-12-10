@@ -179,7 +179,7 @@ ios_get_devices(){
   for ID in "${ALL_IOS_DEVICES[@]}"
    do
      ios_device_info $ID
-     if [ -z "$MODEL" ];then echo "skipping ghost $ID"; continue; fi; #Skip wireless (ghost) devices
+     if [ -z "$MODEL" ];then continue; fi; #Skip wireless (ghost) devices
      IOS_USB_DEVICES+=($ID)
    done
 }
