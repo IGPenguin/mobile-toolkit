@@ -17,7 +17,8 @@ screenshot(){
 }
 
 screenshot_all(){
-  for ID in `idevice_id -l | sort -u`
+  ios_get_devices
+  for ID in "${IOS_USB_DEVICES[@]}"
    do
     screenshot "$ID" &
   done

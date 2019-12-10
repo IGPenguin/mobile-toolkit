@@ -25,7 +25,8 @@ check_args_valid(){
 
 run(){
   if [[ $1 == "-a" ]]; then
-    for ID in `idevice_id -l | sort -u`
+    ios_get_devices
+    for ID in "${IOS_USB_DEVICES[@]}"
      do
       install_app "$ID" "$2" &
     done

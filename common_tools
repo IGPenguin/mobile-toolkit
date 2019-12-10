@@ -149,11 +149,11 @@ prompt_xcode_launch(){
 
 ios_wait_for_device(){
   echo "⏳ Waiting for iOS device..."
-  while ! [ "$(idevice_id -l | wc -l)" -ge 1 ];
+  ios_get_devices
+  while ! [ ${#ALL_IOS_DEVICES[@]} -ge 1 ];
   do
-    sleep 1
+    ios_get_devices
   done
-  IOS_DEVICES=( $(idevice_id -l | sort -u) )
   delete_lastline
 }
 
@@ -172,27 +172,36 @@ ios_device_info(){
   INFO=$(printf "%s)\n%s\n%s\n%s\n-\n%s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
 }
 
+ios_get_devices(){
+  ALL_IOS_DEVICES=( $(idevice_id -l | sort -u) )
+  IOS_USB_DEVICES=()
+
+  for ID in "${ALL_IOS_DEVICES[@]}"
+   do
+     ios_device_info $ID
+     if [ -z "$MODEL" ];then echo "skipping ghost $ID"; continue; fi; #Skip wireless (ghost) devices
+     IOS_USB_DEVICES+=($ID)
+   done
+}
+
 ios_choose_device(){
   check_for_update
-  ALL_IOS_DEVICES=( $(idevice_id -l | sort -u) )
-  IOS_DEVICES=()
+  ios_get_devices
 
-  if [ ${#ALL_IOS_DEVICES[@]} -eq 0 ] #No device connected
+  if [ ${#IOS_USB_DEVICES[@]} -eq 0 ] #No device connected
   then
      echo "❌ No iOS devices detected"
      yes_or_no "❓ Start simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $SCRIPT_LOCATION/isimulator start; exit; fi
      ios_wait_for_device
   fi
 
-  if [ ${#ALL_IOS_DEVICES[@]} -gt 1 ]
+  if [ ${#IOS_USB_DEVICES[@]} -gt 1 ]
   then
      NUMBER=1
      echo "📱 Available devices:"
-     for ID in "${ALL_IOS_DEVICES[@]}"
+     for ID in "${IOS_USB_DEVICES[@]}"
       do
         ios_device_info $ID
-        if [ -z "$MODEL" ];then continue; fi;
-        IOS_DEVICES+=($ID)
         echo $INFO
         ((NUMBER++))
       done
@@ -200,16 +209,16 @@ ios_choose_device(){
       read -p "📝 Select a device: " CHOICE
       while :;
       do
-      if ((CHOICE <= 0 || CHOICE > ${#IOS_DEVICES[@]})); then
+      if ((CHOICE <= 0 || CHOICE > ${#IOS_USB_DEVICES[@]})); then
         echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
         read -p "🤷 Invalid input, try again: " CHOICE
       else
         break
       fi
       done
-      SELECTED_DEVICE=${IOS_DEVICES[(($CHOICE-1))]}
+      SELECTED_DEVICE=${IOS_USB_DEVICES[(($CHOICE-1))]}
   else
-     SELECTED_DEVICE="${ALL_IOS_DEVICES[0]}"
+     SELECTED_DEVICE="${IOS_USB_DEVICES[0]}"
   fi
 
   SELECTED_DEVICE_MODEL=$(ios_translate_name $(ideviceinfo -u $SELECTED_DEVICE | grep "HardwareModel" | cut -d\   -f2))
