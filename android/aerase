@@ -11,7 +11,7 @@ else
     APP=$(android_get_foreground_package)
 fi
 
-should_proceed "🧽  Do you really want to erase $APP data?"
+should_proceed "🧽 Do you really want to erase $APP data?"
 adb -s $SELECTED_DEVICE shell pm clear $APP &> /dev/null
 echo "🚀 Launching..."
 adb -s $SELECTED_DEVICE shell monkey -p $APP -c android.intent.category.LAUNCHER 1 &> /dev/null
