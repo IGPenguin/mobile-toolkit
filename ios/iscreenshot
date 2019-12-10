@@ -12,12 +12,13 @@ screenshot(){
   if [ $EXIT_CODE -ne 0 ]; then
     echo "🤷 Screenshot failed, error code: $EXIT_CODE"
     prompt_xcode_launch
-    take_screenshot
+    screenshot $1
   fi
 }
 
 screenshot_all(){
-  for ID in `idevice_id -l | sort -u`
+  ios_get_devices
+  for ID in "${IOS_USB_DEVICES[@]}"
    do
     screenshot "$ID" &
   done

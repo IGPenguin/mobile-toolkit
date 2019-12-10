@@ -1,4 +1,3 @@
-iOS ghost device workaround
-fix isimulator record
-ainstall allow test packages
-https://github.com/IntergalacticPenguin/mobile-toolkit/pull/163
+iOS ghost device final fix
+iscreenshot fix
+https://github.com/IntergalacticPenguin/mobile-toolkit/pull/166
