@@ -152,6 +152,7 @@ ios_wait_for_device(){
   ios_get_devices
   while ! [ ${#ALL_IOS_DEVICES[@]} -ge 1 ];
   do
+    sleep 1
     ios_get_devices
   done
   delete_lastline
