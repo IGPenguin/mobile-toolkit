@@ -150,7 +150,7 @@ prompt_xcode_launch(){
 ios_wait_for_device(){
   echo "⏳ Waiting for iOS device..."
   ios_get_devices
-  while ! [ ${#ALL_IOS_DEVICES[@]} -ge 1 ];
+  while [ ${#IOS_USB_DEVICES[@]} -lt 1 ];
   do
     sleep 1
     ios_get_devices
