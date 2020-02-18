@@ -158,15 +158,24 @@ ios_wait_for_device(){
   delete_lastline
 }
 
-ios_check_developer_image(){
+ios_check_developer_image_and_pairing(){
   IS_MOUNTED=$(ideviceimagemounter -u $1 -l) #Probably does not work on iOS 13
+  if [[ $IS_MOUNTED == *"error code -21." ]] ; then
+    read -p "❌ This computer is not trusted - reconnect the device, unlock its screen and press ENTER..."
+    echo "🤝 Requesting pairing..."
+    idevicepair pair &> /dev/null
+    read -p "❓ Tap \"Trust\" button on the device screen and press ENTER..."
+    sleep 1
+    ios_check_developer_image_and_pairing $1
+  fi
+
   if [ ${#IS_MOUNTED} -eq 0 ] ; then
     prompt_xcode_launch
   fi
 }
 
 ios_device_info(){
-  ios_check_developer_image $1
+  ios_check_developer_image_and_pairing $1
   MANUFACTURER="Apple"
   MODEL=$(ios_translate_name $(ideviceinfo -u $1 | grep "HardwareModel" | cut -d\   -f2))
   VERSION=$(ideviceinfo -u $1 | grep "ProductVersion" | cut -d\   -f2)

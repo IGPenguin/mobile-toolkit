@@ -115,7 +115,7 @@ record_screen(){
 }
 
 take_screenshot(){
-  echo "📸 Taking screenshot from on $SIMULATOR_ID"
+  echo "📸 Taking screenshot on $SIMULATOR_ID"
   if [ -z "$1" ] ; then
     FILENAME="Simulator-$(date +%Y-%m-%d-%H-%M-%S).png"
   else

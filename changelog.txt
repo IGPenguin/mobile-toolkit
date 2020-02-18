@@ -1,3 +1,2 @@
-iOS ghost device final fix
-iscreenshot fix
-https://github.com/IntergalacticPenguin/mobile-toolkit/pull/166
+trigger pairing while trying to use non-trusted iOS device
+https://github.com/IntergalacticPenguin/mobile-toolkit/pull/172
