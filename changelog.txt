@@ -1,2 +1,3 @@
 trigger pairing while trying to use non-trusted iOS device
+fix aerase <package-name> on API 19 and lower
 https://github.com/IntergalacticPenguin/mobile-toolkit/pull/172
