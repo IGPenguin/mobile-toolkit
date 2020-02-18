@@ -2,3 +2,5 @@ trigger pairing while trying to use non-trusted iOS device
 fix aerase <package-name> on API 19 and lower
 faster apaste on older devices
 https://github.com/IntergalacticPenguin/mobile-toolkit/pull/172
+https://github.com/IntergalacticPenguin/mobile-toolkit/pull/173
+https://github.com/IntergalacticPenguin/mobile-toolkit/pull/174
