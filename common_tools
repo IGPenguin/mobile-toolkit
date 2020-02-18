@@ -33,6 +33,10 @@ android_get_devices(){
   done
 }
 
+android_get_device_sdk(){
+  SDK=$(adb -s $1 shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
+}
+
 android_device_info(){
   MANUFACTURER=$(adb -s $1 shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
   MODEL=$(adb -s $1 shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
@@ -100,7 +104,7 @@ android_unlock_device(){
 }
 
 android_get_foreground_package(){
-  SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
+  android_get_device_sdk $SELECTED_DEVICE
   if (( $SDK < 21 )); then
     android_get_foreground_package_sdk_low
   else

@@ -11,11 +11,15 @@ escape_spaces(){
 
 send_text(){
   escape_spaces "$1"
-
-  # Insert only first character
-  adb -s $SELECTED_DEVICE shell "input text '${ESCAPED_TEXT:0:1}'"
-  # Afterwards the rest - workaround for API 28+ edittext char skip bug
-  adb -s $SELECTED_DEVICE shell "input text '${ESCAPED_TEXT:1:${#ESCAPED_TEXT}}'"
+  android_get_device_sdk $SELECTED_DEVICE
+  if (( $SDK > 27 )); then
+    # Insert only first character
+    adb -s $SELECTED_DEVICE shell "input text '${ESCAPED_TEXT:0:1}'"
+    # Afterwards the rest - workaround for API 28+ edittext char skip bug
+    adb -s $SELECTED_DEVICE shell "input text '${ESCAPED_TEXT:1:${#ESCAPED_TEXT}}'"
+  else
+    adb -s $SELECTED_DEVICE shell "input text '$ESCAPED_TEXT'"
+  fi
 }
 
 execute_by_arguments(){
