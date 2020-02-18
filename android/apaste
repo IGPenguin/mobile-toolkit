@@ -12,7 +12,6 @@ escape_spaces(){
 send_text(){
   escape_spaces "$1"
   android_get_device_sdk $SELECTED_DEVICE
-  echo "📲 Sending text to $SELECTED_DEVICE..."
   if (( $SDK > 27 )); then
     # Insert only first character
     adb -s $SELECTED_DEVICE shell "input text '${ESCAPED_TEXT:0:1}'"
@@ -32,6 +31,7 @@ execute_by_arguments(){
       read -p "📝 Enter text you want to insert: " TEXT
   fi
 
+  echo "📲 Sending text to $SELECTED_DEVICE..."
   # Handle arguments
   if [ "$1" == "-l" ];
   then
