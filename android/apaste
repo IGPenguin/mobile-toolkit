@@ -8,7 +8,7 @@ ARGUMENT_COUNT="$#"
 check_text(){
   if [ -n "$1" ]
   then
-    if ! [[ "$@" =~ [^a-zA-Z0-9\ \-] ]]; then
+    if ! [[ "$@" =~ [^a-zA-Z0-9\ \-\.\@] ]]; then
       TEXT=$1
     else
       echo "🤷‍ Only basic alphanumeric characters are supported!"
