@@ -2,7 +2,7 @@
 ## What is it?
 🤕 Are you tired of doing repetitive actions manually while developing apps for mobile devices?<br>
 
-⚡️  **Capture screen, manage apps and data, simulate input, print log or gather plenty of various intel in seconds!**<br>
+⚡️  Capture screen, manage apps and data, simulate input, print log or gather plenty of various intel in seconds!<br>
 
 ## All features
 
