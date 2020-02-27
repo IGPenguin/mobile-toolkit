@@ -35,7 +35,7 @@
 2. **Clone this repository** `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
 3. **Setup Android** tools
 	* [Download](https://developer.android.com/studio/ "Android Studio") and install **Android Studio** or **Android command line tools**
-	* Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bash_profile** `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools export PATH`
+	* Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bash_profile** (or .zshrc if you have zsh shell) `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools export PATH`
 	* **Allow USB debugging** on your device, connect it and **authorize** your computer (click OK on device screen)
 4. **Setup iOS** tools
 	* Install latest **Xcode and iOS command line tools** using App Store
@@ -43,7 +43,7 @@
 	* Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
 	* Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
 5. (Optional) Use following **commands in any directory** in your terminal
-	* Edit your **.bash_profile** file (or .zshrc if you have zsh shell) in your home directory `nano ~/.bash_profile`
+	* Edit your **.bash_profile** file in your home directory `nano ~/.bash_profile`
 	* Add the path to the script folders to **PATH** variable in **.bash_profile** (or equivalent file) -> **insert the following lines at the end of the file**, make sure to **replace "dummyuser" with your profile name and use proper path**
 	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/android`
 	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/ios`
