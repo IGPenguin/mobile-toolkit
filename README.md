@@ -1,4 +1,3 @@
-# Mobile Toolkit
 ![Header](/header.png?raw=true)
 ## What is it?
 🤕 Are you tired of doing repetitive actions manually while developing apps for mobile devices?<br>
