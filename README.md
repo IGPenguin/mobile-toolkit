@@ -1,8 +1,17 @@
 ![Header](/header.png?raw=true)
-# 🗜 Mobile Toolkit
+# Mobile Toolkit
+## What is it?
+🤕 Are you tired of doing repetitive actions manually while developing apps for mobile devices?<br>
+
+⚡️  **Capture screen, manage apps and data, simulate input, print log or gather plenty of various intel in seconds!**<br>
+
+---
+
+## All features
+
 📲 **Control Android and iOS devices** or Emulators/Simulators using terminal commands<br>
 
-🛠 **Take screeshots, change developer settings**, gather app & device intel<br>
+🛠 **Take screeshots, change device settings**, gather app & device information<br>
 
 ⚙️ **Manage mobile applications** - install, restart, wipe data and much more<br>
 
@@ -17,6 +26,8 @@
 🤝 [Pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") **is highly appreciated, see** [Issues section](https://github.com/IntergalacticPenguin/mobile-toolkit/issues)<br>
 
 ⭐️ **Love Mobile Toolkit? -> Hit the star button and bring me joy!**<br>
+
+---
 
 # 💻 Installation
 1. **Open terminal**
