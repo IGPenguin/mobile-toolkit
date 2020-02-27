@@ -18,6 +18,8 @@
 
 🔄 **Automatic update** - get new features and fixes ASAP<br>
 
+## You can help too
+
 ⁉️ **Submit issue** - report bugs, bring inspiration, ask questions<br>
 
 🤝 [Pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") **is highly appreciated, see** [Issues section](https://github.com/IntergalacticPenguin/mobile-toolkit/issues)<br>
