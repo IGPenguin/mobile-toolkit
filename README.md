@@ -1,8 +1,9 @@
 ![Header](/header_v2.png?raw=true)
-## What is it?
-🤕 Are you tired of doing repetitive actions manually while developing apps for mobile devices?<br>
+## What is this?
+🛠 Capture screen, manage apps and data, simulate input, print log and gather plenty of various intel in seconds!<br>
 
-⚡️  Capture screen, manage apps and data, simulate input, print log and gather plenty of various intel in seconds!<br>
+⚡️ Boost your effectivity while developing and testing apps for mobile devices and discover new tools<br>
+
 
 ## All features
 
