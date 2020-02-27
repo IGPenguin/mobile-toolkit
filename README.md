@@ -27,7 +27,7 @@
 
 ⭐️ Love Mobile Toolkit? -> Hit the star button and bring me joy!<br>
 
-🔗 Connect with me on [LinkedIN](https://www.linkedin.com/in/intergalacticpenguin/) if you want :)
+🔗 Connect with me on [LinkedIn](https://www.linkedin.com/in/intergalacticpenguin/) if you want :)
 
 ---
 
