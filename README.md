@@ -1,4 +1,4 @@
-![Header](/header.png?raw=true)
+![Header](/header.png?raw=true#1)
 ## What is it?
 🤕 Are you tired of doing repetitive actions manually while developing apps for mobile devices?<br>
 
