@@ -20,11 +20,13 @@
 
 ## Feedback & contribution
 
-⁉️ **Submit issue** - report bugs, bring inspiration, ask questions<br>
+⁉️ Submit issue to report bugs, bring inspiration or simply ask questions<br>
 
-🤝 [Pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") **is highly appreciated, see** [Issues section](https://github.com/IntergalacticPenguin/mobile-toolkit/issues)<br>
+🤝 [Pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") **is highly appreciated, see** [Issue Status Board](https://github.com/IntergalacticPenguin/mobile-toolkit/projects/1)<br>
 
-⭐️ **Love Mobile Toolkit? -> Hit the star button and bring me joy!**<br>
+⭐️ Love Mobile Toolkit? -> Hit the star button and bring me joy!<br>
+
+🔗 Connect with me on [LinkedIN](https://www.linkedin.com/in/intergalacticpenguin/) if you want :)
 
 ---
 
