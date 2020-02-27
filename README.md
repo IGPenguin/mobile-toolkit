@@ -18,7 +18,7 @@
 
 🔄 **Automatic update** - get new features and fixes ASAP<br>
 
-## You can help too
+## Feedback & contribution
 
 ⁉️ **Submit issue** - report bugs, bring inspiration, ask questions<br>
 
