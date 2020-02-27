@@ -4,8 +4,6 @@
 
 ⚡️  **Capture screen, manage apps and data, simulate input, print log or gather plenty of various intel in seconds!**<br>
 
----
-
 ## All features
 
 📲 **Control Android and iOS devices** or Emulators/Simulators using terminal commands<br>
