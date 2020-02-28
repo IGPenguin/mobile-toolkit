@@ -9,4 +9,4 @@ jobs:
       - name: shellcheck-github-pr-check
         uses: ./
         with:
-          github_token: ${{ secrets.github_token }}
+          github_token: ${{ secrets.MY_TOKEN }}
