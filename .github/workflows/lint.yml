@@ -1,11 +1,13 @@
 name: 'Lint Check'
-on: push
-
+on: [pull_request]
 jobs:
   shellcheck:
-    name: Shellcheck
+    name: runner / shellcheck
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Shellcheck
-      uses: ludeeus/action-shellcheck@master
+      - uses: actions/checkout@v1
+      - name: shellcheck
+        uses: reviewdog/action-shellcheck@v1
+        with:
+          github_token: ${{ secrets.MY_TOKEN }}
+          reporter: github-pr-review # Change reporter.
