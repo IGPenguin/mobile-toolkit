@@ -13,5 +13,4 @@ jobs:
       run: git ls-files | xargs wc -l
     - name: Run a multi-line script
       run: |
-        echo This is a test line!
         echo This is the end <3
