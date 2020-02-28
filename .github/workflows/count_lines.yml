@@ -1,12 +1,11 @@
 name: Count lines
-
 on: [push]
-
+branding:
+  icon: 'award'
+  color: 'green'
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Count lines of text in this repository
