@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Count lines of text in this repository
-        run: git ls-files *[^.png] | xargs wc -l | grep total | awk '{print $1}' > count.text
+        run: git ls-files *[^.png] | xargs wc -l | grep total | awk '{print $1}' | echo > count.text
 
       - uses: pCYSl5EDgo/cat@master
         id: count
