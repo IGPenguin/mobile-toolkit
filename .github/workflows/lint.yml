@@ -6,9 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: shellcheck
-        uses: reviewdog/action-shellcheck@v1
+      - name: shellcheck-github-pr-check
+        uses: ./
         with:
-          github_token: ${{ secrets.MY_TOKEN }}
-          reporter: github-pr-review # Change reporter.
-          path: "./common_tools"
+          github_token: ${{ secrets.github_token }}
