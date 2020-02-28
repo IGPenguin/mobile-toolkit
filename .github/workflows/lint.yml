@@ -1,5 +1,6 @@
+name: 'Lint Check'
 on: push
-name: 'Trigger: Push'
+
 jobs:
   shellcheck:
     name: Shellcheck
