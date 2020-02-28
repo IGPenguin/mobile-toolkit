@@ -1,5 +1,5 @@
 name: 'Lint Check'
-on: [pull_request]
+on: [push]
 jobs:
   shellcheck:
     name: runner / shellcheck
@@ -10,3 +10,12 @@ jobs:
         uses: ./
         with:
           github_token: ${{ secrets.MY_TOKEN }}
+      - name: shellcheck-github-check
+        uses: ./
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-check
+          level: warning
+          pattern: '*.sh'
+          path: '.'
+          exclude: './testdata/*'
