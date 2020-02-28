@@ -1,0 +1,9 @@
+name: Shell lint check
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: ludeeus/action-shellcheck@0.1.0
