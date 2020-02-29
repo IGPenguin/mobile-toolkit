@@ -1,15 +1,7 @@
-name: "Lint"
-on: [pull_request]
 jobs:
-  shellcheck:
-    name: runner / shellcheck
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: shellcheck
-        uses: reviewdog/action-shellcheck@v1
-        with:
-          github_token: ${{ secrets.MY_TOKEN }}
-          reporter: github-pr-review # Change reporter.
-          path: "." # Optional.
-          pattern: "common_tools" # Optional.
+      - name: Lint check
+        uses: azohra/shell-linter@v0.2.0
