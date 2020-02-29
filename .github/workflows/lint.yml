@@ -1,7 +1,10 @@
+name: 'Shell Lint Check'
+on: push
 jobs:
-  lint:
+  shellcheck:
+    name: Shellcheck
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Lint check
-        uses: azohra/shell-linter@v0.2.0
+    - uses: actions/checkout@master
+    - name: Shellcheck
+      uses: ludeeus/action-shellcheck@master
