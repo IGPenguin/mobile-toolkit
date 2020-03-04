@@ -1,7 +1,6 @@
 #!/bin/bash
 # shellcheck disable=SC2034
 
-
 SCRIPT_LOCATION=$(dirname "$0")
 LAST_CHECK_DATE_FILE="$SCRIPT_LOCATION/../data/toolkit_last_check_date.txt"
 TEMPORARY_FILE="/private/tmp/mobile-toolkit-cache"

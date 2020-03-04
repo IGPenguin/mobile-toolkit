@@ -1,5 +1,5 @@
 #!/bin/bash
-source $(dirname "$0")/../common_tools
+source "$(dirname "$0")"/../common_tools
 android_choose_device
 
 if [[ "$1" == "-s" ]]; then
