@@ -74,7 +74,7 @@ get_token(){
 
 telnet_command() {
   if [ -z "$1" ];then
-    read -p "📝 Insert telnet command: " COMMAND
+    read -r -p "📝 Insert telnet command: " COMMAND
   else
     COMMAND=$1
   fi
@@ -83,7 +83,7 @@ telnet_command() {
 
 call(){
   if [ -z "$1" ];then
-    read -p "📝 Insert caller number: " NUMBER
+    read -r -p "📝 Insert caller number: " NUMBER
   else
     NUMBER=$1
   fi
@@ -94,13 +94,13 @@ call(){
 
 send_sms(){
   if [ -z "$1" ];then
-    read -p "📝 Insert sender number: " NUMBER
+    read -r -p "📝 Insert sender number: " NUMBER
   else
     NUMBER=$1
   fi
 
   if [ -z "$2" ];then
-    read -p "📝 Insert text: " TEXT
+    read -r -p "📝 Insert text: " TEXT
   else
     TEXT=$2
   fi
@@ -112,13 +112,13 @@ send_sms(){
 
 set_gps(){
   if [ -z "$1" ];then
-    read -p "📝 Insert latitude: " LAT
+    read -r -p "📝 Insert latitude: " LAT
   else
     LAT=$1
   fi
 
   if [ -z "$2" ];then
-    read -p "📝 Insert longtitude: " LONG
+    read -r -p "📝 Insert longtitude: " LONG
   else
     LONG=$2
   fi
@@ -130,7 +130,7 @@ set_gps(){
 
 set_battery_level(){
   if [ -z "$1" ];then
-    read -p "📝 Insert battery level: " LEVEL
+    read -r -p "📝 Insert battery level: " LEVEL
   else
     LEVEL=$1
   fi
@@ -147,7 +147,7 @@ set_network_delay(){
   NET_CHANGED=true
   echo "🌐 Simulating network limit..."
   { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "network delay $DELAY"; echo "network speed $DELAY"; } | telnet &> /dev/null
-  read -n 1 -p "⚡️ Press ENTER to stop..."
+  read -r -n 1 -p "⚡️ Press ENTER to stop..."
   disable_network_delay
   echo "✅ Done"
 }

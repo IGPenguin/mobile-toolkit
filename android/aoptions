@@ -12,7 +12,7 @@ import_intents(){
   cat "$ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH" | grep -i -e android.net.wifi.PICK_WIFI_NETWORK -e android.os.storage.action.MANAGE_STORAGE -e android.intent.action.MANAGE_PERMISSIONS -e android.intent.action.SET_WALLPAPER -e android.intent.action.VIEW_DOWNLOADS >> "$LOCAL_SETTINGS_LIST_PATH" # List alternate settings intents
   cat "$ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH" | grep -i android.media.action >> "$LOCAL_SETTINGS_LIST_PATH" # List media intents
 
-  wc -l "$LOCAL_SETTINGS_LIST_PATH" | awk '{print $1}' | grep -q 0 && echo "❗️ Imported list is empty, reimporting lower sdk variant..." && rm $(find ~/Library/Android/sdk -name 'activity_actions.txt' | sort | tail -1) && import_intents && return
+  wc -l "$LOCAL_SETTINGS_LIST_PATH" | awk '{print $1}' | grep -q 0 && echo "❗️ Imported list is empty, reimporting lower sdk variant..." && rm "$(find ~/Library/Android/sdk -name 'activity_actions.txt' | sort | tail -1)" && import_intents && return
   echo "✅ Importing from $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH completed successfully"
 }
 
@@ -25,10 +25,10 @@ start_settings_intent(){
 search_for_intent(){
   cat "$LOCAL_SETTINGS_LIST_PATH" | nl | grep -i "$1"
   if [[ $? -eq 0 ]]; then
-    read -p "📝 Choose option number: " LINE
+    read -r -p "📝 Choose option number: " LINE
     start_settings_intent
   else
-    read -p "🤷‍ No \"$1\" intent found, try again or leave blank: " KEYWORD
+    read -r -p "🤷‍ No \"$1\" intent found, try again or leave blank: " KEYWORD
     search_for_intent "$KEYWORD"
   fi
 }
@@ -73,7 +73,7 @@ handle_preset(){
     "0" | "all" | "list" | "A" | "a")
     echo "📜 Available settings activities:"
     cat "$LOCAL_SETTINGS_LIST_PATH" | nl
-    read -p "📝 Choose option number: " LINE
+    read -r -p "📝 Choose option number: " LINE
     start_settings_intent
     ;;
 
@@ -98,12 +98,12 @@ fi
 # If arugment not passed, show preset chooser
 if [[ "$1" == "" ]]; then
   TOOLKIT_INTENT_COUNT=$(cat "$LOCAL_SETTINGS_LIST_PATH" | wc -l)
-  TOOLKIT_INTENT_COUNT=`echo "$TOOLKIT_INTENT_COUNT" | awk '{print $1}'` # Remove ghost whitespaces 🙃
+  TOOLKIT_INTENT_COUNT=$(echo "$TOOLKIT_INTENT_COUNT" | awk '{print $1}') # Remove ghost whitespaces 🙃
 
   echo "📋 Available options:"
   tput setaf 3; echo "A) Show all $TOOLKIT_INTENT_COUNT settings options"; tput sgr0
   echo -e "1) Developer\n2) Locale\n3) Date & time\n4) Wifi network\n5) Storage management\n6) Power usage\nS) Open system settings application\nU) Update settings list from Android sdk\nor\n<text> to search in all settings"
-  read -p "📝 Enter your selection: " PRESET
+  read -r -p "📝 Enter your selection: " PRESET
   handle_preset "$PRESET"
   exit
 else

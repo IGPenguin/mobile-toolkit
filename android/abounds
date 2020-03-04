@@ -28,7 +28,7 @@ turn_on_bounds(){
   redraw_screen
 
   if [ "$1" != "-k" ];then
-    read -n 1 -p ", press ENTER to revert"
+    read -r -n 1 -p ", press ENTER to revert"
     turn_off_bounds
   fi
 }
