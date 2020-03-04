@@ -106,7 +106,7 @@ record_screen(){
   else
     FILENAME="$1.mp4"
   fi
-  xcrun simctl io "$SIMULATOR_ID" recordVideo "~/DESKTOP/$FILENAME"
+  xcrun simctl io "$SIMULATOR_ID" recordVideo "$HOME/DESKTOP/$FILENAME"
   if [[ $? -ne 0 ]]; then
     echo "❌ Recording failed!"
   else
@@ -121,7 +121,7 @@ take_screenshot(){
   else
     FILENAME=$1
   fi
-  xcrun simctl io "$SIMULATOR_ID" screenshot "~/Desktop/$FILENAME" &> /dev/null
+  xcrun simctl io "$SIMULATOR_ID" screenshot "$HOME/Desktop/$FILENAME" &> /dev/null
   echo "✅ Screenshot saved to ~/Desktop/$FILENAME"
 }
 
