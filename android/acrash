@@ -10,7 +10,7 @@ if [ $# -gt 0 ] ;then
   if [[ $1 =~ $IS_NUMBER_REGULAR ]] ; then
     LIMIT=$1
   else
-    read -p "🤷‍ This is not a number, using default limit $LIMIT, press ENTER"
+    read -r -p "🤷‍ This is not a number, using default limit $LIMIT, press ENTER"
   fi
 fi
 

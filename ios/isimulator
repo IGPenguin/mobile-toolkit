@@ -81,7 +81,7 @@ launch_app(){
 
 insert_clipboard(){
   if [[ $1 == "" ]]; then
-    read -p "📝 Enter pasteboard text: " TEXT
+    read -r -p "📝 Enter pasteboard text: " TEXT
     insert_clipboard "$TEXT"
   else
     echo "📥 Inserting text into clipboard..."
@@ -151,7 +151,7 @@ check_xcode_version(){
 set_battery_level(){
   check_xcode_version
   if [[ -z "$1" ]]; then
-    read -p "📝 Enter battery level: " LEVEL
+    read -r -p "📝 Enter battery level: " LEVEL
     set_battery_level "$LEVEL"
   else
     echo "🔋 Setting battery level to: $1"
@@ -162,7 +162,7 @@ set_battery_level(){
 set_time(){
   check_xcode_version
   if [[ -z "$1" ]]; then
-    read -p "📝 Enter battery level: " TIME
+    read -r -p "📝 Enter battery level: " TIME
     set_time "$TIME"
   else
     xcrun simctl status_bar "$SIMULATOR_ID" override --time "$1"
