@@ -12,9 +12,9 @@ else
 fi
 
 VERSION=$(adb -s "$SELECTED_DEVICE" shell dumpsys package "$PACKAGE_NAME" | grep versionName | sed 's/versionName=//')
-VERSION=`echo "$VERSION" | awk '{print $1}'` # Remove ghost whitespaces
+VERSION=$(echo "$VERSION" | awk '{print $1}') # Remove ghost whitespaces
 LAST_UPDATE=$(adb -s "$SELECTED_DEVICE" shell dumpsys package "$PACKAGE_NAME" | grep lastUpdateTime | sed 's/lastUpdateTime=//')
-LAST_UPDATE=`echo "$LAST_UPDATE" | awk '{print $1}'` # Remove ghost whitespaces
+LAST_UPDATE=$(echo "$LAST_UPDATE" | awk '{print $1}') # Remove ghost whitespaces
 SDK=$(adb -s "$SELECTED_DEVICE" shell dumpsys package "$PACKAGE_NAME" | grep versionCode | grep -o 'minSdk.*')
 
 echo "Package name: $PACKAGE_NAME"

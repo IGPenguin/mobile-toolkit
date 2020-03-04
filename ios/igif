@@ -7,7 +7,7 @@ trap 'ctrlc $@' 1 2 3 6 15
 ctrlc()
 {
   echo "🏭 Composing footage..."
-  cd ~/Desktop/"$DIRNAME"
+  cd ~/Desktop/"$DIRNAME" || exit
    if [ -z "$1" ] ; then
      FILENAME=$SELECTED_DEVICE_MODEL-iOS$SELECTED_DEVICE_VERSION-$(date +%Y-%m-%d-%H-%M-%S)
    else
@@ -23,9 +23,9 @@ ctrlc()
 }
 
 DIRNAME=iOS-recording-$(date +%Y-%m-%d-%H-%M-%S)
-cd ~/Desktop
+cd ~/Desktop || exit
 mkdir "$DIRNAME"
-cd "$DIRNAME"
+cd "$DIRNAME" || exit
 
 echo "📹 Recording screen..."
 N=1;
@@ -38,5 +38,5 @@ while :; do
       rm -rf "$DIRNAME"
       exit
     fi
-    N=$(($N+1));
+    N=(($N+1));
 done

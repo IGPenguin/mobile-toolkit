@@ -6,7 +6,7 @@ android_choose_device
 filter_by_package(){
   android_is_package_installed "$1"
   echo "🔍 Filtering by package name: $1"
-  PID=`adb -s "$SELECTED_DEVICE" shell ps | grep -i "$1" | cut -c10-15`;
+  PID=$(adb -s "$SELECTED_DEVICE" shell ps | grep -i "$1" | cut -c10-15)
   adb -s "$SELECTED_DEVICE" logcat | grep "$PID"
 }
 
@@ -17,7 +17,7 @@ raw_log(){
 
 if [ "$1" == "-f" ]; then
   if [ -z "$2" ]; then
-    read -p "🔬 Insert package name (Android 7+) or leave empty to proceed: " PACKAGE
+    read -r -p "🔬 Insert package name (Android 7+) or leave empty to proceed: " PACKAGE
   else
     PACKAGE=$2
   fi

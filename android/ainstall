@@ -29,9 +29,9 @@ run()
 {
   if [[ $1 == "-a" ]]; then
     detect_package_info "$2"
-    for line in `adb devices | grep -v "List"  | awk '{print $1}'`
+    for line in $(adb devices | grep -v "List"  | awk '{print $1}')
     do
-      DEVICE=`echo "$line" | awk '{print $1}'`
+      DEVICE=$(echo "$line" | awk '{print $1}')
       install_app "$DEVICE" "$2" &
     done
     wait

@@ -19,7 +19,7 @@ import_simulator_list(){
 }
 
 choose_simulator(){
-  read -p "📝 Choose: " SIMULATOR_INDEX
+  read -r -p "📝 Choose: " SIMULATOR_INDEX
   SIMULATOR_ID=$(sed "$SIMULATOR_INDEX"!d "$LOCAL_SIMULATOR_LIST")
   if [[ $SIMULATOR_INDEX == "" || $SIMULATOR_ID != *"("* ]]; then
     delete_lastline

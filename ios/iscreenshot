@@ -1,7 +1,7 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
-cd ~/Desktop
+cd ~/Desktop || exit
 
 screenshot(){
   ios_device_info "$1"

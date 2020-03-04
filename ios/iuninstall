@@ -4,7 +4,6 @@ source "$LOCATION"/../common_tools
 ios_choose_device
 
 init(){
-  UNINSTALL_COUNT=0
   IGNORED_PACKAGES=( "com.apple.TestFlight" "motif.FramerPreview" "com.figma.FigmaMirror" "com.invisionapp.InVisionApp-iOS" )
 }
 
@@ -20,7 +19,7 @@ ios_get_package_list(){
 
       if [ $EXIT_CODE -ne 0 ]; then
         PACKAGE=${PACKAGE%,*}
-        PACKAGE_LIST+=($PACKAGE)
+        PACKAGE_LIST+=("$PACKAGE")
       fi
     done
 
@@ -36,7 +35,7 @@ filter_packages(){
   do
     PKG=${PKG%$'\r'}
     echo "${IGNORED_PACKAGES[*]}" | grep -w "$PKG" &> /dev/null && { echo "⏩ Skipped \"$PKG\""; continue; }
-    PACKAGES_FILTERED+=($PKG)
+    PACKAGES_FILTERED+=("$PKG")
   done
 
   if [ ${#PACKAGES_FILTERED[@]} -eq 0 ]; then

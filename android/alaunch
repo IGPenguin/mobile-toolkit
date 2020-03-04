@@ -16,7 +16,7 @@ if [ -z "$PACKAGE" ]; then
   for P in "${PACKAGES[@]}" #removes trailing \r
   do
     P=${P%$'\r'}
-    PACKAGES_LISTED+=($P)
+    PACKAGES_LISTED+=("$P")
   done
 
   if [ ${#PACKAGES_LISTED[@]} -eq 0 ]; then

@@ -9,7 +9,7 @@ else
   DIRNAME=$1
 fi
 
-cd ~/Desktop
+cd ~/Desktop || exit
 mkdir "$DIRNAME"
 yes_or_no "🔥 Delete the logs from the device afterwards?"
 if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
@@ -21,7 +21,7 @@ else
 fi
 
 echo "🔥 Cleaning up..."
-cd "$DIRNAME"
+cd "$DIRNAME" || exit
 rm -R -- */ #remove unnecessary system logs
 find . -type f ! -name '*.ips' -delete #remove non-crash logs
 

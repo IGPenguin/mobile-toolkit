@@ -35,6 +35,6 @@ else
 fi
 
 if [ "$1" != "-k" ] && [ "$2" != "-k" ];then
-  read -n 1 -p ", press ENTER to revert"
+  read -r -n 1 -p ", press ENTER to revert"
   restore_animation_speed
 fi
