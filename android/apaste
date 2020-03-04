@@ -21,7 +21,7 @@ check_text(){
 }
 
 escape_spaces(){
-  ESCAPED_TEXT=`echo "$1" | sed -e 's/ /\%s/g'`
+  ESCAPED_TEXT=$(echo "$1" | sed -e 's/ /\%s/g')
 }
 
 send_text(){
@@ -45,11 +45,11 @@ execute_by_arguments(){
     send_text "$LOREM"
   elif [ "$ARGUMENT_COUNT" -gt 1 ];
   then
-    for ARGUMENT in $@
+    for ARGUMENT in "$@"
     do
       send_text "$ARGUMENT"
       sleep 0.5
-      if ! [ "$ARGUMENT" = ${@:$#} ]; then #if not last argument, jump to next field
+      if ! [ "$ARGUMENT" = "${@:$#}" ]; then #if not last argument, jump to next field
        adb -s "$SELECTED_DEVICE" shell input keyevent 61
       fi
     done

@@ -53,7 +53,7 @@ launch_emulator(){
   get_emulator_list
 
   if [ -z "$1" ]; then
-    read -p "📝 Choose: " EMULATOR_INDEX
+    read -r -p "📝 Choose: " EMULATOR_INDEX
   else
     EMULATOR_INDEX=$1
   fi

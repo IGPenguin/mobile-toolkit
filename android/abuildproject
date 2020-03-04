@@ -7,7 +7,7 @@ trap 'cleanup $@' 1 2 3 6 15
 cleanup()
 {
   if [ -n "$OLD_PWD" ]; then
-    cd "$OLD_PWD"
+    cd "$OLD_PWD" || exit
   fi
   rm -f "$TASK_LIST"
   exit
@@ -17,7 +17,7 @@ list_build_variants(){
   if [ -n "$1" ];
   then
     OLD_PWD=$PWD
-    cd "$1"
+    cd "$1" || exit
   fi
 
   if ! [ -f "gradlew" ];
@@ -40,7 +40,7 @@ list_build_variants(){
 }
 
 build_project_variant(){
-  read -p "📝 Choose build variant: " VARIANT_INDEX
+  read -r -p "📝 Choose build variant: " VARIANT_INDEX
   TASK=$(sed "$VARIANT_INDEX"!d $TASK_LIST | awk '{ print $1 }' )
   if [[ $VARIANT_INDEX == "" || $TASK == "" ]]; then
     delete_lastline
