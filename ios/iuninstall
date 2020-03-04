@@ -1,6 +1,6 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 ios_choose_device
 
 init(){
@@ -11,7 +11,7 @@ init(){
 ios_get_package_list(){
   echo "⏳ Getting third-party package list..."
   PACKAGE_LIST=()
-  ALL_INFO_LIST=($(ideviceinstaller -u $SELECTED_DEVICE -l -o list_user | tail -n +2 | sed -e 's/.*=//' | sort))
+  ALL_INFO_LIST=($(ideviceinstaller -u "$SELECTED_DEVICE" -l -o list_user | tail -n +2 | sed -e 's/.*=//' | sort))
 
   for PACKAGE in "${ALL_INFO_LIST[@]}" #remove redundant information
     do
@@ -35,7 +35,7 @@ filter_packages(){
   for PKG in "${PACKAGE_LIST[@]}" #removes trailing \r
   do
     PKG=${PKG%$'\r'}
-    echo ${IGNORED_PACKAGES[*]} | grep -w "$PKG" &> /dev/null && { echo "⏩ Skipped \"$PKG\""; continue; }
+    echo "${IGNORED_PACKAGES[*]}" | grep -w "$PKG" &> /dev/null && { echo "⏩ Skipped \"$PKG\""; continue; }
     PACKAGES_FILTERED+=($PKG)
   done
 
@@ -61,8 +61,8 @@ select_option(){
 
 uninstall_package(){
   PACKAGE="$1"
-  echo ${PACKAGE_LIST[*]} | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; return 1; }
-  echo ${IGNORED_PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; return 1; }
+  echo "${PACKAGE_LIST[*]}" | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; return 1; }
+  echo "${IGNORED_PACKAGES[*]}" | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; return 1; }
 
   echo "🔥 Uninstalling \"$PACKAGE\""
   ideviceinstaller -u "$SELECTED_DEVICE" -U "$PACKAGE" &> /dev/null
@@ -75,7 +75,7 @@ uninstall_all(){
   tput sgr0
   for PKG in "${PACKAGE_LIST[@]}"
   do
-    uninstall_package $PKG &
+    uninstall_package "$PKG" &
   done
   wait
 }
@@ -84,7 +84,7 @@ handle_arguments(){
   if [[  "$1" == "-a" ]]; then
     uninstall_all
   elif [[ -n "$1" ]]; then
-    uninstall_package $1
+    uninstall_package "$1"
   fi
 
   if [ -z "$1" ]; then
@@ -94,7 +94,7 @@ handle_arguments(){
     fi
     filter_packages
     select_option
-    uninstall_package $PACKAGE
+    uninstall_package "$PACKAGE"
   fi
 }
 

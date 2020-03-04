@@ -1,6 +1,6 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 android_choose_device
 
 prompt(){
@@ -15,12 +15,12 @@ prompt(){
 
 wipe_data(){
   echo "🔥 Deleting everything in mnt/sdcard..."
-  adb -s $SELECTED_DEVICE shell rm -rf mnt/sdcard/*
+  adb -s "$SELECTED_DEVICE" shell rm -rf mnt/sdcard/*
 }
 
 wipe_apps(){
   echo "🔥 Deleting all third-party apps..."
-  $LOCATION/auninstall "-a" "$SELECTED_DEVICE"
+  "$LOCATION"/auninstall "-a" "$SELECTED_DEVICE"
 }
 
 prompt

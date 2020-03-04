@@ -1,16 +1,16 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 SERVICE_LIST=$LOCATION/../data/toolkit_android_services.txt
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 android_choose_device
 
 echo "🔍 Getting background service list..."
-adb -s $SELECTED_DEVICE shell service list | tail -n +2 > $SERVICE_LIST
-cat $SERVICE_LIST
+adb -s "$SELECTED_DEVICE" shell service list | tail -n +2 > "$SERVICE_LIST"
+cat "$SERVICE_LIST"
 
-SERVICE_COUNT=$(wc -l < $SERVICE_LIST)
-choose_number $SERVICE_COUNT "🔍 Find more about specific service - choose number: "
-SERVICE_PACKAGE=$(sed $CHOICE!d $SERVICE_LIST | cut -d "[" -f2 | cut -d "]" -f1) #get string in brackets
+SERVICE_COUNT=$(wc -l < "$SERVICE_LIST")
+choose_number "$SERVICE_COUNT" "🔍 Find more about specific service - choose number: "
+SERVICE_PACKAGE=$(sed "$CHOICE"!d "$SERVICE_LIST" | cut -d "[" -f2 | cut -d "]" -f1) #get string in brackets
 QUERY="android service '$SERVICE_PACKAGE'"
 echo "🌐 Performing Google search for: $QUERY"
 open https://www.google.com/search?q="$QUERY"

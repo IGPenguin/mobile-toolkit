@@ -1,6 +1,6 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 ios_choose_device
 
 if [ -z "$1" ] ; then
@@ -10,18 +10,18 @@ else
 fi
 
 cd ~/Desktop
-mkdir $DIRNAME
+mkdir "$DIRNAME"
 yes_or_no "🔥 Delete the logs from the device afterwards?"
 if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
   echo "⏳ Moving crash logs to \"$DIRNAME\", this may take a while..."
-  idevicecrashreport -u $SELECTED_DEVICE $DIRNAME &> /dev/null
+  idevicecrashreport -u "$SELECTED_DEVICE" "$DIRNAME" &> /dev/null
 else
   echo "📂 Copying crash logs to \"$DIRNAME\", this may take a while..."
-  idevicecrashreport -k -u $SELECTED_DEVICE $DIRNAME &> /dev/null
+  idevicecrashreport -k -u "$SELECTED_DEVICE" "$DIRNAME" &> /dev/null
 fi
 
 echo "🔥 Cleaning up..."
-cd $DIRNAME
+cd "$DIRNAME"
 rm -R -- */ #remove unnecessary system logs
 find . -type f ! -name '*.ips' -delete #remove non-crash logs
 
@@ -31,7 +31,7 @@ done
 
 if [ -z "$(ls -A)" ]; then
    cd ..
-   rm -rf $DIRNAME
+   rm -rf "$DIRNAME"
    echo "❌ No useful logs found!"
 else
    echo "✅ Crash logs saved to $DIRNAME"

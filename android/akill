@@ -1,17 +1,17 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 android_choose_device
 
 if [[ "$1" != "" ]];
 then
     PACKAGE_NAME=$1
-    android_is_package_installed $PACKAGE_NAME
+    android_is_package_installed "$PACKAGE_NAME"
 else
     PACKAGE_NAME=$(android_get_foreground_package)
 fi
 
 echo "🔪 Killing $PACKAGE_NAME"
-adb -s $SELECTED_DEVICE shell am force-stop $PACKAGE_NAME
+adb -s "$SELECTED_DEVICE" shell am force-stop "$PACKAGE_NAME"
 echo "🚀 Launching..."
-adb -s $SELECTED_DEVICE shell monkey -p $PACKAGE_NAME -c android.intent.category.LAUNCHER 1 &> /dev/null
+adb -s "$SELECTED_DEVICE" shell monkey -p "$PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null

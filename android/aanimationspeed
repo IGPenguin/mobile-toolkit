@@ -1,6 +1,6 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 trap 'ctrlc $@' 1 2 3 6 15
 CHANGED=0
 
@@ -15,9 +15,9 @@ ctrlc()
 set_animation_speed(){
   echo -n "🎬 Setting animation speed to $1..."
   CHANGED=1
-  adb -s $SELECTED_DEVICE shell settings put global animator_duration_scale $1
-  adb -s $SELECTED_DEVICE shell settings put global transition_animation_scale $1
-  adb -s $SELECTED_DEVICE shell settings put global window_animation_scale $1
+  adb -s "$SELECTED_DEVICE" shell settings put global animator_duration_scale "$1"
+  adb -s "$SELECTED_DEVICE" shell settings put global transition_animation_scale "$1"
+  adb -s "$SELECTED_DEVICE" shell settings put global window_animation_scale "$1"
 }
 
 restore_animation_speed(){
@@ -29,7 +29,7 @@ restore_animation_speed(){
 android_choose_device
 if [ "$1" -eq "$1" ] 2> /dev/null
 then
-  set_animation_speed $1
+  set_animation_speed "$1"
 else
   set_animation_speed 5
 fi

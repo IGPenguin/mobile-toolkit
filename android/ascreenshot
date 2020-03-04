@@ -1,20 +1,20 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 
 screenshot(){
-  android_device_info $1
+  android_device_info "$1"
   FILENAME="$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).png"
   echo "📸 Saving screenshot into $FILENAME"
-  adb -s $1 shell screencap -p /mnt/sdcard/output.png
-  adb -s $1 pull /mnt/sdcard/output.png ~/Desktop/$FILENAME &>/dev/null
-  adb -s $1 shell rm /mnt/sdcard/output.png
+  adb -s "$1" shell screencap -p /mnt/sdcard/output.png
+  adb -s "$1" pull /mnt/sdcard/output.png ~/Desktop/"$FILENAME" &>/dev/null
+  adb -s "$1" shell rm /mnt/sdcard/output.png
 }
 
 screenshot_all(){
   for line in `adb devices | grep -v "List"  | awk '{print $1}'`
   do
-    device=`echo $line | awk '{print $1}'`
+    device=`echo "$line" | awk '{print $1}'`
     screenshot "$device" &
   done
   wait
@@ -25,5 +25,5 @@ then
   screenshot_all
 else
   android_choose_device
-  screenshot $SELECTED_DEVICE
+  screenshot "$SELECTED_DEVICE"
 fi

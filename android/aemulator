@@ -1,6 +1,6 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 LOCAL_EMULATOR_LIST=$LOCATION/../data/toolkit_emulator_list.txt
 NET_CHANGED=false
 
@@ -36,16 +36,16 @@ check_running_emulator(){
 
 get_emulator_list(){
   echo "⏳ Getting Android emulator list..."
-  rm -f $LOCAL_EMULATOR_LIST
-  ~/Library/Android/sdk/tools/bin/avdmanager list avd | grep Name | awk '{print $2}' >> $LOCAL_EMULATOR_LIST
-  if [ "$(cat $LOCAL_EMULATOR_LIST | wc -l)" -eq 0 ]; then
+  rm -f "$LOCAL_EMULATOR_LIST"
+  ~/Library/Android/sdk/tools/bin/avdmanager list avd | grep Name | awk '{print $2}' >> "$LOCAL_EMULATOR_LIST"
+  if [ "$(cat "$LOCAL_EMULATOR_LIST" | wc -l)" -eq 0 ]; then
     should_proceed "🤷‍ No emulators installed, install via Android Studio?"
     echo "⏳ Opening Android Studio..."
     open -a /Applications/Android\ Studio.app
     exit
   else
     echo "📱 Available:"
-    cat $LOCAL_EMULATOR_LIST | nl
+    cat "$LOCAL_EMULATOR_LIST" | nl
   fi
 }
 
@@ -57,19 +57,19 @@ launch_emulator(){
   else
     EMULATOR_INDEX=$1
   fi
-  EMULATOR_NAME=$(sed $EMULATOR_INDEX!d $LOCAL_EMULATOR_LIST)
+  EMULATOR_NAME=$(sed "$EMULATOR_INDEX"!d "$LOCAL_EMULATOR_LIST")
   if [[ $EMULATOR_INDEX == "" || $EMULATOR_NAME == "" ]]; then
     delete_lastline
     launch_emulator
   else
     echo  "🚀 Launching emulator..."
-    nohup $ANDROID_HOME/tools/emulator -avd $EMULATOR_NAME -no-snapshot &> /dev/null &
-    rm $LOCAL_EMULATOR_LIST
+    nohup "$ANDROID_HOME"/tools/emulator -avd "$EMULATOR_NAME" -no-snapshot &> /dev/null &
+    rm "$LOCAL_EMULATOR_LIST"
   fi
 }
 
 get_token(){
-  TOKEN=$(cat $HOME/.emulator_console_auth_token)
+  TOKEN=$(cat "$HOME"/.emulator_console_auth_token)
 }
 
 telnet_command() {
@@ -78,7 +78,7 @@ telnet_command() {
   else
     COMMAND=$1
   fi
-  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $COMMAND; } | telnet &> /dev/null
+  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "$COMMAND"; } | telnet &> /dev/null
 }
 
 call(){
@@ -183,7 +183,7 @@ case $1 in
     ;;
   'battery')
     check_running_emulator
-    set_battery_level $2
+    set_battery_level "$2"
     ;;
   'telnet')
     check_running_emulator
