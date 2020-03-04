@@ -137,8 +137,8 @@ detect_package_info(){
   AAPPT_PATH=$(find ~/Library/Android/sdk -name 'aapt' | sort | tail -1)
   PACKAGE_INFO=$($AAPPT_PATH dump badging "$1" > $TEMPORARY_FILE)
   PACKAGE_NAME=$(cat $TEMPORARY_FILE | grep package:\ name);
-  PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/^[^'\'']*'\''//');
-  PACKAGE_NAME=$(echo $PACKAGE_NAME | sed 's/'\''.*//');
+  PACKAGE_NAME=$(echo "$PACKAGE_NAME" | sed 's/^[^'\'']*'\''//');
+  PACKAGE_NAME=$(echo "$PACKAGE_NAME" | sed 's/'\''.*//');
   APP_NAME=$(cat $TEMPORARY_FILE  | grep application-label:)
   APP_NAME=${APP_NAME#"application-label:"}
 }
@@ -166,14 +166,14 @@ ios_wait_for_device(){
 }
 
 ios_check_developer_image_and_pairing(){
-  IS_MOUNTED=$(ideviceimagemounter -u $1 -l) #Probably does not work on iOS 13
+  IS_MOUNTED=$(ideviceimagemounter -u "$1" -l) #Probably does not work on iOS 13
   if [[ $IS_MOUNTED == *"error code -21." ]] ; then
-    read -p "❌ Device is not paired properly - reconnect it, unlock its screen and press ENTER..."
+    read -r -p "❌ Device is not paired properly - reconnect it, unlock its screen and press ENTER..."
     echo "🤝 Requesting pairing..."
     idevicepair pair &> /dev/null
-    read -p "❓ Tap \"Trust\" button on the device screen and press ENTER..."
+    read -r -p "❓ Tap \"Trust\" button on the device screen and press ENTER..."
     sleep 1
-    ios_check_developer_image_and_pairing $1
+    ios_check_developer_image_and_pairing "$1"
   fi
 
   if [ ${#IS_MOUNTED} -eq 0 ] ; then
@@ -182,10 +182,10 @@ ios_check_developer_image_and_pairing(){
 }
 
 ios_device_info(){
-  ios_check_developer_image_and_pairing $1
+  ios_check_developer_image_and_pairing "$1"
   MANUFACTURER="Apple"
-  MODEL=$(ios_translate_name $(ideviceinfo -u $1 | grep "HardwareModel" | cut -d\   -f2))
-  VERSION=$(ideviceinfo -u $1 | grep "ProductVersion" | cut -d\   -f2)
+  MODEL=$(ios_translate_name "$(ideviceinfo -u "$1" | grep "HardwareModel" | cut -d\   -f2)")
+  VERSION=$(ideviceinfo -u "$1" | grep "ProductVersion" | cut -d\   -f2)
   INFO=$(printf "%s)\n%s\n%s\n%s\n-\n%s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
 }
 
@@ -195,9 +195,9 @@ ios_get_devices(){
 
   for ID in "${ALL_IOS_DEVICES[@]}"
    do
-     ios_device_info $ID
+     ios_device_info "$ID"
      if [ -z "$MODEL" ];then continue; fi; #Skip wireless (ghost) devices
-     IOS_USB_DEVICES+=($ID)
+     IOS_USB_DEVICES+=("$ID")
    done
 }
 
@@ -208,7 +208,7 @@ ios_choose_device(){
   if [ ${#IOS_USB_DEVICES[@]} -eq 0 ] #No device connected
   then
      echo "❌ No iOS devices detected"
-     yes_or_no "❓ Start a simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $SCRIPT_LOCATION/isimulator start; exit; fi
+     yes_or_no "❓ Start a simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/isimulator start; exit; fi
      ios_wait_for_device
   fi
 
@@ -218,17 +218,17 @@ ios_choose_device(){
      echo "📱 Available devices:"
      for ID in "${IOS_USB_DEVICES[@]}"
       do
-        ios_device_info $ID
-        echo $INFO
+        ios_device_info "$ID"
+        echo "$INFO"
         ((NUMBER++))
       done
 
-      read -p "📝 Select a device: " CHOICE
+      read -r -p "📝 Select a device: " CHOICE
       while :;
       do
       if ((CHOICE <= 0 || CHOICE > ${#IOS_USB_DEVICES[@]})); then
         echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
-        read -p "🤷 Invalid input, try again: " CHOICE
+        read -r -p "🤷 Invalid input, try again: " CHOICE
       else
         break
       fi
@@ -238,8 +238,8 @@ ios_choose_device(){
      SELECTED_DEVICE="${IOS_USB_DEVICES[0]}"
   fi
 
-  SELECTED_DEVICE_MODEL=$(ios_translate_name $(ideviceinfo -u $SELECTED_DEVICE | grep "HardwareModel" | cut -d\   -f2))
-  SELECTED_DEVICE_VERSION=$(ideviceinfo -u $SELECTED_DEVICE | grep "ProductVersion" | cut -d\   -f2)
+  SELECTED_DEVICE_MODEL=$(ios_translate_name "$(ideviceinfo -u "$SELECTED_DEVICE" | grep "HardwareModel" | cut -d\   -f2)")
+  SELECTED_DEVICE_VERSION=$(ideviceinfo -u "$SELECTED_DEVICE" | grep "ProductVersion" | cut -d\   -f2)
 }
 
 ios_translate_name(){
@@ -364,25 +364,25 @@ check_dependency(){
   if ! [ -x "$(command -v "$1")" ]; then
     echo "⚠️ \"$1\" required!"
     should_proceed "🔄 Install via homebrew? (this may take a while)"
-    brew install $1
+    brew install "$1"
   fi
 }
 
 check_for_update(){
   TODAY=$(date +%Y-%m-%d)
   if [ -f "$LAST_CHECK_DATE_FILE" ]; then
-    LAST_CHECK_DATE=$(cat $LAST_CHECK_DATE_FILE)
+    LAST_CHECK_DATE=$(cat "$LAST_CHECK_DATE_FILE")
   else
-    echo $TODAY > $LAST_CHECK_DATE_FILE
+    echo "$TODAY" > "$LAST_CHECK_DATE_FILE"
   fi
 
   CURRENT_DIR="$PWD"
-  cd "$SCRIPT_LOCATION/.."
+  cd "$SCRIPT_LOCATION/.." || exit
   CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
   if [[ "$CURRENT_BRANCH" == "master" && "$LAST_CHECK_DATE" != "$TODAY" ]]; then
     echo "🔄 Checking for Mobile Toolkit update..."
-    echo $TODAY > $LAST_CHECK_DATE_FILE
+    echo "$TODAY" > "$LAST_CHECK_DATE_FILE"
 
     git fetch origin &> /dev/null
     git status -uno | grep "up to date" &> /dev/null
@@ -392,14 +392,14 @@ check_for_update(){
 	echo "⏬ Updating..."
 	git pull &> /dev/null
 	echo "✨ New features:"
-	cat $SCRIPT_LOCATION/../changelog.txt
+	cat "$SCRIPT_LOCATION"/../changelog.txt
 	echo
 	echo "✅ Update complete"
       fi
     fi
   fi
 
-  cd "$CURRENT_DIR"
+  cd "$CURRENT_DIR" || exit
 }
 
 delete_lastline(){
@@ -416,7 +416,7 @@ yes_or_no(){
       *)
         echo
         echo "🤷‍ Invalid option."
-        yes_or_no $1
+        yes_or_no "$1"
         ;;
   esac
   echo
@@ -437,15 +437,15 @@ should_proceed(){
 choose_number(){
   MAX=$1
   if [ -n "$2" ]; then
-    read -p "$2" CHOICE
+    read -r -p "$2" CHOICE
   else
-    read -p "📝 Choose number: " CHOICE
+    read -r -p "📝 Choose number: " CHOICE
   fi
   while :;
   do
     if [[ -z $CHOICE  || $CHOICE -le 0 || $CHOICE -gt $MAX ]]; then
       delete_lastline
-      read -p "🤷‍ Invalid choice, try again: " CHOICE
+      read -r -p "🤷‍ Invalid choice, try again: " CHOICE
     else
       ((++CHOICE))
       break
@@ -457,8 +457,8 @@ check_url(){
   URL=$1
 
   if [[ $URL == "" ]]; then
-    read -p "📝 Insert web url: " URL
-    check_url $URL
+    read -r -p "📝 Insert web url: " URL
+    check_url "$URL"
   else
     case $1 in
       'http://'*)
@@ -475,6 +475,6 @@ check_url(){
 }
 
 abort(){
-  echo $1
+  echo "$1"
   exit
 }
