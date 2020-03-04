@@ -1,4 +1,7 @@
 #!/bin/bash
+# shellcheck disable=SC2034
+
+
 SCRIPT_LOCATION=$(dirname "$0")
 LAST_CHECK_DATE_FILE="$SCRIPT_LOCATION/../data/toolkit_last_check_date.txt"
 TEMPORARY_FILE="/private/tmp/mobile-toolkit-cache"
@@ -12,7 +15,7 @@ android_check_connected(){
   if [ ${#DEVICES[@]} -eq 0 ]
   then
     echo "❌ No Android devices detected"
-    yes_or_no "❓ Start an emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $SCRIPT_LOCATION/aemulator "start"; fi
+    yes_or_no "❓ Start an emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/aemulator "start"; fi
     android_wait_for_device
   fi
 }
@@ -26,22 +29,22 @@ android_wait_for_device(){
 android_get_devices(){
   #Populate array with device ids
   DEVICES=()
-  for LINE in `adb devices | grep -v "List"  | awk '{print $1}'`
+  for LINE in $(adb devices | grep -v "List"  | awk '{print $1}')
   do
-    DEVICE=`echo $LINE | awk '{print $1}'`
+    DEVICE=$(echo "$LINE" | awk '{print $1}')
     DEVICES+=("$DEVICE")
   done
 }
 
 android_get_device_sdk(){
-  SDK=$(adb -s $1 shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
+  SDK=$(adb -s "$1" shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
 }
 
 android_device_info(){
-  MANUFACTURER=$(adb -s $1 shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
-  MODEL=$(adb -s $1 shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
-  VERSION=$(adb -s $1 shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
-  SDK=$(adb -s $1 shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
+  MANUFACTURER=$(adb -s "$1" shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
+  MODEL=$(adb -s "$1" shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
+  VERSION=$(adb -s "$1" shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
+  SDK=$(adb -s "$1" shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
   INFO=$(printf "%s)\n%s\n%s\n%s\n(API %s)\n-\n%s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK" "$1")
 }
 
@@ -57,17 +60,17 @@ android_choose_device() {
     echo "📱 Available devices:"
     for ID in "${DEVICES[@]}"
     do
-      android_device_info $ID
-      echo $INFO
+      android_device_info "$ID"
+      echo "$INFO"
       ((NUMBER++))
     done
 
-    read -p "📝 Select a device: " CHOICE
+    read -r -p "📝 Select a device: " CHOICE
     while :;
     do
     if ((CHOICE <= 0 || CHOICE > ${#DEVICES[@]})); then
       echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
-      read -p "Invalid input, try again: " CHOICE
+      read -r -p "Invalid input, try again: " CHOICE
     else
       break
     fi
@@ -77,35 +80,35 @@ else
   SELECTED_DEVICE="${DEVICES[0]}"
 fi
 
-SELECTED_DEVICE_MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
-SELECTED_DEVICE_SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
+SELECTED_DEVICE_MODEL=$(adb -s "$SELECTED_DEVICE" shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
+SELECTED_DEVICE_SDK=$(adb -s "$SELECTED_DEVICE" shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
 }
 
 check_screen_on(){
-  CURRENT_FOCUS=$(adb -s $1 shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
-  if [ "$CURRENT_FOCUS" == *"StatusBar"* ] || [ "$CURRENT_FOCUS" == *"mCurrentFocus=null"* ] || [ "$CURRENT_FOCUS" == *"Keyguard"* ]; then
+  CURRENT_FOCUS=$(adb -s "$1" shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
+  if [[ "$CURRENT_FOCUS" == *"StatusBar"* ]] || [[ "$CURRENT_FOCUS" == *"mCurrentFocus=null"* ]] || [[ "$CURRENT_FOCUS" == *"Keyguard"* ]]; then
     return 1
   else
     return 0
   fi
 }
 
-android_unlock_device(){
-  if [[ $(check_screen_on $1) -eq 1  ]]; then
+android_unlock_device(){ #🤮
+  if [[ $(check_screen_on "$1") -eq 1  ]]; then
     echo "🛌 Waking up the device..."
-    adb -s $1 shell input keyevent KEYCODE_HOME
-    if [[ $(check_screen_on $1) -eq 1  ]]; then
-      adb -s $1 shell input keyevent KEYCODE_POWER
-      if [[ $(check_screen_on $1) -eq 1  ]]; then
-        adb -s $1 shell input keyevent 82
+    adb -s "$1" shell input keyevent KEYCODE_HOME
+    if [[ $(check_screen_on "$1") -eq 1  ]]; then
+      adb -s "$1" shell input keyevent KEYCODE_POWER
+      if [[ $(check_screen_on "$1") -eq 1  ]]; then
+        adb -s "$1" shell input keyevent 82
       fi
     fi
   fi
 }
 
 android_get_foreground_package(){
-  android_get_device_sdk $SELECTED_DEVICE
-  if (( $SDK < 21 )); then
+  android_get_device_sdk "$SELECTED_DEVICE"
+  if (( "$SDK" < 21 )); then
     android_get_foreground_package_sdk_low
   else
     android_get_foreground_package_sdk_21_plus
@@ -113,15 +116,15 @@ android_get_foreground_package(){
 }
 
 android_get_foreground_package_sdk_21_plus(){
-  adb -s $SELECTED_DEVICE shell dumpsys activity recents | grep 'Recent #0' | cut -d= -f2 | sed 's| .*||' | cut -d '/' -f1
+  adb -s "$SELECTED_DEVICE" shell dumpsys activity recents | grep 'Recent #0' | cut -d= -f2 | sed 's| .*||' | cut -d '/' -f1
 }
 
 android_get_foreground_package_sdk_low(){
-  adb -s $SELECTED_DEVICE shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev
+  adb -s "$SELECTED_DEVICE" shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev
 }
 
 android_is_package_installed() {
-  adb -s $SELECTED_DEVICE shell pm list packages -f | sed -e 's/.*=//' | grep -w $1 &> /dev/null
+  adb -s "$SELECTED_DEVICE" shell pm list packages -f | sed -e 's/.*=//' | grep -w "$1" &> /dev/null
   EXIT_CODE=$?
   if [ $EXIT_CODE -ne 0 ]; then
     echo "🤷‍ Package \"$1\" is not installed."
