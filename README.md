@@ -32,8 +32,11 @@
 ---
 
 # 💻 Installation
-_Note: This repository is mainly focused on macOS compatibility, but majority of interactions should work on any Unix system._
+<details>
+	  <summary>Click to reveal step by step guide</summary>
 
+_Note: This repository is mainly focused on macOS compatibility, but majority of interactions should work on any Unix system._ 
+<br>
 1. **Open terminal**
 2. **Clone this repository** `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
 3. **Setup Android** tools
@@ -48,8 +51,9 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 5. (Optional) Use following **commands in any directory** in your terminal
 	* Edit your **.bash_profile** file in your home directory `nano ~/.bash_profile`
 	* Add the path to the script folders to **PATH** variable in **.bash_profile** (or equivalent file) -> **insert the following lines at the end of the file**, make sure to **replace "dummyuser" with your profile name and use proper path**
-	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/android`
-	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/ios`
+	`PATH=$PATH:/Users/dummyuser/mobile-toolkit/android` <br>
+	`PATH=$PATH:/Users/dummyuser/mobile-toolkit/ios`
+</details>
 
 # 🤖 Android scripts
 
