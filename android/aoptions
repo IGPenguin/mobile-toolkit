@@ -8,9 +8,9 @@ LOCAL_SETTINGS_LIST_PATH=$TOOLKIT_LOCATION/../data/toolkit_intent_list.txt
 import_intents(){
   echo "⏳ Importing settings activity list..."
   ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH=$(find ~/Library/Android/sdk -name 'activity_actions.txt' | sort | tail -1)
-  cat "$ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH" | grep -i android.settings >> "$LOCAL_SETTINGS_LIST_PATH" # List settings intents
-  cat "$ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH" | grep -i -e android.net.wifi.PICK_WIFI_NETWORK -e android.os.storage.action.MANAGE_STORAGE -e android.intent.action.MANAGE_PERMISSIONS -e android.intent.action.SET_WALLPAPER -e android.intent.action.VIEW_DOWNLOADS >> "$LOCAL_SETTINGS_LIST_PATH" # List alternate settings intents
-  cat "$ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH" | grep -i android.media.action >> "$LOCAL_SETTINGS_LIST_PATH" # List media intents
+  grep -i "android.settings" "$ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH" >> "$LOCAL_SETTINGS_LIST_PATH" # List settings intents
+  grep -i -e "android.net.wifi.PICK_WIFI_NETWORK" -e "android.os.storage.action.MANAGE_STORAGE" -e "android.intent.action.MANAGE_PERMISSIONS" -e "android.intent.action.SET_WALLPAPER" -e "android.intent.action.VIEW_DOWNLOADS" "$ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH" >> "$LOCAL_SETTINGS_LIST_PATH" # List alternate settings intents
+  grep -i "android.media.action" "$ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH" >> "$LOCAL_SETTINGS_LIST_PATH" # List media intents
 
   wc -l "$LOCAL_SETTINGS_LIST_PATH" | awk '{print $1}' | grep -q 0 && echo "❗️ Imported list is empty, reimporting lower sdk variant..." && rm "$(find ~/Library/Android/sdk -name 'activity_actions.txt' | sort | tail -1)" && import_intents && return
   echo "✅ Importing from $ANDROID_TOOLS_SETTINGS_INTENT_LIST_PATH completed successfully"
