@@ -38,5 +38,5 @@ while :; do
       rm -rf "$DIRNAME"
       exit
     fi
-    N=$(($N+1));
+    N=$((N+1));
 done
