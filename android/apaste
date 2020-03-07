@@ -8,7 +8,7 @@ ARGUMENT_COUNT="$#"
 check_text(){
   if [ -n "$1" ]
   then
-    if ! [[ "$@" =~ [^a-zA-Z0-9\ \-\.\@] ]]; then
+    if ! [[ "$*" =~ [^a-zA-Z0-9\ \-\.\@] ]]; then
       TEXT=$1
     else
       echo "🤷‍ Only basic alphanumeric characters are supported!"
@@ -49,7 +49,7 @@ execute_by_arguments(){
     do
       send_text "$ARGUMENT"
       sleep 0.5
-      if ! [ "$ARGUMENT" = "${@:$#}" ]; then #if not last argument, jump to next field
+      if ! [ "$ARGUMENT" = "${@: -1}" ]; then #if not last argument, jump to next field
        adb -s "$SELECTED_DEVICE" shell input keyevent 61
       fi
     done
