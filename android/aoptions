@@ -23,8 +23,7 @@ start_settings_intent(){
 }
 
 search_for_intent(){
-  cat "$LOCAL_SETTINGS_LIST_PATH" | nl | grep -i "$1"
-  if [[ $? -eq 0 ]]; then
+  if cat "$LOCAL_SETTINGS_LIST_PATH" | nl | grep -i "$1"; then
     read -r -p "📝 Choose option number: " LINE
     start_settings_intent
   else

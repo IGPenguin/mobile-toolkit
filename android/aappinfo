@@ -21,6 +21,6 @@ echo "Package name: $PACKAGE_NAME"
 echo "Version: $VERSION"
 echo "Last update: $LAST_UPDATE"
 echo "SDK: $SDK"
-adb -s "$SELECTED_DEVICE" shell dumpsys package "$PACKAGE_NAME" | grep  -v "):\|perm=\|installPermissionsFixed=true" | grep -i -e permission
+adb -s "$SELECTED_DEVICE" shell dumpsys package "$PACKAGE_NAME" | grep  -v "):\\|perm=\\|installPermissionsFixed=true" | grep -i -e permission
 should_proceed "🔨 Do you want to open $PACKAGE_NAME settings?"
 adb -s "$SELECTED_DEVICE" shell am start -a "android.settings.APPLICATION_DETAILS_SETTINGS" -d "package:$PACKAGE_NAME" &> /dev/null
