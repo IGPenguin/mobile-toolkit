@@ -10,7 +10,7 @@ help(){
   else
     echo "🤷 Argument missing"
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  screenshot <filename> - save screenshot to Desktop\n  record <filename> - save screen recording to Desktop\n  paste <text> - insert text into pasteboard\n  url <url> - open link in web browser\n  logs - print simulator logs\n  battery <0-100> - set battery level\n  time <hh:mm> - set time\n  import <file> - import photo or video into gallery\n  wipe - wipe all simulator data"
+  echo -e "Use one of the following options:\\n  start - choose and launch installed simulator\\n  screenshot <filename> - save screenshot to Desktop\\n  record <filename> - save screen recording to Desktop\\n  paste <text> - insert text into pasteboard\\n  url <url> - open link in web browser\\n  logs - print simulator logs\\n  battery <0-100> - set battery level\\n  time <hh:mm> - set time\\n  import <file> - import photo or video into gallery\\n  wipe - wipe all simulator data"
 }
 
 import_simulator_list(){
@@ -52,7 +52,7 @@ choose_running_simulator(){
 start_simulator(){
   echo "⏳ Getting iOS simulator list..."
   rm -f "$LOCAL_SIMULATOR_LIST"
-  xcrun simctl list | grep -i "shutdown\|booted\|-- iOS\|-- tvOS\|-- watchOS" | grep -v "unavailable\|Watch:\|Phone:" | sed 's/ (Shutdown) //g' | sed 's/ (Booted) //g' >> "$LOCAL_SIMULATOR_LIST"
+  xcrun simctl list | grep -i "shutdown\\|booted\\|-- iOS\\|-- tvOS\\|-- watchOS" | grep -v "unavailable\\|Watch:\\|Phone:" | sed 's/ (Shutdown) //g' | sed 's/ (Booted) //g' >> "$LOCAL_SIMULATOR_LIST"
 
   echo "📱 Available:"
   cat "$LOCAL_SIMULATOR_LIST" | nl
