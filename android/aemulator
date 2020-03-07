@@ -22,8 +22,7 @@ help(){
 }
 
 check_running_emulator(){
-  adb devices | grep emulator &> /dev/null
-  if [ $? -ne 0 ]; then
+  if ! adb devices | grep emulator &> /dev/null; then
     echo "❌ No running emulators"
     yes_or_no "❓ Do you want to start one?"
     if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
