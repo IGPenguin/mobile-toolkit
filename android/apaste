@@ -49,7 +49,7 @@ execute_by_arguments(){
     do
       send_text "$ARGUMENT"
       sleep 0.5
-      if ! [ "$ARGUMENT" = ${@:$#} ]; then #if not last argument, jump to next field
+      if ! [ "$ARGUMENT" = "${@:$#}" ]; then #if not last argument, jump to next field
        adb -s "$SELECTED_DEVICE" shell input keyevent 61
       fi
     done
