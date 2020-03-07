@@ -1,1 +1,3 @@
 update README.md
+implement github action - lint check
+fix hundreds of potential issues
