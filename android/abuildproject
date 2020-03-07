@@ -1,4 +1,6 @@
 #!/bin/bash
+# shellcheck disable=SC2181
+# ignore indirect exit code check at line 54
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 
