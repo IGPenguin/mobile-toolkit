@@ -59,12 +59,11 @@ check_network_name_contains(){
   echo -n "🌐 Checking WIFI network"
   NET_STATS=$(adb -s "$SELECTED_DEVICE" shell dumpsys netstats | grep -E 'iface=wlan.*networkId' )
 
-  echo "$NET_STATS" | grep -i "$1" &> /dev/null
-  if [ $? -eq 0 ]; then
+  if echo "$NET_STATS" | grep -i "$1" &> /dev/null; then
     yes_or_no " - ❗️ $1 network detected, open wifi settings?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$TOOLKIT_LOCATION"/aoptions 4; fi
   fi
-  echo "$NET_STATS" | grep -E 'iface=wlan.*networkId' &> /dev/null
-  if [ $? -ne 0 ]; then
+
+  if ! echo "$NET_STATS" | grep -E 'iface=wlan.*networkId' &> /dev/null; then
     yes_or_no " - ❌ Disconnected, open wifi settings?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$TOOLKIT_LOCATION"/aoptions 4; fi
   else
     echo " - ✅ Connected"
