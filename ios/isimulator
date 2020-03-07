@@ -1,4 +1,7 @@
 #!/bin/bash
+# shellcheck disable=SC1007
+# ignore irrelevant warning "remove space after ="
+
 TOOLKIT_LOCATION=$(dirname "$0")
 source "$TOOLKIT_LOCATION"/../common_tools
 
