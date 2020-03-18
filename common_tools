@@ -44,7 +44,7 @@ android_device_info(){
   MODEL=$(adb -s "$1" shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
   VERSION=$(adb -s "$1" shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
   SDK=$(adb -s "$1" shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
-  INFO=$(printf "%s)\n%s\n%s\n%s\n(API %s)\n-\n%s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK" "$1")
+  INFO=$(printf "%s) %s %s %s (API %s) - %s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK" "$1")
 }
 
 android_choose_device() {
@@ -185,7 +185,7 @@ ios_device_info(){
   MANUFACTURER="Apple"
   MODEL=$(ios_translate_name "$(ideviceinfo -u "$1" | grep "HardwareModel" | cut -d\   -f2)")
   VERSION=$(ideviceinfo -u "$1" | grep "ProductVersion" | cut -d\   -f2)
-  INFO=$(printf "%s)\n%s\n%s\n%s\n-\n%s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
+  INFO=$(printf "%s) %s %s %s - %s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
 }
 
 ios_get_devices(){
