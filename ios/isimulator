@@ -48,7 +48,7 @@ choose_running_simulator(){
   fi
 
   echo "📱 Available simulators:"
-  cat "$LOCAL_SIMULATOR_LIST" | nl
+  nl "$LOCAL_SIMULATOR_LIST"
   choose_simulator
 }
 
@@ -58,7 +58,7 @@ start_simulator(){
   xcrun simctl list | grep -i "shutdown\\|booted\\|-- iOS\\|-- tvOS\\|-- watchOS" | grep -v "unavailable\\|Watch:\\|Phone:" | sed 's/ (Shutdown) //g' | sed 's/ (Booted) //g' >> "$LOCAL_SIMULATOR_LIST"
 
   echo "📱 Available:"
-  cat "$LOCAL_SIMULATOR_LIST" | nl
+  nl "$LOCAL_SIMULATOR_LIST"
   choose_simulator
   echo  "🚀 Launching simulator..."
   xcrun simctl boot "$SIMULATOR_ID"
