@@ -73,7 +73,7 @@ handle_preset(){
 
     "0" | "all" | "list" | "A" | "a")
     echo "📜 Available settings activities:"
-    cat "$LOCAL_SETTINGS_LIST_PATH" | nl
+    nl "$LOCAL_SETTINGS_LIST_PATH"
     read -r -p "📝 Choose option number: " LINE
     start_settings_intent
     ;;
@@ -98,7 +98,7 @@ fi
 
 # If arugment not passed, show preset chooser
 if [[ "$1" == "" ]]; then
-  TOOLKIT_INTENT_COUNT=$(cat "$LOCAL_SETTINGS_LIST_PATH" | wc -l)
+  TOOLKIT_INTENT_COUNT=$(wc -l "$LOCAL_SETTINGS_LIST_PATH")
   TOOLKIT_INTENT_COUNT=$(echo "$TOOLKIT_INTENT_COUNT" | awk '{print $1}') # Remove ghost whitespaces 🙃
 
   echo "📋 Available options:"
