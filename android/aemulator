@@ -37,14 +37,14 @@ get_emulator_list(){
   echo "⏳ Getting Android emulator list..."
   rm -f "$LOCAL_EMULATOR_LIST"
   ~/Library/Android/sdk/tools/bin/avdmanager list avd | grep Name | awk '{print $2}' >> "$LOCAL_EMULATOR_LIST"
-  if [ "$(wc -l "$LOCAL_EMULATOR_LIST")" -eq 0 ]; then
+  if [ "$(nl "$LOCAL_EMULATOR_LIST")" == "" ]; then
     should_proceed "🤷‍ No emulators installed, install via Android Studio?"
     echo "⏳ Opening Android Studio..."
     open -a /Applications/Android\ Studio.app
     exit
   else
     echo "📱 Available:"
-    nl "$LOCAL_EMULATOR_LIST" 
+    nl "$LOCAL_EMULATOR_LIST"
   fi
 }
 
