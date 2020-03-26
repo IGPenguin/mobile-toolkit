@@ -14,7 +14,7 @@ restore_animation_speed(){
 }
 
 android_choose_device
-if ![ -z "$1" ] 2> /dev/null ;then
+if ! [ -z "$1" ] 2> /dev/null ;then
   echo -n "🎬 Setting animation speed to "$1" (default is 1, bigger is slower)..."
   set_animation_speed "$1"
 else
