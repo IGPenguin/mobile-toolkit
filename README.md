@@ -96,7 +96,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 ### 🎹 acontrol
 * `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
-* [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides realtime device screen mirroring and operation
+* provides realtime device screen mirroring and control
 
 ### 📷 acamera
 * Start the default camera application
