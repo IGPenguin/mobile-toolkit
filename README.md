@@ -88,11 +88,11 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 ### 🚗 aanimationspeed
 * `aanimationspeed` set slower animation speed or restore default
-* `aanimationspeed <speed>` set animation speed to \<speed> times slower than default
+* `aanimationspeed <speed>` set animation speed multiplier
 
 ### 🔠 afontscale
-* `afontscale` set font scale to large (1.3x bigger than default) or restore default
-* `afontscale <scale>` set font scale to \<scale> times larger than default
+* `afontscale` set large font scale (1.3x bigger than default) or restore default
+* `afontscale <scale>` set font scale multiplier
 
 ### 🎹 acontrol
 * `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
