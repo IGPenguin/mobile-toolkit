@@ -1,20 +1,8 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
-trap 'ctrlc $@' 1 2 3 6 15
-CHANGED=0
-
-ctrlc()
-{
-  if [ $CHANGED -eq 1 ]; then
-    restore_animation_speed
-  fi
-  exit
-}
 
 set_animation_speed(){
-  echo -n "🎬 Setting animation speed to $1..."
-  CHANGED=1
   adb -s "$SELECTED_DEVICE" shell settings put global animator_duration_scale "$1"
   adb -s "$SELECTED_DEVICE" shell settings put global transition_animation_scale "$1"
   adb -s "$SELECTED_DEVICE" shell settings put global window_animation_scale "$1"
@@ -22,19 +10,18 @@ set_animation_speed(){
 
 restore_animation_speed(){
   set_animation_speed 1
-  echo
   echo "🔄 Animation speed restored to default"
 }
 
 android_choose_device
-if [ "$1" -eq "$1" ] 2> /dev/null
-then
+if ! [ -z "$1"] 2> /dev/null ;then
+  echo -n "🎬 Setting animation speed to "$1" (default is 1, bigger is slower)..."
   set_animation_speed "$1"
 else
-  set_animation_speed 5
-fi
-
-if [ "$1" != "-k" ] && [ "$2" != "-k" ];then
-  read -r -n 1 -p ", press ENTER to revert"
-  restore_animation_speed
+  if [ "$(adb -s "$SELECTED_DEVICE" shell settings get global animator_duration_scale)" -ne 1 ] || [ "$(adb -s "$SELECTED_DEVICE" shell settings get global transition_animation_scale)" -ne 1 ] || [ "$(adb -s "$SELECTED_DEVICE" shell settings get global window_animation_scale)" -ne 1 ] ; then
+    restore_animation_speed
+  else
+    echo -n "🎬 Setting animation speed to 5 (default is 1, bigger is slower)..."
+    set_animation_speed 5
+  fi
 fi
