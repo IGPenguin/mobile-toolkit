@@ -173,10 +173,6 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `alog` Print system log output
 * `alog -f <package-name>` Filter log by package name
 
-### 💥 acrash
-* `acrash` Print log output containing application crashes only
-* `acrash <line-count>` Print \<line-count> lines above and below crash log
-
 ### 📋 acheckdevice
 * Print genereal device information
 * Perform basic safety-checks and toggle "testing firendly" settings
