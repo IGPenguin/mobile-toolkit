@@ -83,22 +83,16 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `aurl "google.com"` Open link in web browser or corresponding application
 
 ### 📐 abounds
-* `abounds` Display layout bounds
-	* Press ENTER to turn off
-* `abounds -k` Toggle layout bounds visibility
+* `abounds` Display or hide layout bounds
 * App restart may be necessary on lower APIs
 
 ### 🚗 aanimationspeed
-* `aanimationspeed` set slow animation speed
+* `aanimationspeed` set slower animation speed or restore default
 * `aanimationspeed <speed>` set animation speed to \<speed> times slower than default
-	* Press ENTER to reset to default
-* `afontscale <scale> -k` save changed settings
 
 ### 🔠 afontscale
-* `afontscale` set font scale to large (1.3x bigger than default)
+* `afontscale` set font scale to large (1.3x bigger than default) or restore default
 * `afontscale <scale>` set font scale to \<scale> times larger than default
-	* Press ENTER to reset to default
-* `afontscale <scale> -k` save changed settings
 
 ### 🎹 acontrol
 * `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
