@@ -1,7 +1,7 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 android_choose_device
 
 echo "📷 Opening camera application..."
-adb -s $SELECTED_DEVICE shell am start -a android.media.action.IMAGE_CAPTURE &> /dev/null
+adb -s "$SELECTED_DEVICE" shell am start -a android.media.action.IMAGE_CAPTURE &> /dev/null

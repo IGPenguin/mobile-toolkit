@@ -1,6 +1,6 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 LOCAL_EMULATOR_LIST=$LOCATION/../data/toolkit_emulator_list.txt
 NET_CHANGED=false
 
@@ -18,12 +18,11 @@ help(){
   else
     echo "🤷 Argument missing"
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch installed emulator\n  gprs | edge | 3g - set network latency\n  call <number> - receive fake call\n  sms <number> <text> - recieve fake sms\n  gps <lat> <long> - set manual gps location\n  battery <0-100> - set manual battery level\n  telnet <command> - call telnet command (see README.md)"
+  echo -e "Use one of the following options:\\n  start - choose and launch installed emulator\\n  gprs | edge | 3g - set network latency\\n  call <number> - receive fake call\\n  sms <number> <text> - recieve fake sms\\n  gps <lat> <long> - set manual gps location\\n  battery <0-100> - set manual battery level\\n  telnet <command> - call telnet command (see README.md)"
 }
 
 check_running_emulator(){
-  adb devices | grep emulator &> /dev/null
-  if [ $? -ne 0 ]; then
+  if ! adb devices | grep emulator &> /dev/null; then
     echo "❌ No running emulators"
     yes_or_no "❓ Do you want to start one?"
     if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
@@ -36,16 +35,16 @@ check_running_emulator(){
 
 get_emulator_list(){
   echo "⏳ Getting Android emulator list..."
-  rm -f $LOCAL_EMULATOR_LIST
-  ~/Library/Android/sdk/tools/bin/avdmanager list avd | grep Name | awk '{print $2}' >> $LOCAL_EMULATOR_LIST
-  if [ "$(cat $LOCAL_EMULATOR_LIST | wc -l)" -eq 0 ]; then
+  rm -f "$LOCAL_EMULATOR_LIST"
+  ~/Library/Android/sdk/tools/bin/avdmanager list avd | grep Name | awk '{print $2}' >> "$LOCAL_EMULATOR_LIST"
+  if [ "$(nl "$LOCAL_EMULATOR_LIST")" == "" ]; then
     should_proceed "🤷‍ No emulators installed, install via Android Studio?"
     echo "⏳ Opening Android Studio..."
     open -a /Applications/Android\ Studio.app
     exit
   else
     echo "📱 Available:"
-    cat $LOCAL_EMULATOR_LIST | nl
+    nl "$LOCAL_EMULATOR_LIST"
   fi
 }
 
@@ -53,37 +52,37 @@ launch_emulator(){
   get_emulator_list
 
   if [ -z "$1" ]; then
-    read -p "📝 Choose: " EMULATOR_INDEX
+    read -r -p "📝 Choose: " EMULATOR_INDEX
   else
     EMULATOR_INDEX=$1
   fi
-  EMULATOR_NAME=$(sed $EMULATOR_INDEX!d $LOCAL_EMULATOR_LIST)
+  EMULATOR_NAME=$(sed "$EMULATOR_INDEX"!d "$LOCAL_EMULATOR_LIST")
   if [[ $EMULATOR_INDEX == "" || $EMULATOR_NAME == "" ]]; then
     delete_lastline
     launch_emulator
   else
     echo  "🚀 Launching emulator..."
-    nohup $ANDROID_HOME/tools/emulator -avd $EMULATOR_NAME -no-snapshot &> /dev/null &
-    rm $LOCAL_EMULATOR_LIST
+    nohup "$ANDROID_HOME"/tools/emulator -avd "$EMULATOR_NAME" -no-snapshot &> /dev/null &
+    rm "$LOCAL_EMULATOR_LIST"
   fi
 }
 
 get_token(){
-  TOKEN=$(cat $HOME/.emulator_console_auth_token)
+  TOKEN=$(cat "$HOME"/.emulator_console_auth_token)
 }
 
 telnet_command() {
   if [ -z "$1" ];then
-    read -p "📝 Insert telnet command: " COMMAND
+    read -r -p "📝 Insert telnet command: " COMMAND
   else
     COMMAND=$1
   fi
-  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo $COMMAND; } | telnet &> /dev/null
+  { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "$COMMAND"; } | telnet &> /dev/null
 }
 
 call(){
   if [ -z "$1" ];then
-    read -p "📝 Insert caller number: " NUMBER
+    read -r -p "📝 Insert caller number: " NUMBER
   else
     NUMBER=$1
   fi
@@ -94,13 +93,13 @@ call(){
 
 send_sms(){
   if [ -z "$1" ];then
-    read -p "📝 Insert sender number: " NUMBER
+    read -r -p "📝 Insert sender number: " NUMBER
   else
     NUMBER=$1
   fi
 
   if [ -z "$2" ];then
-    read -p "📝 Insert text: " TEXT
+    read -r -p "📝 Insert text: " TEXT
   else
     TEXT=$2
   fi
@@ -112,13 +111,13 @@ send_sms(){
 
 set_gps(){
   if [ -z "$1" ];then
-    read -p "📝 Insert latitude: " LAT
+    read -r -p "📝 Insert latitude: " LAT
   else
     LAT=$1
   fi
 
   if [ -z "$2" ];then
-    read -p "📝 Insert longtitude: " LONG
+    read -r -p "📝 Insert longtitude: " LONG
   else
     LONG=$2
   fi
@@ -130,7 +129,7 @@ set_gps(){
 
 set_battery_level(){
   if [ -z "$1" ];then
-    read -p "📝 Insert battery level: " LEVEL
+    read -r -p "📝 Insert battery level: " LEVEL
   else
     LEVEL=$1
   fi
@@ -147,7 +146,7 @@ set_network_delay(){
   NET_CHANGED=true
   echo "🌐 Simulating network limit..."
   { echo "o localhost 5554"; sleep 1; echo "auth $TOKEN"; sleep 1; echo "network delay $DELAY"; echo "network speed $DELAY"; } | telnet &> /dev/null
-  read -n 1 -p "⚡️ Press ENTER to stop..."
+  read -r -n 1 -p "⚡️ Press ENTER to stop..."
   disable_network_delay
   echo "✅ Done"
 }
@@ -183,7 +182,7 @@ case $1 in
     ;;
   'battery')
     check_running_emulator
-    set_battery_level $2
+    set_battery_level "$2"
     ;;
   'telnet')
     check_running_emulator

@@ -1,29 +1,28 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 
 init_uninstalling(){
   echo "⏳ Getting third-party package list..."
-  UNINSTALL_COUNT=0
   IGNORED_PACKAGES=( "com.microsoft.hockeyapp.testerapp" "io.crash.air" "de.codenauts.hockeyapp" "ar.core" "com.framerjs.android" "com.figma.mirror" "com.invisionapp.ifa" "com.android.chrome" "com.google.ar.core" "no.nordicsemi.android.mcp" )
-  PACKAGES=($(adb -s $SELECTED_DEVICE shell pm list packages -f -3 | sed -e 's/.*=//' | sort))
+  PACKAGES=($(adb -s "$SELECTED_DEVICE" shell pm list packages -f -3 | sed -e 's/.*=//' | sort))
 }
 
 uninstall_all(){
     for PKG in "${PACKAGES[@]}"
     do
       PKG=${PKG%$'\r'} #removes trailing \r
-      uninstall_package $PKG &
+      uninstall_package "$PKG" &
     done
     wait
 }
 
 uninstall_package(){
   PACKAGE="$1"
-  echo ${PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; return 1; }
-  echo ${IGNORED_PACKAGES[*]} | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; return 1; }
+  echo "${PACKAGES[*]}" | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; return 1; }
+  echo "${IGNORED_PACKAGES[*]}" | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; return 1; }
   echo "🔥 Uninstalling \"$PACKAGE\""
-  adb -s $SELECTED_DEVICE shell pm uninstall $PACKAGE &> /dev/null
+  adb -s "$SELECTED_DEVICE" shell pm uninstall "$PACKAGE" &> /dev/null
 }
 
 select_option(){
@@ -46,7 +45,7 @@ filter_packages(){
     do
       PKG=${PKG%$'\r'}
       echo "${IGNORED_PACKAGES[@]}" | grep -w "$PKG" &> /dev/null && { echo "⏩ Skipped \"$PKG\""; continue; }
-      PACKAGES_LISTED+=($PKG)
+      PACKAGES_LISTED+=("$PKG")
     done
 
     if [ ${#PACKAGES_LISTED[@]} -eq 0 ]; then

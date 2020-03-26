@@ -1,18 +1,18 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
-cd ~/Desktop
+source "$LOCATION"/../common_tools
+cd ~/Desktop || exit
 
 screenshot(){
-  ios_device_info $1
+  ios_device_info "$1"
   FILENAME="$MANUFACTURER-$MODEL-iOS$VERSION-$(date +%Y-%m-%d-%H-%M-%S).png"
   echo "📸 Saving screenshot into $FILENAME"
-  idevicescreenshot -u $1 $FILENAME &> /dev/null
+  idevicescreenshot -u "$1" "$FILENAME" &> /dev/null
   EXIT_CODE=$?
   if [ $EXIT_CODE -ne 0 ]; then
     echo "🤷 Screenshot failed, error code: $EXIT_CODE"
     prompt_xcode_launch
-    screenshot $1
+    screenshot "$1"
   fi
 }
 
@@ -30,5 +30,5 @@ then
   screenshot_all
 else
   ios_choose_device
-  screenshot $SELECTED_DEVICE
+  screenshot "$SELECTED_DEVICE"
 fi

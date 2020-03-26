@@ -1,26 +1,26 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 android_choose_device
 
 if [ -n "$1" ];
 then
     PACKAGE_NAME=$1
-    android_is_package_installed $PACKAGE_NAME
+    android_is_package_installed "$PACKAGE_NAME"
 else
     PACKAGE_NAME=$(android_get_foreground_package)
 fi
 
-VERSION=$(adb -s $SELECTED_DEVICE shell dumpsys package $PACKAGE_NAME | grep versionName | sed 's/versionName=//')
-VERSION=`echo $VERSION | awk '{print $1}'` # Remove ghost whitespaces
-LAST_UPDATE=$(adb -s $SELECTED_DEVICE shell dumpsys package $PACKAGE_NAME | grep lastUpdateTime | sed 's/lastUpdateTime=//')
-LAST_UPDATE=`echo $LAST_UPDATE | awk '{print $1}'` # Remove ghost whitespaces
-SDK=$(adb -s $SELECTED_DEVICE shell dumpsys package $PACKAGE_NAME | grep versionCode | grep -o 'minSdk.*')
+VERSION=$(adb -s "$SELECTED_DEVICE" shell dumpsys package "$PACKAGE_NAME" | grep versionName | sed 's/versionName=//')
+VERSION=$(echo "$VERSION" | awk '{print $1}') # Remove ghost whitespaces
+LAST_UPDATE=$(adb -s "$SELECTED_DEVICE" shell dumpsys package "$PACKAGE_NAME" | grep lastUpdateTime | sed 's/lastUpdateTime=//')
+LAST_UPDATE=$(echo "$LAST_UPDATE" | awk '{print $1}') # Remove ghost whitespaces
+SDK=$(adb -s "$SELECTED_DEVICE" shell dumpsys package "$PACKAGE_NAME" | grep versionCode | grep -o 'minSdk.*')
 
 echo "Package name: $PACKAGE_NAME"
 echo "Version: $VERSION"
 echo "Last update: $LAST_UPDATE"
 echo "SDK: $SDK"
-adb -s $SELECTED_DEVICE shell dumpsys package $PACKAGE_NAME | grep  -v "):\|perm=\|installPermissionsFixed=true" | grep -i -e permission
+adb -s "$SELECTED_DEVICE" shell dumpsys package "$PACKAGE_NAME" | grep  -v "):\\|perm=\\|installPermissionsFixed=true" | grep -i -e permission
 should_proceed "🔨 Do you want to open $PACKAGE_NAME settings?"
-adb -s $SELECTED_DEVICE shell am start -a "android.settings.APPLICATION_DETAILS_SETTINGS" -d "package:$PACKAGE_NAME" &> /dev/null
+adb -s "$SELECTED_DEVICE" shell am start -a "android.settings.APPLICATION_DETAILS_SETTINGS" -d "package:$PACKAGE_NAME" &> /dev/null

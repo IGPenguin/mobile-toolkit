@@ -1,6 +1,6 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 
 install_app(){
   echo "⌛️ Installing \"$2\" to $1"
@@ -33,7 +33,7 @@ run(){
     wait
   else
     ios_choose_device
-    install_app $SELECTED_DEVICE $1
+    install_app "$SELECTED_DEVICE" "$1"
   fi
 }
 

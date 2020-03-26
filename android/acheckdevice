@@ -1,30 +1,30 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 
 GSM_URL='https://www.gsmarena.com/res.php3?sSearch='
 
 echo_info(){
-  MANUFACTURER=$(adb -s $SELECTED_DEVICE shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
-  MODEL=$(adb -s $SELECTED_DEVICE shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
-  VERSION=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
-  SDK=$(adb -s $SELECTED_DEVICE shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
+  MANUFACTURER=$(adb -s "$SELECTED_DEVICE" shell getprop ro.product.manufacturer | tr -cd '[[:alnum:]]._-')
+  MODEL=$(adb -s "$SELECTED_DEVICE" shell getprop ro.product.model | tr -cd '[[:alnum:]]._-')
+  VERSION=$(adb -s "$SELECTED_DEVICE" shell getprop ro.build.version.release | tr -cd '[[:alnum:]]._-')
+  SDK=$(adb -s "$SELECTED_DEVICE" shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
   INFO=$(printf "%s %s %s (API %s)" "$MANUFACTURER" "$MODEL" "$VERSION" "$SDK")
 
   echo "📱 $INFO"
   echo "  • ID: $SELECTED_DEVICE"
-  echo "  • CPU: $(adb -s $SELECTED_DEVICE shell getprop ro.product.cpu.abi | tr -cd '[[:alnum:]]._-')"
-  echo "  • Display density: $(adb -s $SELECTED_DEVICE shell getprop ro.sf.lcd_density | tr -cd '[[:alnum:]]._-')"
+  echo "  • CPU: $(adb -s "$SELECTED_DEVICE" shell getprop ro.product.cpu.abi | tr -cd '[[:alnum:]]._-')"
+  echo "  • Display density: $(adb -s "$SELECTED_DEVICE" shell getprop ro.sf.lcd_density | tr -cd '[[:alnum:]]._-')"
 }
 
 check_screen_timeout(){
   echo -n "🕑 Checking screen timeout"
-  TIMEOUT=$(adb -s $SELECTED_DEVICE shell settings get system screen_off_timeout)
+  TIMEOUT=$(adb -s "$SELECTED_DEVICE" shell settings get system screen_off_timeout)
   TIMEOUT=${TIMEOUT%$'\r'} # remove trailing carriage return
 
   if [ "$TIMEOUT" != "600000" ]; then
     yes_or_no " - 🕤 Timeout is $TIMEOUT miliseconds, set to 10 minutes?"; if ! [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then return; fi
-    adb -s $SELECTED_DEVICE shell settings put system screen_off_timeout 600000
+    adb -s "$SELECTED_DEVICE" shell settings put system screen_off_timeout 600000
   else
     echo " - ✅ 10 minutes"
   fi
@@ -32,12 +32,12 @@ check_screen_timeout(){
 
 check_screen_brightness(){
   echo -n "🔆 Checking screen brightness"
-  BRIGHTNESS=$(adb -s $SELECTED_DEVICE shell settings get system screen_brightness)
+  BRIGHTNESS=$(adb -s "$SELECTED_DEVICE" shell settings get system screen_brightness)
   BRIGHTNESS=${BRIGHTNESS%$'\r'} # remove trailing carriage return
   if [ "$BRIGHTNESS" != "255" ]; then
     yes_or_no " - 🔥 Brightness is $BRIGHTNESS, set manual max brightness?"; if ! [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then return; fi
-    adb -s $SELECTED_DEVICE shell settings put system screen_brightness_mode 0
-    adb -s $SELECTED_DEVICE shell settings put system screen_brightness 255
+    adb -s "$SELECTED_DEVICE" shell settings put system screen_brightness_mode 0
+    adb -s "$SELECTED_DEVICE" shell settings put system screen_brightness 255
   else
     echo " - ✅ MAX"
   fi
@@ -45,11 +45,11 @@ check_screen_brightness(){
 
 check_notification_volume(){
   echo -n "📢 Checking notification volume"
-  RINGER_MODE=$(adb -s $SELECTED_DEVICE shell settings get global mode_ringer)
+  RINGER_MODE=$(adb -s "$SELECTED_DEVICE" shell settings get global mode_ringer)
   RINGER_MODE=${RINGER_MODE%$'\r'} # remove trailing carriage return
   if [ "$RINGER_MODE" != "1" ]; then
     yes_or_no " - 🔕 Ringer mode is not 1 (~silent), try to set silent mode?"; if ! [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then return; fi
-    adb -s $SELECTED_DEVICE shell input keyevent 164
+    adb -s "$SELECTED_DEVICE" shell input keyevent 164
   else
     echo " - ✅ Muted"
   fi
@@ -57,15 +57,14 @@ check_notification_volume(){
 
 check_network_name_contains(){
   echo -n "🌐 Checking WIFI network"
-  NET_STATS=$(adb -s $SELECTED_DEVICE shell dumpsys netstats | grep -E 'iface=wlan.*networkId' )
+  NET_STATS=$(adb -s "$SELECTED_DEVICE" shell dumpsys netstats | grep -E 'iface=wlan.*networkId' )
 
-  echo $NET_STATS | grep -i "$1" &> /dev/null
-  if [ $? -eq 0 ]; then
-    yes_or_no " - ❗️ $1 network detected, open wifi settings?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/aoptions 4; fi
+  if echo "$NET_STATS" | grep -i "$1" &> /dev/null; then
+    yes_or_no " - ❗️ $1 network detected, open wifi settings?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then adb -s "$SELECTED_DEVICE" shell am start -a android.net.wifi.PICK_WIFI_NETWORK &> /dev/null; fi
   fi
-  echo $NET_STATS | grep -E 'iface=wlan.*networkId' &> /dev/null
-  if [ $? -ne 0 ]; then
-    yes_or_no " - ❌ Disconnected, open wifi settings?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then $TOOLKIT_LOCATION/aoptions 4; fi
+
+  if ! echo "$NET_STATS" | grep -E 'iface=wlan.*networkId' &> /dev/null; then
+    yes_or_no " - ❌ Disconnected, open wifi settings?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then adb -s "$SELECTED_DEVICE" shell am start -a android.net.wifi.PICK_WIFI_NETWORK &> /dev/null; fi
   else
     echo " - ✅ Connected"
   fi
@@ -73,12 +72,12 @@ check_network_name_contains(){
 
 check_automatic_date(){
   echo -n "📆 Checking date"
-  AUTO_TIME=$(adb -s $SELECTED_DEVICE shell settings get global auto_time)
+  AUTO_TIME=$(adb -s "$SELECTED_DEVICE" shell settings get global auto_time)
   AUTO_TIME=${AUTO_TIME%$'\r'} # remove trailing carriage return
   if [ "$AUTO_TIME" == "0" ]; then
     yes_or_no " - ❗️ Date is set manually, open date settings?"
     if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
-      adb -s $SELECTED_DEVICE shell am start -a android.settings.DATE_SETTINGS &> /dev/null
+      adb -s "$SELECTED_DEVICE" shell am start -a android.settings.DATE_SETTINGS &> /dev/null
     fi
   else
     echo " - ✅ Automatic"
@@ -89,13 +88,13 @@ check_locale(){
   DEFAULT_LOCALE="en-US"
 
   echo -n "👄 Checking locale"
-  CURRENT_LOCALE=$(adb -s $SELECTED_DEVICE shell getprop persist.sys.locale)
+  CURRENT_LOCALE=$(adb -s "$SELECTED_DEVICE" shell getprop persist.sys.locale)
   CURRENT_LOCALE=${CURRENT_LOCALE%$'\r'} # remove trailing carriage return
 
   if [ "$CURRENT_LOCALE" != "$DEFAULT_LOCALE" ]; then
     yes_or_no " - ❗️ Current locale is $CURRENT_LOCALE, open locale settings?"
     if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
-      adb -s $SELECTED_DEVICE shell am start -a android.settings.LOCALE_SETTINGS &> /dev/null
+      adb -s "$SELECTED_DEVICE" shell am start -a android.settings.LOCALE_SETTINGS &> /dev/null
     fi
   else
     echo " - ✅ $CURRENT_LOCALE"
@@ -106,12 +105,14 @@ check_font_scale(){
   DEFAULT_SCALE="1.0"
 
   echo -n "🔠 Checking font scale"
-  SCALE=$(adb -s $SELECTED_DEVICE shell settings get system font_scale)
+  SCALE=$(adb -s "$SELECTED_DEVICE" shell settings get system font_scale)
   SCALE=${SCALE%$'\r'} # remove trailing carriage return
 
   if [ "$SCALE" != "$DEFAULT_SCALE" ]; then
-    yes_or_no " - 🔍 Current scale is $SCALE, change to $DEFAULT_SCALE"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then return; fi
-    adb -s $SELECTED_DEVICE shell settings put system font_scale $DEFAULT_SCALE
+    yes_or_no " - 🔍 Current scale is $SCALE, change to $DEFAULT_SCALE"
+    if [ "$RESPONSE" == "y" ] || [ "$RESPONSE" != "Y" ]; then
+      adb -s "$SELECTED_DEVICE" shell settings put system font_scale "$DEFAULT_SCALE"
+    fi
   else
     echo " - ✅ $SCALE"
   fi
@@ -120,11 +121,11 @@ check_font_scale(){
 open_gsmarena(){
   should_proceed "🔍 Search for the device on GSMArena?"
   PHONE_URL=$GSM_URL$MODEL
-  open $PHONE_URL
+  open "$PHONE_URL"
 }
 
 android_choose_device
-android_unlock_device $SELECTED_DEVICE
+android_unlock_device "$SELECTED_DEVICE"
 echo_info
 check_screen_timeout
 check_screen_brightness

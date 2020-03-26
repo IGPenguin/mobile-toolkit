@@ -1,0 +1,15 @@
+name: 'Shellcheck'
+on: push
+jobs:
+  shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Shellcheck
+      uses: ludeeus/action-shellcheck@master
+      env:
+        SHELLCHECK_OPTS: -e SC1090 -e SC2207 -e SC2001
+        # SC1090 - non-constant source
+        # SC2207 - no arrays like this ($())
+        # SC2001 - replace sed with ${variable//search/replace}

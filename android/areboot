@@ -1,8 +1,8 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 android_choose_device
 
 should_proceed "🔌 Do you really want to reboot $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
 echo "🔄 Rebooting the device..."
-adb -s $SELECTED_DEVICE reboot &> /dev/null
+adb -s "$SELECTED_DEVICE" reboot &> /dev/null

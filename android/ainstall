@@ -1,12 +1,12 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 
 install_app(){
   echo "⌛️ Installing \"$PACKAGE_NAME\" to $1"
-  adb -s $1 install -t -r "$2" &> /dev/null
+  adb -s "$1" install -t -r "$2" &> /dev/null
   echo "🚀 Launching $APP_NAME on $1..."
-  adb -s $1 shell monkey -p $PACKAGE_NAME -c android.intent.category.LAUNCHER 1 &> /dev/null
+  adb -s "$1" shell monkey -p "$PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
 }
 
 check_args_valid(){
@@ -28,17 +28,18 @@ check_args_valid(){
 run()
 {
   if [[ $1 == "-a" ]]; then
-    detect_package_info $2
-    for line in `adb devices | grep -v "List"  | awk '{print $1}'`
+    android_check_connected
+    detect_package_info "$2"
+    for line in $(adb devices | grep -v "List"  | awk '{print $1}')
     do
-      DEVICE=`echo $line | awk '{print $1}'`
-      install_app $DEVICE $2 &
+      DEVICE=$(echo "$line" | awk '{print $1}')
+      install_app "$DEVICE" "$2" &
     done
     wait
   else
     android_choose_device
-    detect_package_info $1
-    install_app $SELECTED_DEVICE $1
+    detect_package_info "$1"
+    install_app "$SELECTED_DEVICE" "$1"
   fi
 }
 

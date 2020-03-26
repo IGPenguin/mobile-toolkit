@@ -1,6 +1,9 @@
 #!/bin/bash
+# shellcheck disable=SC1007
+# ignore irrelevant warning "remove space after ="
+
 TOOLKIT_LOCATION=$(dirname "$0")
-source $TOOLKIT_LOCATION/../common_tools
+source "$TOOLKIT_LOCATION"/../common_tools
 
 LOCAL_SIMULATOR_LIST=$TOOLKIT_LOCATION/../data/toolkit_simulator_list.txt
 
@@ -10,22 +13,22 @@ help(){
   else
     echo "🤷 Argument missing"
   fi
-  echo -e "Use one of the following options:\n  start - choose and launch installed simulator\n  screenshot <filename> - save screenshot to Desktop\n  record <filename> - save screen recording to Desktop\n  paste <text> - insert text into pasteboard\n  url <url> - open link in web browser\n  logs - print simulator logs\n  battery <0-100> - set battery level\n  time <hh:mm> - set time\n  import <file> - import photo or video into gallery\n  wipe - wipe all simulator data"
+  echo -e "Use one of the following options:\\n  start - choose and launch installed simulator\\n  screenshot <filename> - save screenshot to Desktop\\n  record <filename> - save screen recording to Desktop\\n  paste <text> - insert text into pasteboard\\n  url <url> - open link in web browser\\n  logs - print simulator logs\\n  battery <0-100> - set battery level\\n  time <hh:mm> - set time\\n  import <file> - import photo or video into gallery\\n  wipe - wipe all simulator data"
 }
 
 import_simulator_list(){
-  xcrun simctl list -v devices | grep -i booted | sed 's/ (Booted) //g' > $LOCAL_SIMULATOR_LIST
-  RUNNING_SIMULATOR_COUNT=$(wc -l < $LOCAL_SIMULATOR_LIST)
+  xcrun simctl list -v devices | grep -i booted | sed 's/ (Booted) //g' > "$LOCAL_SIMULATOR_LIST"
+  RUNNING_SIMULATOR_COUNT=$(wc -l < "$LOCAL_SIMULATOR_LIST")
 }
 
 choose_simulator(){
-  read -p "📝 Choose: " SIMULATOR_INDEX
-  SIMULATOR_ID=$(sed $SIMULATOR_INDEX!d $LOCAL_SIMULATOR_LIST)
+  read -r -p "📝 Choose: " SIMULATOR_INDEX
+  SIMULATOR_ID=$(sed "$SIMULATOR_INDEX"!d "$LOCAL_SIMULATOR_LIST")
   if [[ $SIMULATOR_INDEX == "" || $SIMULATOR_ID != *"("* ]]; then
     delete_lastline
     choose_simulator
   fi
-  SIMULATOR_ID=$(echo $SIMULATOR_ID | sed 's/.*(\(.*\))/\1/')
+  SIMULATOR_ID=$(echo "$SIMULATOR_ID" | sed 's/.*(\(.*\))/\1/')
 }
 
 choose_running_simulator(){
@@ -40,63 +43,63 @@ choose_running_simulator(){
     fi
     exit
   elif [[ $RUNNING_SIMULATOR_COUNT -eq 1 ]]; then
-    SIMULATOR_ID=$(sed 1!d $LOCAL_SIMULATOR_LIST | sed 's/.*(\(.*\))/\1/')
+    SIMULATOR_ID=$(sed 1!d "$LOCAL_SIMULATOR_LIST" | sed 's/.*(\(.*\))/\1/')
     return
   fi
 
   echo "📱 Available simulators:"
-  cat $LOCAL_SIMULATOR_LIST | nl
+  nl "$LOCAL_SIMULATOR_LIST"
   choose_simulator
 }
 
 start_simulator(){
   echo "⏳ Getting iOS simulator list..."
-  rm -f $LOCAL_SIMULATOR_LIST
-  xcrun simctl list | grep -i "shutdown\|booted\|-- iOS\|-- tvOS\|-- watchOS" | grep -v "unavailable\|Watch:\|Phone:" | sed 's/ (Shutdown) //g' | sed 's/ (Booted) //g' >> $LOCAL_SIMULATOR_LIST
+  rm -f "$LOCAL_SIMULATOR_LIST"
+  xcrun simctl list | grep -i "shutdown\\|booted\\|-- iOS\\|-- tvOS\\|-- watchOS" | grep -v "unavailable\\|Watch:\\|Phone:" | sed 's/ (Shutdown) //g' | sed 's/ (Booted) //g' >> "$LOCAL_SIMULATOR_LIST"
 
   echo "📱 Available:"
-  cat $LOCAL_SIMULATOR_LIST | nl
+  nl "$LOCAL_SIMULATOR_LIST"
   choose_simulator
   echo  "🚀 Launching simulator..."
-  xcrun simctl boot $SIMULATOR_ID
+  xcrun simctl boot "$SIMULATOR_ID"
   open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/
-  rm $LOCAL_SIMULATOR_LIST
+  rm "$LOCAL_SIMULATOR_LIST"
 }
 
 open_url(){
-  check_url $1
+  check_url "$1"
   echo "🌎 Opening link in a web browser..."
-  xcrun simctl openurl $SIMULATOR_ID $URL &> /dev/null
+  xcrun simctl openurl "$SIMULATOR_ID" "$URL" &> /dev/null
 }
 
 launch_app(){
   if [[ $1 == "" || $1 != "com."*"."* ]]; then
-    read -p "📝 Enter bundle id: " BUNDLE_ID
+    read -r -p "📝 Enter bundle id: " BUNDLE_ID
     launch_app "$BUNDLE_ID"
   else
     echo "🚀 Launching the app..."
-    xcrun simctl launch $SIMULATOR_ID $1
+    xcrun simctl launch "$SIMULATOR_ID" "$1"
   fi
 }
 
 insert_clipboard(){
   if [[ $1 == "" ]]; then
-    read -p "📝 Enter pasteboard text: " TEXT
+    read -r -p "📝 Enter pasteboard text: " TEXT
     insert_clipboard "$TEXT"
   else
     echo "📥 Inserting text into clipboard..."
-    echo $1 | xcrun simctl pbcopy $SIMULATOR_ID &> /dev/null
+    echo "$1" | xcrun simctl pbcopy "$SIMULATOR_ID" &> /dev/null
   fi
 }
 
 wipe_contents(){
   should_proceed "💣 Wipe all simulator data?"
   echo "🚫 Shutting down the device..."
-  xcrun simctl shutdown $SIMULATOR_ID
+  xcrun simctl shutdown "$SIMULATOR_ID"
   echo "🔥 Wiping data..."
-  xcrun simctl erase $SIMULATOR_ID
+  xcrun simctl erase "$SIMULATOR_ID"
   echo "🚀 Booting..."
-  xcrun simctl boot $SIMULATOR_ID
+  xcrun simctl boot "$SIMULATOR_ID"
 }
 
 record_screen(){
@@ -106,8 +109,7 @@ record_screen(){
   else
     FILENAME="$1.mp4"
   fi
-  xcrun simctl io $SIMULATOR_ID recordVideo "~/DESKTOP/$FILENAME"
-  if [[ $? -ne 0 ]]; then
+  if ! xcrun simctl io "$SIMULATOR_ID" recordVideo "$HOME/DESKTOP/$FILENAME"; then
     echo "❌ Recording failed!"
   else
     echo "✅ Video saved to ~/Desktop/$FILENAME"
@@ -121,7 +123,7 @@ take_screenshot(){
   else
     FILENAME=$1
   fi
-  xcrun simctl io $SIMULATOR_ID screenshot "~/Desktop/$FILENAME" &> /dev/null
+  xcrun simctl io "$SIMULATOR_ID" screenshot "$HOME/Desktop/$FILENAME" &> /dev/null
   echo "✅ Screenshot saved to ~/Desktop/$FILENAME"
 }
 
@@ -131,13 +133,13 @@ import_file(){
     exit
   fi
   echo "⏬ Importing file to $SIMULATOR_ID..."
-  xcrun simctl addmedia $SIMULATOR_ID "$PWD/$1"
+  xcrun simctl addmedia "$SIMULATOR_ID" "$PWD/$1"
   echo "✅ File imported successfully"
 }
 
 print_logs(){
   echo "📜 Simulator logs:"
-  xcrun simctl spawn $SIMULATOR_ID log stream --level=debug
+  xcrun simctl spawn "$SIMULATOR_ID" log stream --level=debug
 }
 
 check_xcode_version(){
@@ -151,21 +153,21 @@ check_xcode_version(){
 set_battery_level(){
   check_xcode_version
   if [[ -z "$1" ]]; then
-    read -p "📝 Enter battery level: " LEVEL
+    read -r -p "📝 Enter battery level: " LEVEL
     set_battery_level "$LEVEL"
   else
     echo "🔋 Setting battery level to: $1"
-    xcrun simctl status_bar $SIMULATOR_ID override --batteryLevel $1 # --batteryState charged
+    xcrun simctl status_bar "$SIMULATOR_ID" override --batteryLevel "$1" # --batteryState charged
   fi
 }
 
 set_time(){
   check_xcode_version
   if [[ -z "$1" ]]; then
-    read -p "📝 Enter battery level: " TIME
+    read -r -p "📝 Enter battery level: " TIME
     set_time "$TIME"
   else
-    xcrun simctl status_bar $SIMULATOR_ID override --time $1
+    xcrun simctl status_bar "$SIMULATOR_ID" override --time "$1"
   fi
 }
 

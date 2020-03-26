@@ -1,0 +1,19 @@
+name: Count lines
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Count lines of text in this repository
+        run: git ls-files *[^.png] | xargs wc -l | grep total | awk '{print $1}' > count.txt
+
+      - uses: pCYSl5EDgo/cat@master
+        id: count
+        with:
+          path: count.txt
+
+      - run: echo $TEXT
+        env:
+          TEXT: ${{ steps.count.outputs.text }}

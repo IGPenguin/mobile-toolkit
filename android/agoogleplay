@@ -1,18 +1,18 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 android_choose_device
 
 search_gp(){
   APP_NAME="$1"
   echo "🛒 Searching for $APP_NAME in Google Play..."
-  APP_NAME=$(echo $APP_NAME | sed -e 's/ /\%20/g')
-  GOOGLE_PLAY_URL="http://play.google.com/store/search\?q\=$APP_NAME\&c\=apps"
-  adb -s $SELECTED_DEVICE shell am start -a android.intent.action.VIEW -d "$GOOGLE_PLAY_URL" &> /dev/null
+  APP_NAME=$(echo "$APP_NAME" | sed -e 's/ /\%20/g')
+  GOOGLE_PLAY_URL="http://play.google.com/store/search\\?q\\=$APP_NAME\\&c\\=apps"
+  adb -s "$SELECTED_DEVICE" shell am start -a android.intent.action.VIEW -d "$GOOGLE_PLAY_URL" &> /dev/null
 }
 
 if [ -z "$1" ] ; then
-  search_gp $(android_get_foreground_package)
+  search_gp "$(android_get_foreground_package)"
   exit
 else
   APP_NAME="'$*'"

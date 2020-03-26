@@ -1,41 +1,28 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
-source $LOCATION/../common_tools
+source "$LOCATION"/../common_tools
 android_choose_device
-trap 'ctrlc $@' 1 2 3 6 15
-
-ctrlc()
-{
-  echo
-  turn_off_bounds
-  exit
-}
 
 redraw_screen(){
-  adb -s $SELECTED_DEVICE shell service check SurfaceFlinger &> /dev/null
-  adb -s $SELECTED_DEVICE shell service call activity 1599295570 &> /dev/null
+  adb -s "$SELECTED_DEVICE" shell service check SurfaceFlinger &> /dev/null
+  adb -s "$SELECTED_DEVICE" shell service call activity 1599295570 &> /dev/null
 }
 
 turn_off_bounds(){
-  echo -n "👋 Turning layout bounds off..."
-  adb -s $SELECTED_DEVICE shell setprop debug.layout false &> /dev/null
+  echo "👋 Turning layout bounds off..."
+  adb -s "$SELECTED_DEVICE" shell setprop debug.layout false &> /dev/null
   redraw_screen
 }
 
 turn_on_bounds(){
-  echo -n "📐 Turning layout bounds on..."
-  adb -s $SELECTED_DEVICE shell setprop debug.layout true &> /dev/null
+  echo "📐 Turning layout bounds on..."
+  adb -s "$SELECTED_DEVICE" shell setprop debug.layout true &> /dev/null
   redraw_screen
-
-  if [ "$1" != "-k" ];then
-    read -n 1 -p ", press ENTER to revert"
-    turn_off_bounds
-  fi
 }
 
-BOUNDS_STATE=$(adb -s $SELECTED_DEVICE shell getprop debug.layout | tr -cd '[[:alnum:]]._-')
+BOUNDS_STATE=$(adb -s "$SELECTED_DEVICE" shell getprop debug.layout | tr -cd '[[:alnum:]]._-')
 if [ -z "$BOUNDS_STATE" ] || [ "$BOUNDS_STATE" == "false" ]; then
-  turn_on_bounds $1
+  turn_on_bounds "$1"
 else
   turn_off_bounds
 fi

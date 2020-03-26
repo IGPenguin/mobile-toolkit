@@ -32,8 +32,11 @@
 ---
 
 # 💻 Installation
-_Note: This repository is mainly focused on macOS compatibility, but majority of interactions should work on any Unix system._
+<details>
+	  <summary>Click to reveal step by step guide</summary>
 
+_Note: This repository is mainly focused on macOS compatibility, but majority of interactions should work on any Unix system._
+<br>
 1. **Open terminal**
 2. **Clone this repository** `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
 3. **Setup Android** tools
@@ -48,8 +51,9 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 5. (Optional) Use following **commands in any directory** in your terminal
 	* Edit your **.bash_profile** file in your home directory `nano ~/.bash_profile`
 	* Add the path to the script folders to **PATH** variable in **.bash_profile** (or equivalent file) -> **insert the following lines at the end of the file**, make sure to **replace "dummyuser" with your profile name and use proper path**
-	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/android`
-	`PATH=$PATH:/Users/dummyuser/Repositories/Shell/mobile-toolkit/ios`
+	`PATH=$PATH:/Users/dummyuser/mobile-toolkit/android` <br>
+	`PATH=$PATH:/Users/dummyuser/mobile-toolkit/ios`
+</details>
 
 # 🤖 Android scripts
 
@@ -79,26 +83,20 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `aurl "google.com"` Open link in web browser or corresponding application
 
 ### 📐 abounds
-* `abounds` Display layout bounds
-	* Press ENTER to turn off
-* `abounds -k` Toggle layout bounds visibility
+* `abounds` Display or hide layout bounds
 * App restart may be necessary on lower APIs
 
 ### 🚗 aanimationspeed
-* `aanimationspeed` set slow animation speed
-* `aanimationspeed <speed>` set animation speed to \<speed> times slower than default
-	* Press ENTER to reset to default
-* `afontscale <scale> -k` save changed settings
+* `aanimationspeed` set slower animation speed or restore default
+* `aanimationspeed <speed>` set animation speed multiplier
 
 ### 🔠 afontscale
-* `afontscale` set font scale to large (1.3x bigger than default)
-* `afontscale <scale>` set font scale to \<scale> times larger than default
-	* Press ENTER to reset to default
-* `afontscale <scale> -k` save changed settings
+* `afontscale` set large font scale (1.3x bigger than default) or restore default
+* `afontscale <scale>` set font scale multiplier
 
 ### 🎹 acontrol
 * `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
-* [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") provides realtime device screen mirroring and operation
+* provides realtime device screen mirroring and control
 
 ### 📷 acamera
 * Start the default camera application
@@ -116,7 +114,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 ### 🕵️ aappinfo
 * `aappinfo` List foreground app information
-  * Package name
+	* Package name
 	* Version
 	* Last update
 	* minSdk and targetSdk
@@ -174,10 +172,6 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 ### 📜 alog
 * `alog` Print system log output
 * `alog -f <package-name>` Filter log by package name
-
-### 💥 acrash
-* `acrash` Print log output containing application crashes only
-* `acrash <line-count>` Print \<line-count> lines above and below crash log
 
 ### 📋 acheckdevice
 * Print genereal device information
