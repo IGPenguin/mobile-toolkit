@@ -15,13 +15,13 @@ restore_animation_speed(){
 
 android_choose_device
 if ! [ -z "$1" ] 2> /dev/null ;then
-  echo -n "🎬 Setting animation speed to "$1" (default is 1, bigger is slower)..."
+  echo "🎬 Setting animation speed to "$1" (default is 1, bigger is slower)..."
   set_animation_speed "$1"
 else
   if [ "$(adb -s "$SELECTED_DEVICE" shell settings get global animator_duration_scale)" != "1" ] || [ "$(adb -s "$SELECTED_DEVICE" shell settings get global transition_animation_scale)" != "1" ] || [ "$(adb -s "$SELECTED_DEVICE" shell settings get global window_animation_scale)" != "1" ] ; then
     restore_animation_speed
   else
-    echo -n "🎬 Setting animation speed to 5 (default is 1, bigger is slower)..."
+    echo "🎬 Setting animation speed to 5 (default is 1, bigger is slower)..."
     set_animation_speed 5
   fi
 fi

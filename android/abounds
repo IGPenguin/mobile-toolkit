@@ -9,13 +9,13 @@ redraw_screen(){
 }
 
 turn_off_bounds(){
-  echo -n "👋 Turning layout bounds off..."
+  echo "👋 Turning layout bounds off..."
   adb -s "$SELECTED_DEVICE" shell setprop debug.layout false &> /dev/null
   redraw_screen
 }
 
 turn_on_bounds(){
-  echo -n "📐 Turning layout bounds on..."
+  echo "📐 Turning layout bounds on..."
   adb -s "$SELECTED_DEVICE" shell setprop debug.layout true &> /dev/null
   redraw_screen
 }
