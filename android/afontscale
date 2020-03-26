@@ -1,35 +1,23 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
-trap 'ctrlc $@' 1 2 3 6 15
-
-ctrlc()
-{
-  restore_font_scale
-  exit
-}
 
 set_font_scale(){
-  echo -n "🔍 Setting font scale to $1..."
-  PREVIOUS_SCALE=$(adb -s "$SELECTED_DEVICE" shell settings get system font_scale)
   adb -s "$SELECTED_DEVICE" shell settings put system font_scale "$1"
 }
 
-restore_font_scale(){
-  set_font_scale "$PREVIOUS_SCALE"
-  echo
-  echo "🔄 Font scale restored to previous settings"
-}
-
 android_choose_device
-if [ "$1" -eq "$1" ] 2> /dev/null
+if [ -z "$1" ] 2> /dev/null
 then
-  set_font_scale "$1"
+  CURRENT_FONT_SIZE=$(adb -s "$SELECTED_DEVICE" shell settings get system font_scale)
+  if [ "$CURRENT_FONT_SIZE" != "1.0" ]; then
+    echo "🔄 Font scale restored to default \"1.0\""
+    set_font_scale "1.0"
+  else
+    echo "🔍 Setting bigger font scale to \"1.3\"..."
+    set_font_scale "1.3"
+  fi
 else
-  set_font_scale 1.3
-fi
-
-if [ "$1" != "-k" ] && [ "$2" != "-k" ];then
-  read -r -n 1 -p ", press ENTER to revert"
-  restore_font_scale
+  echo "🔍 Setting font scale to \"$1\"..."
+  set_font_scale "$1"
 fi
