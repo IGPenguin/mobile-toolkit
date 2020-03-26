@@ -1,3 +1,4 @@
-update README.md
-implement github action - lint check
-fix hundreds of potential issues
+👉 abounds, aanimationspeed and afontscale toggle without -k option
+🎉 implement github action - lint check
+🩹 fix hundreds of potential issues
+📣 update README.md
