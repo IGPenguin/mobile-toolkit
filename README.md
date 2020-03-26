@@ -35,7 +35,7 @@
 <details>
 	  <summary>Click to reveal step by step guide</summary>
 
-_Note: This repository is mainly focused on macOS compatibility, but majority of interactions should work on any Unix system._ 
+_Note: This repository is mainly focused on macOS compatibility, but majority of interactions should work on any Unix system._
 <br>
 1. **Open terminal**
 2. **Clone this repository** `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
@@ -120,7 +120,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 ### 🕵️ aappinfo
 * `aappinfo` List foreground app information
-  * Package name
+	* Package name
 	* Version
 	* Last update
 	* minSdk and targetSdk
