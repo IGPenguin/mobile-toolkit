@@ -33,8 +33,8 @@ list_build_variants(){
   echo "⏳ Detecting build variants, this may take a while..."
   ./gradlew tasks | grep '^install' > $TASK_LIST
 
-  if [ "$(wc -l "$TASK_LIST")" -eq 0 ]; then
-    echo "🤷‍ No Android project build variants available"
+  if [ "$(wc -l "$TASK_LIST")" == "0" ]; then
+    echo "🤷‍ No Android project build variants available! Aborting..."
     exit
   else
     echo "🔨 Available:"
