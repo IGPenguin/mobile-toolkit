@@ -29,8 +29,6 @@
 
 🔗 Connect with me on [LinkedIn](https://www.linkedin.com/in/intergalacticpenguin/) if you want :)
 
----
-
 # 💻 Installation
 <details>
 	  <summary>Click to reveal step by step guide</summary>
