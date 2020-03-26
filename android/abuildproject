@@ -30,7 +30,7 @@ list_build_variants(){
   fi
 
   TASK_LIST="toolkit_task_list.txt"
-  echo "⏳ Detecting build variant list, this may take a while..."
+  echo "⏳ Detecting build variants, this may take a while..."
   ./gradlew tasks | grep '^install' > $TASK_LIST
 
   if [ "$(wc -l "$TASK_LIST")" -eq 0 ]; then
@@ -38,7 +38,7 @@ list_build_variants(){
     exit
   else
     echo "🔨 Available:"
-    nl $TASK_LIST 
+    nl $TASK_LIST
   fi
 }
 
