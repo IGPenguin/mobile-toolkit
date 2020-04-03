@@ -1,4 +1,4 @@
-🤔 **Check before merge:**
+🤔 **Check all before merging!**
 - [ ] 📈[Project board](https://github.com/IntergalacticPenguin/mobile-toolkit/projects/1) up to date
 - [ ] 🏗 Everything implemented thoroughly
 - [ ] 🔨 All changes tested
