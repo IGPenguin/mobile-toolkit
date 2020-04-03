@@ -4,7 +4,7 @@ source "$LOCATION"/../common_tools
 
 install_app(){
   echo "⌛️ Installing \"$PACKAGE_NAME\" to $1..."
-  adb -s "$1" install -t -r "$2" &> /dev/null
+  adb -s "$1" install -t -r "$2" &> /dev/null || { echo "❌ Installation failed, try uninstalling existing version or troubleshooting the package!"; exit 1; }
   echo "🚀 Launching $APP_NAME on $1..."
   adb -s "$1" shell monkey -p "$PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
 }
