@@ -1,1 +1,2 @@
 🩹 handle unauthorized ADB device
+💥 handle app package installation fail
