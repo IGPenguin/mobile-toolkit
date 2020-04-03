@@ -1,4 +1,6 @@
 #!/bin/bash
+# shellcheck disable=SC2015
+
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 
