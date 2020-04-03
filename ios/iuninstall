@@ -4,6 +4,7 @@ source "$LOCATION"/../common_tools
 ios_choose_device
 
 init(){
+  check_dependency "ideviceinstaller"
   IGNORED_PACKAGES=( "com.apple.TestFlight" "motif.FramerPreview" "com.figma.FigmaMirror" "com.invisionapp.InVisionApp-iOS" )
 }
 

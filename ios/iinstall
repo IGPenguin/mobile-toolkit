@@ -4,7 +4,7 @@ source "$LOCATION"/../common_tools
 
 install_app(){
   echo "⌛️ Installing \"$2\" to $1..."
-  ideviceinstaller -u "$1" -i "$2" &> /dev/null && echo "✅ Installed successfully!" || echo "❌ Installation failed, uninstall existing version or troubleshoot the build"
+  ideviceinstaller -u "$1" -i "$2" &> /dev/null && echo "✅ Installed successfully!" || echo "❌ Installation failed, try uninstalling existing version or troubleshooting the package!"
 }
 
 check_args_valid(){
@@ -37,5 +37,6 @@ run(){
   fi
 }
 
+check_dependency "ideviceinstaller"
 check_args_valid "$@"
 run "$@"
