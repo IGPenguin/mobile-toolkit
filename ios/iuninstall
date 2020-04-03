@@ -63,7 +63,7 @@ uninstall_package(){
   echo "${PACKAGE_LIST[*]}" | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; return 1; }
   echo "${IGNORED_PACKAGES[*]}" | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; return 1; }
 
-  echo "🔥 Uninstalling \"$PACKAGE\""
+  echo "🔥 Uninstalling \"$PACKAGE\"..."
   ideviceinstaller -u "$SELECTED_DEVICE" -U "$PACKAGE" &> /dev/null
   return 0
 }

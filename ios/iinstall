@@ -3,7 +3,7 @@ LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 
 install_app(){
-  echo "⌛️ Installing \"$2\" to $1"
+  echo "⌛️ Installing \"$2\" to $1..."
   ideviceinstaller -u "$1" -i "$2" &> /dev/null
 }
 
