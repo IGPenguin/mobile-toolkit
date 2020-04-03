@@ -28,11 +28,17 @@ android_wait_for_device(){
 android_get_devices(){
   #Populate array with device ids
   DEVICES=()
-  for LINE in $(adb devices | grep -v "List"  | awk '{print $1}')
-  do
-    DEVICE=$(echo "$LINE" | awk '{print $1}')
-    DEVICES+=("$DEVICE")
-  done
+  DEVICES_DUMP=$(adb devices | grep -v "List")
+  if echo "$DEVICES_DUMP" | grep -q unauthorized ; then
+    read -r -p $'🚨 Unauthorized Android device detected!\n🔌 Reconnect it, allow USB debugging and press ENTER...'
+    android_get_devices
+  else
+    for LINE in $(echo $DEVICES_DUMP | awk '{print $1}')
+    do
+      DEVICE=$(echo "$LINE" | awk '{print $1}')
+      DEVICES+=("$DEVICE")
+    done
+  fi
 }
 
 android_get_device_sdk(){
