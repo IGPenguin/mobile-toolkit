@@ -46,7 +46,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 	* **[Allow USB debugging](https://developer.android.com/studio/debug/dev-options) on your device, connect it and authorize your computer** (click OK on the device screen)
 4. **Setup iOS tools**
 	* **Install latest Xcode and iOS command line tools** using [App Store](https://apps.apple.com/cz/app/xcode/id497799835?mt=12)
-	* [Install](https://brew.sh/ "Homberew") **Homebrew** package manager
+	* **Install [Homebrew](https://brew.sh/ "Homberew") package manager**
 	* **Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")**  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
 	* **Run Xcode, connect iOS device to USB and authorize your computer** (click "Trust" on the device screen) 
 5. (Optional) **Use Mobile Toolkit in any directory in terminal**
