@@ -15,7 +15,6 @@ android_check_connected(){
   then
     echo "❌ No Android devices detected"
     yes_or_no "❓ Start an emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/aemulator "start"; fi
-    android_wait_for_device
   fi
 }
 
