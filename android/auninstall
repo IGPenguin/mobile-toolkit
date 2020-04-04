@@ -67,7 +67,7 @@ handle_arguments(){
     filter_packages
     select_option
     uninstall_package "$PACKAGE"
-  elif [[  "$1" == "-a" ]]; then
+  elif [[  "$1" == "-w" ]]; then
     if [[ -z "$2" ]]; then
       tput setaf 1
       should_proceed "💣 Delete all third-party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"

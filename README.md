@@ -42,21 +42,21 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 	* **Edit .bash_profile** (or .zshrc if you have zsh shell) `open -e ~/.bash_profile` or `open -e ~/.zshrc`
 	  * **Add this line the end** `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools export PATH`
 	  * **Don't forget to replace "dummyuser" with your account username**
-	  * **Use full path to the "platform-tools" directory** 
+	  * **Use full path to the "platform-tools" directory**
 	* **[Allow USB debugging](https://developer.android.com/studio/debug/dev-options) on your device, connect it and authorize your computer** (click OK on the device screen)
 4. **Setup iOS tools**
 	* **Install latest Xcode and iOS command line tools** using [App Store](https://apps.apple.com/cz/app/xcode/id497799835?mt=12)
 	* **Install [Homebrew](https://brew.sh/ "Homberew") package manager**
 	* **Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")**  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
-	* **Run Xcode, connect iOS device to USB and authorize your computer** (click "Trust" on the device screen) 
+	* **Run Xcode, connect iOS device to USB and authorize your computer** (click "Trust" on the device screen)
 5. (Optional) **Use Mobile Toolkit in any directory in terminal**
 	* **Edit .bash_profile** (or .zshrc if you have zsh shell) `open -e ~/.bash_profile` or `open -e ~/.zshrc`
 	  * **Insert these lines at the end** <br> `PATH=$PATH:/Users/dummyuser/mobile-toolkit/android` <br>
-	`PATH=$PATH:/Users/dummyuser/mobile-toolkit/ios` 
+	`PATH=$PATH:/Users/dummyuser/mobile-toolkit/ios`
 	  * **Don't forget to replace "dummyuser" with your account username**
 	  * **Use full path to the "mobile-toolkit" directory** (where you cloned this repository)
 	  * **Move** `export PATH` **to the end of the file**
-	
+
 </details>
 
 # 🤖 Android scripts
@@ -141,7 +141,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 ### 🗑 auninstall
 * `auninstall` Uninstall third-party app, choose from the list
 * `auninstall com.dummy.package.name.app` pass package name as argument
-* `auninstall -a` Uninstall all-third party packages
+* `auninstall -w` Uninstall all-third party packages
 	* Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 ### 🔥 awipe
@@ -237,7 +237,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 ### 🗑 iuninstall
 * `iuninstall` Uninstall third-party app, choose from the list
 * `iuninstall com.dummy.package.name.app` pass bundle name as argument
-* `iuninstall -a` Uninstall all third-party packages
+* `iuninstall -w` Uninstall all third-party packages
   * Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 ## Manage device

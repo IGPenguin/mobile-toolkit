@@ -81,7 +81,7 @@ uninstall_all(){
 }
 
 handle_arguments(){
-  if [[  "$1" == "-a" ]]; then
+  if [[  "$1" == "-w" ]]; then
     uninstall_all
   elif [[ -n "$1" ]]; then
     uninstall_package "$1"
