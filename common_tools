@@ -29,6 +29,7 @@ android_get_devices(){
   #Populate array with device ids
   DEVICES=()
   DEVICES_DUMP="$SCRIPT_LOCATION/../data/toolkit_adb_devices_dump.txt"
+  rm -f $DEVICES_DUMP
   adb devices | grep -v "List" >> $DEVICES_DUMP
   if cat "$DEVICES_DUMP" | grep -q unauthorized ; then
     read -r -p $'🚨 Unauthorized Android device detected!\n🔌 Reconnect it, allow USB debugging and press ENTER...'
@@ -40,7 +41,6 @@ android_get_devices(){
       DEVICES+=("$DEVICE")
     done
   fi
-  rm $DEVICES_DUMP
 }
 
 android_get_device_sdk(){
