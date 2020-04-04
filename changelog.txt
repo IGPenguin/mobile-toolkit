@@ -1,2 +1,3 @@
 🩹 handle unauthorized ADB device
 💥 handle app package installation fail
+♻️ change auinstall/iuninstall -a to -w (wipe all apps)
