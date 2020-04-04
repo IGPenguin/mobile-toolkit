@@ -218,7 +218,6 @@ ios_choose_device(){
   then
      echo "❌ No iOS devices detected"
      yes_or_no "❓ Start a simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/isimulator start; exit; fi
-     ios_wait_for_device
   fi
 
   if [ ${#IOS_USB_DEVICES[@]} -gt 1 ]
