@@ -14,8 +14,8 @@ android_check_connected(){
   if [ ${#DEVICES[@]} -eq 0 ]
   then
     echo "❌ No Android devices detected"
-    yes_or_no "❓ Start an emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/aemulator "start"; fi
-    android_wait_for_device
+    yes_or_no "❓ Start Android Emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/aemulator "start"; fi
+    exit 1
   fi
 }
 
@@ -25,10 +25,25 @@ android_wait_for_device(){
   android_get_devices
 }
 
+android_get_devices_auth_dump(){
+  DEVICES_DUMP="$SCRIPT_LOCATION/../data/toolkit_adb_devices_dump.txt"
+  rm -f $DEVICES_DUMP
+  adb devices | grep -v "List" >> $DEVICES_DUMP
+  if cat "$DEVICES_DUMP" | grep -q unauthorized ; then
+    read -r -p $'🚨 Unauthorized Android device detected!\n🔌 Reconnect it, allow USB debugging and press ENTER...'
+    android_get_devices_auth_dump
+  fi
+  if cat "$DEVICES_DUMP" | grep -q offline ; then
+    read -r -p $'🚨 Offline Android device detected!\n🔌 Wait until the startup is complete, then press ENTER...'
+    android_get_devices_auth_dump
+  fi
+}
+
 android_get_devices(){
   #Populate array with device ids
   DEVICES=()
-  for LINE in $(adb devices | grep -v "List"  | awk '{print $1}')
+  android_get_devices_auth_dump
+  for LINE in $(cat $DEVICES_DUMP | awk '{print $1}')
   do
     DEVICE=$(echo "$LINE" | awk '{print $1}')
     DEVICES+=("$DEVICE")
@@ -207,8 +222,8 @@ ios_choose_device(){
   if [ ${#IOS_USB_DEVICES[@]} -eq 0 ] #No device connected
   then
      echo "❌ No iOS devices detected"
-     yes_or_no "❓ Start a simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/isimulator start; exit; fi
-     ios_wait_for_device
+     yes_or_no "❓ Start iOS Simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/isimulator start; exit; fi
+     exit 1
   fi
 
   if [ ${#IOS_USB_DEVICES[@]} -gt 1 ]

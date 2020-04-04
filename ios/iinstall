@@ -1,10 +1,12 @@
 #!/bin/bash
+
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 
 install_app(){
-  echo "⌛️ Installing \"$2\" to $1"
-  ideviceinstaller -u "$1" -i "$2" &> /dev/null
+  echo "⌛️ Installing \"$2\" to $1..."
+  ideviceinstaller -u "$1" -i "$2" &> /dev/null || { echo "❌ Installation to $1 failed!"; echo "🤕 Uninstall existing version or troubleshoot the package!"; exit 1; }
+  echo "✅ Successfully installed to $1"
 }
 
 check_args_valid(){
@@ -37,5 +39,6 @@ run(){
   fi
 }
 
+check_dependency "ideviceinstaller"
 check_args_valid "$@"
 run "$@"

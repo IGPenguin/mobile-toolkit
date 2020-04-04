@@ -103,7 +103,7 @@ if [[ "$1" == "" ]]; then
 
   echo "📋 Available options:"
   tput setaf 3; echo "A) Show all $TOOLKIT_INTENT_COUNT settings options"; tput sgr0
-  echo -e "1) Developer\\n2) Locale\\n3) Date & time\\n4) Wifi network\\n5) Storage management\\n6) Power usage\\nS) Open system settings application\\nU) Update settings list from Android sdk\\nor\\n<text> to search in all settings"
+  echo -e "S) Open system settings application\\n1) Developer\\n2) Locale\\n3) Date & time\\n4) Wifi network\\n5) Storage management\\n6) Power usage\\nU) Update settings list from Android sdk\\nor\\n<text> to search in all settings"
   read -r -p "📝 Enter your selection: " PRESET
   handle_preset "$PRESET"
   exit
