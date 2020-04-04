@@ -6,7 +6,7 @@ source "$LOCATION"/../common_tools
 
 install_app(){
   echo "⌛️ Installing \"$2\" to $1..."
-  ideviceinstaller -u "$1" -i "$2" &> /dev/null && "✅ Successfully installed to $1" || { echo "❌ Installation failed, try uinstalling the existing version or troubleshooting the package!"; exit 1; }
+  ideviceinstaller -u "$1" -i "$2" &> /dev/null && echo "✅ Successfully installed to $1" || { echo "❌ Installation failed, try uinstalling the existing version or troubleshooting the package!"; exit 1; }
 }
 
 check_args_valid(){
