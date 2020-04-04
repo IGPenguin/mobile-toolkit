@@ -2,7 +2,7 @@
 ## What is this?
 🛠 Capture screen, manage apps and data, simulate input, print log and gather plenty of various intel in seconds!<br>
 
-⚡️ Boost your effectivity while developing and testing mobile applications and discover new tools<br>
+⚡️ Boost your effectivity while developing and/or testing mobile applications, discover new tools!<br>
 
 
 ## All features
@@ -50,10 +50,13 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 	* **Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")**  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
 	* **Run Xcode, connect iOS device to USB and authorize your computer** (click "Trust" on the device screen) 
 5. (Optional) **Use Mobile Toolkit in any directory in terminal**
-	* Edit your **.bash_profile** file in your home directory `open -e ~/.bash_profile` or `open -e ~/.zshrc`
-	* Add the path to the script folders to **PATH** variable in **.bash_profile** (or equivalent file) -> **insert the following lines at the end of the file**, make sure to **replace "dummyuser" with your profile name and use proper path**
-	`PATH=$PATH:/Users/dummyuser/mobile-toolkit/android` <br>
-	`PATH=$PATH:/Users/dummyuser/mobile-toolkit/ios`
+	* **Edit .bash_profile** (or .zshrc if you have zsh shell) `open -e ~/.bash_profile` or `open -e ~/.zshrc`
+	  * **Insert these lines at the end** <br> `PATH=$PATH:/Users/dummyuser/mobile-toolkit/android` <br>
+	`PATH=$PATH:/Users/dummyuser/mobile-toolkit/ios` 
+	  * **Don't forget to replace "dummyuser" with your account username**
+	  * **Use full path to the "mobile-toolkit" directory** (where you cloned this repository)
+	  * **Move** `export PATH` **to the end of the file**
+	
 </details>
 
 # 🤖 Android scripts
