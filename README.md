@@ -45,7 +45,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 	* Install latest **Xcode and iOS command line tools** using [App Store](https://apps.apple.com/cz/app/xcode/id497799835?mt=12)
 	* [Install](https://brew.sh/ "Homberew") **Homebrew** package manager
 	* Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
-	* Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
+	* **Run Xcode, connect iOS device to USB and authorize your computer** (click "Trust" on device screen) 
 5. (Optional) Use following **commands in any directory** in your terminal
 	* Edit your **.bash_profile** file in your home directory `nano ~/.bash_profile`
 	* Add the path to the script folders to **PATH** variable in **.bash_profile** (or equivalent file) -> **insert the following lines at the end of the file**, make sure to **replace "dummyuser" with your profile name and use proper path**
