@@ -30,6 +30,7 @@ run()
 {
   if [[ $1 == "-a" ]]; then
     android_check_connected
+    android_get_devices_auth_dump
     detect_package_info "$2"
     for line in $(adb devices | grep -v "List"  | awk '{print $1}')
     do
