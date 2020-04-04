@@ -33,6 +33,10 @@ android_get_devices_auth_dump(){
     read -r -p $'🚨 Unauthorized Android device detected!\n🔌 Reconnect it, allow USB debugging and press ENTER...'
     android_get_devices_auth_dump
   fi
+  if cat "$DEVICES_DUMP" | grep -q offline ; then
+    read -r -p $'🚨 Offline Android device detected!\n🔌 Wait until the startup is complete, then press ENTER...'
+    android_get_devices_auth_dump
+  fi
 }
 
 android_get_devices(){
