@@ -21,7 +21,7 @@
 
 ## Feedback & contribution
 
-⁉️ Submit issue to report bugs, bring inspiration or simply ask questions<br>
+⁉️ [Submit issue](https://github.com/IntergalacticPenguin/mobile-toolkit/issues/new/choose) to report bugs, bring inspiration or simply ask questions<br>
 
 🤝 [Pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") **is highly appreciated, see** [Issue Status Board](https://github.com/IntergalacticPenguin/mobile-toolkit/projects/1)<br>
 
