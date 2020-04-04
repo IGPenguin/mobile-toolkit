@@ -12,6 +12,7 @@ screenshot(){
 }
 
 screenshot_all(){
+  android_get_devices_auth_dump
   for line in $(adb devices | grep -v "List"  | awk '{print $1}')
   do
     device=$(echo "$line" | awk '{print $1}')
