@@ -59,7 +59,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 </details>
 
-# 🤖 Android scripts
+# 🤖 Android commands
 
 ## Capture screen
 
@@ -209,7 +209,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
   * `telnet <command>` - call command via telnet
 	   * example commands `event | redir | sensor | physics | finger | rotate | fold | unfold...` see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
 
-# 🍎 iOS scripts
+# 🍎 iOS commands
 
 ## Capture screen
 
