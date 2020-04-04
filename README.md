@@ -23,7 +23,7 @@
 
 ⁉️ [Submit issue](https://github.com/IntergalacticPenguin/mobile-toolkit/issues/new/choose) to report bugs, bring inspiration or simply ask questions<br>
 
-🤝 [Pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") **is highly appreciated, see** [Issue Status Board](https://github.com/IntergalacticPenguin/mobile-toolkit/projects/1)<br>
+🤝 [Pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") **is highly appreciated, see** [Collossal Challenges](https://github.com/IntergalacticPenguin/mobile-toolkit/projects/3)<br>
 
 ⭐️ Love Mobile Toolkit? -> Hit the star button and bring me joy!<br>
 
