@@ -6,7 +6,7 @@ cd ~/Desktop || exit
 screenshot(){
   ios_device_info "$1"
   FILENAME="$MANUFACTURER-$MODEL-iOS$VERSION-$(date +%Y-%m-%d-%H-%M-%S).png"
-  echo "📸 Saving screenshot into $FILENAME"
+  echo "📸 Saving screenshot into $FILENAME..."
   idevicescreenshot -u "$1" "$FILENAME" &> /dev/null
   EXIT_CODE=$?
   if [ $EXIT_CODE -ne 0 ]; then
