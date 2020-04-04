@@ -1,6 +1,6 @@
 ![Header](/header_v2.png?raw=true)
 ## What is this?
-🛠 Capture screen, manage apps and data, simulate input, print log and gather plenty of various intel in seconds!<br>
+🛠 Capture screen, manage apps, simulate input, print system log and gather various intel using simple commands!<br>
 
 ⚡️ Boost your effectivity while developing and/or testing mobile applications, discover new tools!<br>
 
@@ -148,7 +148,8 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * Wipe internal storage (/mnt/sdcard directory) and delete all third-party apps
 
 ### 🐁 apermissionreset
-* Revoke ALL runtime permissions for ALL (even system) apps
+* Revoke ALL GRANTED runtime permissions for ALL apps
+	* You'll have to handle permission requests upon opening almost any app
 
 ### 🛍 agoogleplay
 * `agoogleplay "Dummy App"` Search for "Dummy App" on Google Play
