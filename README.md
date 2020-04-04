@@ -2,7 +2,7 @@
 ## What is this?
 🛠 Capture screen, manage apps and data, simulate input, print log and gather plenty of various intel in seconds!<br>
 
-⚡️ Boost your effectivity while developing and testing mobile applications and discover new tools<br>
+⚡️ Boost your effectivity while developing and/or testing mobile applications, discover new tools!<br>
 
 
 ## All features
