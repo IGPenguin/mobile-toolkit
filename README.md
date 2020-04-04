@@ -42,7 +42,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 	* Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bash_profile** (or .zshrc if you have zsh shell) `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools export PATH`
 	* **Allow USB debugging** on your device, connect it and **authorize** your computer (click OK on device screen)
 4. **Setup iOS** tools
-	* Install latest **Xcode and iOS command line tools** using App Store
+	* Install latest **Xcode and iOS command line tools** using [App Store](https://apps.apple.com/cz/app/xcode/id497799835?mt=12)
 	* [Install](https://brew.sh/ "Homberew") **Homebrew** package manager
 	* Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
 	* Mount developer image on your device **-> connect iOS device to USB**, **authorize** your computer (click "Trust" on device screen) and **run Xcode**
