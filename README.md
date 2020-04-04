@@ -37,17 +37,20 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 <br>
 1. **Open terminal**
 2. **Clone this repository** `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
-3. **Setup Android** tools
-	* [Download](https://developer.android.com/studio/ "Android Studio") and install **Android Studio** or **Android command line tools**
-	* Add the absolute path to the **platform-tools** folder to **PATH** variable in **.bash_profile** (or .zshrc if you have zsh shell) `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools export PATH`
-	* **Allow USB debugging** on your device, connect it and **authorize** your computer (click OK on device screen)
-4. **Setup iOS** tools
-	* Install latest **Xcode and iOS command line tools** using [App Store](https://apps.apple.com/cz/app/xcode/id497799835?mt=12)
+3. **Setup Android tools**
+	* **[Download](https://developer.android.com/studio/ "Android Studio") and install Android Studio** or **Android command line tools**
+	* **Edit .bash_profile** (or .zshrc if you have zsh shell) `open -e ~/.bash_profile` or `open -e ~/.zshrc`
+	  * **Add the following line at the end** `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools export PATH`
+	  * **Don't forget to replace "dummyuser" with your account username**
+	  * **Use full path to the "platform-tools" directory** 
+	* **[Allow USB debugging](https://developer.android.com/studio/debug/dev-options) on your device, connect it and authorize your computer** (click OK on the device screen)
+4. **Setup iOS tools**
+	* **Install latest Xcode and iOS command line tools** using [App Store](https://apps.apple.com/cz/app/xcode/id497799835?mt=12)
 	* [Install](https://brew.sh/ "Homberew") **Homebrew** package manager
-	* Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
-	* **Run Xcode, connect iOS device to USB and authorize your computer** (click "Trust" on device screen) 
-5. (Optional) Use following **commands in any directory** in your terminal
-	* Edit your **.bash_profile** file in your home directory `nano ~/.bash_profile`
+	* **Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")**  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
+	* **Run Xcode, connect iOS device to USB and authorize your computer** (click "Trust" on the device screen) 
+5. (Optional) **Use Mobile Toolkit in any directory in terminal**
+	* Edit your **.bash_profile** file in your home directory `open -e ~/.bash_profile` or `open -e ~/.zshrc`
 	* Add the path to the script folders to **PATH** variable in **.bash_profile** (or equivalent file) -> **insert the following lines at the end of the file**, make sure to **replace "dummyuser" with your profile name and use proper path**
 	`PATH=$PATH:/Users/dummyuser/mobile-toolkit/android` <br>
 	`PATH=$PATH:/Users/dummyuser/mobile-toolkit/ios`
