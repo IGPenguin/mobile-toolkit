@@ -14,7 +14,8 @@ android_check_connected(){
   if [ ${#DEVICES[@]} -eq 0 ]
   then
     echo "❌ No Android devices detected"
-    yes_or_no "❓ Start an emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/aemulator "start"; fi
+    yes_or_no "❓ Start Android Emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/aemulator "start"; fi
+    exit 1
   fi
 }
 
@@ -217,7 +218,8 @@ ios_choose_device(){
   if [ ${#IOS_USB_DEVICES[@]} -eq 0 ] #No device connected
   then
      echo "❌ No iOS devices detected"
-     yes_or_no "❓ Start a simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/isimulator start; exit; fi
+     yes_or_no "❓ Start iOS Simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/isimulator start; exit; fi
+     exit 1
   fi
 
   if [ ${#IOS_USB_DEVICES[@]} -gt 1 ]
