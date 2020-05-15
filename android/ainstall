@@ -6,8 +6,8 @@ source "$LOCATION"/../common_tools
 install_app(){
   echo "⌛️ Installing \"$PACKAGE_NAME\" to $1..."
   TEMPORARY_FILE="$TEMPORARY_FILE-$(date +%s)"
-  adb -s "$1" install -t -r "$2" &> $TEMPORARY_FILE
-  if cat "$TEMPORARY_FILE" | grep -q Failure ; then
+  adb -s "$1" install -t -r "$2" &> "$TEMPORARY_FILE"
+  if grep -q Failure "$TEMPORARY_FILE" ; then
     echo "❌ Installation to $1 failed!"
     echo "🤕 Uninstall existing version or troubleshoot the package."
     exit 1
