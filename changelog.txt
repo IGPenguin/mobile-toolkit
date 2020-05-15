@@ -1,2 +1,3 @@
-🩹 handle app installation errors
-🔀 fix update check in "-a" flows
+  🩹 handle app installation errors
+  💥 handle device picker non-numeric input
+  🔀 fix update check in "-a" flows

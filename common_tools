@@ -1,12 +1,17 @@
 #!/bin/bash
 # shellcheck disable=SC2034
 
+##############################################################################
+### VARs
+
 SCRIPT_LOCATION=$(dirname "$0")
 LAST_CHECK_DATE_FILE="$SCRIPT_LOCATION/../data/toolkit_last_check_date.txt"
 TEMPORARY_FILE="/private/tmp/mobile-toolkit-cache"
 
-##########################
-### ANDROID SECTION
+REGEX_NUMBER='^[0-9]+$'
+
+##############################################################################
+### Android
 
 android_check_connected(){
   android_get_devices
@@ -82,9 +87,9 @@ android_choose_device() {
     read -r -p "📝 Select a device: " CHOICE
     while :;
     do
-    if ((CHOICE <= 0 || CHOICE > ${#DEVICES[@]})); then
+    if [[ ! $CHOICE =~ $REGEX_NUMBER ]] || [ "$CHOICE" -le "0" -o "$CHOICE" -gt "${#DEVICES[@]}" ]; then
       echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
-      read -r -p "Invalid input, try again: " CHOICE
+      read -r -p "🤷 Invalid input, try again: " CHOICE
     else
       break
     fi
@@ -157,8 +162,8 @@ detect_package_info(){
   APP_NAME=${APP_NAME#"application-label:"}
 }
 
-##########################
-### IOS SECTION
+##############################################################################
+### iOS
 
 prompt_xcode_launch(){
   echo "❌ Developer image is not mounted and/or device screen is locked"
@@ -240,7 +245,7 @@ ios_choose_device(){
       read -r -p "📝 Select a device: " CHOICE
       while :;
       do
-      if ((CHOICE <= 0 || CHOICE > ${#IOS_USB_DEVICES[@]})); then
+      if [[ ! $CHOICE =~ $REGEX_NUMBER ]] || [ "$CHOICE" -le "0" -o "$CHOICE" -gt "${#IOS_USB_DEVICES[@]}" ]; then
         echo -en "\033[1A\033[2K" #deletes last echoed line in terminal
         read -r -p "🤷 Invalid input, try again: " CHOICE
       else
@@ -363,8 +368,8 @@ ios_translate_name(){
   echo $NAME
 }
 
-#####
-### COMMON SECTION
+##############################################################################
+### Commons
 
 check_adb_dependency(){
   if ! [ -x "$(command -v "adb")" ]; then
@@ -490,5 +495,5 @@ check_url(){
 
 abort(){
   echo "$1"
-  exit
+  exit 1
 }
