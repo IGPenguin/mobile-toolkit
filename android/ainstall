@@ -5,7 +5,13 @@ source "$LOCATION"/../common_tools
 
 install_app(){
   echo "⌛️ Installing \"$PACKAGE_NAME\" to $1..."
-  adb -s "$1" install -t -r "$2" &> /dev/null || { echo "❌ Installation to $1 failed!"; echo "🤕 Uninstall existing version or troubleshoot the package!"; exit 1; }
+  TEMPORARY_FILE="$TEMPORARY_FILE-$(date +%s)"
+  adb -s "$1" install -t -r "$2" &> "$TEMPORARY_FILE"
+  if grep -q Failure "$TEMPORARY_FILE" ; then
+    echo "❌ Installation to $1 failed!"
+    echo "🤕 Uninstall existing version or troubleshoot the package."
+    exit 1
+  fi
   echo "🚀 Launching $APP_NAME on $1..."
   adb -s "$1" shell monkey -p "$PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
 }
@@ -29,6 +35,7 @@ check_args_valid(){
 run()
 {
   if [[ $1 == "-a" ]]; then
+    check_for_update
     android_check_connected
     android_get_devices_auth_dump
     detect_package_info "$2"

@@ -5,8 +5,11 @@ source "$LOCATION"/../common_tools
 
 install_app(){
   echo "⌛️ Installing \"$2\" to $1..."
-  ideviceinstaller -u "$1" -i "$2" &> /dev/null || { echo "❌ Installation to $1 failed!"; echo "🤕 Uninstall existing version or troubleshoot the package!"; exit 1; }
-  echo "✅ Successfully installed to $1"
+  ideviceinstaller -u "$1" -i "$2" &> /dev/null || { echo "❌ Installation to $1 failed!"; echo "🤕 Uninstall the existing version or troubleshoot the package!"; exit 1; }
+  EXIT_CODE=$?
+  if [ $EXIT_CODE == 0 ]; then
+    echo "✅ Successfully installed to $1"
+  fi
 }
 
 check_args_valid(){
@@ -27,6 +30,7 @@ check_args_valid(){
 
 run(){
   if [[ $1 == "-a" ]]; then
+    check_for_update
     ios_get_devices
     for ID in "${IOS_USB_DEVICES[@]}"
      do

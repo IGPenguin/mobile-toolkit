@@ -17,6 +17,7 @@ screenshot(){
 }
 
 screenshot_all(){
+  check_for_update
   ios_get_devices
   for ID in "${IOS_USB_DEVICES[@]}"
    do
