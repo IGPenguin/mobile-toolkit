@@ -3,7 +3,6 @@ LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 ios_choose_device
 
-
 if [ -z "$1" ] ; then
   DIRNAME=CRASH_LOGS_$SELECTED_DEVICE_MODEL-iOS$SELECTED_DEVICE_VERSION-$(date +%Y-%m-%d-%H-%M-%S)
 else
