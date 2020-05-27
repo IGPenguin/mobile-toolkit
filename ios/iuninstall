@@ -1,7 +1,7 @@
 #!/bin/bash
+trap "kill 0" SIGINT # Kill all spawned subprocesses on ctrl^c
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
-ios_choose_device
 
 init(){
   check_dependency "ideviceinstaller"
@@ -98,6 +98,7 @@ handle_arguments(){
   fi
 }
 
+ios_choose_device
 init
 ios_get_package_list
 handle_arguments "$@"
