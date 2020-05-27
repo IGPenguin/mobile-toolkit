@@ -9,7 +9,7 @@ else
   DIRNAME=$1
 fi
 
-FULL_PATH="~/Desktop/$DIRNAME"
+FULL_PATH="$HOME/Desktop/$DIRNAME"
 
 cd ~/Desktop || exit 1
 mkdir "$DIRNAME"
@@ -24,7 +24,7 @@ else
   idevicecrashreport -k -u "$SELECTED_DEVICE" "$DIRNAME" &> /dev/null
 fi
 
-# TODO "-s" Move these logs to ./Misc instead of deleting
+# TODO Move these logs to ./Misc instead of deleting
 echo "🔥 Removing system and non-crash logs..."
 cd "$DIRNAME" || exit 1
 rm -R -- &> /dev/null */ #remove unnecessary system logs
@@ -36,6 +36,7 @@ for file in *.ips; do
 done
 
 # No logs present in $DIRNAME - no crash logs found
+# TODO Replace the ls -a with ls only non-directories
 if [ -z "$(ls -A)" ]; then
    cd ..
    rm -rf "$DIRNAME"
