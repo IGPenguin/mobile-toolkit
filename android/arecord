@@ -3,23 +3,22 @@ LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 trap 'ctrlc $@' 1 2 3 6 15
 
-ctrlc()
-{
-if $RECORDING ; then
-  sleep 1
-  if [ -z "$1" ] ; then
-    android_device_info "$SELECTED_DEVICE"
-    FILENAME=$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S)
-  else
-    FILENAME=$1
-  fi
-  echo "📁 Copying the video from the device..."
-  adb -s "$SELECTED_DEVICE" pull /mnt/sdcard/output.mp4 ~/Desktop/"$FILENAME".mp4 &> /dev/null
-  adb -s "$SELECTED_DEVICE" shell rm /mnt/sdcard/output.mp4 &> /dev/null
+ctrlc(){
   adb -s "$SELECTED_DEVICE" shell settings put system show_touches 0
-  echo "✅ Saved into ~/Desktop/$FILENAME.mp4"
-fi
-exit
+  if $RECORDING ; then
+    sleep 1
+    if [ -z "$1" ] ; then
+      android_device_info "$SELECTED_DEVICE"
+      FILENAME=$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S)
+    else
+      FILENAME=$1
+    fi
+    echo "📁 Copying the video from the device..."
+    adb -s "$SELECTED_DEVICE" pull /mnt/sdcard/output.mp4 ~/Desktop/"$FILENAME".mp4 &> /dev/null
+    adb -s "$SELECTED_DEVICE" shell rm /mnt/sdcard/output.mp4 &> /dev/null
+    echo "✅ Saved into ~/Desktop/$FILENAME.mp4"
+  fi
+  exit
 }
 
 RECORDING=false
