@@ -5,7 +5,6 @@ ios_choose_device
 
 create_folder(){
   DIRNAME=CRASH_LOGS_$SELECTED_DEVICE_MODEL-iOS$SELECTED_DEVICE_VERSION-$(date +%Y-%m-%d-%H-%M-%S)
-  FULL_PATH="$HOME/Desktop/$DIRNAME"
   cd ~/Desktop || exit 1
   mkdir "$DIRNAME"
 }
