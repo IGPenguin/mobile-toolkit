@@ -3,44 +3,62 @@ LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 ios_choose_device
 
-if [ -z "$1" ] ; then
+create_folder(){
   DIRNAME=CRASH_LOGS_$SELECTED_DEVICE_MODEL-iOS$SELECTED_DEVICE_VERSION-$(date +%Y-%m-%d-%H-%M-%S)
-else
-  DIRNAME=$1
-fi
+  FULL_PATH="$HOME/Desktop/$DIRNAME"
+  cd ~/Desktop || exit 1
+  mkdir "$DIRNAME"
+}
 
-FULL_PATH="$HOME/Desktop/$DIRNAME"
-
-cd ~/Desktop || exit 1
-mkdir "$DIRNAME"
-
-# TODO "-k" Keep logs, "-r" remove the logs from the device or yes/no
-yes_or_no "🔥 Keep the logs in the device storage?"
-if [[ "$RESPONSE" == "n" ||  "$RESPONSE" == "N" ]]; then
-  echo "⏳ Moving crash logs to \"$FULL_PATH\", this may take a while..."
+move_crashlogs(){
+  echo "⏳ Moving crash logs to \"~/Desktop\", this may take a while..."
   idevicecrashreport -u "$SELECTED_DEVICE" "$DIRNAME" &> /dev/null
-else
-  echo "📂 Copying crash logs to \"$FULL_PATH\", this may take a while..."
+}
+
+copy_crashlogs(){
+  echo "⏳ Copying crash logs to \"~/Desktop\", this may take a while..."
   idevicecrashreport -k -u "$SELECTED_DEVICE" "$DIRNAME" &> /dev/null
-fi
+}
 
-# TODO Move these logs to ./Misc instead of deleting
-echo "🔥 Removing system and non-crash logs..."
-cd "$DIRNAME" || exit 1
-rm -R -- &> /dev/null */ #remove unnecessary system logs
-find . -type f ! -name '*.ips' -delete #remove non-crash logs
+remove_unrelevant_logs(){
+  echo "🔥 Removing unrelevant system logs..."
+  cd "$DIRNAME" || exit 1
+  rm -R -- */ #remove unnecessary system logs
+  find . -type f ! -name '*.ips' -delete #remove non-crash logs
+}
 
-# Prepare the logs for Xcode import
-for file in *.ips; do
-    mv "$file" "$(basename "$file" .ips).crash"
-done
+rename_logs_to_ips(){
+  # Make the logs importable to Xcode
+  for file in *.ips; do
+      mv "$file" "$(basename "$file" .ips).crash" &> /dev/null
+  done
+}
 
-# No logs present in $DIRNAME - no crash logs found
-# TODO Replace the ls -a with ls only non-directories
-if [ -z "$(ls -A)" ]; then
-   cd ..
-   rm -rf "$DIRNAME"
-   echo "❌ No crash logs found!"
+report_sucess_or_remove_folder(){
+  if [ -z "$(ls -A)" ]; then
+     cd ..
+     rm -rf "$DIRNAME"
+     echo "❌ No crash logs found!"
+  else
+     echo "✅ Crash logs saved to $DIRNAME"
+  fi
+}
+
+create_folder
+
+if [[ "$1" == "-r" ]]; then
+  move_crashlogs
+elif [[ "$1" == "-k" ]]; then
+  copy_crashlogs
 else
-   echo "✅ Crash logs saved to $DIRNAME"
+  yes_or_no "🔥 Keep the logs in the device storage?"
+  if [[ "$RESPONSE" == "n" ||  "$RESPONSE" == "N" ]]; then
+    move_crashlogs
+  else
+    copy_crashlogs
+  fi
 fi
+
+remove_unrelevant_logs
+rename_logs_to_ips
+report_sucess_or_remove_folder
