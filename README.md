@@ -248,8 +248,9 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * Examine macOS or iOS system logs
 
 ### 💥 icrashlogs
-* Gather crash logs from the device to ~/Desktop (be patient 😅)
-* Choose whether to keep the logs on the device afterwards
+* `icrashlogs` Import crash logs to ~/Desktop, choose whether to keep them in device storage
+* `icrashlogs -k` Import crash logs, keep them in device storage
+* `icrashlogs -r` Import crash logs, delete them from device storage
 * You can import these logs to Xcode to make them more readable via symbolication
   * Open relevant project in Xcode
   * Click on Window > Devices and Simulators > View Device Logs
