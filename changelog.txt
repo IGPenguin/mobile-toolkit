@@ -1,2 +1,2 @@
   🩹 kill all subprocesses on ctrl^c
-  💥 add icrashlogs options "-a" "-k" "-r"
+  💥 add icrashlogs options "-k" "-r"
