@@ -61,6 +61,21 @@ execute_by_arguments(){
   fi
 }
 
+execute_for_all(){
+  check_for_update
+  android_get_devices_auth_dump
+
+  for DEVICE in $(adb devices | grep -v "List"  | awk '{print $1}')
+  do
+    (SELECTED_DEVICE=$DEVICE; execute_by_arguments "$@") & # Set var and start command in subshell
+  done
+  wait
+}
+
 check_text "$@"
-android_choose_device
-execute_by_arguments "$@"
+if [[ "$1" == "-a" ]]; then
+  execute_for_all "${@:2}" # All arguments starting from 2nd
+else
+  android_choose_device
+  execute_by_arguments "$@"
+fi
