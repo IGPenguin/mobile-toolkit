@@ -82,6 +82,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `apaste "john.doe@fakemail.com" password1 ` Every additional argument will be inserted into subsequent field
 * `apaste "This is sample multi-word text."` use "" to insert multi-word text into one field
 * `apaste -l` Paste Lorem Ipsum paragraph
+* `apaste -a <input-text>` Insert any text input (options displayed above) on all connected devices
 
 ### 🌐 aurl
 * `aurl "google.com"` Open link in web browser or corresponding application
