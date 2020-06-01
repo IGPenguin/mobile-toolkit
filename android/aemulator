@@ -16,7 +16,7 @@ help(){
   if [[ $1 != "" ]]; then
     echo "🤷‍ Unknown option: $1"
   else
-    echo "🤷 Argument missing"
+    echo "🤷 Option missing"
   fi
   echo -e "Use one of the following options:\\n  start - choose and launch installed emulator\\n  gprs | edge | 3g - set network latency\\n  call <number> - receive fake call\\n  sms <number> <text> - recieve fake sms\\n  gps <lat> <long> - set manual gps location\\n  battery <0-100> - set manual battery level\\n  telnet <command> - call telnet command (see README.md)"
 }
