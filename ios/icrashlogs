@@ -27,7 +27,7 @@ remove_unrelevant_logs(){
   find . -type f ! -name '*.ips' -delete #remove non-crash logs
 }
 
-rename_logs_to_ips(){
+rename_logs(){
   # Make the logs importable to Xcode
   for file in *.ips; do
       mv "$file" "$(basename "$file" .ips).crash" &> /dev/null
@@ -51,7 +51,7 @@ if [[ "$1" == "-r" ]]; then
 elif [[ "$1" == "-k" ]]; then
   copy_crashlogs
 else
-  yes_or_no "🔥 Keep the logs in the device storage?"
+  yes_or_no "🔥 Keep the logs in device storage?"
   if [[ "$RESPONSE" == "n" ||  "$RESPONSE" == "N" ]]; then
     move_crashlogs
   else
@@ -60,5 +60,5 @@ else
 fi
 
 remove_unrelevant_logs
-rename_logs_to_ips
+rename_logs
 report_sucess_or_remove_folder
