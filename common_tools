@@ -167,7 +167,7 @@ detect_package_info(){
 
 prompt_xcode_launch(){
   echo "❌ Developer image is not mounted and/or device screen is locked"
-  should_proceed "❓ Do you want to open Xcode to fix it?"
+  should_proceed "❓ Do you want to open Xcode to fix it? (make sure you have the latest version)"
   open -a Xcode
   echo "⏳ Waiting for Xcode to launch..."
   sleep 8
