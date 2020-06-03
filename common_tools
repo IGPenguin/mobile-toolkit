@@ -167,7 +167,7 @@ detect_package_info(){
 
 prompt_xcode_launch(){
   echo "❌ Developer image is not mounted and/or device screen is locked"
-  should_proceed "❓ Do you want to open Xcode to fix it?"
+  should_proceed "❓ Do you want to open Xcode to fix it? (make sure you have the latest version)"
   open -a Xcode
   echo "⏳ Waiting for Xcode to launch..."
   sleep 8
@@ -187,7 +187,7 @@ ios_wait_for_device(){
 ios_check_developer_image_and_pairing(){
   IS_MOUNTED=$(ideviceimagemounter -u "$1" -l) #Probably does not work on iOS 13
   if [[ $IS_MOUNTED == *"error code -21." ]] ; then
-    read -r -p "❌ Device is not paired properly - reconnect it, unlock its screen and press ENTER..."
+    read -r -p "❌ Device is not paired properly - reconnect it (one at a time), unlock screen and press ENTER..."
     echo "🤝 Requesting pairing..."
     idevicepair pair &> /dev/null
     read -r -p "❓ Tap \"Trust\" button on the device screen and press ENTER..."

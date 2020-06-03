@@ -15,5 +15,5 @@ QUERY="android service '$SERVICE_PACKAGE'"
 echo "🌐 Performing Google search for: $QUERY"
 open https://www.google.com/search?q="$QUERY"
 
-#potential usage: https://stackoverflow.com/questions/17580199/sending-a-sms-on-android-through-adb/30224091
-#more: https://resources.infosecinstitute.com/android-hacking-security-part-3-exploiting-broadcast-receivers/#gref
+# Potential usage: https://stackoverflow.com/questions/17580199/sending-a-sms-on-android-through-adb/30224091
+# More: https://resources.infosecinstitute.com/android-hacking-security-part-3-exploiting-broadcast-receivers/#gref

@@ -81,7 +81,9 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `apaste <text>` Insert text into currently focused field
 * `apaste "john.doe@fakemail.com" password1 ` Every additional argument will be inserted into subsequent field
 * `apaste "This is sample multi-word text."` use "" to insert multi-word text into one field
-* `apaste -l` Paste Lorem Ipsum paragraph
+* `apaste -l` Insert "Lorem Ipsum paragraph"
+* `apaste -a <input-text>` Insert any text input (options displayed above) on all connected devices
+* `apaste -a -l` Insert "Lorem Ipsum paragraph" on all connected devices
 
 ### 🌐 aurl
 * `aurl "google.com"` Open link in web browser or corresponding application
@@ -248,8 +250,9 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * Examine macOS or iOS system logs
 
 ### 💥 icrashlogs
-* Gather crash logs from the device to ~/Desktop (be patient 😅)
-* Choose whether to keep the logs on the device afterwards
+* `icrashlogs` Import crash logs to ~/Desktop, choose whether to keep them in device storage
+* `icrashlogs -k` Import crash logs, keep them in device storage
+* `icrashlogs -r` Import crash logs, delete them from device storage
 * You can import these logs to Xcode to make them more readable via symbolication
   * Open relevant project in Xcode
   * Click on Window > Devices and Simulators > View Device Logs

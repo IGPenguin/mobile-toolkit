@@ -20,7 +20,7 @@ wipe_data(){
 
 wipe_apps(){
   echo "🔥 Deleting all third-party apps..."
-  "$LOCATION"/auninstall "-a" "$SELECTED_DEVICE"
+  "$LOCATION"/auninstall "-w" "$SELECTED_DEVICE"
 }
 
 prompt
