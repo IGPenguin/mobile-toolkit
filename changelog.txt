@@ -1,2 +1,3 @@
   🩹 kill all subprocesses on ctrl^c
   💥 add icrashlogs options "-k" "-r"
+  🐙 add apaste option "-a"
