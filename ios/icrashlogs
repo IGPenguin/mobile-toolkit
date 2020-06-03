@@ -10,12 +10,12 @@ create_folder(){
 }
 
 move_crashlogs(){
-  echo "⏳ Moving crash logs to \"~/Desktop\", this may take a while..."
+  echo "⏳ Moving crash logs to \"~/Desktop/$DIRNAME\", this may take a while..."
   idevicecrashreport -u "$SELECTED_DEVICE" "$DIRNAME" &> /dev/null
 }
 
 copy_crashlogs(){
-  echo "⏳ Copying crash logs to \"~/Desktop\", this may take a while..."
+  echo "⏳ Copying crash logs to \"~/Desktop/$DIRNAME\", this may take a while..."
   idevicecrashreport -k -u "$SELECTED_DEVICE" "$DIRNAME" &> /dev/null
 }
 
