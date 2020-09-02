@@ -14,8 +14,8 @@ ctrlc(){
       FILENAME=$1
     fi
     echo "📁 Copying the video from the device..."
-    adb -s "$SELECTED_DEVICE" pull /mnt/sdcard/output.mp4 ~/Desktop/"$FILENAME".mp4 &> /dev/null
-    adb -s "$SELECTED_DEVICE" shell rm /mnt/sdcard/output.mp4 &> /dev/null
+    adb -s "$SELECTED_DEVICE" pull "$DEVICE_FILE_PATH" ~/Desktop/"$FILENAME".mp4 &> /dev/null
+    adb -s "$SELECTED_DEVICE" shell rm "$DEVICE_FILE_PATH" &> /dev/null
     echo "✅ Saved into ~/Desktop/$FILENAME.mp4"
   fi
   exit
@@ -24,7 +24,14 @@ ctrlc(){
 RECORDING=false
 android_choose_device
 
+android_get_device_sdk "$SELECTED_DEVICE"
+if (( "$SDK" < 30 )); then
+  DEVICE_FILE_PATH="/mnt/sdcard/output.png"
+else
+  DEVICE_FILE_PATH="/storage/self/primary/output.png"
+fi
+
 RECORDING=true
 echo "📹 Recording screen on $SELECTED_DEVICE, stop it with ctrl^c"
 adb -s "$SELECTED_DEVICE" shell settings put system show_touches 1
-adb -s "$SELECTED_DEVICE" shell screenrecord /mnt/sdcard/output.mp4
+adb -s "$SELECTED_DEVICE" shell screenrecord "$DEVICE_FILE_PATH"
