@@ -101,8 +101,8 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `afontscale <scale>` set font scale multiplier
 
 ### 🎹 acontrol
-* `scrpy` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
-* provides realtime device screen mirroring and control
+* `acontrol` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
+* Provides realtime device screen mirroring and keyboard+mouse control
 
 ### 📷 acamera
 * Start the default camera application
