@@ -129,9 +129,15 @@ android_get_foreground_package(){
   android_get_device_sdk "$SELECTED_DEVICE"
   if (( "$SDK" < 21 )); then
     android_get_foreground_package_sdk_low
-  else
+  elif (( "$SDK" < 30 )); then
     android_get_foreground_package_sdk_21_plus
+  else
+    android_get_foreground_package_sdk_30_plus
   fi
+}
+
+android_get_foreground_package_sdk_30_plus(){
+  adb -s "$SELECTED_DEVICE" shell dumpsys activity recents | grep 'Recent #0' | cut -d= -f6 |  cut -d ':' -f2 | cut -d ' ' -f1
 }
 
 android_get_foreground_package_sdk_21_plus(){
