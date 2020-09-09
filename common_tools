@@ -129,9 +129,15 @@ android_get_foreground_package(){
   android_get_device_sdk "$SELECTED_DEVICE"
   if (( "$SDK" < 21 )); then
     android_get_foreground_package_sdk_low
-  else
+  elif (( "$SDK" < 30 )); then
     android_get_foreground_package_sdk_21_plus
+  else
+    android_get_foreground_package_sdk_30_plus
   fi
+}
+
+android_get_foreground_package_sdk_30_plus(){
+  adb -s "$SELECTED_DEVICE" shell dumpsys activity recents | grep 'Recent #0' | cut -d= -f6 |  cut -d ':' -f2 | cut -d ' ' -f1
 }
 
 android_get_foreground_package_sdk_21_plus(){
@@ -140,6 +146,14 @@ android_get_foreground_package_sdk_21_plus(){
 
 android_get_foreground_package_sdk_low(){
   adb -s "$SELECTED_DEVICE" shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev
+}
+
+android_get_storage_location_per_SDK(){
+  if (( "$1" < 30 )); then
+    DEVICE_FILE_PATH="/mnt/sdcard/output.png"
+  else
+    DEVICE_FILE_PATH="/storage/self/primary/output.png"
+  fi
 }
 
 android_is_package_installed() {

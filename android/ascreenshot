@@ -6,10 +6,13 @@ source "$LOCATION"/../common_tools
 screenshot(){
   android_device_info "$1"
   FILENAME="$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).png"
+
+  android_get_storage_location_per_SDK "$SDK"
+
   echo "📸 Saving screenshot into $FILENAME..."
-  adb -s "$1" shell screencap -p /mnt/sdcard/output.png
-  adb -s "$1" pull /mnt/sdcard/output.png ~/Desktop/"$FILENAME" &>/dev/null
-  adb -s "$1" shell rm /mnt/sdcard/output.png
+  adb -s "$1" shell screencap -p "$DEVICE_FILE_PATH"
+  adb -s "$1" pull "$DEVICE_FILE_PATH" ~/Desktop/"$FILENAME" &>/dev/null
+  adb -s "$1" shell rm "$DEVICE_FILE_PATH"
 }
 
 screenshot_all(){
