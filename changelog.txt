@@ -1,1 +1,1 @@
-  🩹 fix Android 11 screen capturing
+  🩹 fix Android 11 - arecord, ascreenshot, akill, aerase
