@@ -7,11 +7,7 @@ screenshot(){
   android_device_info "$1"
   FILENAME="$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).png"
 
-  if (( "$SDK" < 30 )); then
-    DEVICE_FILE_PATH="/mnt/sdcard/output.png"
-  else
-    DEVICE_FILE_PATH="/storage/self/primary/output.png"
-  fi
+  android_get_storage_location_per_SDK "$SDK"
 
   echo "📸 Saving screenshot into $FILENAME..."
   adb -s "$1" shell screencap -p "$DEVICE_FILE_PATH"

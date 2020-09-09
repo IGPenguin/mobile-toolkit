@@ -25,11 +25,7 @@ RECORDING=false
 android_choose_device
 
 android_get_device_sdk "$SELECTED_DEVICE"
-if (( "$SDK" < 30 )); then
-  DEVICE_FILE_PATH="/mnt/sdcard/output.png"
-else
-  DEVICE_FILE_PATH="/storage/self/primary/output.png"
-fi
+android_get_storage_location_per_SDK "$SDK"
 
 RECORDING=true
 echo "📹 Recording screen on $SELECTED_DEVICE, stop it with ctrl^c"
