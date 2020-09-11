@@ -14,8 +14,11 @@ prompt(){
 }
 
 wipe_data(){
+  android_device_info "$SELECTED_DEVICE"
+  android_get_storage_location_per_SDK "$SDK"
+
   echo "🔥 Deleting everything in mnt/sdcard..."
-  adb -s "$SELECTED_DEVICE" shell rm -rf mnt/sdcard/*
+  adb -s "$SELECTED_DEVICE" shell rm -rf "$DEVICE_FILE_PATH/*" &>/dev/null
 }
 
 wipe_apps(){
