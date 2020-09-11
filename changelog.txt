@@ -1,1 +1,2 @@
-  🩹 fix Android 11 - arecord, ascreenshot, akill, aerase
+  🩹 fix alaunch installed package detection
+  🩹 fix awipe on Android 11
