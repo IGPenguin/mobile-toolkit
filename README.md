@@ -1,6 +1,6 @@
 ![Header](/header_v2.png?raw=true)
 ## What is this?
-🛠 Capture screen, manage apps, simulate input, print system log and gather various intel using simple commands!<br>
+🛠 Capture screen, manage apps, simulate input, print system log and more using simple commands!<br>
 
 ⚡️ Boost your effectivity while developing and/or testing mobile applications, discover new tools!<br>
 
@@ -147,7 +147,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 	* Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 ### 🔥 awipe
-* Wipe internal storage (/mnt/sdcard directory) and delete all third-party apps
+* Wipe internal storage and delete all third-party apps
 
 ### 🐁 apermissionreset
 * Revoke ALL GRANTED runtime permissions for ALL apps
