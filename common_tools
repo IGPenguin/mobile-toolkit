@@ -395,8 +395,8 @@ check_adb_dependency(){
 
 check_dependency(){
   if ! [ -x "$(command -v "$1")" ]; then
-    echo "⚠️ \"$1\" required!"
-    should_proceed "🔄 Install via homebrew? (this may take a while)"
+    echo "💥 \"$1\" command required!"
+    should_proceed "🛒 Install via homebrew? (this may take a while)"
     brew install "$1"
   fi
 }
