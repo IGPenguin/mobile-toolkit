@@ -199,9 +199,9 @@ ios_wait_for_device(){
 }
 
 ios_check_developer_image_and_pairing(){
-  IS_MOUNTED=$(ideviceimagemounter -u "$1" -l) #Probably does not work on iOS 13
-  if [[ $IS_MOUNTED == *"error code -21." ]] ; then
-    read -r -p "❌ Device is not paired properly - reconnect it (one at a time), unlock screen and press ENTER..."
+  IS_MOUNTED=$(ideviceimagemounter -u "$1" -l)
+  if [[ $IS_MOUNTED == *"Error"* ]] || [[ $IS_MOUNTED == *"error"* ]] ; then
+    read -r -p "❌ Device is not paired - reconnect it (one at a time), unlock screen and press ENTER..."
     echo "🤝 Requesting pairing..."
     idevicepair pair &> /dev/null
     read -r -p "❓ Tap \"Trust\" button on the device screen and press ENTER..."
