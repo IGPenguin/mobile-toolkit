@@ -28,6 +28,8 @@ check_running_emulator(){
     if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]];
     then
       launch_emulator
+      android_wait_for_device
+      get_token
     fi
     exit
   fi
@@ -68,10 +70,13 @@ launch_emulator(){
 }
 
 get_token(){
+  check_dependency "telnet"
+  [ -f ./emulator_console_auth_token ] || echo "localhost 5554" | telnet &> /dev/null
   TOKEN=$(cat "$HOME"/.emulator_console_auth_token)
 }
 
 telnet_command() {
+  get_token
   if [ -z "$1" ];then
     read -r -p "📝 Insert telnet command: " COMMAND
   else
@@ -158,7 +163,6 @@ disable_network_delay(){
 }
 
 check_for_update
-get_token
 
 case $1 in
   'start')

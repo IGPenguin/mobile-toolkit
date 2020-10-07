@@ -1,2 +1,2 @@
-  🩹 fix alaunch installed package detection
-  🩹 fix awipe on Android 11
+  🩹 fix iOS device pairing
+  🩹 fix Android emulator telnet authentication
