@@ -36,7 +36,7 @@ pick_recording_device(){
 	echo "⏳ Detecting iOS devices..."
 	rm -f "$IOS_DEVICES_LIST"
 	videosnap -l >> "$IOS_DEVICES_LIST"
-	egrep -v "Found|FaceTime" "$IOS_DEVICES_LIST" > "$IOS_DEVICES_LIST.tmp" #remove info line and webcam
+	grep -E -v "Found|FaceTime" "$IOS_DEVICES_LIST" > "$IOS_DEVICES_LIST.tmp" #remove info line and webcam
 	mv "$IOS_DEVICES_LIST.tmp" "$IOS_DEVICES_LIST"
 	sed 's/^* //g' "$IOS_DEVICES_LIST" > "$IOS_DEVICES_LIST.tmp" #remove "* " line prefixes
 	mv "$IOS_DEVICES_LIST.tmp" "$IOS_DEVICES_LIST"
