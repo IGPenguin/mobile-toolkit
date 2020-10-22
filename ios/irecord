@@ -1,14 +1,60 @@
 #!/bin/bash
-echo "📹 Opening QuickTime..."
+LOCATION=$(dirname "$0")
+IOS_DEVICES_LIST=$LOCATION/../data/toolkit_recordable_ios_devices.txt
+trap 'ctrlc $@' 1 2 3 6 15
+cd ~/Desktop || exit
 
-osascript <<EOD
-tell application "QuickTime Player"
-	activate
-	set newMovieRecording to new movie recording
-end tell
+ctrlc(){
+  echo "✅ Saved into ~/Desktop/$FILENAME"
+	osascript -e 'quit app "QuickTime Player"'
+	exit
+}
 
-tell application "System Events" to tell process "QuickTime Player"
-	click button 3 of window 1
-end tell
-return
+start_quicktime(){
+	echo "📹 Opening QuickTime in background to enable recording..."
+	osascript <<EOD
+	tell application "QuickTime Player"
+		set newMovieRecording to new movie recording
+		set miniaturized of window 1 to true
+	end tell
 EOD
+}
+
+pick_recording_device(){
+	echo "⏳ Detecting iOS devices..."
+	rm -f "$IOS_DEVICES_LIST"
+	videosnap -l >> "$IOS_DEVICES_LIST"
+	egrep -v "Found|FaceTime" "$IOS_DEVICES_LIST" > "$IOS_DEVICES_LIST.tmp" #remove info line and webcam
+	mv "$IOS_DEVICES_LIST.tmp" "$IOS_DEVICES_LIST"
+	sed 's/^* //g' "$IOS_DEVICES_LIST" > "$IOS_DEVICES_LIST.tmp" #remove "* " line prefixes
+	mv "$IOS_DEVICES_LIST.tmp" "$IOS_DEVICES_LIST"
+
+	if [ "$(nl "$IOS_DEVICES_LIST")" == "" ]; then
+		echo "❌ iOS device not deteceted, reconnect it and try again"
+		exit 1
+	fi
+
+	if [ "$(wc -l "$IOS_DEVICES_LIST" | awk '{print $1}')" == "1" ]; then
+		DEVICE_NAME="$(cat "$IOS_DEVICES_LIST")"
+	else
+		echo "📱 Available:"
+		nl "$IOS_DEVICES_LIST"
+		read -r -p "📝 Choose: " DEVICE_INDEX
+
+		DEVICE_NAME=$(sed "$DEVICE_INDEX"!d "$IOS_DEVICES_LIST")
+		if [[ $DEVICE_INDEX == "" || $DEVICE_NAME == "" ]]; then
+			delete_lastline
+			pick_recording_device
+		fi
+	fi
+}
+
+start_recording(){
+	FILENAME="$DEVICE_NAME-$(date +%Y-%m-%d-%H-%M-%S).mp4"
+	echo "📹 Recording screen on $DEVICE_NAME, stop it with ctrl^c"
+	videosnap -p High -d "$DEVICE_NAME" "$FILENAME" &> /dev/null
+}
+
+start_quicktime
+pick_recording_device
+start_recording
