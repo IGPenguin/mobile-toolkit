@@ -10,6 +10,14 @@ ctrlc(){
 	exit
 }
 
+check_videosnap_dependency(){ #TODO refactor when videosnap available via Homberew
+  if ! [ -x "$(command -v "videosnap")" ]; then
+    echo "💥 \"videosnap\" command required!"
+    should_proceed "🛒 Install via GitHub?"
+    open "https://github.com/matthutchinson/videosnap/releases"
+  fi
+}
+
 start_quicktime(){
 	echo "📹 Opening QuickTime in background to enable recording..."
 	osascript <<EOD
@@ -52,9 +60,10 @@ pick_recording_device(){
 start_recording(){
 	FILENAME="$DEVICE_NAME-$(date +%Y-%m-%d-%H-%M-%S).mp4"
 	echo "📹 Recording screen on $DEVICE_NAME, stop it with ctrl^c"
-	videosnap -p High -d "$DEVICE_NAME" "$FILENAME" &> /dev/null
+	videosnap -w 0 -p High -d "$DEVICE_NAME" "$FILENAME" &> /dev/null
 }
 
+check_videosnap_dependency
 start_quicktime
 pick_recording_device
 start_recording
