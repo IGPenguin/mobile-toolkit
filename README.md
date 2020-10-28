@@ -220,7 +220,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `iscreenshot -a` Take screenshot on all connected devices
 
 ### 🎥 irecord
-**Required**: Install [videosnap](https://github.com/matthutchinson/videosnap/release "videosnap") -> download and run `videosnap-0.0.6.pkg`
+**Required**: Install [videosnap](https://github.com/matthutchinson/videosnap/releases "videosnap") -> download and run `videosnap-0.0.6.pkg`
 
 1. `irecord` Record screen
 2. End recording using `ctrl + c`
