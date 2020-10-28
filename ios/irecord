@@ -1,14 +1,76 @@
 #!/bin/bash
-echo "📹 Opening QuickTime..."
+LOCATION=$(dirname "$0")
+source "$LOCATION"/../common_tools
+IOS_DEVICES_LIST=$LOCATION/../data/toolkit_recordable_ios_devices.txt
+trap 'ctrlc $@' 1 2 3 6 15
 
-osascript <<EOD
-tell application "QuickTime Player"
-	activate
-	set newMovieRecording to new movie recording
-end tell
+RECORDING=false
+cd ~/Desktop || exit
 
-tell application "System Events" to tell process "QuickTime Player"
-	click button 3 of window 1
-end tell
-return
+ctrlc(){
+  if $RECORDING ; then
+    echo "✅ Saved into ~/Desktop/$FILENAME"
+  fi
+  osascript -e 'quit app "QuickTime Player"'
+  exit
+}
+
+check_videosnap_dependency(){ #TODO refactor when videosnap available via Homberew
+  if ! [ -x "$(command -v "videosnap")" ]; then
+    echo "💥 \"videosnap\" command required!"
+    should_proceed "🛒 Install via GitHub? (download and run \"videosnap-0.0.6.pkg\")"
+    open "https://github.com/matthutchinson/videosnap/releases"
+    exit 1
+  fi
+}
+
+start_quicktime(){
+	echo "💡 Starting QuickTime to enable recording (webcam light might turn on)..."
+	osascript <<EOD
+	tell application "QuickTime Player"
+		set newMovieRecording to new movie recording
+		set miniaturized of window 1 to true
+	end tell
 EOD
+}
+
+pick_recording_device(){
+	echo "⏳ Detecting iOS devices..."
+	rm -f "$IOS_DEVICES_LIST"
+	videosnap -l >> "$IOS_DEVICES_LIST"
+	grep -E -v "Found|FaceTime" "$IOS_DEVICES_LIST" > "$IOS_DEVICES_LIST.tmp" #remove info line and webcam
+	mv "$IOS_DEVICES_LIST.tmp" "$IOS_DEVICES_LIST"
+	sed 's/^* //g' "$IOS_DEVICES_LIST" > "$IOS_DEVICES_LIST.tmp" #remove "* " line prefixes
+	mv "$IOS_DEVICES_LIST.tmp" "$IOS_DEVICES_LIST"
+
+	if [ "$(nl "$IOS_DEVICES_LIST")" == "" ]; then
+		echo "❌ iOS device not detected, reconnect it and try again"
+		ctrlc
+	fi
+
+	if [ "$(wc -l "$IOS_DEVICES_LIST" | awk '{print $1}')" == "1" ]; then
+		DEVICE_NAME="$(cat "$IOS_DEVICES_LIST")"
+	else
+		echo "📱 Available:"
+		nl "$IOS_DEVICES_LIST"
+		read -r -p "📝 Choose: " DEVICE_INDEX
+
+		DEVICE_NAME=$(sed "$DEVICE_INDEX"!d "$IOS_DEVICES_LIST")
+		if [[ $DEVICE_INDEX == "" || $DEVICE_NAME == "" ]]; then
+			delete_lastline
+			pick_recording_device
+		fi
+	fi
+}
+
+start_recording(){
+  RECORDING=true
+  FILENAME="$DEVICE_NAME-$(date +%Y-%m-%d-%H-%M-%S).mp4"
+  echo "📹 Recording screen on $DEVICE_NAME, stop it with ctrl^c"
+  videosnap -w 0 -p High -d "$DEVICE_NAME" "$FILENAME" &> /dev/null
+}
+
+check_videosnap_dependency
+start_quicktime
+pick_recording_device
+start_recording
