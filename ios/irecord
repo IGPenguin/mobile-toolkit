@@ -44,7 +44,7 @@ pick_recording_device(){
 	mv "$IOS_DEVICES_LIST.tmp" "$IOS_DEVICES_LIST"
 
 	if [ "$(nl "$IOS_DEVICES_LIST")" == "" ]; then
-		echo "❌ iOS device not deteceted, reconnect it and try again"
+		echo "❌ iOS device not detected, reconnect it and try again"
 		ctrlc
 	fi
 
