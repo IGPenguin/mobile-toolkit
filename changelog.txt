@@ -1,2 +1,3 @@
-  🩹 fix iOS device pairing
-  🩹 fix Android emulator telnet authentication
+  ✨ irecord now works using terminal only!
+  👏 special thanks to matthutchinson for his videosnap project
+  👀 see https://github.com/matthutchinson/videosnap

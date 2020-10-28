@@ -220,8 +220,11 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `iscreenshot -a` Take screenshot on all connected devices
 
 ### 🎥 irecord
-* Run QuickTime and open video source picker (so you can choose a device right away)
-  * You may have to allow some system permission, so the script can access the picker
+**Required**: Install [videosnap](https://github.com/matthutchinson/videosnap/releases "videosnap") -> download and run `videosnap-0.0.6.pkg`
+
+1. `irecord` Record screen
+2. End recording using `ctrl + c`
+3. Save screen video footage to ~/Desktop
 
 ### 🖼 igif
 **Required**: Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") `brew install ffmpeg`
