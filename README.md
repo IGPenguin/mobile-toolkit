@@ -200,7 +200,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * Reboot the device
 
 ### 📱 aemulator
-**Required**: Make terminal use Android Studio Java
+**Required**: Make terminal use Android Studio Java<br>
 	* **Edit .bash_profile** (or .zshrc if you have zsh shell) `open -e ~/.bash_profile` or `open -e ~/.zshrc`
 	* **Add the following line at the end of the file** `export JAVA_HOME='/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home'``
 
