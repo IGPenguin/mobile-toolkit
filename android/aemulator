@@ -64,7 +64,7 @@ launch_emulator(){
     launch_emulator
   else
     echo  "🚀 Launching emulator..."
-    nohup "$ANDROID_HOME"/tools/emulator -avd "$EMULATOR_NAME" -no-snapshot &> /dev/null &
+    nohup "$ANDROID_HOME"/emulator/emulator -avd "$EMULATOR_NAME" -no-snapshot &> /dev/null &
     rm "$LOCAL_EMULATOR_LIST"
   fi
 }
