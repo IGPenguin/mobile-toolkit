@@ -65,9 +65,9 @@ pick_recording_device(){
 
 start_recording(){
   RECORDING=true
-	FILENAME="$DEVICE_NAME-$(date +%Y-%m-%d-%H-%M-%S).mp4"
-	echo "📹 Recording screen on $DEVICE_NAME, stop it with ctrl^c"
-	videosnap -w 0 -p High -d "$DEVICE_NAME" "$FILENAME" &> /dev/null
+  FILENAME="$DEVICE_NAME-$(date +%Y-%m-%d-%H-%M-%S).mp4"
+  echo "📹 Recording screen on $DEVICE_NAME, stop it with ctrl^c"
+  videosnap -w 0 -p High -d "$DEVICE_NAME" "$FILENAME" &> /dev/null
 }
 
 check_videosnap_dependency
