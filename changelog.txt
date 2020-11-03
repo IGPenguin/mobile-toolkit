@@ -1,4 +1,4 @@
-  ✨ irecord now works using terminal only!
+  📹 irecord now works using terminal only!
   👏 special thanks to matthutchinson for his videosnap project
   👀 see https://github.com/matthutchinson/videosnap
   🩹 fix aemulator start for API 29+
