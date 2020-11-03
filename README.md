@@ -200,6 +200,10 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * Reboot the device
 
 ### 📱 aemulator
+**Required**: Make terminal use Android Studio Java
+  * **Edit .bash_profile** (or .zshrc if you have zsh shell) `open -e ~/.bash_profile` or `open -e ~/.zshrc`
+  * **Add the following line at the end of the file** `export JAVA_HOME='/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home'`
+
 * Android emulator supports all listed scripts by default + extra actions listed below
 * `aeimulator <option>` Handle various Android emulator activites
   * `start` - choose and launch installed emulator
@@ -220,8 +224,11 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `iscreenshot -a` Take screenshot on all connected devices
 
 ### 🎥 irecord
-* Run QuickTime and open video source picker (so you can choose a device right away)
-  * You may have to allow some system permission, so the script can access the picker
+**Required**: Install [videosnap](https://github.com/matthutchinson/videosnap/releases "videosnap") -> download and run `videosnap-0.0.6.pkg`
+
+1. `irecord` Record screen
+2. End recording using `ctrl + c`
+3. Save screen video footage to ~/Desktop
 
 ### 🖼 igif
 **Required**: Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") `brew install ffmpeg`

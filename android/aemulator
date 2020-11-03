@@ -21,6 +21,15 @@ help(){
   echo -e "Use one of the following options:\\n  start - choose and launch installed emulator\\n  gprs | edge | 3g - set network latency\\n  call <number> - receive fake call\\n  sms <number> <text> - recieve fake sms\\n  gps <lat> <long> - set manual gps location\\n  battery <0-100> - set manual battery level\\n  telnet <command> - call telnet command (see README.md)"
 }
 
+check_java_dependency(){
+  if ! java -version &> /dev/null; then
+    echo "❌ Java not available, edit your .bash_profile or .zshrc to use Android Studio version"
+    echo "📝 Add the following line: export JAVA_HOME='/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home'"
+    echo "🔌 Restart terminal afterwards"
+    exit 1
+  fi
+}
+
 check_running_emulator(){
   if ! adb devices | grep emulator &> /dev/null; then
     echo "❌ No running emulators"
@@ -64,7 +73,7 @@ launch_emulator(){
     launch_emulator
   else
     echo  "🚀 Launching emulator..."
-    nohup "$ANDROID_HOME"/tools/emulator -avd "$EMULATOR_NAME" -no-snapshot &> /dev/null &
+    nohup "$ANDROID_HOME"/emulator/emulator -avd "$EMULATOR_NAME" -no-snapshot &> /dev/null &
     rm "$LOCAL_EMULATOR_LIST"
   fi
 }
@@ -163,6 +172,7 @@ disable_network_delay(){
 }
 
 check_for_update
+check_java_dependency
 
 case $1 in
   'start')
