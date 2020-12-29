@@ -339,6 +339,15 @@ ios_translate_name(){
     "D33"*)
       NAME="iPhoneXSMax"
       ;;
+    "D52"*)
+      NAME="iPhone12mini"
+      ;;
+    "D53"*)
+      NAME="iPhone12"
+      ;;
+    "D54"*)
+      NAME="iPhone12ProMax"
+      ;;
     "N84"*)
       NAME="iPhoneXR"
       ;;
