@@ -4,11 +4,12 @@ LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 
 install_app(){
-  echo "⌛️ Installing \"$2\" to $1..."
+  echo "⌛️ Installing \"$BUNDLE_ID\" to $1..."
   ideviceinstaller -u "$1" -i "$2" &> /dev/null || { echo "❌ Installation to $1 failed!"; echo "🤕 Uninstall the existing version or troubleshoot the package!"; exit 1; }
   EXIT_CODE=$?
   if [ $EXIT_CODE == 0 ]; then
-    echo "✅ Successfully installed to $1"
+    echo "🚀 Launching $BUNDLE_ID on $1..."
+    idevicedebug -u "$1" --detach run $BUNDLE_ID
   fi
 }
 
@@ -28,6 +29,17 @@ check_args_valid(){
   fi
 }
 
+get_bundle_id(){
+  echo "🔍 Detecting bundle ID..."
+  unzip "$PWD/$FILE" &> /dev/null
+  APP_FILENAME=$(ls $PWD/Payload)
+  BUNDLE_ID=$(grep "$PWD/Payload/$APP_FILENAME/embedded.mobileprovision" -a -e "[.]com[.]" | sed 's/.[^.]*\.//' | sed 's/\<.*$//')
+  if [[ "$BUNDLE_ID" == "" ]]; then # Fallback for bundle identifiers containing "app" instead of "com"
+    BUNDLE_ID=$(grep "$PWD/Payload/$APP_FILENAME/embedded.mobileprovision" -a -e "[.]app[.]" | sed 's/.[^.]*\.//' | sed 's/\<.*$//')
+  fi
+  rm -rf "$PWD/Payload"
+}
+
 run(){
   if [[ $1 == "-a" ]]; then
     check_for_update
@@ -45,4 +57,5 @@ run(){
 
 check_dependency "ideviceinstaller"
 check_args_valid "$@"
+get_bundle_id "$@"
 run "$@"
