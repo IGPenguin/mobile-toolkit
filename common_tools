@@ -398,7 +398,7 @@ check_adb_dependency(){
   if ! [ -x "$(command -v "adb")" ]; then
     echo "🤷‍ Android Debug Bridge required!"
     should_proceed "🔄 Install via homebrew? (this may take a while)"
-    brew cask install "android-platform-tools"
+    brew install --cask "android-platform-tools"
   fi
 }
 
