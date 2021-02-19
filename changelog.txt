@@ -1,1 +1,1 @@
-  📱 iPhone 12 model names translations
+  🩹 Fix brew cask usage in dependency check
