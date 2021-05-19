@@ -1,6 +1,8 @@
 #!/bin/bash
 source "$LOCATION"/../common_tools
-init_toolkit
+LOCATION=$(dirname "$0")
+trap "kill 0" SIGINT # Kill all spawned subprocesses on ctrl^c
+
 android_choose_device
 
 RUNNING_TESTS=false;

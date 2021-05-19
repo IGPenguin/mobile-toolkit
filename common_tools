@@ -2,18 +2,13 @@
 # shellcheck disable=SC2034
 
 ##############################################################################
-### VARs & Init scripts
+### VARs
 
 SCRIPT_LOCATION=$(dirname "$0")
 LAST_CHECK_DATE_FILE="$SCRIPT_LOCATION/../data/toolkit_last_check_date.txt"
 TEMPORARY_FILE="/private/tmp/mobile-toolkit-cache"
 
 REGEX_NUMBER='^[0-9]+$'
-
-init_toolkit(){
-  trap "kill 0" SIGINT # Kill all spawned subprocesses on ctrl^c
-  LOCATION=$(dirname "$0")
-}
 
 ##############################################################################
 ### Android
