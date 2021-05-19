@@ -1,6 +1,6 @@
 #!/bin/bash
-source "$LOCATION"/../common_tools
 LOCATION=$(dirname "$0")
+source "$LOCATION"/../common_tools
 trap "kill 0" SIGINT # Kill all spawned subprocesses on ctrl^c
 
 android_choose_device
