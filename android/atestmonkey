@@ -1,0 +1,17 @@
+#!/bin/bash
+init_toolkit
+android_choose_device
+
+RUNNING_TESTS=false;
+trap 'ctrlc' 1 2 3 6 15
+
+ctrlc(){
+  if $RUNNING_TESTS; then
+    adb -s "$SELECTED_DEVICE" shell ps | awk '/com\.android\.commands\.monkey/ { system("adb shell kill " $2) }' >/dev/null 2>&1
+    echo "🙈 Monkey eliminated, device is safe to use again"
+
+    adb shell am task lock stop >/dev/null 2>&1
+    echo "🔓 App fullscreen mode disabled"
+  fi
+  exit 2
+}
