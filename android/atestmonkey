@@ -8,7 +8,7 @@ ctrlc(){
     adb -s "$SELECTED_DEVICE" shell ps | awk '/com\.android\.commands\.monkey/ { system("adb shell kill " $2) }' >/dev/null 2>&1
     echo "🙈 Monkey eliminated, device is safe to use again"
 
-    adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
+    adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
     echo "🔓 App fullscreen mode disabled"
   fi
   exit 2
