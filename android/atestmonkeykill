@@ -1,0 +1,6 @@
+#!/bin/bash
+init_toolkit
+android_choose_device
+
+adb -s "$SELECTED_DEVICE" shell ps | awk '/com\.android\.commands\.monkey/ { system("adb shell kill " $2) }' >/dev/null 2>&1
+echo "🙈 Monkey eliminated, device is safe to use again"
