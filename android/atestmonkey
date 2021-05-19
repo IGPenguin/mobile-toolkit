@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$LOCATION"/../common_tools
 init_toolkit
 android_choose_device
 
@@ -15,3 +16,5 @@ ctrlc(){
   fi
   exit 2
 }
+
+android_unlock_screen_attempt 3

@@ -13,7 +13,6 @@ REGEX_NUMBER='^[0-9]+$'
 init_toolkit(){
   trap "kill 0" SIGINT # Kill all spawned subprocesses on ctrl^c
   LOCATION=$(dirname "$0")
-  source "$LOCATION"/../common_tools
 }
 
 ##############################################################################
@@ -172,7 +171,7 @@ android_is_package_installed() {
   fi
 }
 
-detect_package_info(){
+android_detect_package_info(){
   echo "🔍 Detecting package name..."
   AAPPT_PATH=$(find ~/Library/Android/sdk -name 'aapt' | sort | tail -1)
   PACKAGE_INFO=$($AAPPT_PATH dump badging "$1" > $TEMPORARY_FILE)
@@ -181,6 +180,24 @@ detect_package_info(){
   PACKAGE_NAME=$(echo "$PACKAGE_NAME" | sed 's/'\''.*//');
   APP_NAME=$(cat $TEMPORARY_FILE  | grep application-label:)
   APP_NAME=${APP_NAME#"application-label:"}
+}
+
+android_unlock_screen_attempt(){
+  # arg0 = MAX_RETRIES
+  MAX_RETRIES="$1"
+  UNLOCK_RETRIES=1
+  while ([[ $(adb shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev) == *"StatusBar}"* || $(adb shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev) == *"mCurrentFocus=null"*  ]]); do
+    if [ $UNLOCK_RETRIES -le "$MAX_RETRIES" ]; then
+      echo "🔆 Screen on attempt $UNLOCK_RETRIES..."
+      ((UNLOCK_RETRIES++));
+      adb shell input keyevent KEYCODE_POWER
+      adb shell input keyevent 82
+      sleep 1;
+   else
+      echo -ne "❌ Unlocking failed, waiting for manual unlock...\r"
+   fi
+ done
+
 }
 
 ##############################################################################
