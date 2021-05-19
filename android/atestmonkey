@@ -8,13 +8,34 @@ ctrlc(){
     adb -s "$SELECTED_DEVICE" shell ps | awk '/com\.android\.commands\.monkey/ { system("adb shell kill " $2) }' >/dev/null 2>&1
     echo "🙈 Monkey eliminated, device is safe to use again"
 
-    adb shell am task lock stop >/dev/null 2>&1
+    adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
     echo "🔓 App fullscreen mode disabled"
   fi
   exit 2
 }
 
+lock_task_fullscreen(){
+  TASK_ID=$(adb -s "$1" shell pidof "$APP_PACKAGE_NAME")
+  adb -s "$1" shell am task lock $TASK_ID
+}
+
 RUNNING_TESTS=false
 
 android_choose_device
+android_device_info "$SELECTED_DEVICE"
 android_unlock_device "$SELECTED_DEVICE" 3
+#TODO - check if system package or launcher
+
+
+#SETUP & RUN TEST
+APP_PACKAGE_NAME="$(android_get_foreground_package "$1")"
+#lock_task_fullscreen
+RUNNING_TESTS=true
+SEED=1
+EVENT_COUNT=10000
+LOG_FILE=~/Desktop/"$APP_PACKAGE_NAME-$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).txt"
+
+echo "🐒 Running monkey test..."
+adb -s "$1" shell monkey -p "$APP_PACKAGE_NAME" -s $SEED --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 $EVENT_COUNT &> $LOG_FILE
+date +%Y-%m-%d-%H-%M-%S >> $LOG_FILE
+echo "$APP_PACKAGE_NAME" >> $LOG_FILE
