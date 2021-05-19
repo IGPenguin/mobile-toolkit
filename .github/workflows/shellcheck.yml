@@ -9,7 +9,8 @@ jobs:
     - name: Shellcheck
       uses: ludeeus/action-shellcheck@master
       env:
-        SHELLCHECK_OPTS: -e SC1090 -e SC2207 -e SC2001
+        SHELLCHECK_OPTS: -e SC1090 -e SC2207 -e SC2001 -e SC1091
         # SC1090 - non-constant source
         # SC2207 - no arrays like this ($())
         # SC2001 - replace sed with ${variable//search/replace}
+        # SC1091 - common_tools was not specified as input (see shellcheck -x)
