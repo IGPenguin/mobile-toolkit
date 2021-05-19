@@ -1,11 +1,6 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
-trap "kill 0" SIGINT # Kill all spawned subprocesses on ctrl^c
-
-android_choose_device
-
-RUNNING_TESTS=false;
 trap 'ctrlc' 1 2 3 6 15
 
 ctrlc(){
@@ -19,4 +14,7 @@ ctrlc(){
   exit 2
 }
 
-android_unlock_screen_attempt 3
+RUNNING_TESTS=false
+
+android_choose_device
+android_unlock_device "$SELECTED_DEVICE" 3
