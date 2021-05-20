@@ -46,7 +46,7 @@ handle_preset(){
     adb -s "$SELECTED_DEVICE" shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS &> /dev/null
     ;;
 
-    "2" | "locale")
+    "2" | "locale" | "lang" | "language")
     echo "🌍 Opening locale settings..."
     adb -s "$SELECTED_DEVICE" shell am start -a android.settings.LOCALE_SETTINGS &> /dev/null
     ;;
