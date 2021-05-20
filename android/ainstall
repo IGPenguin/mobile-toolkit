@@ -47,7 +47,7 @@ run()
     wait
   else
     android_choose_device
-    detect_package_info "$1"
+    android_detect_package_info "$1"
     install_app "$SELECTED_DEVICE" "$1"
   fi
 }
