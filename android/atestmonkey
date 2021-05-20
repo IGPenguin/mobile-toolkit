@@ -16,7 +16,7 @@ ctrlc(){
 
 lock_task_fullscreen(){
   TASK_ID=$(adb -s "$1" shell pidof "$APP_PACKAGE_NAME")
-  adb -s "$1" shell am task lock $TASK_ID
+  adb -s "$1" shell am task lock "$TASK_ID"
 }
 
 RUNNING_TESTS=false
@@ -26,11 +26,11 @@ EVENT_COUNT=10000
 android_choose_device
 android_device_info "$SELECTED_DEVICE"
 android_unlock_device "$SELECTED_DEVICE" 3
+APP_PACKAGE_NAME="$(android_get_foreground_package "$1")"
 #TODO - check if safe to run, or show prompt (system package/launcher or emulator)
-#TODO lock_task_fullscreen!!!
+lock_task_fullscreen "$SELECTED_DEVICE"
 echo "🐒 Running monkey test..."
 RUNNING_TESTS=true
-APP_PACKAGE_NAME="$(android_get_foreground_package "$1")"
 LOG_FILE=~/Desktop/"$APP_PACKAGE_NAME-$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).txt"
-adb -s "$1" shell monkey -p "$APP_PACKAGE_NAME" -s $SEED --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 $EVENT_COUNT &> $LOG_FILE
+adb -s "$SELECTED_DEVICE" shell monkey -p "$APP_PACKAGE_NAME" -s $SEED --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 $EVENT_COUNT &> $LOG_FILE
 grep -q "CRASH" $LOG_FILE && echo "💥 The app under test crashed!" && exit 1
