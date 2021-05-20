@@ -32,5 +32,5 @@ lock_task_fullscreen "$SELECTED_DEVICE"
 echo "🐒 Running monkey test..."
 RUNNING_TESTS=true
 LOG_FILE=~/Desktop/"$APP_PACKAGE_NAME-$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).txt"
-adb -s "$SELECTED_DEVICE" shell monkey -p "$APP_PACKAGE_NAME" -s $SEED --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 $EVENT_COUNT &> $LOG_FILE
-grep -q "CRASH" $LOG_FILE && echo "💥 The app under test crashed!" && exit 1
+adb -s "$SELECTED_DEVICE" shell monkey -p "$APP_PACKAGE_NAME" -s "$SEED" --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 "$EVENT_COUNT" &> "$LOG_FILE"
+grep -q "CRASH" "$LOG_FILE" && echo "💥 The app under test crashed!" && exit 1
