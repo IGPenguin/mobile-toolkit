@@ -22,9 +22,9 @@ lock_task_fullscreen(){
 
   #Manual workaround
   adb -s "$SELECTED_DEVICE" shell am start -a android.settings.SECURITY_SETTINGS >/dev/null 2>&1
-  read -p "🔑 Enable \"Screen pinning\" in the security settings, then press enter..."
+  read -r -p "🔑 Enable \"Screen pinning\" in the security settings, then press enter..."
   adb -s "$SELECTED_DEVICE" shell monkey -p "$APP_PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
-  read -p "📌 Open recents, press \"pin\" button inside the app window, then press enter... "
+  read -r -p "📌 Open recents, press \"pin\" button inside the app window, then press enter... "
   should_proceed "🔥 Make sure \"$APP_PACKAGE_NAME\" is in fullscreen mode. Start monkey test?"
 }
 

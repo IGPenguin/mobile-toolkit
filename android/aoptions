@@ -26,7 +26,7 @@ start_settings_intent(){
 
 search_for_intent(){
   if nl "$LOCAL_SETTINGS_LIST_PATH" | grep -i -q "$1"; then
-    if [[ $(cat "$LOCAL_SETTINGS_LIST_PATH" | grep -c -i "$1") -eq 1 ]]; then #If there is only one result
+    if [[ $(grep -c -i "$1" "$LOCAL_SETTINGS_LIST_PATH") -eq 1 ]]; then #If there is only one result
       LINE=$(nl "$LOCAL_SETTINGS_LIST_PATH" | grep -i "$1" | awk '{print $1}')
     else
       nl "$LOCAL_SETTINGS_LIST_PATH" | grep -i "$1"
