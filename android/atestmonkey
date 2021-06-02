@@ -7,30 +7,48 @@ ctrlc(){
   if $RUNNING_TESTS; then
     adb -s "$SELECTED_DEVICE" shell ps | awk '/com\.android\.commands\.monkey/ { system("adb shell kill " $2) }' >/dev/null 2>&1
     echo "🙈 Monkey eliminated, device is safe to use again"
-
-    adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
-    echo "🔓 App fullscreen mode disabled"
   fi
+
+  #adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
+  #echo "🔓 App fullscreen mode disabled"
   exit 2
 }
 
 lock_task_fullscreen(){
-  TASK_ID=$(adb -s "$1" shell pidof "$APP_PACKAGE_NAME")
-  adb -s "$1" shell am task lock "$TASK_ID"
+  #The following code does not work, the app must be a device owner
+  #android_unlock_device "$SELECTED_DEVICE" 3
+  #TASK_ID=$(adb -s "$1" shell pidof "$APP_PACKAGE_NAME")
+  #adb -s "$1" shell am task lock "$TASK_ID"
+
+  #Manual workaround
+  adb -s "$SELECTED_DEVICE" shell am start -a android.settings.SECURITY_SETTINGS >/dev/null 2>&1
+  read -p "🔑 Enable \"Screen pinning\" in the security settings, then press enter..."
+  adb -s "$SELECTED_DEVICE" shell monkey -p "$APP_PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
+  read -p "📌 Open recents, press \"pin\" button inside the app window, then press enter... "
+  should_proceed "🔥 Make sure \"$APP_PACKAGE_NAME\" is in fullscreen mode. Start monkey test?"
+}
+
+run_test(){
+  SEED="$2"
+  echo "🐒 Running monkey test... (this will take a while)"
+  RUNNING_TESTS=true
+  LOG_FILE=~/Desktop/"monkey-test-log-seed-$SEED-$APP_PACKAGE_NAME-$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).txt"
+  adb -s "$1" shell monkey -p "$APP_PACKAGE_NAME" -s "$SEED" --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 "$EVENT_COUNT" &> "$LOG_FILE"
+  grep -q "CRASH" "$LOG_FILE" && echo "💥 \"$APP_PACKAGE_NAME\" crashed!" && open "$LOG_FILE" && exit 1
 }
 
 RUNNING_TESTS=false
-SEED=1
 EVENT_COUNT=10000
 
 android_choose_device
 android_device_info "$SELECTED_DEVICE"
-android_unlock_device "$SELECTED_DEVICE" 3
 APP_PACKAGE_NAME="$(android_get_foreground_package "$1")"
-#TODO - check if safe to run, or show prompt (system package/launcher or emulator)
 lock_task_fullscreen "$SELECTED_DEVICE"
-echo "🐒 Running monkey test..."
-RUNNING_TESTS=true
-LOG_FILE=~/Desktop/"$APP_PACKAGE_NAME-$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).txt"
-adb -s "$SELECTED_DEVICE" shell monkey -p "$APP_PACKAGE_NAME" -s "$SEED" --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 "$EVENT_COUNT" &> "$LOG_FILE"
-grep -q "CRASH" "$LOG_FILE" && echo "💥 The app under test crashed!" && exit 1
+
+if [ -z "$1" ]; then
+  SEED="$RANDOM" #LOL
+else
+  SEED="$1"
+fi
+
+run_test "$SELECTED_DEVICE" "$SEED"
