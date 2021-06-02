@@ -225,19 +225,12 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 ### 🎥 irecord
 **Required**: Install [videosnap](https://github.com/matthutchinson/videosnap/releases "videosnap") -> download and run `videosnap-0.0.6.pkg`
+**Required**: Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") `brew install ffmpeg`
 
 1. `irecord` Record screen
 2. End recording using `ctrl + c`
 3. Save screen video footage to ~/Desktop
-
-### 🖼 igif
-**Required**: Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") `brew install ffmpeg`
-
-1. Record screen (take as many screenshots per second as possible) to ~/Desktop
-2. End recording using `ctrl + c`
-3. Compose .mp4 from screenshots and save it to ~/Desktop
-4. (Optional) Delete screenshots
-* Specify your own filename by passing it as argument
+4. Compress video
 
 ## Manage applications
 ### 🚚 iinstall
