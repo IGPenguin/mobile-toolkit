@@ -7,7 +7,7 @@ ctrlc(){
   if $RUNNING_TESTS; then
     MONKEY_TASK_ID=$(adb -s "$SELECTED_DEVICE" shell pidof "com.android.commands.monkey")
     adb -s "$SELECTED_DEVICE" shell kill "$MONKEY_TASK_ID" >/dev/null 2>&1
-    echo "🙈 Monkey eliminated, the device is safe to use"
+    echo "🙊 Monkey test terminated, the device is safe to use"
   fi
 
   unlock_app_fullscreen
