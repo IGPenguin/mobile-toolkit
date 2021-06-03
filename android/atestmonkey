@@ -6,12 +6,16 @@ trap 'ctrlc' 1 2 3 6 15
 ctrlc(){
   if $RUNNING_TESTS; then
     adb -s "$SELECTED_DEVICE" shell ps | awk '/com\.android\.commands\.monkey/ { system("adb shell kill " $2) }' >/dev/null 2>&1
-    echo "🙈 Monkey eliminated, device is safe to use again"
+    echo "🙈 Monkey eliminated, the device is safe to use"
   fi
 
+  unlock_app_fullscreen
+  exit 2
+}
+
+unlock_app_fullscreen(){
   adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
   echo "🔓 App fullscreen mode disabled"
-  exit 2
 }
 
 update_package_name(){
@@ -29,7 +33,7 @@ lock_task_fullscreen(){
   read -r -p "🔑 Enable \"Screen pinning\" option in security settings, then press enter..." #add check if already on
   adb -s "$SELECTED_DEVICE" shell monkey -p "$APP_PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
   adb -s "$SELECTED_DEVICE" shell input keyevent "KEYCODE_APP_SWITCH"
-  read -r -p "📌 Press the \"pin\" button to enable fullscreen mode, then press enter... "
+  read -r -p "📌 Press the \"pin\" button to enable fullscreen mode, then press enter... " #add check if already on
   should_proceed "🔥 DANGER ZONE ◦ Start monkey testing \"$APP_PACKAGE_NAME\"?"
 }
 
@@ -39,7 +43,7 @@ run_test(){
   RUNNING_TESTS=true
   LOG_FILE=~/Desktop/"monkey-test-log-seed-$SEED-$APP_PACKAGE_NAME-$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).txt"
   adb -s "$1" shell monkey -p "$APP_PACKAGE_NAME" -s "$SEED" --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 "$EVENT_COUNT" &> "$LOG_FILE"
-  grep -q "CRASH" "$LOG_FILE" && echo "💥 Boom! \"$APP_PACKAGE_NAME\" has crashed." && open "$LOG_FILE" && exit 1
+  grep -q "CRASH" "$LOG_FILE" && echo "💥 Boom! \"$APP_PACKAGE_NAME\" has crashed." && open "$LOG_FILE" && unlock_app_fullscreen && exit 1
 }
 
 RUNNING_TESTS=false
