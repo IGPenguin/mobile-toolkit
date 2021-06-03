@@ -35,7 +35,7 @@ lock_task_fullscreen(){
 
 run_test(){
   SEED="$2"
-  echo "🐒 Running monkey test... (this will take a while)"
+  echo "🐒 Running monkey test... (this will take a while, stop it with ctrl^c)"
   RUNNING_TESTS=true
   LOG_FILE=~/Desktop/"monkey-test-log-seed-$SEED-$APP_PACKAGE_NAME-$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).txt"
   adb -s "$1" shell monkey -p "$APP_PACKAGE_NAME" -s "$SEED" --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 "$EVENT_COUNT" &> "$LOG_FILE"
