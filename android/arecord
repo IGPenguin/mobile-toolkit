@@ -28,6 +28,6 @@ android_get_device_sdk "$SELECTED_DEVICE"
 android_get_storage_location_per_SDK "$SDK"
 
 RECORDING=true
-echo "📹 Recording screen on $SELECTED_DEVICE, stop it with ctrl^c"
+echo "📹 Recording screen on $SELECTED_DEVICE, stop it using ctrl^c"
 adb -s "$SELECTED_DEVICE" shell settings put system show_touches 1
 adb -s "$SELECTED_DEVICE" shell screenrecord "$DEVICE_FILE_PATH"/output.mp4
