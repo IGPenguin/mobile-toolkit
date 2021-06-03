@@ -73,13 +73,14 @@ start_recording(){
 }
 
 compress_video(){
-  check_dependency "ffmpeg"
   echo "📦 Compressing video..."
   ffmpeg -i "$1" "LQ-$1" -hide_banner -loglevel error #ultra basic ffmpeg compression
   rm "$1" && mv "LQ-$1" "$1"
 }
 
 check_videosnap_dependency
+check_dependency "ffmpeg"
+
 start_quicktime
 pick_recording_device
 start_recording
