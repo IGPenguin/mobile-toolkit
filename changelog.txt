@@ -8,3 +8,4 @@
    📦 Automatic irecord video compression (saves a lot)
    🚀 Launch aoptions single activity result automatically
    😌 Remove emulator prompt on "no device detected"
+   👋 Remove igif (irecord made it obsolete)

@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 
 ##############################################################################
-### VARs & Init scripts
+### VARs
 
 SCRIPT_LOCATION=$(dirname "$0")
 LAST_CHECK_DATE_FILE="$SCRIPT_LOCATION/../data/toolkit_last_check_date.txt"
@@ -19,8 +19,6 @@ android_check_connected(){
   if [ ${#DEVICES[@]} -eq 0 ]
   then
     echo "❌ No Android devices detected"
-    # Comon, its annoying, acutally felt good to turn it off
-    # yes_or_no "❓ Start Android Emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/aemulator "start"; fi
     exit 1
   fi
 }
@@ -249,8 +247,6 @@ ios_choose_device(){
   if [ ${#IOS_USB_DEVICES[@]} -eq 0 ] #No device connected
   then
      echo "❌ No iOS devices detected"
-     # Comon, its annoying, acutally felt good to turn it off
-     # yes_or_no "❓ Start iOS Simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/isimulator start; exit; fi
      exit 1
   fi
 
