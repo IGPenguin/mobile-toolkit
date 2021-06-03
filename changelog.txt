@@ -1,1 +1,10 @@
-  🩹 Fix brew cask usage in dependency check
+  🎉 Celebrate new release 1.2.0 together!
+    ⭐️ Please leave a star on GitHub, that makes me real happy
+    📬 Share Mobile Toolkit to your colleagues
+    🌍 https://github.com/IntergalacticPenguin/mobile-toolkit
+
+  🆕 Notable changes:
+   🐒 New atestmonkey tool for app stress testing
+   📦 Automatic irecord video compression (saves a lot)
+   🚀 Launch aoptions single activity result automatically
+   😌 Remove emulator prompt on "no device detected"
