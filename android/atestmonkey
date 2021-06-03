@@ -5,8 +5,8 @@ trap 'ctrlc' 1 2 3 6 15
 
 ctrlc(){
   if $RUNNING_TESTS; then
-    adb -s "$SELECTED_DEVICE" shell ps | awk '/com\.android\.commands\.monkey/ { system("adb shell kill " $2) }' >/dev/null 2>&1
-    echo
+    MONKEY_TASK_ID=$(adb -s "$SELECTED_DEVICE" shell pidof "com.android.commands.monkey")
+    adb -s "$SELECTED_DEVICE" shell kill "$MONKEY_TASK_ID" >/dev/null 2>&1
     echo "🙈 Monkey eliminated, the device is safe to use"
   fi
 
@@ -15,8 +15,10 @@ ctrlc(){
 }
 
 unlock_app_fullscreen(){
-  adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
-  echo "🔓 App fullscreen mode disabled"
+  if [[ "$*" != "*-k*" ]]; then
+    adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
+    echo "🔓 App fullscreen mode disabled"
+  fi
 }
 
 update_package_name(){
@@ -40,27 +42,26 @@ lock_task_fullscreen(){
 
 run_test(){
   SEED="$2"
-  echo "🐒 Running monkey test... (this will take a while, stop it with ctrl^c)"
+  echo "🐒 Running monkey test... (this will take a while, stop it using ctrl^c)"
   RUNNING_TESTS=true
   LOG_FILE=~/Desktop/"monkey-test-log-seed-$SEED-$APP_PACKAGE_NAME-$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).txt"
   adb -s "$1" shell monkey -p "$APP_PACKAGE_NAME" -s "$SEED" --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 "$EVENT_COUNT" &> "$LOG_FILE"
-  unlock_app_fullscreen
-  grep -q "CRASH" "$LOG_FILE" && echo "💥 Boom! \"$APP_PACKAGE_NAME\" has crashed." && open "$LOG_FILE" && exit 1
+  unlock_app_fullscreen "$*"
+  grep -q "CRASH" "$LOG_FILE" && echo "💥 Boom! \"$APP_PACKAGE_NAME\" has crashed."&& open "$LOG_FILE" && exit 1
   echo "✅ Stress test succesfully passed!"
 }
 
 RUNNING_TESTS=false
-EVENT_COUNT=15000 #Hmm
+EVENT_COUNT=13000 #Hmm
 
 android_choose_device
 android_device_info "$SELECTED_DEVICE"
 update_package_name "$SELECTED_DEVICE"
 lock_task_fullscreen "$SELECTED_DEVICE"
 
-if [ -z "$1" ]; then #YOLO
-  SEED="$RANDOM"
-else
-  SEED="$1"
-fi
+case "$1" in #if $1 not number, LOL
+    ''|*[!0-9]*) SEED="$RANDOM" ;;
+    *) SEED="$1" ;;
+esac
 
 run_test "$SELECTED_DEVICE" "$SEED"

@@ -5,5 +5,6 @@ trap "kill 0" SIGINT # Kill all spawned subprocesses on ctrl^c
 
 android_choose_device
 
-adb -s "$SELECTED_DEVICE" shell ps | awk '/com\.android\.commands\.monkey/ { system("adb shell kill " $2) }' >/dev/null 2>&1
+MONKEY_TASK_ID=$(adb -s "$SELECTED_DEVICE" shell pidof "com.android.commands.monkey")
+adb -s "$SELECTED_DEVICE" shell kill "$MONKEY_TASK_ID" >/dev/null 2>&1
 echo "🙈 Monkey eliminated, device is safe to use"
