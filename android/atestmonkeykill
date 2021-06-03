@@ -12,5 +12,5 @@ if [ -z "$MONKEY_TASK_ID"  ]; then
 
 else
   adb -s "$SELECTED_DEVICE" shell kill "$MONKEY_TASK_ID" >/dev/null 2>&1
-  echo "🙊 Monkey test terminated, device is safe to use"
+  echo "🔪 Monkey test terminated, device is safe to use"
 fi

@@ -7,7 +7,7 @@ ctrlc(){
   if $RUNNING_TESTS; then
     MONKEY_TASK_ID=$(adb -s "$SELECTED_DEVICE" shell pidof "com.android.commands.monkey")
     adb -s "$SELECTED_DEVICE" shell kill "$MONKEY_TASK_ID" >/dev/null 2>&1
-    echo "🙊 Monkey test terminated, the device is safe to use"
+    echo "🔪 Monkey test terminated, the device is safe to use"
   fi
 
   unlock_app_fullscreen
@@ -15,7 +15,7 @@ ctrlc(){
 }
 
 unlock_app_fullscreen(){
-  if [[ "$*" != "*-k*" ]]; then
+  if $UNLOCK; then
     adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
     echo "🔓 App fullscreen mode disabled"
   fi
@@ -46,7 +46,7 @@ run_test(){
   RUNNING_TESTS=true
   LOG_FILE=~/Desktop/"monkey-test-log-seed-$SEED-$APP_PACKAGE_NAME-$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).txt"
   adb -s "$1" shell monkey -p "$APP_PACKAGE_NAME" -s "$SEED" --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 "$EVENT_COUNT" &> "$LOG_FILE"
-  unlock_app_fullscreen "$*"
+  unlock_app_fullscreen "$@"
   grep -q "CRASH" "$LOG_FILE" && echo "💥 Boom! \"$APP_PACKAGE_NAME\" has crashed."&& open "$LOG_FILE" && exit 1
   echo "✅ Stress test succesfully passed!"
 }
@@ -63,5 +63,11 @@ case "$1" in #if $1 not number, LOL
     ''|*[!0-9]*) SEED="$RANDOM" ;;
     *) SEED="$1" ;;
 esac
+
+if [ "$2" == "-k" ]; then #damn
+  UNLOCK=false
+else
+  UNLOCK=true
+fi
 
 run_test "$SELECTED_DEVICE" "$SEED"
