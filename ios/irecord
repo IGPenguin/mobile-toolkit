@@ -8,7 +8,6 @@ RECORDING=false
 cd ~/Desktop || exit
 
 ctrlc(){
-  delete_lastline
   if $RECORDING ; then
     compress_video "$FILENAME"
     echo "✅ Saved into ~/Desktop/$FILENAME"
