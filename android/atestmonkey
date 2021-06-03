@@ -9,9 +9,13 @@ ctrlc(){
     echo "🙈 Monkey eliminated, device is safe to use again"
   fi
 
-  #adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
-  #echo "🔓 App fullscreen mode disabled"
+  adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
+  echo "🔓 App fullscreen mode disabled"
   exit 2
+}
+
+update_package_name(){
+  APP_PACKAGE_NAME="$(android_get_foreground_package "$1")"
 }
 
 lock_task_fullscreen(){
@@ -22,10 +26,11 @@ lock_task_fullscreen(){
 
   #Manual workaround
   adb -s "$SELECTED_DEVICE" shell am start -a android.settings.SECURITY_SETTINGS >/dev/null 2>&1
-  read -r -p "🔑 Enable \"Screen pinning\" in the security settings, then press enter..."
+  read -r -p "🔑 Enable \"Screen pinning\" option in security settings, then press enter..." #add check if already on
   adb -s "$SELECTED_DEVICE" shell monkey -p "$APP_PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
-  read -r -p "📌 Open recents, press \"pin\" button inside the app window, then press enter... "
-  should_proceed "🔥 Make sure \"$APP_PACKAGE_NAME\" is in fullscreen mode. Start monkey test?"
+  adb -s "$SELECTED_DEVICE" shell input keyevent "KEYCODE_APP_SWITCH"
+  read -r -p "📌 Press the \"pin\" button to enable fullscreen mode, then press enter... "
+  should_proceed "🔥 DANGER ZONE ◦ Start monkey testing \"$APP_PACKAGE_NAME\"?"
 }
 
 run_test(){
@@ -34,19 +39,19 @@ run_test(){
   RUNNING_TESTS=true
   LOG_FILE=~/Desktop/"monkey-test-log-seed-$SEED-$APP_PACKAGE_NAME-$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).txt"
   adb -s "$1" shell monkey -p "$APP_PACKAGE_NAME" -s "$SEED" --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 "$EVENT_COUNT" &> "$LOG_FILE"
-  grep -q "CRASH" "$LOG_FILE" && echo "💥 \"$APP_PACKAGE_NAME\" crashed!" && open "$LOG_FILE" && exit 1
+  grep -q "CRASH" "$LOG_FILE" && echo "💥 Boom! \"$APP_PACKAGE_NAME\" has crashed." && open "$LOG_FILE" && exit 1
 }
 
 RUNNING_TESTS=false
-EVENT_COUNT=10000
+EVENT_COUNT=10000 #Hmm
 
 android_choose_device
 android_device_info "$SELECTED_DEVICE"
-APP_PACKAGE_NAME="$(android_get_foreground_package "$1")"
+update_package_name "$SELECTED_DEVICE"
 lock_task_fullscreen "$SELECTED_DEVICE"
 
-if [ -z "$1" ]; then
-  SEED="$RANDOM" #LOL
+if [ -z "$1" ]; then #YOLO
+  SEED="$RANDOM"
 else
   SEED="$1"
 fi
