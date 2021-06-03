@@ -15,10 +15,8 @@ ctrlc(){
 }
 
 unlock_app_fullscreen(){
-  if $UNLOCK; then
-    adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
-    echo "🔓 App fullscreen mode disabled"
-  fi
+  adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
+  echo "🔓 App fullscreen mode disabled"
 }
 
 update_package_name(){
@@ -63,11 +61,5 @@ case "$1" in #if $1 not number, LOL
     ''|*[!0-9]*) SEED="$RANDOM" ;;
     *) SEED="$1" ;;
 esac
-
-if [ "$2" == "-k" ]; then #damn
-  UNLOCK=false
-else
-  UNLOCK=true
-fi
 
 run_test "$SELECTED_DEVICE" "$SEED"
