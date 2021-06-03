@@ -1,7 +1,7 @@
-### ⚠️ Merge checklist
+## ⚠️ Progress checklist
 - [ ] 🏗 **Features fully completed**
-- [ ] 🔨 **All changes tested**
 - [ ] 🔬 **Shellcheck issues resolved**
+- [ ] 🔨 **All changes tested**
 - [ ] 💬 **Terminal output satisfactory**
 - [ ] 👀 **Diff examined thoroughly**
 - [ ] 📝 **API changes included in `README.md`**
