@@ -6,6 +6,7 @@ trap 'ctrlc' 1 2 3 6 15
 ctrlc(){
   if $RUNNING_TESTS; then
     adb -s "$SELECTED_DEVICE" shell ps | awk '/com\.android\.commands\.monkey/ { system("adb shell kill " $2) }' >/dev/null 2>&1
+    echo
     echo "🙈 Monkey eliminated, the device is safe to use"
   fi
 
@@ -43,11 +44,13 @@ run_test(){
   RUNNING_TESTS=true
   LOG_FILE=~/Desktop/"monkey-test-log-seed-$SEED-$APP_PACKAGE_NAME-$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).txt"
   adb -s "$1" shell monkey -p "$APP_PACKAGE_NAME" -s "$SEED" --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 "$EVENT_COUNT" &> "$LOG_FILE"
-  grep -q "CRASH" "$LOG_FILE" && echo "💥 Boom! \"$APP_PACKAGE_NAME\" has crashed." && open "$LOG_FILE" && unlock_app_fullscreen && exit 1
+  unlock_app_fullscreen
+  grep -q "CRASH" "$LOG_FILE" && echo "💥 Boom! \"$APP_PACKAGE_NAME\" has crashed." && open "$LOG_FILE" && exit 1
+  echo "✅ Stress test succesfully passed!"
 }
 
 RUNNING_TESTS=false
-EVENT_COUNT=10000 #Hmm
+EVENT_COUNT=15000 #Hmm
 
 android_choose_device
 android_device_info "$SELECTED_DEVICE"
