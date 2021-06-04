@@ -4,8 +4,8 @@
     🌍 https://github.com/IntergalacticPenguin/mobile-toolkit
 
   🆕 Notable changes:
-   🐒 New atestmonkey tool for app stress testing
-   📦 Automatic irecord video compression (saves a lot)
-   🚀 Launch aoptions single activity result automatically
+   🐒 New "atestmonkey" tool for app stress testing
+   📦 Automatic "irecord" video compression (saves a lot)
+   🚀 Launch "aoptions" single activity result automatically
+   👋 Remove "igif" (irecord made it obsolete)
    😌 Remove emulator prompt on "no device detected"
-   👋 Remove igif (irecord made it obsolete)
