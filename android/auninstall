@@ -5,7 +5,7 @@ source "$LOCATION"/../common_tools
 
 init_uninstalling(){
   echo "⏳ Getting third-party package list..."
-  IGNORED_PACKAGES=( "com.microsoft.hockeyapp.testerapp" "io.crash.air" "de.codenauts.hockeyapp" "ar.core" "com.framerjs.android" "com.figma.mirror" "com.invisionapp.ifa" "com.android.chrome" "com.google.ar.core" "no.nordicsemi.android.mcp" )
+  IGNORED_PACKAGES=( "com.microsoft.hockeyapp.testerapp" "io.crash.air" "de.codenauts.hockeyapp" "ar.core" "com.framerjs.android" "com.figma.mirror" "com.invisionapp.ifa" "com.android.chrome" "com.google.ar.core" "no.nordicsemi.android.mcp" "com.x8bit.bitwarden" )
   PACKAGES=($(adb -s "$SELECTED_DEVICE" shell pm list packages -f -3 | sed -e 's/.*=//' | sort))
 }
 
