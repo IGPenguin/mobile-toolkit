@@ -7,7 +7,7 @@ ctrlc(){
   if $RUNNING_TESTS; then
     MONKEY_TASK_ID=$(adb -s "$SELECTED_DEVICE" shell pidof "com.android.commands.monkey")
     adb -s "$SELECTED_DEVICE" shell kill "$MONKEY_TASK_ID" >/dev/null 2>&1
-    echo "🔪 Monkey test terminated, the device is safe to use"
+    echo "🔪 Monkey test terminated, the device is safe to use now!"
   fi
 
   unlock_app_fullscreen
@@ -35,7 +35,7 @@ lock_task_fullscreen(){
   adb -s "$SELECTED_DEVICE" shell monkey -p "$APP_PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
   adb -s "$SELECTED_DEVICE" shell input keyevent "KEYCODE_APP_SWITCH"
   read -r -p "📌 Press the \"Pin\" button in \"$APP_PACKAGE_NAME\" window, then press enter... " #add check if already on
-  tput setaf 1 && should_proceed "🔥 DANGER ZONE ⊗ Send $EVENT_COUNT monkey test events? (takes a while)" && tput sgr0 #set red and white text color
+  tput setaf 1 && should_proceed "🔥 DANGER ZONE ⊗ Start the monkey test? (takes a while)" && tput sgr0 #set red and white text color
 }
 
 run_test(){
@@ -45,8 +45,8 @@ run_test(){
   LOG_FILE=~/Desktop/"monkey-test-log-seed-$SEED-$APP_PACKAGE_NAME-$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).txt"
   adb -s "$1" shell monkey -p "$APP_PACKAGE_NAME" -s "$SEED" --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 "$EVENT_COUNT" &> "$LOG_FILE"
   unlock_app_fullscreen "$@"
-  grep -q "CRASH" "$LOG_FILE" && echo "💥 Boom... Package \"$APP_PACKAGE_NAME\" has crashed!"&& open "$LOG_FILE" && exit 1
-  tput setaf 2 && echo "✅  Test passed, totally sent $EVENT_COUNT input events" && tput sgr0 #set green and white text color
+  grep -q "CRASH" "$LOG_FILE" && tput setaf 2 && echo "💥 Boom... Package \"$APP_PACKAGE_NAME\" has crashed!" && tput sgr0 && open "$LOG_FILE" && exit 1
+  tput setaf 2 && echo "✅ Test passed, totally sent $EVENT_COUNT input events" && tput sgr0
 }
 
 RUNNING_TESTS=false
