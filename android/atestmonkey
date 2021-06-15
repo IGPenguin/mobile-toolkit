@@ -34,11 +34,8 @@ lock_task_fullscreen(){
   read -r -p "🔑 Enable \"Screen pinning\" option in security settings, then press enter..." #add check if already on
   adb -s "$SELECTED_DEVICE" shell monkey -p "$APP_PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
   adb -s "$SELECTED_DEVICE" shell input keyevent "KEYCODE_APP_SWITCH"
-  read -r -p "📌 Press \"Pin\" button in \"$APP_PACKAGE_NAME\" window, then press enter... " #add check if already on
-
-  tput setaf 1 #red color text
-  should_proceed "🔥 DANGER ZONE ⊗ Send $EVENT_COUNT monkey test events? (takes a while)"
-  tput sgr0 #white color text
+  read -r -p "📌 Press the \"Pin\" button in \"$APP_PACKAGE_NAME\" window, then press enter... " #add check if already on
+  tput setaf 1 && should_proceed "🔥 DANGER ZONE ⊗ Send $EVENT_COUNT monkey test events? (takes a while)" && tput sgr0 #set red and white text color
 }
 
 run_test(){
@@ -49,7 +46,7 @@ run_test(){
   adb -s "$1" shell monkey -p "$APP_PACKAGE_NAME" -s "$SEED" --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 "$EVENT_COUNT" &> "$LOG_FILE"
   unlock_app_fullscreen "$@"
   grep -q "CRASH" "$LOG_FILE" && echo "💥 Boom... Package \"$APP_PACKAGE_NAME\" has crashed!"&& open "$LOG_FILE" && exit 1
-  echo "✅  Test passed, totally sent $EVENT_COUNT input events"
+  tput setaf 2 && echo "✅  Test passed, totally sent $EVENT_COUNT input events" && tput sgr0 #set green and white text color
 }
 
 RUNNING_TESTS=false
