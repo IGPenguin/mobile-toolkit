@@ -7,7 +7,7 @@ ctrlc(){
   if $RUNNING_TESTS; then
     MONKEY_TASK_ID=$(adb -s "$SELECTED_DEVICE" shell pidof "com.android.commands.monkey")
     adb -s "$SELECTED_DEVICE" shell kill "$MONKEY_TASK_ID" >/dev/null 2>&1
-    echo "🔪 Monkey test terminated, the device is safe to use now!"
+    echo "🔪 Test monkey terminated, the device is safe to use now!"
   fi
 
   unlock_app_fullscreen
@@ -16,7 +16,7 @@ ctrlc(){
 
 unlock_app_fullscreen(){
   adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
-  echo "🔓 Package \"$APP_PACKAGE_NAME\" fullscreen mode disabled"
+  echo "🔓 App fullscreen pinning disabled"
 }
 
 update_package_name(){
@@ -31,11 +31,11 @@ lock_task_fullscreen(){
 
   #Manual workaround
   adb -s "$SELECTED_DEVICE" shell am start -a android.settings.SECURITY_SETTINGS >/dev/null 2>&1
-  read -r -p "🔑 Enable \"Screen pinning\" option in security settings, then press enter..." #add check if already on
+  read -r -p "🔑 Enable \"Screen pinning\" option in security settings, then press enter..." #TODO add check if already on
   adb -s "$SELECTED_DEVICE" shell monkey -p "$APP_PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
   adb -s "$SELECTED_DEVICE" shell input keyevent "KEYCODE_APP_SWITCH"
-  read -r -p "📌 Press the \"Pin\" button in \"$APP_PACKAGE_NAME\" window, then press enter... " #add check if already on
-  tput setaf 1 && should_proceed "🔥 DANGER ZONE ⊗ Start the monkey test? (takes a while)" && tput sgr0 #set red and white text color
+  read -r -p "📌 Press the \"Pin\" button in \"$APP_PACKAGE_NAME\" window, then press enter... " #TODO add check if already on
+  tput setaf 3 && should_proceed "🔥 DANGER ZONE ⊗ Start test monkey in "$APP_PACKAGE_NAME"? (it will take a while)" && tput sgr0 #set red and white text color
 }
 
 run_test(){
@@ -45,12 +45,13 @@ run_test(){
   LOG_FILE=~/Desktop/"monkey-test-log-seed-$SEED-$APP_PACKAGE_NAME-$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S).txt"
   adb -s "$1" shell monkey -p "$APP_PACKAGE_NAME" -s "$SEED" --pct-appswitch 0 --pct-syskeys 0 --pct-anyevent 0 "$EVENT_COUNT" &> "$LOG_FILE"
   unlock_app_fullscreen "$@"
-  grep -q "CRASH" "$LOG_FILE" && tput setaf 2 && echo "💥 Boom... Package \"$APP_PACKAGE_NAME\" has crashed!" && tput sgr0 && open "$LOG_FILE" && exit 1
-  tput setaf 2 && echo "✅ Test passed, totally sent $EVENT_COUNT input events" && tput sgr0
+  grep -q "CRASH" "$LOG_FILE" && tput setaf 1 && echo "❌ Test failed, see crash log for details, seed: $SEED" && tput sgr0 && open "$LOG_FILE" && exit 1
+  tput setaf 2 && echo "✅ Test passed, successfully executed all input events, seed: $SEED" && tput sgr0
 }
 
 RUNNING_TESTS=false
-EVENT_COUNT=13000 #Hmm
+EVENT_COUNT=13000 #Hmm, feels long just enough
+SEED="$RANDOM"
 
 android_choose_device
 android_device_info "$SELECTED_DEVICE"
@@ -58,7 +59,7 @@ update_package_name "$SELECTED_DEVICE"
 lock_task_fullscreen "$SELECTED_DEVICE"
 
 case "$1" in #if $1 not number, LOL
-    ''|*[!0-9]*) SEED="$RANDOM" ;;
+    ''|*[!0-9]*) ;; #nothing left to do
     *) SEED="$1" ;;
 esac
 
