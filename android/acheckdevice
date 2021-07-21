@@ -125,7 +125,6 @@ open_gsmarena(){
 }
 
 android_choose_device
-android_unlock_device "$SELECTED_DEVICE"
 echo_info
 check_screen_timeout
 check_screen_brightness

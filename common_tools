@@ -166,11 +166,11 @@ android_unlock_device(){
   UNLOCK_RETRIES=1
 until android_device_unlocked "$1";
 do
-    if [ $UNLOCK_RETRIES -le "$MAX_RETRIES" ]; then
+    if [ "$UNLOCK_RETRIES" -le "$MAX_RETRIES" ]; then
       echo "🔆 Screen on attempt $UNLOCK_RETRIES..."
       ((UNLOCK_RETRIES++));
-      adb shell input keyevent KEYCODE_POWER
-      adb shell input keyevent 82
+      adb -s "$1" shell input keyevent KEYCODE_POWER
+      adb -s "$1" shell input keyevent 82
       sleep 1;
    else
       read -r -p "❌ Screen-wake failed, press ANY KEY after manual unlock..."

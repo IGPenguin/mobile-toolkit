@@ -50,7 +50,7 @@ run_test(){
 }
 
 RUNNING_TESTS=false
-EVENT_COUNT=13000 #Hmm, feels long just enough
+EVENT_COUNT=13000 #Hmm,feels just enough long
 SEED="$RANDOM"
 
 android_choose_device

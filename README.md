@@ -215,6 +215,12 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
   * `telnet <command>` - call command via telnet
 	   * example commands `event | redir | sensor | physics | finger | rotate | fold | unfold...` see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
 
+### 🐒 atestmonkey
+* Perform automated stress test using [Application Excersciser Monkey](https://developer.android.com/studio/test/monkey)
+* Default test length (total input event count) is set to `13000`, support for custom count will eventually be added in future update
+* App under test will be locked to fullscreen mode to prevent unwanted interactions elsewhere
+* You can end stress test prematurely using ctrl^c or `atestmonkeykill` in case something goes wrong
+
 # 🍎 iOS commands
 
 ## Capture screen
@@ -229,8 +235,8 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 1. `irecord` Record screen
 2. End recording using `ctrl + c`
-3. Save screen video footage to ~/Desktop
-4. Compress video
+3. Video footage is saved to ~/Desktop
+4. File is compressed using ffmpeg
 
 ## Manage applications
 ### 🚚 iinstall
