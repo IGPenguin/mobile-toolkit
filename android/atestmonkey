@@ -24,18 +24,12 @@ update_package_name(){
 }
 
 lock_task_fullscreen(){
-  #The following code does not work, the app must be a device owner
-  #android_unlock_device "$SELECTED_DEVICE" 3
-  #TASK_ID=$(adb -s "$1" shell pidof "$APP_PACKAGE_NAME")
-  #adb -s "$1" shell am task lock "$TASK_ID"
-
-  #Manual workaround
   adb -s "$SELECTED_DEVICE" shell am start -a android.settings.SECURITY_SETTINGS >/dev/null 2>&1
   read -r -p "🔑 Enable \"Screen pinning\" option in security settings, then press enter..." #TODO add check if already on
   adb -s "$SELECTED_DEVICE" shell monkey -p "$APP_PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
   adb -s "$SELECTED_DEVICE" shell input keyevent "KEYCODE_APP_SWITCH"
   read -r -p "📌 Press the \"Pin\" button in \"$APP_PACKAGE_NAME\" window, then press enter... " #TODO add check if already on
-  tput setaf 3 && should_proceed "🔥 DANGER ZONE ⊗ Start test monkey in "$APP_PACKAGE_NAME"? (it will take a while)" && tput sgr0 #set red and white text color
+  tput setaf 3 && should_proceed "🔥 DANGER ZONE ⊗ Start test monkey in $APP_PACKAGE_NAME? (it will take a while)" && tput sgr0 #set red and white text color
 }
 
 run_test(){
@@ -50,7 +44,7 @@ run_test(){
 }
 
 RUNNING_TESTS=false
-EVENT_COUNT=13000 #Hmm,feels just enough long
+EVENT_COUNT=13000 #Feels just enough long, should convert to argument later
 SEED="$RANDOM"
 
 android_choose_device
