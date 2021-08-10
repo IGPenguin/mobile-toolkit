@@ -223,11 +223,11 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * Screen pinning button location is directly tied to OS version and device manufacturer skin. It may be tricky to find, see examples below:
 	* <details>
 			<summary>Google Nexus 5 (Android 6)</summary>
-			<br>*You need to bring the app window to foreground, the button is located in bottom right corner.*<br><br>
+			<br><em>You need to bring the app window to foreground, the button is located in bottom right corner.</em><br><br>
 			<img src="/media/Pinning_Nexus.png" width="420"></details>
 	* <details>
 			<summary>Google Pixel 3 (Android 11)</summary>
-			<br>*You need to click on the app icon, the button is located in popup menu.*<br><br>
+			<br><em>You need to click on the app icon, the button is located in popup menu.</em><br><br>
 			<img src="/media/Pinning_Pixel.png" width="420"></details>
 
 # 🍎 iOS commands
