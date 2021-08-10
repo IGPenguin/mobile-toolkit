@@ -15,7 +15,7 @@ ctrlc(){
 }
 
 unlock_app_fullscreen(){
-  adb -s "$SELECTED_DEVICE" shell am task lock stop >/dev/null 2>&1
+  adb -s "$1" shell am task lock stop >/dev/null 2>&1
   echo "🔓 App fullscreen pinning disabled"
 }
 
@@ -24,10 +24,10 @@ update_package_name(){
 }
 
 check_screen_pinning(){
-  PINNING_ENABLED=$(adb -s "$SELECTED_DEVICE" shell settings get system lock_to_app_enabled)
+  PINNING_ENABLED=$(adb -s "$1" shell settings get system lock_to_app_enabled)
   PINNING_ENABLED=${PINNING_ENABLED%$'\r'} # remove trailing carriage return
   if [ "$PINNING_ENABLED" != "1" ]; then
-    adb -s "$SELECTED_DEVICE" shell am start -a android.settings.SECURITY_SETTINGS >/dev/null 2>&1
+    adb -s "$1" shell am start -a android.settings.SECURITY_SETTINGS >/dev/null 2>&1
     read -r -p "🔑 Enable \"Screen pinning\" option in security settings, then press enter..."
   fi
 }
