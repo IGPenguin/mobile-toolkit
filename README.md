@@ -220,7 +220,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * Default test length (total input event count) is set to `15000`, support for custom count will eventually be added in future update
 * App under test needs to be pinned to fullscreen mode to prevent unwanted interactions elsewhere
 * You can end stress test prematurely using ctrl^c or `atestmonkeykill` in case something goes wrong
-* Screen pinning button location is directly tied to OS version and device manufacturer skin. It may be tricky to find, see examples below:<br>
+* Screen pinning button location is directly tied to OS version and device manufacturer skin. It may be tricky to find, see examples below:<br><br>
 	* <details>
 			<summary>Google Nexus 5 (Android 6)</summary>
 			<br><em>You need to bring the app window to foreground, the button is located in bottom right corner.</em><br><br>
