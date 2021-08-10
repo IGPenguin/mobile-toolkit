@@ -23,13 +23,21 @@ update_package_name(){
   APP_PACKAGE_NAME="$(android_get_foreground_package "$1")"
 }
 
+check_screen_pinning(){
+  PINNING_ENABLED=$(adb -s "$SELECTED_DEVICE" shell settings get system lock_to_app_enabled)
+  PINNING_ENABLED=${PINNING_ENABLED%$'\r'} # remove trailing carriage return
+  if [ "$PINNING_ENABLED" != "1" ]; then
+    adb -s "$SELECTED_DEVICE" shell am start -a android.settings.SECURITY_SETTINGS >/dev/null 2>&1
+    read -r -p "🔑 Enable \"Screen pinning\" option in security settings, then press enter..."
+  fi
+}
+
 lock_task_fullscreen(){
-  adb -s "$SELECTED_DEVICE" shell am start -a android.settings.SECURITY_SETTINGS >/dev/null 2>&1
-  read -r -p "🔑 Enable \"Screen pinning\" option in security settings, then press enter..." #TODO add check if already on
-  adb -s "$SELECTED_DEVICE" shell monkey -p "$APP_PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
-  adb -s "$SELECTED_DEVICE" shell input keyevent "KEYCODE_APP_SWITCH"
+  check_screen_pinning "$1"
+  adb -s "$1" shell monkey -p "$APP_PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
+  adb -s "$1" shell input keyevent "KEYCODE_APP_SWITCH"
   read -r -p "📌 Press the \"Pin\" button in \"$APP_PACKAGE_NAME\" window, then press enter... " #TODO add check if already on
-  tput setaf 3 && should_proceed "🔥 DANGER ZONE ⊗ Start test monkey in $APP_PACKAGE_NAME? (it will take a while)" && tput sgr0 #set red and white text color
+  tput setaf 3 && should_proceed "🔥 DANGER ZONE ⊗ Perform monkey test on \"$APP_PACKAGE_NAME\"? (it will take a while)" && tput sgr0 #set red and white text color
 }
 
 run_test(){
