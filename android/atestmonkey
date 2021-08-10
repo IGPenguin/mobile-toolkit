@@ -52,7 +52,7 @@ run_test(){
 }
 
 RUNNING_TESTS=false
-EVENT_COUNT=13000 #Feels just enough long, should convert to argument later
+EVENT_COUNT=15000 #Should convert to argument later, this is bad
 SEED="$RANDOM"
 
 android_choose_device
