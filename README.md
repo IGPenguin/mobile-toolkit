@@ -221,9 +221,9 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * App under test needs to be pinned to fullscreen mode to prevent unwanted interactions elsewhere
 * <details>
 		<summary>Screen pinning button may be tricky to find</summary>
-		* Its location is tied to system version and manufacturer OS skin.
-			* **Google Nexus 5 (Android 6)**<br><img src="/media/Pinning_Nexus.png" width="256")<br>
-			* **Google Pixel 3 (Android 11)**<br><img src="/media/Pinning_Pixel.png" width="256")
+* Its location is tied to system version and manufacturer OS skin.
+	* **Google Nexus 5 (Android 6)**<br><img src="/media/Pinning_Nexus.png" width="256")<br>
+	* **Google Pixel 3 (Android 11)**<br><img src="/media/Pinning_Pixel.png" width="256")
 </details>
 * You can end stress test prematurely using ctrl^c or `atestmonkeykill` in case something goes wrong
 
