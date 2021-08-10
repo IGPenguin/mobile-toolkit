@@ -1,4 +1,4 @@
-![Header](/header_v2.png?raw=true)
+![Header](/media/header_v2.png?raw=true)
 ## What is this?
 🛠 Capture screen, manage apps, simulate input, print system log and more using simple commands!<br>
 
@@ -215,6 +215,21 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
   * `telnet <command>` - call command via telnet
 	   * example commands `event | redir | sensor | physics | finger | rotate | fold | unfold...` see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
 
+### 🐒 atestmonkey
+* Perform automated stress test using [Application Excersciser Monkey](https://developer.android.com/studio/test/monkey)
+* Default test length is `15000` input events, support for custom count will be added in future update
+* You can end test prematurely using ctrl^c or `atestmonkeykill` in case something goes wrong
+* App under test needs to be pinned to fullscreen mode to prevent unwanted interactions elsewhere
+* Screen pinning button location is directly tied to OS version and device manufacturer skin. It may be tricky to find, see examples below:<br><br>
+	* <details>
+			<summary>Google Nexus 5 (Android 6)</summary>
+			<br><em>You need to bring the app window to foreground, the button is located in bottom right corner.</em><br><br>
+			<img src="/media/Pinning_Nexus_v3.png" width="420"></details>
+	* <details>
+			<summary>Google Pixel 3 (Android 11)</summary>
+			<br><em>You need to click on the app icon, the button is located in popup menu.</em><br><br>
+			<img src="/media/Pinning_Pixel.png" width="420"></details>
+
 # 🍎 iOS commands
 
 ## Capture screen
@@ -225,19 +240,12 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 ### 🎥 irecord
 **Required**: Install [videosnap](https://github.com/matthutchinson/videosnap/releases "videosnap") -> download and run `videosnap-0.0.6.pkg`
+**Required**: Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") `brew install ffmpeg`
 
 1. `irecord` Record screen
 2. End recording using `ctrl + c`
-3. Save screen video footage to ~/Desktop
-
-### 🖼 igif
-**Required**: Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") `brew install ffmpeg`
-
-1. Record screen (take as many screenshots per second as possible) to ~/Desktop
-2. End recording using `ctrl + c`
-3. Compose .mp4 from screenshots and save it to ~/Desktop
-4. (Optional) Delete screenshots
-* Specify your own filename by passing it as argument
+3. Video footage is saved to ~/Desktop
+4. File is compressed using ffmpeg
 
 ## Manage applications
 ### 🚚 iinstall

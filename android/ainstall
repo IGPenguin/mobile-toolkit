@@ -38,7 +38,7 @@ run()
     check_for_update
     android_check_connected
     android_get_devices_auth_dump
-    detect_package_info "$2"
+    android_detect_package_info "$2"
     for line in $(adb devices | grep -v "List"  | awk '{print $1}')
     do
       DEVICE=$(echo "$line" | awk '{print $1}')
@@ -47,7 +47,7 @@ run()
     wait
   else
     android_choose_device
-    detect_package_info "$1"
+    android_detect_package_info "$1"
     install_app "$SELECTED_DEVICE" "$1"
   fi
 }

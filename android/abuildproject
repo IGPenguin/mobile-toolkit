@@ -67,7 +67,7 @@ find_apk_path(){
 }
 
 launch(){
-  detect_package_info "$1"
+  android_detect_package_info "$1"
   echo "🚀 Launching $APP_NAME..."
   adb -s "$SELECTED_DEVICE" shell monkey -p "$PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
 }

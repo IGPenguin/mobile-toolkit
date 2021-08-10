@@ -1,0 +1,16 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source "$LOCATION"/../common_tools
+trap "kill 0" SIGINT # Kill all spawned subprocesses on ctrl^c
+
+android_choose_device
+
+MONKEY_TASK_ID=$(adb -s "$SELECTED_DEVICE" shell pidof "com.android.commands.monkey")
+
+if [ -z "$MONKEY_TASK_ID"  ]; then
+  echo "🙈 No test monkey running, device is safe to use"
+
+else
+  adb -s "$SELECTED_DEVICE" shell kill "$MONKEY_TASK_ID" >/dev/null 2>&1
+  echo "🔪 Test monkey terminated, the device is safe to use now!"
+fi

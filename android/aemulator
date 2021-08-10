@@ -47,7 +47,7 @@ check_running_emulator(){
 get_emulator_list(){
   echo "⏳ Getting Android emulator list..."
   rm -f "$LOCAL_EMULATOR_LIST"
-  ~/Library/Android/sdk/tools/bin/avdmanager list avd | grep Name | awk '{print $2}' >> "$LOCAL_EMULATOR_LIST"
+  "$ANDROID_HOME"/cmdline-tools/latest/bin/avdmanager list avd | grep Name | awk '{print $2}' >> "$LOCAL_EMULATOR_LIST"
   if [ "$(nl "$LOCAL_EMULATOR_LIST")" == "" ]; then
     should_proceed "🤷‍ No emulators installed, install via Android Studio?"
     echo "⏳ Opening Android Studio..."

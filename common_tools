@@ -19,7 +19,6 @@ android_check_connected(){
   if [ ${#DEVICES[@]} -eq 0 ]
   then
     echo "❌ No Android devices detected"
-    yes_or_no "❓ Start Android Emulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/aemulator "start"; fi
     exit 1
   fi
 }
@@ -103,26 +102,10 @@ SELECTED_DEVICE_MODEL=$(adb -s "$SELECTED_DEVICE" shell getprop ro.product.model
 SELECTED_DEVICE_SDK=$(adb -s "$SELECTED_DEVICE" shell getprop ro.build.version.sdk | tr -cd '[[:alnum:]]._-')
 }
 
-check_screen_on(){
-  CURRENT_FOCUS=$(adb -s "$1" shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev)
-  if [[ "$CURRENT_FOCUS" == *"StatusBar"* ]] || [[ "$CURRENT_FOCUS" == *"mCurrentFocus=null"* ]] || [[ "$CURRENT_FOCUS" == *"Keyguard"* ]]; then
-    return 1
-  else
-    return 0
-  fi
-}
-
-android_unlock_device(){ #🤮
-  if [[ $(check_screen_on "$1") -eq 1  ]]; then
-    echo "🛌 Waking up the device..."
-    adb -s "$1" shell input keyevent KEYCODE_HOME
-    if [[ $(check_screen_on "$1") -eq 1  ]]; then
-      adb -s "$1" shell input keyevent KEYCODE_POWER
-      if [[ $(check_screen_on "$1") -eq 1  ]]; then
-        adb -s "$1" shell input keyevent 82
-      fi
-    fi
-  fi
+android_device_unlocked(){
+  echo "📱 Checking screen status..."
+  adb -s "$1" shell dumpsys power | grep "mWakefulness=" | grep "Awake" &> /dev/null
+  return $?
 }
 
 android_get_foreground_package(){
@@ -165,7 +148,7 @@ android_is_package_installed() {
   fi
 }
 
-detect_package_info(){
+android_detect_package_info(){
   echo "🔍 Detecting package name..."
   AAPPT_PATH=$(find ~/Library/Android/sdk -name 'aapt' | sort | tail -1)
   PACKAGE_INFO=$($AAPPT_PATH dump badging "$1" > $TEMPORARY_FILE)
@@ -174,6 +157,29 @@ detect_package_info(){
   PACKAGE_NAME=$(echo "$PACKAGE_NAME" | sed 's/'\''.*//');
   APP_NAME=$(cat $TEMPORARY_FILE  | grep application-label:)
   APP_NAME=${APP_NAME#"application-label:"}
+}
+
+android_unlock_device(){
+  # arg1 = DEVICE_ID
+  # arg2 = MAX_RETRIES
+  MAX_RETRIES="$2"
+  UNLOCK_RETRIES=1
+until android_device_unlocked "$1";
+do
+    if [ "$UNLOCK_RETRIES" -le "$MAX_RETRIES" ]; then
+      echo "🔆 Screen on attempt $UNLOCK_RETRIES..."
+      ((UNLOCK_RETRIES++));
+      adb -s "$1" shell input keyevent KEYCODE_POWER
+      adb -s "$1" shell input keyevent 82
+      sleep 1;
+   else
+      read -r -p "❌ Screen-wake failed, press ANY KEY after manual unlock..."
+      break
+   fi
+ done
+
+ delete_lastline
+ echo "📱 Screen unlocked..."
 }
 
 ##############################################################################
@@ -241,7 +247,6 @@ ios_choose_device(){
   if [ ${#IOS_USB_DEVICES[@]} -eq 0 ] #No device connected
   then
      echo "❌ No iOS devices detected"
-     yes_or_no "❓ Start iOS Simulator?"; if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then "$SCRIPT_LOCATION"/isimulator start; exit; fi
      exit 1
   fi
 

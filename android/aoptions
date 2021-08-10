@@ -21,12 +21,17 @@ import_intents(){
 start_settings_intent(){
   SETTINGS_INTENT=$(sed "$LINE"!d "$LOCAL_SETTINGS_LIST_PATH")
   echo "🚀 Starting $SETTINGS_INTENT"
-  adb -s "$SELECTED_DEVICE" shell am start -a "$SETTINGS_INTENT" | grep error
+  adb -s "$SELECTED_DEVICE" shell am start -a "$SETTINGS_INTENT" &> /dev/null
 }
 
 search_for_intent(){
-  if nl "$LOCAL_SETTINGS_LIST_PATH" | grep -i "$1"; then
-    read -r -p "📝 Choose option number: " LINE
+  if nl "$LOCAL_SETTINGS_LIST_PATH" | grep -i -q "$1"; then
+    if [[ $(grep -c -i "$1" "$LOCAL_SETTINGS_LIST_PATH") -eq 1 ]]; then #If there is only one result
+      LINE=$(nl "$LOCAL_SETTINGS_LIST_PATH" | grep -i "$1" | awk '{print $1}')
+    else
+      nl "$LOCAL_SETTINGS_LIST_PATH" | grep -i "$1"
+      read -r -p "📝 Choose option number: " LINE
+    fi
     start_settings_intent
   else
     read -r -p "🤷‍ No \"$1\" intent found, try again or leave blank: " KEYWORD
@@ -46,7 +51,7 @@ handle_preset(){
     adb -s "$SELECTED_DEVICE" shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS &> /dev/null
     ;;
 
-    "2" | "locale")
+    "2" | "locale" | "lang" | "language")
     echo "🌍 Opening locale settings..."
     adb -s "$SELECTED_DEVICE" shell am start -a android.settings.LOCALE_SETTINGS &> /dev/null
     ;;

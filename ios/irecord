@@ -9,6 +9,7 @@ cd ~/Desktop || exit
 
 ctrlc(){
   if $RECORDING ; then
+    compress_video "$FILENAME"
     echo "✅ Saved into ~/Desktop/$FILENAME"
   fi
   osascript -e 'quit app "QuickTime Player"'
@@ -25,7 +26,7 @@ check_videosnap_dependency(){ #TODO refactor when videosnap available via Homber
 }
 
 start_quicktime(){
-	echo "💡 Starting QuickTime to enable recording (webcam light might turn on)..."
+	echo "💡 Starting QuickTime recording (webcam LED might turn on)..."
 	osascript <<EOD
 	tell application "QuickTime Player"
 		set newMovieRecording to new movie recording
@@ -66,11 +67,19 @@ pick_recording_device(){
 start_recording(){
   RECORDING=true
   FILENAME="$DEVICE_NAME-$(date +%Y-%m-%d-%H-%M-%S).mp4"
-  echo "📹 Recording screen on $DEVICE_NAME, stop it with ctrl^c"
-  videosnap -w 0 -p High -d "$DEVICE_NAME" "$FILENAME" &> /dev/null
+  echo "📹 Recording screen on $DEVICE_NAME, stop it using ctrl^c"
+  videosnap -w 0 --no-audio -p High -d "$DEVICE_NAME" "$FILENAME" &> /dev/null
+}
+
+compress_video(){
+  echo "📦 Compressing video..."
+  ffmpeg -i "$1" "LQ-$1" -hide_banner -loglevel error #ultra basic ffmpeg compression
+  rm "$1" && mv "LQ-$1" "$1"
 }
 
 check_videosnap_dependency
+check_dependency "ffmpeg"
+
 start_quicktime
 pick_recording_device
 start_recording

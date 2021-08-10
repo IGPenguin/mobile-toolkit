@@ -5,7 +5,7 @@ source "$LOCATION"/../common_tools
 
 init(){
   check_dependency "ideviceinstaller"
-  IGNORED_PACKAGES=( "com.apple.TestFlight" "motif.FramerPreview" "com.figma.FigmaMirror" "com.invisionapp.InVisionApp-iOS" )
+  IGNORED_PACKAGES=( "com.apple.TestFlight" "motif.FramerPreview" "com.figma.FigmaMirror" "com.invisionapp.InVisionApp-iOS" "com.8bit.bitwarden" )
 }
 
 ios_get_package_list(){
