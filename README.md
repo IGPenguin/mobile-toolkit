@@ -217,9 +217,9 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 ### 🐒 atestmonkey
 * Perform automated stress test using [Application Excersciser Monkey](https://developer.android.com/studio/test/monkey)
-* Default test length (total input event count) is set to `15000`, support for custom count will eventually be added in future update
+* Default test length is `15000` input events, support for custom count will be added in future update
+* You can end test prematurely using ctrl^c or `atestmonkeykill` in case something goes wrong
 * App under test needs to be pinned to fullscreen mode to prevent unwanted interactions elsewhere
-* You can end stress test prematurely using ctrl^c or `atestmonkeykill` in case something goes wrong
 * Screen pinning button location is directly tied to OS version and device manufacturer skin. It may be tricky to find, see examples below:<br><br>
 	* <details>
 			<summary>Google Nexus 5 (Android 6)</summary>
