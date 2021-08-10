@@ -224,7 +224,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 	* <details>
 			<summary>Google Nexus 5 (Android 6)</summary>
 			<br><em>You need to bring the app window to foreground, the button is located in bottom right corner.</em><br><br>
-			<img src="/media/Pinning_Nexus.png" width="420"></details>
+			<img src="/media/Pinning_Nexus_v2.png" width="420"></details>
 	* <details>
 			<summary>Google Pixel 3 (Android 11)</summary>
 			<br><em>You need to click on the app icon, the button is located in popup menu.</em><br><br>
