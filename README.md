@@ -222,12 +222,12 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * Screen pinning button location is tied to system version and manufacturer OS skin, it may be tricky to find
 	* <details>
 			<summary>Google Nexus 5 (Android 6)</summary>
-			<img src="/media/Pinning_Nexus.png" width="256">
-		</details>
+			You need to bring the app window to foreground, the button is located in bottom right corner.
+			<img src="/media/Pinning_Nexus.png" width="420"></details>
 	* <details>
 			<summary>Google Pixel 3 (Android 11)</summary>
-			<img src="/media/Pinning_Pixel.png" width="256">
-		</details>
+			You need to click on the app icon, the button is located in popup menu.
+			<img src="/media/Pinning_Pixel.png" width="420"></details>
 * You can end stress test prematurely using ctrl^c or `atestmonkeykill` in case something goes wrong
 
 
