@@ -6,7 +6,7 @@
 
   🆕 Notable changes:
    🐒 New "atestmonkey" tool for app stress testing
-   📦 Automatic "irecord" video compression (saves a lot space)
+   📦 Automatic "irecord" video compression (saves a lot of disk space)
    🚀 Launch "aoptions" single activity result automatically
    👋 Remove "igif" (irecord made it obsolete)
    😌 Remove emulator prompt on "no device detected"
