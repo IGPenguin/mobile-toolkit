@@ -1,4 +1,4 @@
-![Header](/header_v2.png?raw=true)
+![Header](/media/header_v2.png?raw=true)
 ## What is this?
 🛠 Capture screen, manage apps, simulate input, print system log and more using simple commands!<br>
 
@@ -217,8 +217,16 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 ### 🐒 atestmonkey
 * Perform automated stress test using [Application Excersciser Monkey](https://developer.android.com/studio/test/monkey)
-* Default test length (total input event count) is set to `13000`, support for custom count will eventually be added in future update
-* App under test will be locked to fullscreen mode to prevent unwanted interactions elsewhere
+* Default test length (total input event count) is set to `15000`, support for custom count will eventually be added in future update
+* App under test needs to be pinned to fullscreen mode to prevent unwanted interactions elsewhere
+	* <details>
+		  <summary>Screen pinning button may be tricky to find</summary>
+			* Its location is tied to system version and manufacturer OS skin.
+				* Google Nexus 5 (Android 6)<br>
+				![Pinning_Nexus](/media/Pinning_Nexus.png?raw=true)
+				* Google Pixel 3 (Android 11)<br>
+				![Pinning_Pixel](/media/Pinning_Pixel.png?raw=true)
+		</details>
 * You can end stress test prematurely using ctrl^c or `atestmonkeykill` in case something goes wrong
 
 # 🍎 iOS commands
