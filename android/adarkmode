@@ -4,13 +4,13 @@ source "$LOCATION"/../common_tools
 android_choose_device
 
 turn_off_darkmode(){
-  echo "⚪️ Turning dark mode off..."
+  echo "⚪️ Turning off dark mode..."
   #adb -s "$SELECTED_DEVICE" shell settings put secure ui_night_mode 1 &> /dev/null #Not working without a reboot
   adb -s "$1" shell cmd uimode night no &> /dev/null
 }
 
 turn_on_darkmode(){
-  echo "⚫️ Turning dark mode on..."
+  echo "⚫️ Turning on dark mode..."
   #adb -s "$1" shell settings put secure ui_night_mode 2 &> /dev/null
   adb -s "$1" shell cmd uimode night yes &> /dev/null
 }
