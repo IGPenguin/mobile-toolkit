@@ -10,7 +10,7 @@ ctrlc(){
     echo "🔪 Test monkey terminated, the device is safe to use now!"
   fi
 
-  unlock_app_fullscreen
+  unlock_app_fullscreen "$SELECTED_DEVICE"
   exit 2
 }
 
@@ -59,6 +59,11 @@ android_choose_device
 android_device_info "$SELECTED_DEVICE"
 update_package_name "$SELECTED_DEVICE"
 lock_task_fullscreen "$SELECTED_DEVICE"
+
+#TODO add check for args
+#`amonkey`(random seed, default event count)
+#`amonkey <event-count>`
+#`amonkey <event-count> <seed>`
 
 case "$1" in #if $1 not number, LOL
     ''|*[!0-9]*) ;; #nothing left to do
