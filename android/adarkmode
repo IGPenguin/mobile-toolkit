@@ -1,0 +1,24 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source "$LOCATION"/../common_tools
+android_choose_device
+
+turn_off_darkmode(){
+  echo "⚪️ Turning dark mode off..."
+  #adb -s "$SELECTED_DEVICE" shell settings put secure ui_night_mode 1 &> /dev/null #Not working without a reboot
+  adb -s "$1" shell cmd uimode night no &> /dev/null
+}
+
+turn_on_darkmode(){
+  echo "⚫️ Turning dark mode on..."
+  #adb -s "$1" shell settings put secure ui_night_mode 2 &> /dev/null
+  adb -s "$1" shell cmd uimode night yes &> /dev/null
+}
+
+DARKMODE_STATE=$(adb -s "$SELECTED_DEVICE" shell cmd uimode night)
+
+if [ "$DARKMODE_STATE" != "Night mode: yes" ]; then
+  turn_on_darkmode "$SELECTED_DEVICE"
+else
+  turn_off_darkmode "$SELECTED_DEVICE"
+fi
