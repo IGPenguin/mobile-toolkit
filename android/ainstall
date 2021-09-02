@@ -10,9 +10,10 @@ install_app(){
   if grep -q Failure "$TEMPORARY_FILE" ; then
     echo "❌ Installation to $1 failed!"
     echo "🤕 Uninstall existing version or troubleshoot the package."
+    echo "🔥 Error details: $(grep 'Failure' "$TEMPORARY_FILE" | sed 's/^.*: //')"
     exit 1
   fi
-  echo "🚀 Launching $APP_NAME on $1..."
+  echo "🚀 Launching \"$APP_NAME\" on $1..."
   adb -s "$1" shell monkey -p "$PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
 }
 
