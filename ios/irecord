@@ -37,20 +37,27 @@ EOD
 
 pick_recording_device(){
   ios_choose_device
+  ios_device_info "$SELECTED_DEVICE"
   DEVICE_NAME=$(idevicename -u "$SELECTED_DEVICE")
+  FILENAME="$MANUFACTURER-$MODEL-iOS$VERSION-$(date +%Y-%m-%d-%H-%M-%S).mp4"
 }
 
 start_recording(){
   RECORDING=true
-  FILENAME="$MANUFACTURER-$MODEL-iOS$VERSION-$(date +%Y-%m-%d-%H-%M-%S).mp4"
   echo "📹 Recording screen on $SELECTED_DEVICE ($DEVICE_NAME), stop it using ctrl^c"
   videosnap -w 0 --no-audio -p High -d "$DEVICE_NAME" "$FILENAME" &> /dev/null
 }
 
 compress_video(){
-  echo "📦 Compressing video..."
-  ffmpeg -i "$1" "LQ-$1" -hide_banner -loglevel error #ultra basic ffmpeg compression
-  rm "$1" && mv "LQ-$1" "$1"
+  if test -f "$1" ; then
+    echo "📦 Compressing video..."
+    ffmpeg -i "$1" "LQ-$1" -hide_banner -loglevel error #ultra basic ffmpeg compression
+    rm "$1" && mv "LQ-$1" "$1"
+  else
+    echo "❌ Video not captured possibly due to short recording time..."
+    osascript -e 'quit app "QuickTime Player"'
+    exit 1
+  fi
 }
 
 check_videosnap_dependency
