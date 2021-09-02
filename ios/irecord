@@ -1,7 +1,6 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
-IOS_DEVICES_LIST=$LOCATION/../data/toolkit_recordable_ios_devices.txt
 trap 'ctrlc $@' 1 2 3 6 15
 
 RECORDING=false
