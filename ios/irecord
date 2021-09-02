@@ -36,38 +36,14 @@ EOD
 }
 
 pick_recording_device(){
-	echo "⏳ Detecting iOS devices..."
-	rm -f "$IOS_DEVICES_LIST"
-	videosnap -l >> "$IOS_DEVICES_LIST"
-	grep -E -v "Found|FaceTime" "$IOS_DEVICES_LIST" > "$IOS_DEVICES_LIST.tmp" #remove info line and webcam
-	mv "$IOS_DEVICES_LIST.tmp" "$IOS_DEVICES_LIST"
-	sed 's/^* //g' "$IOS_DEVICES_LIST" > "$IOS_DEVICES_LIST.tmp" #remove "* " line prefixes
-	mv "$IOS_DEVICES_LIST.tmp" "$IOS_DEVICES_LIST"
-
-	if [ "$(nl "$IOS_DEVICES_LIST")" == "" ]; then
-		echo "❌ iOS device not detected, reconnect it and try again"
-		ctrlc
-	fi
-
-	if [ "$(wc -l "$IOS_DEVICES_LIST" | awk '{print $1}')" == "1" ]; then
-		DEVICE_NAME="$(cat "$IOS_DEVICES_LIST")"
-	else
-		echo "📱 Available:"
-		nl "$IOS_DEVICES_LIST"
-		read -r -p "📝 Choose: " DEVICE_INDEX
-
-		DEVICE_NAME=$(sed "$DEVICE_INDEX"!d "$IOS_DEVICES_LIST")
-		if [[ $DEVICE_INDEX == "" || $DEVICE_NAME == "" ]]; then
-			delete_lastline
-			pick_recording_device
-		fi
-	fi
+  ios_choose_device
+  DEVICE_NAME=$(idevicename -u "$SELECTED_DEVICE")
 }
 
 start_recording(){
   RECORDING=true
-  FILENAME="$DEVICE_NAME-$(date +%Y-%m-%d-%H-%M-%S).mp4"
-  echo "📹 Recording screen on $DEVICE_NAME, stop it using ctrl^c"
+  FILENAME="$MANUFACTURER-$MODEL-iOS$VERSION-$(date +%Y-%m-%d-%H-%M-%S).mp4"
+  echo "📹 Recording screen on $SELECTED_DEVICE ($DEVICE_NAME), stop it using ctrl^c"
   videosnap -w 0 --no-audio -p High -d "$DEVICE_NAME" "$FILENAME" &> /dev/null
 }
 
