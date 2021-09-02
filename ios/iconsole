@@ -1,0 +1,6 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source "$LOCATION"/../common_tools
+
+echo "📋 Opening Console app..."
+open -a Console
