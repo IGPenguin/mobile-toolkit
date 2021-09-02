@@ -26,7 +26,7 @@ check_videosnap_dependency(){ #TODO refactor when videosnap available via Homber
 }
 
 start_quicktime(){
-	echo "💡 Starting QuickTime recording (webcam LED might turn on)..."
+	echo "🎬 Initializing QuickTime (webcam LED might turn on)..."
 	osascript <<EOD
 	tell application "QuickTime Player"
 		set newMovieRecording to new movie recording
