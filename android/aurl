@@ -25,7 +25,7 @@ run()
     for line in $(adb devices | grep -v "List"  | awk '{print $1}')
     do
       DEVICE=$(echo "$line" | awk '{print $1}')
-      open_url "$DEVICE" "$URL"
+      open_url "$DEVICE" "$URL" &
     done
     wait
   else
