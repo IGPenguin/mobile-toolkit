@@ -19,7 +19,7 @@ check_videosnap_dependency(){ #TODO refactor when videosnap available via Homber
   if ! [ -x "$(command -v "videosnap")" ]; then
     echo "💥 \"videosnap\" command required!"
     should_proceed "🛒 Install via GitHub? (download and run \"videosnap-0.0.6.pkg\")"
-    open "https://github.com/matthutchinson/videosnap/releases"
+    open "https://github.com/matthutchinson/videosnap/releases/download/v0.0.6/videosnap-0.0.6.pkg"
     exit 1
   fi
 }
@@ -62,6 +62,7 @@ compress_video(){
 check_videosnap_dependency
 check_dependency "ffmpeg"
 
-start_quicktime
+start_quicktime &
 pick_recording_device
+wait
 start_recording
