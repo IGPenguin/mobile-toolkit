@@ -7,11 +7,11 @@ RECORDING=false
 cd ~/Desktop || exit
 
 ctrlc(){
+  osascript -e 'quit app "QuickTime Player"'
   if $RECORDING ; then
     compress_video "$FILENAME"
     echo "✅ Saved into ~/Desktop/$FILENAME"
   fi
-  osascript -e 'quit app "QuickTime Player"'
   exit
 }
 
