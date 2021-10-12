@@ -306,5 +306,4 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `iconsole` Examine iOS or macOS system logs using Console application
 
 # 💭 About
-**You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence").<br>
-If you made it this far in `README.md` and you like my work, please star this repository. Every appreciation empowers my motivation.
+**You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"). If you made it this far in `README.md` and you like my work, please **star this repository**. Every appreciation empowers my motivation.
