@@ -62,7 +62,6 @@ compress_video(){
 check_videosnap_dependency
 check_dependency "ffmpeg"
 
-start_quicktime &
+start_quicktime
 pick_recording_device
-wait
 start_recording
