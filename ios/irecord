@@ -1,18 +1,17 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
-IOS_DEVICES_LIST=$LOCATION/../data/toolkit_recordable_ios_devices.txt
 trap 'ctrlc $@' 1 2 3 6 15
 
 RECORDING=false
 cd ~/Desktop || exit
 
 ctrlc(){
+  osascript -e 'quit app "QuickTime Player"'
   if $RECORDING ; then
     compress_video "$FILENAME"
     echo "✅ Saved into ~/Desktop/$FILENAME"
   fi
-  osascript -e 'quit app "QuickTime Player"'
   exit
 }
 
@@ -20,13 +19,13 @@ check_videosnap_dependency(){ #TODO refactor when videosnap available via Homber
   if ! [ -x "$(command -v "videosnap")" ]; then
     echo "💥 \"videosnap\" command required!"
     should_proceed "🛒 Install via GitHub? (download and run \"videosnap-0.0.6.pkg\")"
-    open "https://github.com/matthutchinson/videosnap/releases"
+    open "https://github.com/matthutchinson/videosnap/releases/download/v0.0.6/videosnap-0.0.6.pkg"
     exit 1
   fi
 }
 
 start_quicktime(){
-	echo "💡 Starting QuickTime recording (webcam LED might turn on)..."
+	echo "🎬 Initializing QuickTime (webcam LED might turn on)..."
 	osascript <<EOD
 	tell application "QuickTime Player"
 		set newMovieRecording to new movie recording
@@ -36,45 +35,28 @@ EOD
 }
 
 pick_recording_device(){
-	echo "⏳ Detecting iOS devices..."
-	rm -f "$IOS_DEVICES_LIST"
-	videosnap -l >> "$IOS_DEVICES_LIST"
-	grep -E -v "Found|FaceTime" "$IOS_DEVICES_LIST" > "$IOS_DEVICES_LIST.tmp" #remove info line and webcam
-	mv "$IOS_DEVICES_LIST.tmp" "$IOS_DEVICES_LIST"
-	sed 's/^* //g' "$IOS_DEVICES_LIST" > "$IOS_DEVICES_LIST.tmp" #remove "* " line prefixes
-	mv "$IOS_DEVICES_LIST.tmp" "$IOS_DEVICES_LIST"
-
-	if [ "$(nl "$IOS_DEVICES_LIST")" == "" ]; then
-		echo "❌ iOS device not detected, reconnect it and try again"
-		ctrlc
-	fi
-
-	if [ "$(wc -l "$IOS_DEVICES_LIST" | awk '{print $1}')" == "1" ]; then
-		DEVICE_NAME="$(cat "$IOS_DEVICES_LIST")"
-	else
-		echo "📱 Available:"
-		nl "$IOS_DEVICES_LIST"
-		read -r -p "📝 Choose: " DEVICE_INDEX
-
-		DEVICE_NAME=$(sed "$DEVICE_INDEX"!d "$IOS_DEVICES_LIST")
-		if [[ $DEVICE_INDEX == "" || $DEVICE_NAME == "" ]]; then
-			delete_lastline
-			pick_recording_device
-		fi
-	fi
+  ios_choose_device
+  ios_device_info "$SELECTED_DEVICE"
+  DEVICE_NAME=$(idevicename -u "$SELECTED_DEVICE")
+  FILENAME="$MANUFACTURER-$MODEL-iOS$VERSION-$(date +%Y-%m-%d-%H-%M-%S).mp4"
 }
 
 start_recording(){
   RECORDING=true
-  FILENAME="$DEVICE_NAME-$(date +%Y-%m-%d-%H-%M-%S).mp4"
-  echo "📹 Recording screen on $DEVICE_NAME, stop it using ctrl^c"
+  echo "📹 Recording screen on $SELECTED_DEVICE ($DEVICE_NAME), stop it using ctrl^c"
   videosnap -w 0 --no-audio -p High -d "$DEVICE_NAME" "$FILENAME" &> /dev/null
 }
 
 compress_video(){
-  echo "📦 Compressing video..."
-  ffmpeg -i "$1" "LQ-$1" -hide_banner -loglevel error #ultra basic ffmpeg compression
-  rm "$1" && mv "LQ-$1" "$1"
+  if test -f "$1" ; then
+    echo "📦 Compressing video..."
+    ffmpeg -i "$1" "LQ-$1" -hide_banner -loglevel error #ultra basic ffmpeg compression
+    rm "$1" && mv "LQ-$1" "$1"
+  else
+    echo "❌ Video not captured possibly due to short recording time..."
+    osascript -e 'quit app "QuickTime Player"'
+    exit 1
+  fi
 }
 
 check_videosnap_dependency

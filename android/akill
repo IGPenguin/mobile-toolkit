@@ -11,7 +11,7 @@ else
     PACKAGE_NAME=$(android_get_foreground_package)
 fi
 
-echo "🔪 Killing $PACKAGE_NAME"
+echo "🔪 Package \"$PACKAGE_NAME\" process killed"
 adb -s "$SELECTED_DEVICE" shell am force-stop "$PACKAGE_NAME"
-echo "🚀 Launching..."
+echo "🚀 Relaunching the app..."
 adb -s "$SELECTED_DEVICE" shell monkey -p "$PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null

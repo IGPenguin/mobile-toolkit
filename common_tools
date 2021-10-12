@@ -207,7 +207,7 @@ ios_wait_for_device(){
 ios_check_developer_image_and_pairing(){
   IS_MOUNTED=$(ideviceimagemounter -u "$1" -l)
   if [[ $IS_MOUNTED == *"Error"* ]] || [[ $IS_MOUNTED == *"error"* ]] ; then
-    read -r -p "❌ Device is not paired - reconnect it (one at a time), unlock screen and press ENTER..."
+    read -r -p "❌ Device not paired or screen locked - reconnect/unlock it (one at a time) and press ENTER..."
     echo "🤝 Requesting pairing..."
     idevicepair pair &> /dev/null
     read -r -p "❓ Tap \"Trust\" button on the device screen and press ENTER..."
@@ -229,15 +229,18 @@ ios_device_info(){
 }
 
 ios_get_devices(){
-  ALL_IOS_DEVICES=( $(idevice_id -l | sort -u) )
-  IOS_USB_DEVICES=()
+  #ALL_IOS_DEVICES=( $(idevice_id -l | sort -u) )
+  IOS_USB_DEVICES=( $(idevice_id -l | sort -u) )
 
-  for ID in "${ALL_IOS_DEVICES[@]}"
-   do
-     ios_device_info "$ID"
-     if [ -z "$MODEL" ];then continue; fi; #Skip wireless (ghost) devices
-     IOS_USB_DEVICES+=("$ID")
-   done
+  #Skip wireless (ghost) devices
+  #IOS_USB_DEVICES=()
+
+  #for ID in "${ALL_IOS_DEVICES[@]}"
+  # do
+  #   ios_device_info "$ID"
+  #   if [ -z "$MODEL" ];then continue; fi;
+  #   IOS_USB_DEVICES+=("$ID")
+  # done
 }
 
 ios_choose_device(){

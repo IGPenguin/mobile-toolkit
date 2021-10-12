@@ -1,8 +1,38 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
-android_choose_device
 
-check_url "$1"
-echo "🌎 Opening url..."
-adb -s "$SELECTED_DEVICE" shell am start -a android.intent.action.VIEW -d "$URL" &> /dev/null
+open_url(){
+  check_url "$2"
+  echo "🌎 Opening url on $1..."
+  adb -s "$1" shell am start -a android.intent.action.VIEW -d "$URL" &> /dev/null
+}
+
+check_args_valid(){
+  if [[ "$1" != "-a" ]]; then
+    URL=$1
+  else
+    URL=$2
+  fi
+}
+
+run()
+{
+  if [[ $1 == "-a" ]]; then
+    check_for_update
+    android_check_connected
+    android_get_devices_auth_dump
+    for line in $(adb devices | grep -v "List"  | awk '{print $1}')
+    do
+      DEVICE=$(echo "$line" | awk '{print $1}')
+      open_url "$DEVICE" "$URL" &
+    done
+    wait
+  else
+    android_choose_device
+    open_url "$SELECTED_DEVICE" "$URL"
+  fi
+}
+
+check_args_valid "$@"
+run "$@"
