@@ -1,7 +1,6 @@
-  🎉 Celebrate new release 1.3.0 together!
-    📬 Send feedback and feel free to open issues
+  🎉 New version 1.3.0!
+    📬 Feel free to open new issues or send feedback
     🌍 https://github.com/IntergalacticPenguin/mobile-toolkit
 
   🆕 Notable changes:
-   <TBD>
    🚀 Optimized iOS device picker
