@@ -89,8 +89,14 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `aurl "google.com"` Open link in web browser or corresponding application
 * `aurl -a "google.com"` Open link in web browser or corresponding application on all connected devices
 
+### 🏴 adarkmode
+* `adarkmode` Toggle system dark mode
+
+### 🔊 atalkback
+* `atalkback` Toggle TalkBack screen reader accessiblity option
+
 ### 📐 abounds
-* `abounds` Show or hide layout bounds
+* `abounds` Toggle layout bounds
 * App restart may be necessary on lower APIs
 
 ### 🚗 aanimationspeed
@@ -100,13 +106,6 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 ### 🔠 afontscale
 * `afontscale` set large font scale (1.3x bigger than default) or restore default
 * `afontscale <scale>` set font scale multiplier
-
-### 🏴 adarkmode
-* `adarkmode` Toggle system dark mode
-* App restart may be necessary
-
-### 🔊 atalkback
-* `atalkback` Toggle TalkBack screen reader accessiblity option
 
 ### 🎹 acontrol
 * `acontrol` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
