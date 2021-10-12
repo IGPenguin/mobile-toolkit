@@ -96,7 +96,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `atalkback` Toggle TalkBack screen reader accessiblity option
 
 ### 📐 abounds
-* `abounds` Toggle layout bounds
+* `abounds` Toggle UI layout bounds
 * App restart may be necessary on lower APIs
 
 ### 🚗 aanimationspeed
