@@ -105,6 +105,9 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `adarkmode` Toggle system dark mode
 * App restart may be necessary
 
+### 🔊 atalkback
+* `atalkback` Toggle TalkBack screen reader accessiblity option
+
 ### 🎹 acontrol
 * `acontrol` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
 * Provides realtime device screen mirroring and keyboard+mouse control
