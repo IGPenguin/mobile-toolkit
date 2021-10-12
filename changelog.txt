@@ -4,3 +4,4 @@
 
   🆕 Notable changes:
    🚀 Optimized iOS device picker
+   🔊 Add atalkback

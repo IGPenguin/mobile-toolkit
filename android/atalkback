@@ -1,0 +1,21 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source "$LOCATION"/../common_tools
+android_choose_device
+
+turn_off_talkback(){
+  echo "🔇 Turning off TalkBack..."
+  adb -s "$1" shell am force-stop com.google.android.marvin.talkback &> /dev/null
+}
+
+turn_on_talkback(){
+  echo "🔊 Turning on TalkBack..."
+  adb -s "$1" shell settings put secure enabled_accessibility_services com.google.android.marvin.talkback/com.google.android.marvin.talkback.TalkBackService &> /dev/null
+}
+
+TALKBACK_STATE=$(adb -s "$SELECTED_DEVICE" shell pidof com.google.android.marvin.talkback)
+if [ -z "$TALKBACK_STATE" ] || [ "$TALKBACK_STATE" == "" ]; then
+  turn_on_talkback "$SELECTED_DEVICE"
+else
+  turn_off_talkback "$SELECTED_DEVICE"
+fi
