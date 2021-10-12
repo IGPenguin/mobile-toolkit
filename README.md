@@ -303,7 +303,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
   * `time <hh:mm>` - set time displayed in status bar (no functional impact)
 
 ### 🖥 iconsole
-	* `iconsole` Examine iOS or macOS system logs using Console application
+* `iconsole` Examine iOS or macOS system logs using Console application
 
 # 💭 About
 **You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"), if you made it this far in readme and you like my work, please be so kind and star this repository or leave some claps on Medium. Every appreciation empowers my motivation.
