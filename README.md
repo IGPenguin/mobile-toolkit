@@ -47,7 +47,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 4. **Setup iOS tools**
 	* **Install latest Xcode and iOS command line tools** using [App Store](https://apps.apple.com/cz/app/xcode/id497799835?mt=12)
 	* **Install [Homebrew](https://brew.sh/ "Homberew") package manager**
-	* **Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")**  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
+	* **Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")**  `brew install libimobiledevice && brew install ideviceinstaller`
 	* **Run Xcode, connect iOS device to USB and authorize your computer** (click "Trust" on the device screen)
 5. (Optional) **Use Mobile Toolkit in any directory in terminal**
 	* **Edit .bash_profile** (or .zshrc if you have zsh shell) `open -e ~/.bash_profile` or `open -e ~/.zshrc`
@@ -87,9 +87,10 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 ### 🌐 aurl
 * `aurl "google.com"` Open link in web browser or corresponding application
+* `aurl -a "google.com"` Open link in web browser or corresponding application on all connected devices
 
 ### 📐 abounds
-* `abounds` Display or hide layout bounds
+* `abounds` Show or hide layout bounds
 * App restart may be necessary on lower APIs
 
 ### 🚗 aanimationspeed
@@ -99,6 +100,10 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 ### 🔠 afontscale
 * `afontscale` set large font scale (1.3x bigger than default) or restore default
 * `afontscale <scale>` set font scale multiplier
+
+### 🏴 adarkmode
+* `adarkmode` Toggle system dark mode
+* App restart may be necessary
 
 ### 🎹 acontrol
 * `acontrol` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
@@ -205,7 +210,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
   * **Add the following line at the end of the file** `export JAVA_HOME='/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home'`
 
 * Android emulator supports all listed scripts by default + extra actions listed below
-* `aeimulator <option>` Handle various Android emulator activites
+* `aemulator <option>` Handle various Android emulator activites
   * `start` - choose and launch installed emulator
   * `gprs | edge | 3g` - simulate network latency, choose one
   * `call <number>` - receive fake call
@@ -216,11 +221,14 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 	   * example commands `event | redir | sensor | physics | finger | rotate | fold | unfold...` see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
 
 ### 🐒 atestmonkey
+* `atestmonkey` Default test with random seed and 15000 input events
+* `atestmonkey <event-count>` Test with random seed and custom input event count
+* `atestmonkey <event-count> <seed>` Test with custom seed and custom event count
 * Perform automated stress test using [Application Excersciser Monkey](https://developer.android.com/studio/test/monkey)
-* Default test length is `15000` input events, support for custom count will be added in future update
 * You can end test prematurely using ctrl^c or `atestmonkeykill` in case something goes wrong
 * App under test needs to be pinned to fullscreen mode to prevent unwanted interactions elsewhere
-* Screen pinning button location is directly tied to OS version and device manufacturer skin. It may be tricky to find, see examples below:<br><br>
+* Screen pinning button location is directly tied to OS version and device manufacturer skin.
+	* It may be tricky to turn on, see examples below:<br><br>
 	* <details>
 			<summary>Google Nexus 5 (Android 6)</summary>
 			<br><em>You need to bring the app window to foreground, the button is located in bottom right corner.</em><br><br>
@@ -261,8 +269,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 ## Manage device
 
 ### 📜 ilog
-* `ilog` Open console log output
-* Examine macOS or iOS system logs
+* `ilog` Print system log output
 
 ### 💥 icrashlogs
 * `icrashlogs` Import crash logs to ~/Desktop, choose whether to keep them in device storage
@@ -294,6 +301,9 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
   * `wipe` - wipe all simulator data
   * `battery <0-100>` - set battery level displayed in status bar (no functional impact)
   * `time <hh:mm>` - set time displayed in status bar (no functional impact)
+
+### 🖥 iconsole
+	* `iconsole` Examine iOS or macOS system logs using Console application
 
 # 💭 About
 **You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"), if you made it this far in readme and you like my work, please be so kind and star this repository or leave some claps on Medium. Every appreciation empowers my motivation.
