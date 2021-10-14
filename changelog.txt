@@ -5,3 +5,4 @@
   🆕 Notable changes:
    🚀 Optimized iOS device picker
    🔊 Add atalkback
+   ✨ Add new iOS device translations

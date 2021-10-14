@@ -337,11 +337,23 @@ ios_translate_name(){
     "D33"*)
       NAME="iPhoneXSMax"
       ;;
+    "N104"*)
+      NAME="iPhone11"
+      ;;
+    "D421"*)
+      NAME="iPhone11Pro"
+      ;;
+    "D431"*)
+      NAME="iPhone11ProMax"
+      ;;
     "D52"*)
       NAME="iPhone12Mini"
       ;;
-    "D53"*)
+    "D53g"*)
       NAME="iPhone12"
+      ;;
+    "D53p"*)
+      NAME="iPhone12Pro"
       ;;
     "D54"*)
       NAME="iPhone12ProMax"
@@ -350,7 +362,22 @@ ios_translate_name(){
       NAME="iPhoneXR"
       ;;
     "N69"*)
-      NAME="iPhoneSE"
+      NAME="iPhoneSEgen1"
+      ;;
+    "D79"*)
+      NAME="iPhoneSEgen2"
+      ;;
+    "D17"*)
+      NAME="iPhone13"
+      ;;
+    "D16"*)
+      NAME="iPhone13Mini"
+      ;;
+    "D63"*)
+      NAME="iPhone13Pro"
+      ;;
+    "D64"*)
+      NAME="iPhone13ProMax"
       ;;
     "J1"*)
       NAME="iPad3gen"
@@ -364,14 +391,38 @@ ios_translate_name(){
     "J82"*)
       NAME="iPadAir2"
       ;;
+    "J217"*|"J218"*)
+      NAME="iPadAir3gen"
+      ;;
+    "J307"*|"J308"*)
+      NAME="iPadAir4gen"
+      ;;
     "J85"*)
       NAME="iPadMiniRetina"
       ;;
     "J96"*)
       NAME="iPadMini4"
       ;;
-    "J98"*|"J99"*|"J31"*)
+    "J210"*|"J211"*)
+      NAME="iPadMini5gen"
+      ;;
+    "J310"*|"J311"*)
+      NAME="iPadMini6gen"
+      ;;
+    "J98"*|"J99"*|"J31"*|"J127"*|"J128"*|"J318"*|"J317"*|"J207"*|"J208"*)
       NAME="iPadPro"
+      ;;
+    "J120"*|"J121"*|"J417"*|"J418"*)
+      NAME="iPadPro2gen"
+      ;;
+    "J320"*|"J321"*|"J517"*|"J518"*)
+      NAME="iPadPro3gen"
+      ;;
+    "J420"*|"J421"*)
+      NAME="iPadPro4gen"
+      ;;
+    "J522"*|"J523"*)
+      NAME="iPadPro5gen"
       ;;
     "K48"*)
       NAME="iPad"
@@ -384,6 +435,21 @@ ios_translate_name(){
       ;;
     "P105"*|"P107"*)
       NAME="iPadMini"
+      ;;
+    "J71s"*|"J71t"*|"J72s"*|"J72t"*)
+      NAME="iPad5gen"
+      ;;
+    "J71b"*|"J72b"*)
+      NAME="iPad6gen"
+      ;;
+    "J171AP"*|"J172AP"*)
+      NAME="iPad7gen"
+      ;;
+    "J171aAP"*|"J172aAP"*)
+      NAME="iPad8gen"
+      ;;
+    "J181"*|"J182"*)
+      NAME="iPad9gen"
       ;;
   esac
   echo $NAME
