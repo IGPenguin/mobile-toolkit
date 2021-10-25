@@ -197,12 +197,12 @@ ios_get_devices(){
   check_dependency "go"
   check_dependency "jq"
 
-  cd "$GO_IOS"
+  cd "$GO_IOS" || exit
   IOS_USB_DEVICES=( $(go run . list --nojson | sort -u) )
 }
 
 ios_check_pairing(){
-  cd "$GO_IOS"
+  cd "$GO_IOS" || exit
   IS_PAIRED=$((go run . pair --udid="$1" --nojson) 2>&1)
   if [[ $IS_PAIRED == *"err"* ]]; then
     read -r -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..."
@@ -211,7 +211,7 @@ ios_check_pairing(){
 }
 
 ios_check_developer_image(){
-  cd "$GO_IOS"
+  cd "$GO_IOS" || exit
   IS_MOUNTED=$((go run . image list --udid="$1" --nojson) 2>&1)
   if [[ $IS_MOUNTED == *"none"* ]] || [[ $IS_MOUNTED == *"err"* ]]; then
     prompt_xcode_launch
@@ -226,7 +226,7 @@ ios_check_developer_image_and_pairing(){
 
 ios_device_info(){
   ios_check_developer_image_and_pairing "$1"
-  cd "$GO_IOS"
+  cd "$GO_IOS" || exit
   MANUFACTURER="Apple"
   go run . info --udid="$1" > "$TEMPORARY_FILE"
   MODEL=$(ios_translate_name "$(cat "$TEMPORARY_FILE" | jq -r '.HardwareModel')")
