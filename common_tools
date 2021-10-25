@@ -190,34 +190,35 @@ prompt_xcode_launch(){
   should_proceed "❓ Do you want to open Xcode to fix it? (make sure you have the latest version)"
   open -a Xcode
   echo "⏳ Waiting for Xcode to launch..."
-  sleep 8
+  sleep 10 #TODO refactor wait for process
 }
 
-ios_wait_for_device(){
-  echo "⏳ Waiting for iOS device..."
-  ios_get_devices
-  while [ ${#IOS_USB_DEVICES[@]} -lt 1 ];
-  do
-    sleep 1
-    ios_get_devices
-  done
-  delete_lastline
+ios_get_devices(){
+  cd "$GO_IOS"
+  IOS_USB_DEVICES=( $(go run . list --nojson | sort -u) )
+}
+
+ios_check_pairing(){
+  cd "$GO_IOS"
+  IS_PAIRED=$((go run . pair --udid="$1" --nojson) 2>&1)
+  if [[ $IS_PAIRED == *"err"* ]]; then
+    read -r -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..."
+    ios_check_pairing "$1"
+  fi
+}
+
+ios_check_developer_image(){
+  cd "$GO_IOS"
+  IS_MOUNTED=$((go run . image list --udid="$1" --nojson) 2>&1)
+  if [[ $IS_MOUNTED == *"none"* ]] || [[ $IS_MOUNTED == *"err"* ]]; then
+    prompt_xcode_launch
+    ios_check_developer_image "$1"
+  fi
 }
 
 ios_check_developer_image_and_pairing(){
-  IS_MOUNTED=$(ideviceimagemounter -u "$1" -l)
-  if [[ $IS_MOUNTED == *"Error"* ]] || [[ $IS_MOUNTED == *"error"* ]] ; then
-    read -r -p "❌ Device not paired or screen locked - reconnect/unlock it (one at a time) and press ENTER..."
-    echo "🤝 Requesting pairing..."
-    idevicepair pair &> /dev/null
-    read -r -p "❓ Tap \"Trust\" button on the device screen and press ENTER..."
-    sleep 1
-    ios_check_developer_image_and_pairing "$1"
-  fi
-
-  if [ ${#IS_MOUNTED} -eq 0 ] ; then
-    prompt_xcode_launch
-  fi
+  ios_check_pairing "$1"
+  ios_check_developer_image "$1"
 }
 
 ios_device_info(){
@@ -227,10 +228,6 @@ ios_device_info(){
   MODEL=$(ios_translate_name "$(grep "HardwareModel" "$TEMPORARY_FILE" | cut -d\   -f2)")
   VERSION=$(grep "ProductVersion" "$TEMPORARY_FILE" | cut -d\   -f2)
   INFO=$(printf "%s) %s %s %s - %s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
-}
-
-ios_get_devices(){
-  IOS_USB_DEVICES=( $(idevice_id -l | sort -u) )
 }
 
 ios_choose_device(){
