@@ -18,8 +18,8 @@ ctrlc(){
 check_videosnap_dependency(){ #TODO refactor when videosnap available via Homberew
   if ! [ -x "$(command -v "videosnap")" ]; then
     echo "💥 \"videosnap\" command required!"
-    should_proceed "🛒 Install via GitHub? (download and run \"videosnap-0.0.6.pkg\")"
-    open "https://github.com/matthutchinson/videosnap/releases/download/v0.0.6/videosnap-0.0.6.pkg"
+    should_proceed "🛒 Install via GitHub? (download and install \"videosnap-0.0.7.pkg\")"
+    open "https://github.com/matthutchinson/videosnap/releases/download/v0.0.7/videosnap-0.0.7.pkg"
     exit 1
   fi
 }

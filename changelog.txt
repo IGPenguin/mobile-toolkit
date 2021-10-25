@@ -6,3 +6,7 @@
    🚀 Optimized iOS device picker
    🔊 Add atalkback
    ✨ Add new iOS device translations
+
+  🚨 Action needed:
+   ✨ Make sure to download and install new version of videosnap tool
+   🔗 https://github.com/matthutchinson/videosnap/releases/download/v0.0.7/videosnap-0.0.7.pkg
