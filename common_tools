@@ -194,6 +194,9 @@ prompt_xcode_launch(){
 }
 
 ios_get_devices(){
+  check_dependency "go"
+  check_dependency "jq"
+
   cd "$GO_IOS"
   IOS_USB_DEVICES=( $(go run . list --nojson | sort -u) )
 }
@@ -223,10 +226,11 @@ ios_check_developer_image_and_pairing(){
 
 ios_device_info(){
   ios_check_developer_image_and_pairing "$1"
+  cd "$GO_IOS"
   MANUFACTURER="Apple"
-  ideviceinfo -s -u "$1" > "$TEMPORARY_FILE"
-  MODEL=$(ios_translate_name "$(grep "HardwareModel" "$TEMPORARY_FILE" | cut -d\   -f2)")
-  VERSION=$(grep "ProductVersion" "$TEMPORARY_FILE" | cut -d\   -f2)
+  go run . info --udid="$1" > "$TEMPORARY_FILE"
+  MODEL=$(ios_translate_name "$(cat "$TEMPORARY_FILE" | jq -r '.HardwareModel')")
+  VERSION=$(cat "$TEMPORARY_FILE" | jq -r '.ProductVersion')
   INFO=$(printf "%s) %s %s %s - %s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
 }
 
@@ -265,9 +269,6 @@ ios_choose_device(){
   else
      SELECTED_DEVICE="${IOS_USB_DEVICES[0]}"
   fi
-
-  SELECTED_DEVICE_MODEL=$(ios_translate_name "$(ideviceinfo -u "$SELECTED_DEVICE" | grep "HardwareModel" | cut -d\   -f2)")
-  SELECTED_DEVICE_VERSION=$(ideviceinfo -u "$SELECTED_DEVICE" | grep "ProductVersion" | cut -d\   -f2)
 }
 
 ios_translate_name(){
