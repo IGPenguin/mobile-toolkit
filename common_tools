@@ -272,6 +272,18 @@ ios_choose_device(){
   fi
 }
 
+ios_is_package_installed() {
+  THIRD_PARTY_PACKAGES=($(go-ios apps --udid="$SELECTED_DEVICE" | jq -r '.[] | .CFBundleIdentifier'))
+  SYSTEM_PACKAGES=($(go-ios apps --udid="$SELECTED_DEVICE" --system | jq -r '.[] | .CFBundleIdentifier'))
+  ALL_PACKAGES=("${THIRD_PARTY_PACKAGES[@]}" "${SYSTEM_PACKAGES[@]}")
+  echo "${ALL_PACKAGES[*]}" | grep -w "$1" &> /dev/null
+  EXIT_CODE=$?
+  if [ $EXIT_CODE -ne 0 ]; then
+    echo "🤷‍ Package \"$1\" is not installed."
+    exit 1
+  fi
+}
+
 ios_translate_name(){
   # Translations here https://www.theiphonewiki.com/wiki/Models
   NAME=$1

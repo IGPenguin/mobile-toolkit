@@ -3,17 +3,38 @@ LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 ios_choose_device
 
-PACKAGES_LISTED=($(go-ios apps --udid="$SELECTED_DEVICE" | jq -r '.[] | .CFBundleIdentifier'))
+if [[ "$1" == "-s" ]]; then
+  PACKAGES=($(go-ios apps --udid="$SELECTED_DEVICE" --system | jq -r '.[] | .CFBundleIdentifier'))
+elif [[ -n "$1" ]]; then
+  PACKAGE="$1"
+  ios_is_package_installed "$PACKAGE"
+else
+  PACKAGES=($(go-ios apps --udid="$SELECTED_DEVICE" | jq -r '.[] | .CFBundleIdentifier'))
+fi
 
-echo "📋 Choose application to kill:"
-select OPTION in "${PACKAGES_LISTED[@]}"
-do
- case $OPTION in
-    *) BUNDLE_ID=$OPTION;break; ;;
-  esac
-done
+if [ -z "$PACKAGE" ]; then
+  PACKAGES_LISTED=()
+  for P in "${PACKAGES[@]}" #removes trailing \r
+  do
+    P=${P%$'\r'}
+    PACKAGES_LISTED+=("$P")
+  done
 
-echo "🔪 Killing $BUNDLE_ID..."
-go-ios kill "$BUNDLE_ID" --udid="$SELECTED_DEVICE" &> /dev/null
+  if [ ${#PACKAGES_LISTED[@]} -eq 0 ]; then
+      echo "🤷‍ No third-party apps installed, use \"alaunch -s\" to list system packages"
+      exit 1
+  fi
+
+  echo "📋 Choose application to kill:"
+  select OPTION in "${PACKAGES_LISTED[@]}"
+  do
+   case $OPTION in
+      *) PACKAGE=$OPTION;break; ;;
+    esac
+  done
+fi
+
+echo "🔪 Killing $PACKAGE..."
+go-ios kill "$PACKAGE" --udid="$SELECTED_DEVICE" &> /dev/null
 echo "🚀 Relaunching the app..."
-go-ios launch "$BUNDLE_ID" &> /dev/null
+go-ios launch "$PACKAGE" &> /dev/null
