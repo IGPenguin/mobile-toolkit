@@ -1,0 +1,13 @@
+#!/bin/bash
+echo "📹 Opening QuickTime..."
+
+osascript <<EOD
+tell application "QuickTime Player"
+	activate
+	set newMovieRecording to new movie recording
+end tell
+tell application "System Events" to tell process "QuickTime Player"
+	click button 2 of window 1
+end tell
+return
+EOD

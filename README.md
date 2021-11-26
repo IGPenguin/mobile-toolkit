@@ -257,6 +257,11 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 3. Video footage is saved to ~/Desktop
 4. File is compressed using ffmpeg
 
+### 📹 iquicktime
+* Run QuickTime and open video source picker (so you can choose a device right away)
+  * You may have to allow security system permission, so the script can access QuickTime application
+* This is a fallback script for `irecord` on M1 macs as it is currently not working 
+
 ## Manage applications
 ### 🚚 iinstall
 * `iinstall some-app-file.ipa` Install .ipa (make sure to use properly signed build)
