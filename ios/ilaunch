@@ -1,0 +1,17 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source "$LOCATION"/../common_tools
+ios_choose_device
+
+PACKAGES_LISTED=($(go-ios apps --udid="$SELECTED_DEVICE" | jq -r '.[] | .CFBundleIdentifier'))
+
+echo "📋 Choose application to kill:"
+select OPTION in "${PACKAGES_LISTED[@]}"
+do
+ case $OPTION in
+    *) BUNDLE_ID=$OPTION;break; ;;
+  esac
+done
+
+echo "🚀 Launching \"$BUNDLE_ID\"..."
+go-ios launch "$BUNDLE_ID" &> /dev/null
