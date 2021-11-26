@@ -278,7 +278,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 	* `ilaunch -s` List os pre-installed apps and choose one to run it
 	* `ilaunch com.dummy.bundle.id.app` Run app by bundle id
 
-### 🚀 ikill
+### 🔪 ikill
 	* `ikill` List third-party apps and choose one to restart
 	* `ikill -s` List os pre-installed apps and choose one to restart
 	* `ikill com.dummy.bundle.id.app` Target specific app by passing bundle id as argument
