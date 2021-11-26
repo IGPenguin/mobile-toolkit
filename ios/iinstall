@@ -20,7 +20,7 @@ install_app(){
 run_app(){
   get_bundle_id "$2"
   echo "🚀 Launching \"$BUNDLE_ID\" on $1..."
-  go-ios launch "$BUNDLE_ID" &> /dev/null
+  go-ios launch "$BUNDLE_ID" --udid="$1" &> /dev/null
 }
 
 check_args_valid(){
