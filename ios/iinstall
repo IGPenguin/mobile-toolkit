@@ -2,18 +2,25 @@
 trap "kill 0" SIGINT # Kill all spawned subprocesses on ctrl^c
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
+CURRENT_DIR="$PWD"
 
 install_app(){
   echo "⌛️ Installing \"$2\" to $1..."
   TEMPORARY_FILE="$TEMPORARY_FILE-$(date +%s)"
-  ideviceinstaller -u "$1" -i "$2" &> "$TEMPORARY_FILE"
-  if grep -q ERROR "$TEMPORARY_FILE" ; then
+  cd "$GO_IOS" || exit
+  go run . install --udid="$1" --path="$CURRENT_DIR/$2" &> "$TEMPORARY_FILE"
+  if grep -q err "$TEMPORARY_FILE" ; then
     echo "❌ Installation to $1 failed!"
     echo "🤕 Uninstall existing version or troubleshoot the package."
-    echo "🔥 Error details: $(grep 'ERROR' "$TEMPORARY_FILE" | sed 's/^.*: //')"
+    #TODO refactor sed to jq
+    echo "🔥 Error details: $(grep 'err' "$TEMPORARY_FILE" | sed 's/^.*: //')"
     exit 1
   fi
   echo "✅ Successfully installed to $1"
+}
+
+run_app(){
+  echo "(TBD) - see https://github.com/IntergalacticPenguin/mobile-toolkit/pull/210/files"
 }
 
 check_args_valid(){
@@ -23,7 +30,7 @@ check_args_valid(){
     FILE=$2
   fi
 
-  if [ ! -f "$PWD/$FILE" ] && [ ! -f "$FILE" ]; then
+  if [ ! -f "$CURRENT_DIR/$FILE" ] && [ ! -f "$FILE" ]; then
       abort "🤷 Installation file not found!"
   fi
 
@@ -47,6 +54,5 @@ run(){
   fi
 }
 
-check_dependency "ideviceinstaller"
 check_args_valid "$@"
 run "$@"

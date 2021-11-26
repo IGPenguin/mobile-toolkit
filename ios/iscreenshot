@@ -7,8 +7,7 @@ screenshot(){
   ios_device_info "$1"
   FILENAME="$MANUFACTURER-$MODEL-iOS$VERSION-$(date +%Y-%m-%d-%H-%M-%S).png"
   echo "📸 Saving screenshot into $FILENAME..."
-  cd "$GO_IOS" || exit
-  go run . screenshot --udid="$1" --output="$HOME/Desktop/$FILENAME" &> /dev/null
+  go-ios screenshot --udid="$1" --output="$HOME/Desktop/$FILENAME" &> /dev/null
   EXIT_CODE=$?
   if [ $EXIT_CODE -ne 0 ]; then
     echo "🤷 Screenshot failed, error code: $EXIT_CODE"
