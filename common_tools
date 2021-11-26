@@ -202,6 +202,7 @@ prompt_xcode_launch(){
       break
     fi
   done
+  sleep 2
   osascript -e 'quit app "Xcode"'
 }
 
@@ -211,12 +212,21 @@ ios_get_devices(){
 }
 
 ios_pair_device(){
-  go-ios pair --udid="$1" --nojson
+  go-ios pair --udid="$1" --nojson &> /dev/null
+  EXIT_CODE=$?
+  if [ $EXIT_CODE -ne 0 ]; then
+    read -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..."
+    ios_pair_device "$1"
+  fi
 }
 
 ios_check_pairing(){
-  go-ios info --udid="$1" > "$TEMPORARY_FILE"
-  if cat "$TEMPORARY_FILE" | jq -r '.TrustedHostAttached' | grep 'false' ; then
+  go-ios info --udid="$1" &> "$TEMPORARY_FILE"
+  if cat "$TEMPORARY_FILE" | grep -q 'UntrustedHostBUID' ; then
+    read -r -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..."
+    ios_pair_device "$1"
+  fi
+  if cat "$TEMPORARY_FILE" | grep -q 'could not retrieve PairRecord' ; then
     read -r -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..."
     ios_pair_device "$1"
   fi
@@ -224,7 +234,7 @@ ios_check_pairing(){
 
 ios_check_developer_image(){
   IS_MOUNTED=$((go-ios image list --udid="$1" --nojson) 2>&1)
-  if [[ $IS_MOUNTED == *"none"* ]] || [[ $IS_MOUNTED == *"err"* ]]; then
+  if [[ $IS_MOUNTED == *"none"* ]]; then
     prompt_xcode_launch
     ios_check_developer_image "$1"
   fi
