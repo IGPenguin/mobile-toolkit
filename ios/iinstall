@@ -43,7 +43,7 @@ check_args_valid(){
 get_bundle_id(){
   echo "🔍 Detecting bundle ID..."
   unzip "$1" &> /dev/null
-  APP_FILENAME=$(ls $PWD/Payload)
+  APP_FILENAME="$(ls $PWD/Payload)"
   BUNDLE_ID=$(grep "$PWD/Payload/$APP_FILENAME/embedded.mobileprovision" -a -e "[.]com[.]" | sed 's/.[^.]*\.//' | sed 's/\<.*$//')
   if [[ "$BUNDLE_ID" == "" ]]; then # Fallback for bundle identifiers containing "app" instead of "com"
     BUNDLE_ID=$(grep "$PWD/Payload/$APP_FILENAME/embedded.mobileprovision" -a -e "[.]app[.]" | sed 's/.[^.]*\.//' | sed 's/\<.*$//')
