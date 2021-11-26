@@ -260,7 +260,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 ### 📹 iquicktime
 * Run QuickTime and open video source picker (so you can choose a device right away)
   * You may have to allow security system permission, so the script can access QuickTime application
-* This is a fallback script for `irecord` on M1 macs as it is currently not working 
+* This is a fallback script for `irecord` on M1 macs as it is currently not working
 
 ## Manage applications
 ### 🚚 iinstall
@@ -272,6 +272,16 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `iuninstall com.dummy.package.name.app` pass bundle name as argument
 * `iuninstall -w` Uninstall all third-party packages
   * Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
+
+### 🚀 ilaunch
+	* `ilaunch` List third-party apps and choose one to run it
+	* `ilaunch -s` List os pre-installed apps and choose one to run it
+	* `ilaunch com.dummy.bundle.id.app` Run app by bundle id
+
+### 🚀 ikill
+	* `ikill` List third-party apps and choose one to restart
+	* `ikill -s` List os pre-installed apps and choose one to restart
+	* `ikill com.dummy.bundle.id.app` Target specific app by passing bundle id as argument
 
 ## Manage device
 
