@@ -18,3 +18,9 @@ fi
 
 echo "💬 Setting language to \"$LANG\" (it might take a while)..."
 go-ios lang --udid="$SELECTED_DEVICE" --setlang="$LANG" &> /dev/null
+
+EXIT_CODE=$?
+if [ $EXIT_CODE -ne 0 ]; then
+  echo "🤷‍ Supplied language \"$1\" is not supported"
+  exit 1
+fi

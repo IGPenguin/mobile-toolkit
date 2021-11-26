@@ -149,7 +149,7 @@ android_is_package_installed() {
   adb -s "$SELECTED_DEVICE" shell pm list packages -f | sed -e 's/.*=//' | grep -w "$1" &> /dev/null
   EXIT_CODE=$?
   if [ $EXIT_CODE -ne 0 ]; then
-    echo "🤷‍ Package \"$1\" is not installed."
+    echo "🤷‍ Package \"$1\" is not installed"
     exit 1
   fi
 }
@@ -532,7 +532,7 @@ yes_or_no(){
           ;;
       *)
         echo
-        echo "🤷‍ Invalid option."
+        echo "🤷‍ Invalid option"
         yes_or_no "$1"
         ;;
   esac
