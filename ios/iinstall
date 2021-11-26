@@ -61,7 +61,7 @@ run(){
     wait
   else
     ios_choose_device
-    get_bundle_id "$2"
+    get_bundle_id "$1"
     install_app "$SELECTED_DEVICE" "$1"
   fi
 }
