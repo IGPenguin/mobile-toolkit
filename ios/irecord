@@ -61,7 +61,7 @@ compress_video(){
 
 if uname -m | grep -q arm64 ; then
   echo "🤕 This script is currently not working on M1 based macs"
-  echo "🔗 See https://github.com/matthutchinson/videosnap/issues/11"
+  echo "🔗 See https://github.com/matthutchinson/videosnap/issues/24"
   echo "🩹 You can use \"iquicktime\" temporarily instead"
   exit 1
 fi
