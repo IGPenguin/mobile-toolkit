@@ -267,12 +267,6 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `iinstall some-app-file.ipa` Install .ipa (make sure to use properly signed build)
 * `iinstall -a some-app-file.ipa` Install .ipa to all connected devices
 
-### 🗑 iuninstall
-* `iuninstall` Uninstall third-party app, choose from the list
-* `iuninstall com.dummy.package.name.app` pass bundle name as argument
-* `iuninstall -w` Uninstall all third-party packages
-  * Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
-
 ### 🚀 ilaunch
 	* `ilaunch` List third-party apps and choose one to run it
 	* `ilaunch -s` List os pre-installed apps and choose one to run it
