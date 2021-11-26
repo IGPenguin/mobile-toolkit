@@ -2,25 +2,26 @@
 trap "kill 0" SIGINT # Kill all spawned subprocesses on ctrl^c
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
-CURRENT_DIR="$PWD"
 
 install_app(){
   echo "⌛️ Installing \"$2\" to $1..."
   TEMPORARY_FILE="$TEMPORARY_FILE-$(date +%s)"
-  cd "$GO_IOS" || exit
-  go run . install --udid="$1" --path="$CURRENT_DIR/$2" &> "$TEMPORARY_FILE"
-  if grep -q err "$TEMPORARY_FILE" ; then
+  go-ios install --udid="$1" --path="$PWD/$2" &> "$TEMPORARY_FILE"
+  if grep -q 'err' "$TEMPORARY_FILE" ; then
     echo "❌ Installation to $1 failed!"
     echo "🤕 Uninstall existing version or troubleshoot the package."
     #TODO refactor sed to jq
-    echo "🔥 Error details: $(grep 'err' "$TEMPORARY_FILE" | sed 's/^.*: //')"
+    echo "🔥 Error details: $(grep 'err' "$TEMPORARY_FILE" | jq -r '.err')"
     exit 1
   fi
   echo "✅ Successfully installed to $1"
+  run_app "$1" "$PWD/$2"
 }
 
 run_app(){
-  echo "(TBD) - see https://github.com/IntergalacticPenguin/mobile-toolkit/pull/210/files"
+  get_bundle_id "$2"
+  echo "🚀 Launching \"$BUNDLE_ID\" on $1..."
+  go-ios launch "$BUNDLE_ID" &> /dev/null
 }
 
 check_args_valid(){
@@ -30,13 +31,24 @@ check_args_valid(){
     FILE=$2
   fi
 
-  if [ ! -f "$CURRENT_DIR/$FILE" ] && [ ! -f "$FILE" ]; then
+  if [ ! -f "$PWD/$FILE" ] && [ ! -f "$FILE" ]; then
       abort "🤷 Installation file not found!"
   fi
 
   if [[ "$FILE" != *".ipa" ]]; then
       abort "🤷 Unsupported file!"
   fi
+}
+
+get_bundle_id(){
+  echo "🔍 Detecting bundle ID..."
+  unzip "$1" &> /dev/null
+  APP_FILENAME=$(ls $PWD/Payload)
+  BUNDLE_ID=$(grep "$PWD/Payload/$APP_FILENAME/embedded.mobileprovision" -a -e "[.]com[.]" | sed 's/.[^.]*\.//' | sed 's/\<.*$//')
+  if [[ "$BUNDLE_ID" == "" ]]; then # Fallback for bundle identifiers containing "app" instead of "com"
+    BUNDLE_ID=$(grep "$PWD/Payload/$APP_FILENAME/embedded.mobileprovision" -a -e "[.]app[.]" | sed 's/.[^.]*\.//' | sed 's/\<.*$//')
+  fi
+  rm -rf "$PWD/Payload"
 }
 
 run(){
