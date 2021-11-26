@@ -291,16 +291,6 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 ### 📜 ilog
 * `ilog` Print system log output
 
-### 💥 icrashlogs
-* `icrashlogs` Import crash logs to ~/Desktop, choose whether to keep them in device storage
-* `icrashlogs -k` Import crash logs, keep them in device storage
-* `icrashlogs -r` Import crash logs, delete them from device storage
-* You can import these logs to Xcode to make them more readable via symbolication
-  * Open relevant project in Xcode
-  * Click on Window > Devices and Simulators > View Device Logs
-  * Drag the .crash file onto the log list
-  * Readable crash log should appear in the list
-
 ### 📋 icheckdevice
 * Print device information
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
