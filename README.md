@@ -288,6 +288,10 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 ### ⚙️ ioptions
 * `ioptions` Open system settings application
 
+### 💬 ilang
+* `ilang <lang>` Change the device language to different one, according to ISO-639 (i.e. "cs")
+* `ilang` Change the device language to different one, choose from a list of all supported
+
 ### 📜 ilog
 * `ilog` Print system log output
 

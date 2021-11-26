@@ -1,0 +1,20 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source "$LOCATION"/../common_tools
+ios_choose_device
+LANGUAGES=( "en" "cs" "sk" "ar" "ca" "hr" "da" "nl" "en-GB" "fi" "fr" "de" "el" "he" "hi" "hu" "id" "it" "ja" "ko" "ms" "nb" "pl" "pt" "pt-BR" "ro" "ru" "es" "sv" "th" "tr" "uk" "vi")
+
+if [ -n "$1" ]; then
+  LANG="$1"
+else
+  echo "📋 Choose desired language:"
+  select OPTION in "${LANGUAGES[@]}"
+  do
+   case $OPTION in
+      *) LANG=$OPTION;break; ;;
+    esac
+  done
+fi
+
+echo "💬 Setting language to \"$LANG\" (it might take a while)..."
+go-ios lang --udid="$SELECTED_DEVICE" --setlang="$LANG" &> /dev/null
