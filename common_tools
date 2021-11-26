@@ -196,20 +196,29 @@ prompt_xcode_launch(){
   should_proceed "❓ Do you want to open Xcode to fix it? (make sure you have the latest version)"
   open -a Xcode
   echo "⏳ Waiting for Xcode to launch..."
-  sleep 10 #TODO refactor wait for process
+  while true ; do
+    sleep 2
+    if [[ $(ps aux | grep -v grep | grep -c Xcode) -ne 0 ]]; then
+      break
+    fi
+  done
+  osascript -e 'quit app "Xcode"'
 }
 
 ios_get_devices(){
-  #check_dependency "go"
   check_dependency "jq"
   IOS_USB_DEVICES=( $(go-ios list --nojson | sort -u) )
 }
 
+ios_pair_device(){
+  go-ios pair --udid="$1" --nojson
+}
+
 ios_check_pairing(){
-  IS_PAIRED=$((go-ios pair --udid="$1" --nojson) 2>&1)
-  if [[ $IS_PAIRED == *"err"* ]]; then
+  go-ios info --udid="$1" > "$TEMPORARY_FILE"
+  if cat "$TEMPORARY_FILE" | jq -r '.TrustedHostAttached' | grep 'false' ; then
     read -r -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..."
-    ios_check_pairing "$1"
+    ios_pair_device "$1"
   fi
 }
 
