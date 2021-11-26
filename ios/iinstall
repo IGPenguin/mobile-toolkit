@@ -10,7 +10,6 @@ install_app(){
   if grep -q 'err' "$TEMPORARY_FILE" ; then
     echo "❌ Installation to $1 failed!"
     echo "🤕 Uninstall existing version or troubleshoot the package."
-    #TODO refactor sed to jq
     echo "🔥 Error details: $(grep 'err' "$TEMPORARY_FILE" | jq -r '.err')"
     exit 1
   fi
