@@ -5,4 +5,4 @@ ios_choose_device
 
 should_proceed "🔌 Do you really want to reboot $SELECTED_DEVICE?"
 echo "🔄 Restarting the device..."
-go-ios reboot --udid="$SELECTED_DEVICE" > /dev/null
+go-ios reboot --udid="$SELECTED_DEVICE" &> /dev/null
