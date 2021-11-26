@@ -37,14 +37,14 @@ EOD
 pick_recording_device(){
   ios_choose_device
   ios_device_info "$SELECTED_DEVICE"
-  DEVICE_NAME=$(idevicename -u "$SELECTED_DEVICE")
+  DEVICE_NAME=$(go-ios devicename --udid="$SELECTED_DEVICE" --nojson)
   FILENAME="$MANUFACTURER-$MODEL-iOS$VERSION-$(date +%Y-%m-%d-%H-%M-%S).mp4"
 }
 
 start_recording(){
   RECORDING=true
   echo "📹 Recording screen on $SELECTED_DEVICE ($DEVICE_NAME), stop it using ctrl^c"
-  videosnap -w 0 --no-audio -p High -d "$DEVICE_NAME" "$FILENAME" &> /dev/null
+  videosnap -p High -d "$DEVICE_NAME" "$FILENAME" &> /dev/null
 }
 
 compress_video(){
@@ -58,6 +58,13 @@ compress_video(){
     exit 1
   fi
 }
+
+if uname -m | grep -q arm64 ; then
+  echo "🤕 This script is currently not working on M1 based macs"
+  echo "🔗 See https://github.com/matthutchinson/videosnap/issues/11"
+  echo "🩹 You can use \"iquicktime\" temporarily instead"
+  exit 1
+fi
 
 check_videosnap_dependency
 check_dependency "ffmpeg"
