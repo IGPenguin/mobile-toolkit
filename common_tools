@@ -200,16 +200,13 @@ prompt_xcode_launch(){
 }
 
 ios_get_devices(){
-  check_dependency "go"
+  #check_dependency "go"
   check_dependency "jq"
-
-  cd "$GO_IOS" || exit
-  IOS_USB_DEVICES=( $(go run . list --nojson | sort -u) )
+  IOS_USB_DEVICES=( $(go-ios list --nojson | sort -u) )
 }
 
 ios_check_pairing(){
-  cd "$GO_IOS" || exit
-  IS_PAIRED=$((go run . pair --udid="$1" --nojson) 2>&1)
+  IS_PAIRED=$((go-ios pair --udid="$1" --nojson) 2>&1)
   if [[ $IS_PAIRED == *"err"* ]]; then
     read -r -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..."
     ios_check_pairing "$1"
@@ -217,8 +214,7 @@ ios_check_pairing(){
 }
 
 ios_check_developer_image(){
-  cd "$GO_IOS" || exit
-  IS_MOUNTED=$((go run . image list --udid="$1" --nojson) 2>&1)
+  IS_MOUNTED=$((go-ios image list --udid="$1" --nojson) 2>&1)
   if [[ $IS_MOUNTED == *"none"* ]] || [[ $IS_MOUNTED == *"err"* ]]; then
     prompt_xcode_launch
     ios_check_developer_image "$1"
@@ -232,9 +228,8 @@ ios_check_developer_image_and_pairing(){
 
 ios_device_info(){
   ios_check_developer_image_and_pairing "$1"
-  cd "$GO_IOS" || exit
   MANUFACTURER="Apple"
-  go run . info --udid="$1" > "$TEMPORARY_FILE"
+  go-ios info --udid="$1" > "$TEMPORARY_FILE"
   MODEL=$(ios_translate_name "$(cat "$TEMPORARY_FILE" | jq -r '.HardwareModel')")
   VERSION=$(cat "$TEMPORARY_FILE" | jq -r '.ProductVersion')
   INFO=$(printf "%s) %s %s %s - %s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
