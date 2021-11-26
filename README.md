@@ -285,6 +285,9 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 ## Manage device
 
+### ⚙️ ioptions
+* `ioptions` Open system settings application
+
 ### 📜 ilog
 * `ilog` Print system log output
 
