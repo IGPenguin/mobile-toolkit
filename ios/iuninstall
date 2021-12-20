@@ -26,7 +26,7 @@ uninstall_package(){
   echo "${IGNORED_PACKAGES[*]}" | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; return 1; }
 
   echo "🔥 Uninstalling \"$PACKAGE\"..."
-  go-ios uinstall --udid="$SELECTED_DEVICE" "$PACKAGE" #&> /dev/null
+  go-ios uninstall --udid="$SELECTED_DEVICE" "$PACKAGE" &> /dev/null
   return 0
 }
 
