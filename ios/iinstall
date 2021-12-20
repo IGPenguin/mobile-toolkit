@@ -9,7 +9,7 @@ install_app(){
   go-ios install --udid="$1" --path="$PWD/$2" &> "$TEMPORARY_FILE"
   if grep -q 'err' "$TEMPORARY_FILE" ; then
     echo "❌ Installation to $1 failed!"
-    echo "🤕 Uninstall existing version or troubleshoot the package."
+    echo "🤕 Uninstall existing version or troubleshoot the package"
     echo "🔥 Error details: $(grep 'err' "$TEMPORARY_FILE" | jq -r '.err')"
     exit 1
   fi
@@ -19,7 +19,14 @@ install_app(){
 
 run_app(){
   echo "🚀 Launching \"$BUNDLE_ID\" on $1..."
-  go-ios launch "$BUNDLE_ID" --udid="$1" &> /dev/null
+  TEMPORARY_FILE="$TEMPORARY_FILE-$(date +%s)"
+  go-ios launch "$BUNDLE_ID" --udid="$1" &> "$TEMPORARY_FILE"
+  if grep -q 'err' "$TEMPORARY_FILE" ; then
+    echo "❌ App launch failed!"
+    echo "🤕 Check if developer certificate is trusted in Settings"
+    echo "🔥 Error details: $(grep 'error' "$TEMPORARY_FILE" | jq -r '.error')"
+    exit 1
+  fi
 }
 
 check_args_valid(){
@@ -46,6 +53,7 @@ get_bundle_id(){
   if [[ "$BUNDLE_ID" == "" ]]; then # Fallback for bundle identifiers containing "app" instead of "com"
     BUNDLE_ID=$(grep "$PWD/Payload/$APP_FILENAME/embedded.mobileprovision" -a -e "[.]app[.]" | sed 's/.[^.]*\.//' | sed 's/\<.*$//')
   fi
+  BUNDLE_ID=$(echo "$BUNDLE_ID" | head -n 1)
   rm -rf "$PWD/Payload"
 }
 
