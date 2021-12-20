@@ -205,7 +205,7 @@ install_go_ios(){
   check_dependency "go"
   CURRENT_DIR="$PWD"
   TOOLKIT_IOS_LOCATION=$(dirname "$0")
-  git clone "git@github.com:danielpaulus/go-ios.git" "$TOOLKIT_IOS_LOCATION/go-ios" &> /dev/null
+  git clone "https://github.com/danielpaulus/go-ios.git" "$TOOLKIT_IOS_LOCATION/go-ios" &> /dev/null
   cd "$TOOLKIT_IOS_LOCATION/go-ios"
 
   go build .
