@@ -5,7 +5,7 @@
   🆕 Notable changes:
    💣 Substitued libimobiledevice with go-ios in all iOS scripts
       (Remove unused tools via `brew uninstall libimobiledevice && brew uninstall ideviceinstaller`)
-   🚀 Added ilaunch, ikill, ioption, ilang, atalkback
+   🚀 Added ilaunch, ikill, ioption, ilang, atalkback, adarkmode
    🏁 iinstall now runs the installed app automatically
    🧟‍♀️ Reintroduced iquicktime as irecord fallback for M1 macs
    ⚰️  Removed icrashlogs (perhaps temporarily, depends on go-ios maintainer)
