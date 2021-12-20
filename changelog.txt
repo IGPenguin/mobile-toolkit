@@ -3,7 +3,7 @@
     🌍 https://github.com/IntergalacticPenguin/mobile-toolkit
 
   🆕 Notable changes:
-   💣 Using go-ios for all iOS scripts instead of libimobiledevice
+   💣 Substitued libimobiledevice with go-ios in all iOS scripts
       (Remove unused tools via `brew uninstall libimobiledevice && brew uninstall ideviceinstaller`)
    🚀 Added ilaunch, ikill, ioption, ilang, atalkback
    🏁 iinstall runs the installed app automatically
