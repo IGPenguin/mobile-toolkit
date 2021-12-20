@@ -4,25 +4,25 @@ source "$LOCATION"/../common_tools
 android_choose_device
 
 redraw_screen(){
-  adb -s "$SELECTED_DEVICE" shell service check SurfaceFlinger &> /dev/null
-  adb -s "$SELECTED_DEVICE" shell service call activity 1599295570 &> /dev/null
+  adb -s "$1" shell service check SurfaceFlinger &> /dev/null
+  adb -s "$1" shell service call activity 1599295570 &> /dev/null
 }
 
 turn_off_bounds(){
-  echo "👋 Turning layout bounds off..."
-  adb -s "$SELECTED_DEVICE" shell setprop debug.layout false &> /dev/null
-  redraw_screen
+  echo "👋 Turning off layout bounds ..."
+  adb -s "$1" shell setprop debug.layout false &> /dev/null
+  redraw_screen "$1"
 }
 
 turn_on_bounds(){
-  echo "📐 Turning layout bounds on..."
-  adb -s "$SELECTED_DEVICE" shell setprop debug.layout true &> /dev/null
-  redraw_screen
+  echo "📐 Turning on layout bounds..."
+  adb -s "$1" shell setprop debug.layout true &> /dev/null
+  redraw_screen "$1"
 }
 
 BOUNDS_STATE=$(adb -s "$SELECTED_DEVICE" shell getprop debug.layout | tr -cd '[[:alnum:]]._-')
 if [ -z "$BOUNDS_STATE" ] || [ "$BOUNDS_STATE" == "false" ]; then
-  turn_on_bounds "$1"
+  turn_on_bounds "$SELECTED_DEVICE"
 else
-  turn_off_bounds
+  turn_off_bounds "$SELECTED_DEVICE"
 fi

@@ -1,0 +1,38 @@
+#!/bin/bash
+LOCATION=$(dirname "$0")
+source "$LOCATION"/../common_tools
+ios_choose_device
+
+if [[ "$1" == "-s" ]]; then
+  PACKAGES=($(go-ios apps --udid="$SELECTED_DEVICE" --system | jq -r '.[] | .CFBundleIdentifier'))
+elif [[ -n "$1" ]]; then
+  PACKAGE="$1"
+  ios_is_package_installed "$PACKAGE"
+else
+  PACKAGES=($(go-ios apps --udid="$SELECTED_DEVICE" | jq -r '.[] | .CFBundleIdentifier'))
+fi
+
+if [ -z "$PACKAGE" ]; then
+  PACKAGES_LISTED=()
+  for P in "${PACKAGES[@]}" #removes trailing \r
+  do
+    P=${P%$'\r'}
+    PACKAGES_LISTED+=("$P")
+  done
+
+  if [ ${#PACKAGES_LISTED[@]} -eq 0 ]; then
+      echo "🤷‍ No third-party apps installed, use \"alaunch -s\" to list system packages"
+      exit 1
+  fi
+
+  echo "📋 Choose application to launch:"
+  select OPTION in "${PACKAGES_LISTED[@]}"
+  do
+   case $OPTION in
+      *) PACKAGE=$OPTION;break; ;;
+    esac
+  done
+fi
+
+echo "🚀 Launching \"$PACKAGE\"..."
+go-ios launch "$PACKAGE" --udid="$SELECTED_DEVICE" &> /dev/null

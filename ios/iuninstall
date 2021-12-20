@@ -2,52 +2,13 @@
 trap "kill 0" SIGINT # Kill all spawned subprocesses on ctrl^c
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
+IGNORED_PACKAGES=( "com.apple.TestFlight" "motif.FramerPreview" "com.figma.FigmaMirror" "com.invisionapp.InVisionApp-iOS" "com.8bit.bitwarden" )
+ios_choose_device
 
-init(){
-  check_dependency "ideviceinstaller"
-  IGNORED_PACKAGES=( "com.apple.TestFlight" "motif.FramerPreview" "com.figma.FigmaMirror" "com.invisionapp.InVisionApp-iOS" "com.8bit.bitwarden" )
-}
-
-ios_get_package_list(){
-  echo "⏳ Getting third-party package list..."
-  PACKAGE_LIST=()
-  ALL_INFO_LIST=($(ideviceinstaller -u "$SELECTED_DEVICE" -l -o list_user | tail -n +2 | sed -e 's/.*=//' | sort))
-
-  for PACKAGE in "${ALL_INFO_LIST[@]}" #remove redundant information
-    do
-      echo "$PACKAGE" | grep -q '"'
-      EXIT_CODE=$?
-
-      if [ $EXIT_CODE -ne 0 ]; then
-        PACKAGE=${PACKAGE%,*}
-        PACKAGE_LIST+=("$PACKAGE")
-      fi
-    done
-
-  if [ ${#PACKAGE_LIST[@]} -eq 0 ]; then
-    echo "🤷‍ No packages installed."
-    exit
-  fi
-}
-
-filter_packages(){
-  PACKAGES_FILTERED=()
-  for PKG in "${PACKAGE_LIST[@]}" #removes trailing \r
-  do
-    PKG=${PKG%$'\r'}
-    echo "${IGNORED_PACKAGES[*]}" | grep -w "$PKG" &> /dev/null && { echo "⏩ Skipped \"$PKG\""; continue; }
-    PACKAGES_FILTERED+=("$PKG")
-  done
-
-  if [ ${#PACKAGES_FILTERED[@]} -eq 0 ]; then
-      echo "🤷‍ Nothing to uninstall"
-      exit
-  fi
-}
 
 select_option(){
   echo "📋 Choose package number:"
-  select OPTION in "${PACKAGES_FILTERED[@]}"
+  select OPTION in "${INSTALLED_PACKAGES[@]}"
   do
    case $OPTION in
       *) PACKAGE=$OPTION;break; ;;
@@ -61,19 +22,19 @@ select_option(){
 
 uninstall_package(){
   PACKAGE="$1"
-  echo "${PACKAGE_LIST[*]}" | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; return 1; }
+  echo "${INSTALLED_PACKAGES[*]}" | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; return 1; }
   echo "${IGNORED_PACKAGES[*]}" | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; return 1; }
 
   echo "🔥 Uninstalling \"$PACKAGE\"..."
-  ideviceinstaller -u "$SELECTED_DEVICE" -U "$PACKAGE" &> /dev/null
+  go-ios uninstall --udid="$SELECTED_DEVICE" "$PACKAGE" &> /dev/null
   return 0
 }
 
 uninstall_all(){
   tput setaf 1
-  should_proceed "💣 Delete all third-party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+  should_proceed "💣 Delete all third-party apps on $SELECTED_DEVICE?"
   tput sgr0
-  for PKG in "${PACKAGE_LIST[@]}"
+  for PKG in "${INSTALLED_PACKAGES[@]}"
   do
     uninstall_package "$PKG" &
   done
@@ -88,18 +49,16 @@ handle_arguments(){
   fi
 
   if [ -z "$1" ]; then
-    if [ ${#PACKAGE_LIST[@]} -eq 0 ]; then
+    if [ ${#INSTALLED_PACKAGES[@]} -eq 0 ]; then
         echo "🤷‍ Nothing to uninstall"
         exit
     fi
-    filter_packages
     select_option
     uninstall_package "$PACKAGE"
   fi
 }
 
-ios_choose_device
-init
-ios_get_package_list
+
+ios_get_installed_package_list "$SELECTED_DEVICE"
 handle_arguments "$@"
 echo "✅ Done"

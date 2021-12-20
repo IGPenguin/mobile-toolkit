@@ -1,12 +1,17 @@
-  🎉 Celebrate new release 1.2.0 together as a community!
-    ⭐️ Leave a star on GitHub, that makes me real happy
-    📬 Share Mobile Toolkit to your friends and colleagues
-    📨 Any feedback is highly appreciated
+  🎉 New version 1.3.0!
+    📬 Feel free to open new issues or send feedback
     🌍 https://github.com/IntergalacticPenguin/mobile-toolkit
 
   🆕 Notable changes:
-   🐒 New "atestmonkey" tool for app stress testing
-   📦 Automatic "irecord" video compression (saves a lot of disk space)
-   🚀 Launch "aoptions" single activity result automatically
-   👋 Remove "igif" (irecord made it obsolete)
-   😌 Remove emulator prompt on "no device detected"
+   💣 Using go-ios for all iOS scripts instead of libimobiledevice
+      (Remove unused tools via `brew uninstall libimobiledevice && brew uninstall ideviceinstaller`)
+   🚀 Added ilaunch, ikill, ioption, ilang, atalkback
+   🏁 iinstall runs the installed app automatically
+   🧟‍♀️ Reintroduce iquicktime as irecord fallback for M1 macs
+   ⚰️  Removed icrashlogs (perhaps temporarily, depends on go-ios maintainer)
+   🩹 Fix Android 12 foreground package detection
+   ✨ Added new iOS device translations
+
+  🚨 Action needed:
+   ✨ Make sure to install new version of videosnap tool (if you haven't already)
+   🔗 https://github.com/matthutchinson/videosnap/releases/download/v0.0.8/videosnap-0.0.8.pkg

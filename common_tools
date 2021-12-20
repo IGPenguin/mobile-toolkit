@@ -114,9 +114,15 @@ android_get_foreground_package(){
     android_get_foreground_package_sdk_low
   elif (( "$SDK" < 30 )); then
     android_get_foreground_package_sdk_21_plus
-  else
+  elif (( "$SDK" < 31 )); then
     android_get_foreground_package_sdk_30_plus
+  else
+    android_get_foreground_package_sdk_31_plus
   fi
+}
+
+android_get_foreground_package_sdk_31_plus(){
+  adb -s "$SELECTED_DEVICE" shell dumpsys activity recents | grep 'Recent #0' | cut -d= -f3 | cut -d ':' -f2 | cut -d ' ' -f1
 }
 
 android_get_foreground_package_sdk_30_plus(){
@@ -143,7 +149,7 @@ android_is_package_installed() {
   adb -s "$SELECTED_DEVICE" shell pm list packages -f | sed -e 's/.*=//' | grep -w "$1" &> /dev/null
   EXIT_CODE=$?
   if [ $EXIT_CODE -ne 0 ]; then
-    echo "🤷‍ Package \"$1\" is not installed."
+    echo "🤷‍ Package \"$1\" is not installed"
     exit 1
   fi
 }
@@ -185,59 +191,96 @@ do
 ##############################################################################
 ### iOS
 
+check_go_ios_version(){
+  if ! [ -x "$(command -v "go-ios")" ]; then
+    install_go_ios
+  else
+    GO_IOS_VERSION=$(go-ios --version)
+    #echo "Version of go-ios is: $GO_IOS_VERSION"
+  fi
+}
+
+install_go_ios(){
+  echo "⏳ Installing https://github.com/danielpaulus/go-ios..."
+  check_dependency "go"
+  CURRENT_DIR="$PWD"
+  TOOLKIT_IOS_LOCATION=$(dirname "$0")
+  git clone "https://github.com/danielpaulus/go-ios.git" "$TOOLKIT_IOS_LOCATION/go-ios" &> /dev/null
+  cd "$TOOLKIT_IOS_LOCATION/go-ios"
+
+  go build .
+  chmod +x "go-ios"
+  mv "go-ios" "go-ios-temp"
+  mv "go-ios-temp" ..
+  cd ..
+  rm -rf "$TOOLKIT_IOS_LOCATION/go-ios"
+  mv "go-ios-temp" "go-ios"
+
+  cd "$CURRENT_DIR"
+}
+
 prompt_xcode_launch(){
   echo "❌ Developer image is not mounted and/or device screen is locked"
   should_proceed "❓ Do you want to open Xcode to fix it? (make sure you have the latest version)"
   open -a Xcode
   echo "⏳ Waiting for Xcode to launch..."
-  sleep 8
+  while true ; do
+    sleep 2
+    if [[ $(ps aux | grep -v grep | grep -c Xcode) -ne 0 ]]; then
+      break
+    fi
+  done
+  sleep 4
+  osascript -e 'quit app "Xcode"'
 }
 
-ios_wait_for_device(){
-  echo "⏳ Waiting for iOS device..."
-  ios_get_devices
-  while [ ${#IOS_USB_DEVICES[@]} -lt 1 ];
-  do
-    sleep 1
-    ios_get_devices
-  done
-  delete_lastline
+ios_get_devices(){
+  check_go_ios_version
+  check_dependency "jq"
+  IOS_USB_DEVICES=( $(go-ios list --nojson | sort -u) )
+}
+
+ios_pair_device(){
+  go-ios pair --udid="$1" --nojson &> /dev/null
+  EXIT_CODE=$?
+  if [ $EXIT_CODE -ne 0 ]; then
+    read -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..."
+    ios_pair_device "$1"
+  fi
+}
+
+ios_check_pairing(){
+  go-ios info --udid="$1" &> "$TEMPORARY_FILE"
+  if cat "$TEMPORARY_FILE" | grep -q 'UntrustedHostBUID' ; then
+    read -r -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..."
+    ios_pair_device "$1"
+  fi
+  if cat "$TEMPORARY_FILE" | grep -q 'could not retrieve PairRecord' ; then
+    read -r -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..."
+    ios_pair_device "$1"
+  fi
+}
+
+ios_check_developer_image(){
+  IS_MOUNTED=$((go-ios image list --udid="$1" --nojson) 2>&1)
+  if [[ $IS_MOUNTED == *"none"* ]]; then
+    prompt_xcode_launch
+    ios_check_developer_image "$1"
+  fi
 }
 
 ios_check_developer_image_and_pairing(){
-  IS_MOUNTED=$(ideviceimagemounter -u "$1" -l)
-  if [[ $IS_MOUNTED == *"Error"* ]] || [[ $IS_MOUNTED == *"error"* ]] ; then
-    read -r -p "❌ Device is not paired - reconnect it (one at a time), unlock screen and press ENTER..."
-    echo "🤝 Requesting pairing..."
-    idevicepair pair &> /dev/null
-    read -r -p "❓ Tap \"Trust\" button on the device screen and press ENTER..."
-    sleep 1
-    ios_check_developer_image_and_pairing "$1"
-  fi
-
-  if [ ${#IS_MOUNTED} -eq 0 ] ; then
-    prompt_xcode_launch
-  fi
+  ios_check_pairing "$1"
+  ios_check_developer_image "$1"
 }
 
 ios_device_info(){
   ios_check_developer_image_and_pairing "$1"
   MANUFACTURER="Apple"
-  MODEL=$(ios_translate_name "$(ideviceinfo -u "$1" | grep "HardwareModel" | cut -d\   -f2)")
-  VERSION=$(ideviceinfo -u "$1" | grep "ProductVersion" | cut -d\   -f2)
+  go-ios info --udid="$1" > "$TEMPORARY_FILE"
+  MODEL=$(ios_translate_name "$(cat "$TEMPORARY_FILE" | jq -r '.HardwareModel')")
+  VERSION=$(cat "$TEMPORARY_FILE" | jq -r '.ProductVersion')
   INFO=$(printf "%s) %s %s %s - %s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
-}
-
-ios_get_devices(){
-  ALL_IOS_DEVICES=( $(idevice_id -l | sort -u) )
-  IOS_USB_DEVICES=()
-
-  for ID in "${ALL_IOS_DEVICES[@]}"
-   do
-     ios_device_info "$ID"
-     if [ -z "$MODEL" ];then continue; fi; #Skip wireless (ghost) devices
-     IOS_USB_DEVICES+=("$ID")
-   done
 }
 
 ios_choose_device(){
@@ -275,9 +318,28 @@ ios_choose_device(){
   else
      SELECTED_DEVICE="${IOS_USB_DEVICES[0]}"
   fi
+}
 
-  SELECTED_DEVICE_MODEL=$(ios_translate_name "$(ideviceinfo -u "$SELECTED_DEVICE" | grep "HardwareModel" | cut -d\   -f2)")
-  SELECTED_DEVICE_VERSION=$(ideviceinfo -u "$SELECTED_DEVICE" | grep "ProductVersion" | cut -d\   -f2)
+ios_get_installed_package_list(){
+  echo "⏳ Getting third-party package list..."
+  INSTALLED_PACKAGES=($(go-ios apps --udid="$1" | jq -r '.[] | .CFBundleIdentifier'))
+}
+
+ios_get_all_package_list(){
+  echo "⏳ Getting all package list..."
+  INSTALLED_PACKAGES=($(go-ios apps --udid="$1" | jq -r '.[] | .CFBundleIdentifier'))
+  SYSTEM_PACKAGES=($(go-ios apps --udid="$1" --system | jq -r '.[] | .CFBundleIdentifier'))
+  ALL_PACKAGES=("${INSTALLED_PACKAGES[@]}" "${SYSTEM_PACKAGES[@]}")
+}
+
+ios_is_package_installed(){
+  ios_get_all_package_list "$SELECTED_DEVICE"
+  echo "${ALL_PACKAGES[*]}" | grep -w "$1" &> /dev/null
+  EXIT_CODE=$?
+  if [ $EXIT_CODE -ne 0 ]; then
+    echo "🤷‍ Package \"$1\" is not installed"
+    exit 1
+  fi
 }
 
 ios_translate_name(){
@@ -344,11 +406,23 @@ ios_translate_name(){
     "D33"*)
       NAME="iPhoneXSMax"
       ;;
+    "N104"*)
+      NAME="iPhone11"
+      ;;
+    "D421"*)
+      NAME="iPhone11Pro"
+      ;;
+    "D431"*)
+      NAME="iPhone11ProMax"
+      ;;
     "D52"*)
       NAME="iPhone12Mini"
       ;;
-    "D53"*)
+    "D53g"*)
       NAME="iPhone12"
+      ;;
+    "D53p"*)
+      NAME="iPhone12Pro"
       ;;
     "D54"*)
       NAME="iPhone12ProMax"
@@ -357,7 +431,22 @@ ios_translate_name(){
       NAME="iPhoneXR"
       ;;
     "N69"*)
-      NAME="iPhoneSE"
+      NAME="iPhoneSEgen1"
+      ;;
+    "D79"*)
+      NAME="iPhoneSEgen2"
+      ;;
+    "D17"*)
+      NAME="iPhone13"
+      ;;
+    "D16"*)
+      NAME="iPhone13Mini"
+      ;;
+    "D63"*)
+      NAME="iPhone13Pro"
+      ;;
+    "D64"*)
+      NAME="iPhone13ProMax"
       ;;
     "J1"*)
       NAME="iPad3gen"
@@ -371,14 +460,38 @@ ios_translate_name(){
     "J82"*)
       NAME="iPadAir2"
       ;;
+    "J217"*|"J218"*)
+      NAME="iPadAir3gen"
+      ;;
+    "J307"*|"J308"*)
+      NAME="iPadAir4gen"
+      ;;
     "J85"*)
       NAME="iPadMiniRetina"
       ;;
     "J96"*)
       NAME="iPadMini4"
       ;;
-    "J98"*|"J99"*|"J31"*)
+    "J210"*|"J211"*)
+      NAME="iPadMini5gen"
+      ;;
+    "J310"*|"J311"*)
+      NAME="iPadMini6gen"
+      ;;
+    "J98"*|"J99"*|"J31"*|"J127"*|"J128"*|"J318"*|"J317"*|"J207"*|"J208"*)
       NAME="iPadPro"
+      ;;
+    "J120"*|"J121"*|"J417"*|"J418"*)
+      NAME="iPadPro2gen"
+      ;;
+    "J320"*|"J321"*|"J517"*|"J518"*)
+      NAME="iPadPro3gen"
+      ;;
+    "J420"*|"J421"*)
+      NAME="iPadPro4gen"
+      ;;
+    "J522"*|"J523"*)
+      NAME="iPadPro5gen"
       ;;
     "K48"*)
       NAME="iPad"
@@ -391,6 +504,21 @@ ios_translate_name(){
       ;;
     "P105"*|"P107"*)
       NAME="iPadMini"
+      ;;
+    "J71s"*|"J71t"*|"J72s"*|"J72t"*)
+      NAME="iPad5gen"
+      ;;
+    "J71b"*|"J72b"*)
+      NAME="iPad6gen"
+      ;;
+    "J171AP"*|"J172AP"*)
+      NAME="iPad7gen"
+      ;;
+    "J171aAP"*|"J172aAP"*)
+      NAME="iPad8gen"
+      ;;
+    "J181"*|"J182"*)
+      NAME="iPad9gen"
       ;;
   esac
   echo $NAME
@@ -462,7 +590,7 @@ yes_or_no(){
           ;;
       *)
         echo
-        echo "🤷‍ Invalid option."
+        echo "🤷‍ Invalid option"
         yes_or_no "$1"
         ;;
   esac

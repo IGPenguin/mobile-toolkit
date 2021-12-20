@@ -3,6 +3,6 @@ LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 ios_choose_device
 
-should_proceed "🔌 Do you really want to reboot $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+should_proceed "🔌 Do you really want to reboot $SELECTED_DEVICE?"
 echo "🔄 Restarting the device..."
-idevicediagnostics -u "$SELECTED_DEVICE" restart > /dev/null
+go-ios reboot --udid="$SELECTED_DEVICE" &> /dev/null

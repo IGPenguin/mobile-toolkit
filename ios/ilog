@@ -2,5 +2,6 @@
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 
-echo "📋 Opening Console app..."
-open -a Console
+ios_choose_device
+echo "📜 Device log:"
+go-ios syslog --udid="$SELECTED_DEVICE" --nojson

@@ -38,24 +38,24 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 1. **Open terminal**
 2. **Clone this repository** `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
 3. **Setup Android tools**
-	* **[Download](https://developer.android.com/studio/ "Android Studio") and install Android Studio** or **Android command line tools**
-	* **Edit .bash_profile** (or .zshrc if you have zsh shell) `open -e ~/.bash_profile` or `open -e ~/.zshrc`
-	  * **Add this line the end** `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools export PATH`
+	* **[Download](https://developer.android.com/studio/ "Android Studio") and install Android Studio** and **Android command line tools** (using Android Studio SDK manager)
+	* **Edit .zshrc** (or .bash_profile if you have bash shell) `open -e ~/.zshrc`
+	  * **Insert this line at the end** `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools export PATH`
 	  * **Don't forget to replace "dummyuser" with your account username**
 	  * **Use full path to the "platform-tools" directory**
 	* **[Allow USB debugging](https://developer.android.com/studio/debug/dev-options) on your device, connect it and authorize your computer** (click OK on the device screen)
 4. **Setup iOS tools**
 	* **Install latest Xcode and iOS command line tools** using [App Store](https://apps.apple.com/cz/app/xcode/id497799835?mt=12)
 	* **Install [Homebrew](https://brew.sh/ "Homberew") package manager**
-	* **Install [usbmuxd](https://github.com/libimobiledevice/usbmuxd "usbmuxd"), [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice "libimobiledevice") and  [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller "ideviceinstaller")**  `brew install --HEAD usbmuxd && brew install --HEAD libimobiledevice && brew install --HEAD ideviceinstaller`
 	* **Run Xcode, connect iOS device to USB and authorize your computer** (click "Trust" on the device screen)
-5. (Optional) **Use Mobile Toolkit in any directory in terminal**
-	* **Edit .bash_profile** (or .zshrc if you have zsh shell) `open -e ~/.bash_profile` or `open -e ~/.zshrc`
-	  * **Insert these lines at the end** <br> `PATH=$PATH:/Users/dummyuser/mobile-toolkit/android` <br>
+	* **Run any script i.e. `iscreenshot`, installation of all required tools will be initiated automatically** ([jq](https://stedolan.github.io/jq/) and [go-ios](https://github.com/danielpaulus/go-ios "go-ios"))
+5. **Add Mobile Toolkit to $PATH**, it is mandatory for iOS scripts and it will let you run scripts in any directory
+	* **Edit .zshrc** (or .bash_profile if you have bash shell) `open -e ~/.zshrc`
+	  * **Insert the following lines at the end** <br> `PATH=$PATH:/Users/dummyuser/mobile-toolkit/android` <br>
 	`PATH=$PATH:/Users/dummyuser/mobile-toolkit/ios`
 	  * **Don't forget to replace "dummyuser" with your account username**
 	  * **Use full path to the "mobile-toolkit" directory** (where you cloned this repository)
-	  * **Move** `export PATH` **to the end of the file**
+	  * **Add** `export PATH` **to the end of the file**
 
 </details>
 
@@ -87,9 +87,16 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 ### 🌐 aurl
 * `aurl "google.com"` Open link in web browser or corresponding application
+* `aurl -a "google.com"` Open link in web browser or corresponding application on all connected devices
+
+### 🏴 adarkmode
+* `adarkmode` Toggle system dark mode
+
+### 🔊 atalkback
+* `atalkback` Toggle TalkBack screen reader accessiblity option
 
 ### 📐 abounds
-* `abounds` Display or hide layout bounds
+* `abounds` Toggle UI layout bounds
 * App restart may be necessary on lower APIs
 
 ### 🚗 aanimationspeed
@@ -205,7 +212,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
   * **Add the following line at the end of the file** `export JAVA_HOME='/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home'`
 
 * Android emulator supports all listed scripts by default + extra actions listed below
-* `aeimulator <option>` Handle various Android emulator activites
+* `aemulator <option>` Handle various Android emulator activites
   * `start` - choose and launch installed emulator
   * `gprs | edge | 3g` - simulate network latency, choose one
   * `call <number>` - receive fake call
@@ -216,11 +223,14 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 	   * example commands `event | redir | sensor | physics | finger | rotate | fold | unfold...` see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
 
 ### 🐒 atestmonkey
+* `atestmonkey` Default test with random seed and 15000 input events
+* `atestmonkey <event-count>` Test with random seed and custom input event count
+* `atestmonkey <event-count> <seed>` Test with custom seed and custom event count
 * Perform automated stress test using [Application Excersciser Monkey](https://developer.android.com/studio/test/monkey)
-* Default test length is `15000` input events, support for custom count will be added in future update
 * You can end test prematurely using ctrl^c or `atestmonkeykill` in case something goes wrong
 * App under test needs to be pinned to fullscreen mode to prevent unwanted interactions elsewhere
-* Screen pinning button location is directly tied to OS version and device manufacturer skin. It may be tricky to find, see examples below:<br><br>
+* Screen pinning button location is directly tied to OS version and device manufacturer skin.
+	* It may be tricky to turn on, see examples below:<br><br>
 	* <details>
 			<summary>Google Nexus 5 (Android 6)</summary>
 			<br><em>You need to bring the app window to foreground, the button is located in bottom right corner.</em><br><br>
@@ -239,13 +249,18 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `iscreenshot -a` Take screenshot on all connected devices
 
 ### 🎥 irecord
-**Required**: Install [videosnap](https://github.com/matthutchinson/videosnap/releases "videosnap") -> download and run `videosnap-0.0.6.pkg`
+**Required**: Install [videosnap](https://github.com/matthutchinson/videosnap/releases "videosnap") -> download and install `videosnap-0.0.8.pkg`
 **Required**: Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") `brew install ffmpeg`
 
 1. `irecord` Record screen
 2. End recording using `ctrl + c`
 3. Video footage is saved to ~/Desktop
 4. File is compressed using ffmpeg
+
+### 📹 iquicktime
+* Run QuickTime and open video source picker (so you can choose a device right away)
+  * You may have to allow security system permission, so the script can access QuickTime application
+* This is a fallback script for `irecord` on M1 macs as it is currently not working
 
 ## Manage applications
 ### 🚚 iinstall
@@ -258,21 +273,27 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `iuninstall -w` Uninstall all third-party packages
   * Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
+### 🚀 ilaunch
+* `ilaunch` List third-party apps and choose one to run it
+* `ilaunch -s` List os pre-installed apps and choose one to run it
+* `ilaunch com.dummy.bundle.id.app` Run app by bundle id
+
+### 🔪 ikill
+* `ikill` List third-party apps and choose one to restart
+* `ikill -s` List os pre-installed apps and choose one to restart
+* `ikill com.dummy.bundle.id.app` Target specific app by passing bundle id as argument
+
 ## Manage device
 
-### 📜 ilog
-* `ilog` Open console log output
-* Examine macOS or iOS system logs
+### ⚙️ ioptions
+* `ioptions` Open system settings application
 
-### 💥 icrashlogs
-* `icrashlogs` Import crash logs to ~/Desktop, choose whether to keep them in device storage
-* `icrashlogs -k` Import crash logs, keep them in device storage
-* `icrashlogs -r` Import crash logs, delete them from device storage
-* You can import these logs to Xcode to make them more readable via symbolication
-  * Open relevant project in Xcode
-  * Click on Window > Devices and Simulators > View Device Logs
-  * Drag the .crash file onto the log list
-  * Readable crash log should appear in the list
+### 💬 ilang
+* `ilang <lang>` Change the device language to different one, according to ISO-639 (i.e. "cs")
+* `ilang` Change the device language to different one, choose from a list of all supported
+
+### 📜 ilog
+* `ilog` Print system log output
 
 ### 📋 icheckdevice
 * Print device information
@@ -295,5 +316,8 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
   * `battery <0-100>` - set battery level displayed in status bar (no functional impact)
   * `time <hh:mm>` - set time displayed in status bar (no functional impact)
 
+### 🖥 iconsole
+* `iconsole` Examine iOS or macOS system logs using Console application
+
 # 💭 About
-**You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"), if you made it this far in readme and you like my work, please be so kind and star this repository or leave some claps on Medium. Every appreciation empowers my motivation.
+**You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"). If you made it this far in `README.md` and you like my work, please **star this repository**. Every appreciation empowers my motivation.
