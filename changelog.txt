@@ -4,10 +4,11 @@
 
   🆕 Notable changes:
    💣 Using go-ios for all iOS scripts instead of libimobiledevice
+      (Remove unused tools via `brew uninstall libimobiledevice && brew uninstall ideviceinstaller`)
    🚀 Added ilaunch, ikill, ioption, ilang, atalkback
    🏁 iinstall runs the installed app automatically
    🧟‍♀️ Reintroduce iquicktime as irecord fallback for M1 macs
-   🪦 Removed icrashlogs and iuninstall (perhaps temporarily)
+   ⚰️  Removed icrashlogs (perhaps temporarily, depends on go-ios maintainer)
    🩹 Fix Android 12 foreground package detection
    ✨ Added new iOS device translations
 
