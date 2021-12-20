@@ -6,14 +6,27 @@ source "$LOCATION"/../common_tools
 install_app(){
   echo "⌛️ Installing \"$2\" to $1..."
   TEMPORARY_FILE="$TEMPORARY_FILE-$(date +%s)"
-  ideviceinstaller -u "$1" -i "$2" &> "$TEMPORARY_FILE"
-  if grep -q ERROR "$TEMPORARY_FILE" ; then
+  go-ios install --udid="$1" --path="$PWD/$2" &> "$TEMPORARY_FILE"
+  if grep -q 'err' "$TEMPORARY_FILE" ; then
     echo "❌ Installation to $1 failed!"
-    echo "🤕 Uninstall existing version or troubleshoot the package."
-    echo "🔥 Error details: $(grep 'ERROR' "$TEMPORARY_FILE" | sed 's/^.*: //')"
+    echo "🤕 Uninstall existing version or troubleshoot the package"
+    echo "🔥 Error details: $(grep 'err' "$TEMPORARY_FILE" | jq -r '.err')"
     exit 1
   fi
   echo "✅ Successfully installed to $1"
+  run_app "$1" "$PWD/$2"
+}
+
+run_app(){
+  echo "🚀 Launching \"$BUNDLE_ID\" on $1..."
+  TEMPORARY_FILE="$TEMPORARY_FILE-$(date +%s)"
+  go-ios launch "$BUNDLE_ID" --udid="$1" &> "$TEMPORARY_FILE"
+  if grep -q 'err' "$TEMPORARY_FILE" ; then
+    echo "❌ App launch failed!"
+    echo "🤕 Check if developer certificate is trusted in Settings"
+    echo "🔥 Error details: $(grep 'error' "$TEMPORARY_FILE" | jq -r '.error')"
+    exit 1
+  fi
 }
 
 check_args_valid(){
@@ -32,10 +45,23 @@ check_args_valid(){
   fi
 }
 
+get_bundle_id(){
+  echo "🔍 Detecting bundle ID..."
+  unzip "$1" &> /dev/null
+  APP_FILENAME=$(ls "$PWD"/Payload)
+  BUNDLE_ID=$(grep "$PWD/Payload/$APP_FILENAME/embedded.mobileprovision" -a -e "[.]com[.]" | sed 's/.[^.]*\.//' | sed 's/\<.*$//')
+  if [[ "$BUNDLE_ID" == "" ]]; then # Fallback for bundle identifiers containing "app" instead of "com"
+    BUNDLE_ID=$(grep "$PWD/Payload/$APP_FILENAME/embedded.mobileprovision" -a -e "[.]app[.]" | sed 's/.[^.]*\.//' | sed 's/\<.*$//')
+  fi
+  BUNDLE_ID=$(echo "$BUNDLE_ID" | head -n 1)
+  rm -rf "$PWD/Payload"
+}
+
 run(){
   if [[ $1 == "-a" ]]; then
     check_for_update
     ios_get_devices
+    get_bundle_id "$2"
     for ID in "${IOS_USB_DEVICES[@]}"
      do
       install_app "$ID" "$2" &
@@ -43,10 +69,10 @@ run(){
     wait
   else
     ios_choose_device
+    get_bundle_id "$1"
     install_app "$SELECTED_DEVICE" "$1"
   fi
 }
 
-check_dependency "ideviceinstaller"
 check_args_valid "$@"
 run "$@"

@@ -4,4 +4,4 @@ source "$LOCATION"/../common_tools
 
 ios_choose_device
 echo "📜 Device log:"
-idevicesyslog "$SELECTED_DEVICE"
+go-ios syslog --udid="$SELECTED_DEVICE" --nojson

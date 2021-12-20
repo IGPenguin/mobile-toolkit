@@ -3,10 +3,16 @@
     🌍 https://github.com/IntergalacticPenguin/mobile-toolkit
 
   🆕 Notable changes:
-   🚀 Optimized iOS device picker
-   🔊 Add atalkback
-   ✨ Add new iOS device translations
+   💣 Using go-ios for all iOS scripts instead of libimobiledevice
+      (Remove unused tools via `brew uninstall libimobiledevice && brew uninstall ideviceinstaller`)
+   🚀 Added ilaunch, ikill, ioption, ilang, atalkback
+   🏁 iinstall runs the installed app automatically
+   🧟‍♀️ Reintroduce iquicktime as irecord fallback for M1 macs
+   ⚰️  Removed icrashlogs (perhaps temporarily, depends on go-ios maintainer)
+   🩹 Fix Android 12 foreground package detection
+   ✨ Added new iOS device translations
 
   🚨 Action needed:
+   🔐 Ignore the warning about running an untrusted software and enable access in security settings
    ✨ Make sure to download and install new version of videosnap tool
-   🔗 https://github.com/matthutchinson/videosnap/releases/download/v0.0.7/videosnap-0.0.7.pkg
+   🔗 https://github.com/matthutchinson/videosnap/releases/download/v0.0.8/videosnap-0.0.8.pkg

@@ -257,6 +257,11 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 3. Video footage is saved to ~/Desktop
 4. File is compressed using ffmpeg
 
+### 📹 iquicktime
+* Run QuickTime and open video source picker (so you can choose a device right away)
+  * You may have to allow security system permission, so the script can access QuickTime application
+* This is a fallback script for `irecord` on M1 macs as it is currently not working
+
 ## Manage applications
 ### 🚚 iinstall
 * `iinstall some-app-file.ipa` Install .ipa (make sure to use properly signed build)
@@ -268,20 +273,27 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `iuninstall -w` Uninstall all third-party packages
   * Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
+### 🚀 ilaunch
+	* `ilaunch` List third-party apps and choose one to run it
+	* `ilaunch -s` List os pre-installed apps and choose one to run it
+	* `ilaunch com.dummy.bundle.id.app` Run app by bundle id
+
+### 🔪 ikill
+	* `ikill` List third-party apps and choose one to restart
+	* `ikill -s` List os pre-installed apps and choose one to restart
+	* `ikill com.dummy.bundle.id.app` Target specific app by passing bundle id as argument
+
 ## Manage device
+
+### ⚙️ ioptions
+* `ioptions` Open system settings application
+
+### 💬 ilang
+* `ilang <lang>` Change the device language to different one, according to ISO-639 (i.e. "cs")
+* `ilang` Change the device language to different one, choose from a list of all supported
 
 ### 📜 ilog
 * `ilog` Print system log output
-
-### 💥 icrashlogs
-* `icrashlogs` Import crash logs to ~/Desktop, choose whether to keep them in device storage
-* `icrashlogs -k` Import crash logs, keep them in device storage
-* `icrashlogs -r` Import crash logs, delete them from device storage
-* You can import these logs to Xcode to make them more readable via symbolication
-  * Open relevant project in Xcode
-  * Click on Window > Devices and Simulators > View Device Logs
-  * Drag the .crash file onto the log list
-  * Readable crash log should appear in the list
 
 ### 📋 icheckdevice
 * Print device information

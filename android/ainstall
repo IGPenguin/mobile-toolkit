@@ -9,7 +9,7 @@ install_app(){
   adb -s "$1" install -t -r "$2" &> "$TEMPORARY_FILE"
   if grep -q Failure "$TEMPORARY_FILE" ; then
     echo "❌ Installation to $1 failed!"
-    echo "🤕 Uninstall existing version or troubleshoot the package."
+    echo "🤕 Uninstall existing version or troubleshoot the package"
     echo "🔥 Error details: $(grep 'Failure' "$TEMPORARY_FILE" | sed 's/^.*: //')"
     exit 1
   fi
