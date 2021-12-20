@@ -38,7 +38,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 1. **Open terminal**
 2. **Clone this repository** `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
 3. **Setup Android tools**
-	* **[Download](https://developer.android.com/studio/ "Android Studio") and install Android Studio** and **Android command line tools** (in Android Studio SDK manager)
+	* **[Download](https://developer.android.com/studio/ "Android Studio") and install Android Studio** and **Android command line tools** (using Android Studio SDK manager)
 	* **Edit .zshrc** (or .bash_profile if you have bash shell) `open -e ~/.zshrc`
 	  * **Insert this line at the end** `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools export PATH`
 	  * **Don't forget to replace "dummyuser" with your account username**
