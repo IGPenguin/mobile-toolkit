@@ -191,6 +191,33 @@ do
 ##############################################################################
 ### iOS
 
+check_go_ios_version(){
+  if ! [ -x "$(command -v "go-ios")" ]; then
+    install_go_ios
+  else
+    GO_IOS_VERSION=$(go-ios --version)
+    #echo "Version of go-ios is: $GO_IOS_VERSION"
+  fi
+}
+
+install_go_ios(){
+  echo "⏳ Installing https://github.com/danielpaulus/go-ios..."
+  check_dependency "go"
+  CURRENT_DIR="$PWD"
+  TOOLKIT_IOS_LOCATION=$(dirname "$0")
+  git clone "git@github.com:danielpaulus/go-ios.git" "$TOOLKIT_IOS_LOCATION/go-ios" &> /dev/null
+  cd "$TOOLKIT_IOS_LOCATION/go-ios"
+
+  go build .
+  chmod +x "go-ios"
+  mv "go-ios" "go-ios-temp"
+  mv "go-ios-temp" ..
+  rm -rf "$TOOLKIT_IOS_LOCATION/go-ios"
+  mv "go-ios-temp" "go-ios"
+
+  cd "$CURRENT_DIR"
+}
+
 prompt_xcode_launch(){
   echo "❌ Developer image is not mounted and/or device screen is locked"
   should_proceed "❓ Do you want to open Xcode to fix it? (make sure you have the latest version)"
@@ -207,6 +234,7 @@ prompt_xcode_launch(){
 }
 
 ios_get_devices(){
+  check_go_ios_version
   check_dependency "jq"
   IOS_USB_DEVICES=( $(go-ios list --nojson | sort -u) )
 }
@@ -291,14 +319,24 @@ ios_choose_device(){
   fi
 }
 
-ios_is_package_installed() {
-  THIRD_PARTY_PACKAGES=($(go-ios apps --udid="$SELECTED_DEVICE" | jq -r '.[] | .CFBundleIdentifier'))
-  SYSTEM_PACKAGES=($(go-ios apps --udid="$SELECTED_DEVICE" --system | jq -r '.[] | .CFBundleIdentifier'))
-  ALL_PACKAGES=("${THIRD_PARTY_PACKAGES[@]}" "${SYSTEM_PACKAGES[@]}")
+ios_get_installed_package_list(){
+  echo "⏳ Getting third-party package list..."
+  INSTALLED_PACKAGES=($(go-ios apps --udid="$1" | jq -r '.[] | .CFBundleIdentifier'))
+}
+
+ios_get_all_package_list(){
+  echo "⏳ Getting all package list..."
+  INSTALLED_PACKAGES=($(go-ios apps --udid="$1" | jq -r '.[] | .CFBundleIdentifier'))
+  SYSTEM_PACKAGES=($(go-ios apps --udid="$1" --system | jq -r '.[] | .CFBundleIdentifier'))
+  ALL_PACKAGES=("${INSTALLED_PACKAGES[@]}" "${SYSTEM_PACKAGES[@]}")
+}
+
+ios_is_package_installed(){
+  ios_get_all_package_list "$SELECTED_DEVICE"
   echo "${ALL_PACKAGES[*]}" | grep -w "$1" &> /dev/null
   EXIT_CODE=$?
   if [ $EXIT_CODE -ne 0 ]; then
-    echo "🤷‍ Package \"$1\" is not installed."
+    echo "🤷‍ Package \"$1\" is not installed"
     exit 1
   fi
 }
