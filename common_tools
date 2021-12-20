@@ -229,7 +229,7 @@ prompt_xcode_launch(){
       break
     fi
   done
-  sleep 2
+  sleep 4
   osascript -e 'quit app "Xcode"'
 }
 
