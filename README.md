@@ -48,7 +48,7 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 	* **Install latest Xcode and iOS command line tools** using [App Store](https://apps.apple.com/cz/app/xcode/id497799835?mt=12)
 	* **Install [Homebrew](https://brew.sh/ "Homberew") package manager**
 	* **Run Xcode, connect iOS device to USB and authorize your computer** (click "Trust" on the device screen)
-	* **Run any script i.e. `iscreenshot`, installation of all required tools will be initiated automatically ([jq](https://stedolan.github.io/jq/) and [go-ios](https://github.com/danielpaulus/go-ios "go-ios"))
+	* **Run any script i.e. `iscreenshot`, installation of all required tools will be initiated automatically** ([jq](https://stedolan.github.io/jq/) and [go-ios](https://github.com/danielpaulus/go-ios "go-ios"))
 5. (Optional) **Use Mobile Toolkit in any directory in terminal**
 	* **Edit .bash_profile** (or .zshrc if you have zsh shell) `open -e ~/.bash_profile` or `open -e ~/.zshrc`
 	  * **Insert these lines at the end** <br> `PATH=$PATH:/Users/dummyuser/mobile-toolkit/android` <br>
