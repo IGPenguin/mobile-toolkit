@@ -32,7 +32,7 @@ uninstall_package(){
 
 uninstall_all(){
   tput setaf 1
-  should_proceed "💣 Delete all third-party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+  should_proceed "💣 Delete all third-party apps on $SELECTED_DEVICE?"
   tput sgr0
   for PKG in "${INSTALLED_PACKAGES[@]}"
   do
