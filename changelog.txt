@@ -13,6 +13,5 @@
    ✨ Added new iOS device translations
 
   🚨 Action needed:
-   🔐 Ignore the warning about running an untrusted software and enable access in security settings
-   ✨ Make sure to download and install new version of videosnap tool
+   ✨ Make sure to install new version of videosnap tool (if you haven't already)
    🔗 https://github.com/matthutchinson/videosnap/releases/download/v0.0.8/videosnap-0.0.8.pkg
