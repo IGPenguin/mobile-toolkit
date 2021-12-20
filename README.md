@@ -274,14 +274,14 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
   * Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 ### 🚀 ilaunch
-	* `ilaunch` List third-party apps and choose one to run it
-	* `ilaunch -s` List os pre-installed apps and choose one to run it
-	* `ilaunch com.dummy.bundle.id.app` Run app by bundle id
+* `ilaunch` List third-party apps and choose one to run it
+* `ilaunch -s` List os pre-installed apps and choose one to run it
+* `ilaunch com.dummy.bundle.id.app` Run app by bundle id
 
 ### 🔪 ikill
-	* `ikill` List third-party apps and choose one to restart
-	* `ikill -s` List os pre-installed apps and choose one to restart
-	* `ikill com.dummy.bundle.id.app` Target specific app by passing bundle id as argument
+* `ikill` List third-party apps and choose one to restart
+* `ikill -s` List os pre-installed apps and choose one to restart
+* `ikill com.dummy.bundle.id.app` Target specific app by passing bundle id as argument
 
 ## Manage device
 
