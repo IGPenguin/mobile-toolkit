@@ -570,6 +570,7 @@ check_for_update(){
 	cat "$SCRIPT_LOCATION"/../changelog.txt
 	echo
 	echo "✅ Update complete"
+  exit 0
       fi
     fi
   fi
