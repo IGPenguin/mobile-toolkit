@@ -1,0 +1,64 @@
+#!/bin/bash
+trap "kill 0" SIGINT # Kill all spawned subprocesses on ctrl^c
+LOCATION=$(dirname "$0")
+source "$LOCATION"/../common_tools
+IGNORED_PACKAGES=( "com.apple.TestFlight" "motif.FramerPreview" "com.figma.FigmaMirror" "com.invisionapp.InVisionApp-iOS" "com.8bit.bitwarden" )
+ios_choose_device
+
+
+select_option(){
+  echo "📋 Choose package number:"
+  select OPTION in "${INSTALLED_PACKAGES[@]}"
+  do
+   case $OPTION in
+      *) PACKAGE=$OPTION;break; ;;
+    esac
+  done
+  if [[ -z $PACKAGE ]]; then
+    echo "❌ Invalid option picked, retry"
+    select_option
+  fi
+}
+
+uninstall_package(){
+  PACKAGE="$1"
+  echo "${INSTALLED_PACKAGES[*]}" | grep -w "$PACKAGE" &> /dev/null || { echo "🤷‍ Package \"$PACKAGE\" not installed"; return 1; }
+  echo "${IGNORED_PACKAGES[*]}" | grep -w "$PACKAGE" &> /dev/null && { echo "❌ Package \"$PACKAGE\" is whitelisted"; return 1; }
+
+  echo "🔥 Uninstalling \"$PACKAGE\"..."
+  go-ios uinstall --udid="$SELECTED_DEVICE" "$PACKAGE" #&> /dev/null
+  return 0
+}
+
+uninstall_all(){
+  tput setaf 1
+  should_proceed "💣 Delete all third-party apps on $SELECTED_DEVICE_MODEL - $SELECTED_DEVICE?"
+  tput sgr0
+  for PKG in "${INSTALLED_PACKAGES[@]}"
+  do
+    uninstall_package "$PKG" &
+  done
+  wait
+}
+
+handle_arguments(){
+  if [[  "$1" == "-w" ]]; then
+    uninstall_all
+  elif [[ -n "$1" ]]; then
+    uninstall_package "$1"
+  fi
+
+  if [ -z "$1" ]; then
+    if [ ${#INSTALLED_PACKAGES[@]} -eq 0 ]; then
+        echo "🤷‍ Nothing to uninstall"
+        exit
+    fi
+    select_option
+    uninstall_package "$PACKAGE"
+  fi
+}
+
+
+ios_get_installed_package_list "$SELECTED_DEVICE"
+handle_arguments "$@"
+echo "✅ Done"
