@@ -212,6 +212,7 @@ install_go_ios(){
   chmod +x "go-ios"
   mv "go-ios" "go-ios-temp"
   mv "go-ios-temp" ..
+  cd ..
   rm -rf "$TOOLKIT_IOS_LOCATION/go-ios"
   mv "go-ios-temp" "go-ios"
 
