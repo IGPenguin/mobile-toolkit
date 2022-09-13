@@ -84,7 +84,7 @@
 
 # 💻 Installation
 <details>
-	  <summary>Click to reveal step by step guide</summary>
+	  <summary>Click here to reveal step by step guide ←</summary>
 
 _Note: This tool targets macOS for compatibility, but most interactions should work on any Unix system._
 <br>
