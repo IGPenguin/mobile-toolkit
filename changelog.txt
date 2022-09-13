@@ -6,5 +6,5 @@
     🔥 Stay tuned for new iOS commands getting integrated, give a ⭐️ to
       https://github.com/danielpaulus/go-ios
 
-    ✨ Make sure to update videosnap tool (if you haven't already)
-      https://github.com/matthutchinson/videosnap/releases/download/v0.0.8/videosnap-0.0.8.pkg
+    🎓 Visit my new project to learn soft skills 101
+      https://igpenguin.github.io/hmm/
