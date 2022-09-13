@@ -25,7 +25,7 @@
 
 ## Table of contents
 - [💻 Installation](#section-id-22)
-###[🤖 Android commands](#section-id-52)
+### [🤖 Android commands](#section-id-52)
 - [Capture screen](#section-id-54)
 	- [📸 ascreenshot](#section-id-56)
 	- [🎥 arecord](#section-id-60)
@@ -59,7 +59,7 @@
 	- [♻ areboot](#section-id-196)
 	- [📱 aemulator](#section-id-199)
 	- [🐒 atestmonkey](#section-id-215)
-###[🍎 iOS commands](#section-id-233)
+### [🍎 iOS commands](#section-id-233)
 - [Capture screen](#section-id-235)
 	- [📸 iscreenshot](#section-id-237)
 	- [🎥 irecord](#section-id-241)
@@ -77,7 +77,7 @@
 	- [♻ ireboot](#section-id-292)
 	- [📱 isimulator](#section-id-295)
 	- [🖥 iconsole](#section-id-309)
-###[Feedback & contribution](#section-id-312)
+### [Feedback & contribution](#section-id-312)
 
 <div id='section-id-22'/>
 
