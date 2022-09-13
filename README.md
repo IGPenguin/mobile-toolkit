@@ -4,7 +4,7 @@
 ## Why should I care?
 🛠 **Control Android & iOS devices:** Capture screen, manage apps, simulate input, examine system logs etc.<br>
 
-⚡️ **Speed++** Are you app developer or tester? Boost your effectivity, discover new tools!
+⚡️ **Speed++** Are you an app developer or a tester? Boost your effectivity, discover new tools!
 
 
 <div id='section-id-8'/>
