@@ -24,7 +24,7 @@
 🔄 **Automatic update** - get new features and fixes ASAP<br>
 
 ## Table of contents
-Skip to [💻 Installation](#section-id-22) right away!
+🔩 Maybe you just want to skip to [Installation](#section-id-22)?
 ### [🤖 Android commands](#section-id-52)
 - [Capture screen](#section-id-54)
 	- [📸 ascreenshot](#section-id-56)
