@@ -1,9 +1,13 @@
 ![Header](/media/header_v2.png?raw=true)
-## What is this?
-🛠 Capture screen, manage apps, simulate input, print system log and more using simple commands!<br>
+<div id='section-id-2'/>
+
+## Why should I care?
+🛠 **Control mobile devices using terminal:** Capture screen, manage apps, simulate input, print system log and more using simple commands!<br>
 
 ⚡️ Boost your effectivity while developing and/or testing mobile applications, discover new tools!<br>
 
+
+<div id='section-id-8'/>
 
 ## All features
 
@@ -19,21 +23,69 @@
 
 🔄 **Automatic update** - get new features and fixes ASAP<br>
 
-## Feedback & contribution
+## Table of contents
+- [💻 Installation](#section-id-22)
+- [🤖 Android commands](#section-id-52)
+- [Capture screen](#section-id-54)
+	- [📸 ascreenshot](#section-id-56)
+	- [🎥 arecord](#section-id-60)
+- [Control device](#section-id-66)
+	- [✏️ apaste](#section-id-68)
+	- [🌐 aurl](#section-id-78)
+	- [🏴 adarkmode](#section-id-82)
+	- [🔊 atalkback](#section-id-85)
+	- [📐 abounds](#section-id-88)
+	- [🚗 aanimationspeed](#section-id-92)
+	- [🔠 afontscale](#section-id-96)
+	- [🎹 acontrol](#section-id-100)
+	- [📷 acamera](#section-id-104)
+	- [⚡️ awireless](#section-id-107)
+- [Manage packages](#section-id-111)
+	- [🚀 alaunch](#section-id-113)
+	- [🕵️ aappinfo](#section-id-118)
+	- [🔪 akill](#section-id-128)
+	- [🧽 aerase](#section-id-132)
+	- [🚚 ainstall](#section-id-136)
+	- [🗑 auninstall](#section-id-140)
+	- [🔥 awipe](#section-id-146)
+	- [🐁 apermissionreset](#section-id-149)
+	- [🛍 agoogleplay](#section-id-153)
+	- [🏭 abuildproject](#section-id-157)
+- [Manage device](#section-id-161)
+	- [⚙️ aoptions](#section-id-163)
+	- [📜 alog](#section-id-176)
+	- [📋 acheckdevice](#section-id-180)
+	- [😎 aservices](#section-id-192)
+	- [♻ areboot](#section-id-196)
+	- [📱 aemulator](#section-id-199)
+	- [🐒 atestmonkey](#section-id-215)
+- [🍎 iOS commands](#section-id-233)
+- [Capture screen](#section-id-235)
+	- [📸 iscreenshot](#section-id-237)
+	- [🎥 irecord](#section-id-241)
+	- [📹 iquicktime](#section-id-250)
+- [Manage applications](#section-id-255)
+	- [🚚 iinstall](#section-id-256)
+	- [🗑 iuninstall](#section-id-260)
+	- [🚀 ilaunch](#section-id-266)
+	- [🔪 ikill](#section-id-271)
+- [Manage device](#section-id-276)
+	- [⚙️ ioptions](#section-id-278)
+	- [💬 ilang](#section-id-281)
+	- [📜 ilog](#section-id-285)
+	- [📋 icheckdevice](#section-id-288)
+	- [♻ ireboot](#section-id-292)
+	- [📱 isimulator](#section-id-295)
+	- [🖥 iconsole](#section-id-309)
+- [Feedback & contribution](#section-id-312)
 
-⁉️ [Submit issue](https://github.com/IntergalacticPenguin/mobile-toolkit/issues/new/choose) to report bugs, bring inspiration or simply ask questions<br>
-
-🤝 [Pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") **is highly appreciated, see** [Collossal Challenges](https://github.com/IntergalacticPenguin/mobile-toolkit/projects/3)<br>
-
-⭐️ Love Mobile Toolkit? -> Hit the star button and bring me joy!<br>
-
-🔗 Connect with me on [LinkedIn](https://www.linkedin.com/in/intergalacticpenguin/) if you want :)
+<div id='section-id-22'/>
 
 # 💻 Installation
 <details>
 	  <summary>Click to reveal step by step guide</summary>
 
-_Note: This repository is mainly focused on macOS compatibility, but majority of interactions should work on any Unix system._
+_Note: This tool targets macOS for compatibility, but most interactions should work on any Unix system._
 <br>
 1. **Open terminal**
 2. **Clone this repository** `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
@@ -59,13 +111,21 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 
 </details>
 
+<div id='section-id-52'/>
+
 # 🤖 Android commands
 
+<div id='section-id-54'/>
+
 ## Capture screen
+
+<div id='section-id-56'/>
 
 ### 📸 ascreenshot
 * `ascreenshot` Save screenshot to ~/Desktop
 * `ascreenshot -a` Take screenshot on all connected devices
+
+<div id='section-id-60'/>
 
 ### 🎥 arecord
 1. `arecord` Record screen
@@ -73,7 +133,11 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 3. Save screen video footage to ~/Desktop
   * `arecord <custom-name>` Specify your own filename by passing it as argument
 
+<div id='section-id-66'/>
+
 ## Control device
+
+<div id='section-id-68'/>
 
 ### ✏️ apaste
 `apaste "john.doe@fakemail.com" password1 "5005 1002 3332 1112" "2/19" 5004`
@@ -85,45 +149,69 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `apaste -a <input-text>` Insert any text input (options displayed above) on all connected devices
 * `apaste -a -l` Insert "Lorem Ipsum paragraph" on all connected devices
 
+<div id='section-id-78'/>
+
 ### 🌐 aurl
 * `aurl "google.com"` Open link in web browser or corresponding application
 * `aurl -a "google.com"` Open link in web browser or corresponding application on all connected devices
 
+<div id='section-id-82'/>
+
 ### 🏴 adarkmode
 * `adarkmode` Toggle system dark mode
 
+<div id='section-id-85'/>
+
 ### 🔊 atalkback
 * `atalkback` Toggle TalkBack screen reader accessiblity option
+
+<div id='section-id-88'/>
 
 ### 📐 abounds
 * `abounds` Toggle UI layout bounds
 * App restart may be necessary on lower APIs
 
+<div id='section-id-92'/>
+
 ### 🚗 aanimationspeed
 * `aanimationspeed` set slower animation speed or restore default
 * `aanimationspeed <speed>` set animation speed multiplier
+
+<div id='section-id-96'/>
 
 ### 🔠 afontscale
 * `afontscale` set large font scale (1.3x bigger than default) or restore default
 * `afontscale <scale>` set font scale multiplier
 
+<div id='section-id-100'/>
+
 ### 🎹 acontrol
 * `acontrol` start [scrcpy](https://github.com/Genymobile/scrcpy "scrcpy") session
 * Provides realtime device screen mirroring and keyboard+mouse control
 
+<div id='section-id-104'/>
+
 ### 📷 acamera
 * Start the default camera application
+
+<div id='section-id-107'/>
 
 ### ⚡️ awireless
 * Enable or disable wireless ADB connection
 * Use ADB and toolkit without having USB cable attached
 
+<div id='section-id-111'/>
+
 ## Manage packages
+
+<div id='section-id-113'/>
 
 ### 🚀 alaunch
 * `alaunch` List third-party apps and choose one to run it
 * `alaunch -s` List all available apps (including os pre-installed) and choose one to run it
 * `alaunch com.dummy.package.name.app` Run app by package name
+
+<div id='section-id-118'/>
 
 ### 🕵️ aappinfo
 * `aappinfo` List foreground app information
@@ -135,17 +223,25 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * (Optional) Open application settings
 * `aappinfo com.dummy.package.name.app` Target specific app by passing package name as argument
 
+<div id='section-id-128'/>
+
 ### 🔪 akill
 * `akill` Restart the foreground app
 * `akill com.dummy.package.name.app` Target specific app by passing package name as argument
+
+<div id='section-id-132'/>
 
 ### 🧽 aerase
 * `aerase` Delete all local data of the foreground app and restart it
 * `aerase com.dummy.package.name.app` Target specific app by passing package name as argument
 
+<div id='section-id-136'/>
+
 ### 🚚 ainstall
 * `ainstall some-app-file.apk` Install and run .apk
 * `ainstall -a some-app-file.apk` Install and run .apk on all connected devices
+
+<div id='section-id-140'/>
 
 ### 🗑 auninstall
 * `auninstall` Uninstall third-party app, choose from the list
@@ -153,22 +249,34 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `auninstall -w` Uninstall all-third party packages
 	* Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
+<div id='section-id-146'/>
+
 ### 🔥 awipe
 * Wipe internal storage and delete all third-party apps
+
+<div id='section-id-149'/>
 
 ### 🐁 apermissionreset
 * Revoke ALL GRANTED runtime permissions for ALL apps
 	* You'll have to handle permission requests upon opening almost any app
 
+<div id='section-id-153'/>
+
 ### 🛍 agoogleplay
 * `agoogleplay "Dummy App"` Search for "Dummy App" on Google Play
 * `agoogleplay` Search for currently foreground app on Google Play
+
+<div id='section-id-157'/>
 
 ### 🏭 abuildproject
 * `abuildproject` Build, install and run Android project located in current directory
 * `abuildproject <relative-path>` Build, install and run Android project located in \<relative-path>
 
+<div id='section-id-161'/>
+
 ## Manage device
+
+<div id='section-id-163'/>
 
 ### ⚙️ aoptions
 * `aoptions` Open system settings on a specific activity
@@ -183,9 +291,13 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `aoptions A` Choose from exhaustive list of all available options
 * `aoptions 1,2,3... | dev | locale | date | wifi | storage | power` Use a preset, choose one
 
+<div id='section-id-176'/>
+
 ### 📜 alog
 * `alog` Print system log output
 * `alog -f <package-name>` Filter log by package name
+
+<div id='section-id-180'/>
 
 ### 📋 acheckdevice
 * Print genereal device information
@@ -199,12 +311,18 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
   * enUS locale
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
+<div id='section-id-192'/>
+
 ### 😎 aservices
 * Print running background services
 * Search for more information via Google
 
+<div id='section-id-196'/>
+
 ### ♻ areboot
 * Reboot the device
+
+<div id='section-id-199'/>
 
 ### 📱 aemulator
 **Required**: Make terminal use Android Studio Java
@@ -221,6 +339,8 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
   * `battery <0-100>` - set battery level
   * `telnet <command>` - call command via telnet
 	   * example commands `event | redir | sensor | physics | finger | rotate | fold | unfold...` see [Android emulator documentation](https://developer.android.com/studio/run/emulator-console#console-session) for more information
+
+<div id='section-id-215'/>
 
 ### 🐒 atestmonkey
 * `atestmonkey` Default test with random seed and 15000 input events
@@ -240,13 +360,21 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 			<br><em>You need to click on the app icon, the button is located in popup menu.</em><br><br>
 			<img src="/media/Pinning_Pixel.png" width="420"></details>
 
+<div id='section-id-233'/>
+
 # 🍎 iOS commands
 
+<div id='section-id-235'/>
+
 ## Capture screen
+
+<div id='section-id-237'/>
 
 ### 📸 iscreenshot
 * `iscreenshot` Save screenshot to ~/Desktop
 * `iscreenshot -a` Take screenshot on all connected devices
+
+<div id='section-id-241'/>
 
 ### 🎥 irecord
 **Required**: Install [videosnap](https://github.com/matthutchinson/videosnap/releases "videosnap") -> download and install `videosnap-0.0.8.pkg`
@@ -257,15 +385,23 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 3. Video footage is saved to ~/Desktop
 4. File is compressed using ffmpeg
 
+<div id='section-id-250'/>
+
 ### 📹 iquicktime
 * Run QuickTime and open video source picker (so you can choose a device right away)
   * You may have to allow security system permission, so the script can access QuickTime application
 * This is a fallback script for `irecord` on M1 macs as it is currently not working
 
+<div id='section-id-255'/>
+
 ## Manage applications
+<div id='section-id-256'/>
+
 ### 🚚 iinstall
 * `iinstall some-app-file.ipa` Install .ipa (make sure to use properly signed build)
 * `iinstall -a some-app-file.ipa` Install .ipa to all connected devices
+
+<div id='section-id-260'/>
 
 ### 🗑 iuninstall
 * `iuninstall` Uninstall third-party app, choose from the list
@@ -273,34 +409,52 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
 * `iuninstall -w` Uninstall all third-party packages
   * Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
+<div id='section-id-266'/>
+
 ### 🚀 ilaunch
 * `ilaunch` List third-party apps and choose one to run it
 * `ilaunch -s` List os pre-installed apps and choose one to run it
 * `ilaunch com.dummy.bundle.id.app` Run app by bundle id
+
+<div id='section-id-271'/>
 
 ### 🔪 ikill
 * `ikill` List third-party apps and choose one to restart
 * `ikill -s` List os pre-installed apps and choose one to restart
 * `ikill com.dummy.bundle.id.app` Target specific app by passing bundle id as argument
 
+<div id='section-id-276'/>
+
 ## Manage device
+
+<div id='section-id-278'/>
 
 ### ⚙️ ioptions
 * `ioptions` Open system settings application
+
+<div id='section-id-281'/>
 
 ### 💬 ilang
 * `ilang <lang>` Change the device language to different one, according to ISO-639 (i.e. "cs")
 * `ilang` Change the device language to different one, choose from a list of all supported
 
+<div id='section-id-285'/>
+
 ### 📜 ilog
 * `ilog` Print system log output
+
+<div id='section-id-288'/>
 
 ### 📋 icheckdevice
 * Print device information
 * (Optional) Search for the device on [GSMArena](https://www.gsmarena.com/ "GSMArena")
 
+<div id='section-id-292'/>
+
 ### ♻ ireboot
 * Reboot the device
+
+<div id='section-id-295'/>
 
 ### 📱 isimulator
 * Simulator has limited functionality (no camera, biometrics, Appstore...), but **offers some extra options, unavailable on physical iOS devices**
@@ -316,8 +470,19 @@ _Note: This repository is mainly focused on macOS compatibility, but majority of
   * `battery <0-100>` - set battery level displayed in status bar (no functional impact)
   * `time <hh:mm>` - set time displayed in status bar (no functional impact)
 
+<div id='section-id-309'/>
+
 ### 🖥 iconsole
 * `iconsole` Examine iOS or macOS system logs using Console application
 
-# 💭 About
-**You can read about my motivation in this** [blog post](https://blog.thefuntasty.com/mobile-application-qa-capturing-the-evidence-a5115b0f2a4 "Mobile Application QA - Capturing the evidence"). If you made it this far in `README.md` and you like my work, please **star this repository**. Every appreciation empowers my motivation.
+<div id='section-id-312'/>
+
+# Feedback & contribution
+
+⁉️ [Submit issue](https://github.com/IntergalacticPenguin/mobile-toolkit/issues/new/choose) to report bugs, request features or ask questions<br>
+
+🤝 [Pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") **is highly appreciated, see** [Collossal Challenges](https://github.com/IntergalacticPenguin/mobile-toolkit/projects/3)<br>
+
+⭐️ Loving Mobile Toolkit? -> Smash that star button!<br>
+
+🔗 Find me on [LinkedIn](https://www.linkedin.com/in/intergalacticpenguin/)
