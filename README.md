@@ -24,7 +24,8 @@
 🔄 **Automatic update** - get new features and fixes ASAP<br>
 
 ## Table of contents
-- [💻 Installation](#section-id-22)
+- [💻 Installation](#section-id-22)<br>
+
 - [🤖 Android commands](#section-id-52)
 - [Capture screen](#section-id-54)
 	- [📸 ascreenshot](#section-id-56)
@@ -58,7 +59,8 @@
 	- [😎 aservices](#section-id-192)
 	- [♻ areboot](#section-id-196)
 	- [📱 aemulator](#section-id-199)
-	- [🐒 atestmonkey](#section-id-215)
+	- [🐒 atestmonkey](#section-id-215)<br>
+
 - [🍎 iOS commands](#section-id-233)
 - [Capture screen](#section-id-235)
 	- [📸 iscreenshot](#section-id-237)
@@ -76,7 +78,8 @@
 	- [📋 icheckdevice](#section-id-288)
 	- [♻ ireboot](#section-id-292)
 	- [📱 isimulator](#section-id-295)
-	- [🖥 iconsole](#section-id-309)
+	- [🖥 iconsole](#section-id-309)<br>
+	
 - [Feedback & contribution](#section-id-312)
 
 <div id='section-id-22'/>
