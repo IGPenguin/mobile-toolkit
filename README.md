@@ -2,9 +2,9 @@
 <div id='section-id-2'/>
 
 ## Why should I care?
-🛠 **Control mobile devices using terminal:** Capture screen, manage apps, simulate input, print system log and more using simple commands!<br>
+🛠 **Control mobile devices using terminal:** Capture screen, manage apps, simulate input, print system log and more!<br>
 
-⚡️ Boost your effectivity while developing and/or testing mobile applications, discover new tools!<br>
+⚡️ **Speed++** App developers or tester? Boost your effectivity, discover new tools.
 
 
 <div id='section-id-8'/>
