@@ -24,7 +24,7 @@
 🔄 **Automatic update** - get new features and fixes ASAP<br>
 
 ## Table of contents
-- [💻 Installation](#section-id-22)
+Skip to [💻 Installation](#section-id-22) right away!
 ### [🤖 Android commands](#section-id-52)
 - [Capture screen](#section-id-54)
 	- [📸 ascreenshot](#section-id-56)
@@ -77,7 +77,8 @@
 	- [♻ ireboot](#section-id-292)
 	- [📱 isimulator](#section-id-295)
 	- [🖥 iconsole](#section-id-309)
-### [Feedback & contribution](#section-id-312)
+
+Interested in [Feedback & Contribution](#section-id-312)?
 
 <div id='section-id-22'/>
 
