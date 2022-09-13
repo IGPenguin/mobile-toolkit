@@ -25,7 +25,7 @@
 
 ## Table of contents
 🔩 Maybe you just want to skip to [Installation](#section-id-22)?
-### [🤖 Android commands](#section-id-52)
+### [🤖 Android Commands](#section-id-52)
 - [Capture screen](#section-id-54)
 	- [📸 ascreenshot](#section-id-56)
 	- [🎥 arecord](#section-id-60)
@@ -59,7 +59,7 @@
 	- [♻ areboot](#section-id-196)
 	- [📱 aemulator](#section-id-199)
 	- [🐒 atestmonkey](#section-id-215)
-### [🍎 iOS commands](#section-id-233)
+### [🍎 iOS Commands](#section-id-233)
 - [Capture screen](#section-id-235)
 	- [📸 iscreenshot](#section-id-237)
 	- [🎥 irecord](#section-id-241)
@@ -114,7 +114,7 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 
 <div id='section-id-52'/>
 
-# 🤖 Android commands
+# 🤖 Android Commands
 
 <div id='section-id-54'/>
 
@@ -363,7 +363,7 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 
 <div id='section-id-233'/>
 
-# 🍎 iOS commands
+# 🍎 iOS Commands
 
 <div id='section-id-235'/>
 
@@ -478,7 +478,7 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 
 <div id='section-id-312'/>
 
-# Feedback & contribution
+# Feedback & Contribution
 
 ⁉️ [Submit issue](https://github.com/IntergalacticPenguin/mobile-toolkit/issues/new/choose) to report bugs, request features or ask questions<br>
 
