@@ -2,7 +2,7 @@
 <div id='section-id-2'/>
 
 ## Why should I care?
-🛠 **Control mobile devices using terminal:** Capture screen, manage apps, simulate input, print system log and more!<br>
+🛠 **Control Android & iOS using terminal:** Screenshots, app management, input events, examine system logs and more!<br>
 
 ⚡️ **Speed++** App developers or tester? Boost your effectivity, discover new tools.
 
