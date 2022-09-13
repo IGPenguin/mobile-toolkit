@@ -480,10 +480,10 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 
 # Feedback & Contribution
 
-⁉️ [Submit issue](https://github.com/IntergalacticPenguin/mobile-toolkit/issues/new/choose) to report bugs, request features or ask questions<br>
+⁉️ [Submit an issue](https://github.com/IntergalacticPenguin/mobile-toolkit/issues/new/choose) to report any bugs, request a feature or ask questions<br>
 
-🤝 [Pull request contribution](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") **is highly appreciated, see** [Collossal Challenges](https://github.com/IntergalacticPenguin/mobile-toolkit/projects/3)<br>
+🤝 [Pull requests](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") **are highly appreciated, see** [Collossal Challenges](https://github.com/IntergalacticPenguin/mobile-toolkit/projects/3)
 
-⭐️ Loving Mobile Toolkit? -> Smash that star button!<br>
+⭐️ Loving Mobile Toolkit? Give it a star!<br>
 
-🔗 Find me on [LinkedIn](https://www.linkedin.com/in/intergalacticpenguin/)
+🔗 Find me on [LinkedIn](https://www.linkedin.com/in/intergalacticpenguin/) or [Twitter](https://twitter.com/IGPenguin).
