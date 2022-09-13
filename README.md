@@ -78,7 +78,7 @@
 	- [📱 isimulator](#section-id-295)
 	- [🖥 iconsole](#section-id-309)
 
-🙌 Feel free to share [Feedback & Contribute](#section-id-312)?
+💭 Do you want to share [Feedback or Contribute](#section-id-312)?
 
 <div id='section-id-22'/>
 
