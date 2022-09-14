@@ -378,7 +378,7 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 <div id='section-id-241'/>
 
 ### 🎥 irecord
-**Required**: Install [videosnap](https://github.com/matthutchinson/videosnap/releases "videosnap") -> download and install `videosnap-0.0.8.pkg`
+**Required**: Install [videosnap](https://github.com/matthutchinson/videosnap/releases "videosnap") -> download and install `videosnap-0.0.8.pkg`<br>
 **Required**: Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") `brew install ffmpeg`
 
 1. `irecord` Record screen
