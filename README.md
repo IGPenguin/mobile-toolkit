@@ -24,8 +24,9 @@
 🔄 **Automatic update** - get new features and fixes ASAP<br>
 
 ## Table of contents
-🔩 Maybe you just want to skip to [Installation](#section-id-22)?
-### [🤖 Android Commands](#section-id-52)
+🔩 Maybe you just want to skip to [Installation](#section-id-22)?<br>
+<br>
+<bold>[🤖 Android Commands](#section-id-52)</bold>
 - [Capture screen](#section-id-54)
 	- [📸 ascreenshot](#section-id-56)
 	- [🎥 arecord](#section-id-60)
@@ -59,7 +60,9 @@
 	- [♻ areboot](#section-id-196)
 	- [📱 aemulator](#section-id-199)
 	- [🐒 atestmonkey](#section-id-215)
-### [🍎 iOS Commands](#section-id-233)
+	
+	
+<strong>[🍎 iOS Commands](#section-id-233)</strong><br>
 - [Capture screen](#section-id-235)
 	- [📸 iscreenshot](#section-id-237)
 	- [🎥 irecord](#section-id-241)
@@ -84,7 +87,7 @@
 
 # 💻 Installation
 <details>
-	  <summary>Click here to reveal step by step guide ←</summary>
+	  <summary>Click here to reveal step by step guide ↓</summary>
 
 _Note: This tool targets macOS for compatibility, but most interactions should work on any Unix system._
 <br>
@@ -478,12 +481,11 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 
 <div id='section-id-312'/>
 
-# Feedback & Contribution
+----
 
-⁉️ [Submit an issue](https://github.com/IntergalacticPenguin/mobile-toolkit/issues/new/choose) to report any bugs, request a feature or ask questions.<br>
+<strong>Feedback & Contribution</strong><br>
 
-🤝 [Pull requests](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") are highly **appreciated**, see the [issue board](https://github.com/IntergalacticPenguin/mobile-toolkit/projects/3).
-
-⭐️ Loving Mobile Toolkit? Give it a star!<br>
-
-🔗 Find me on [LinkedIn](https://www.linkedin.com/in/intergalacticpenguin/) or [Twitter](https://twitter.com/IGPenguin).
+<sup>⁉️ [Submit an issue](https://github.com/IntergalacticPenguin/mobile-toolkit/issues/new/choose) to report any bugs, request a feature or ask questions.</sup><br>
+<sup>🤝 [Pull requests](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") are highly **appreciated**, see the [issue board](https://github.com/IntergalacticPenguin/mobile-toolkit/projects/3).</sup><br>
+<sup>💬 Also <strong>visit my [NoMo](https://github.com/IGPenguin/nomo)</strong> project and leave a star.</sup><br>
+<sup>🔗 Find me on [LinkedIn](https://www.linkedin.com/in/intergalacticpenguin/) or [Twitter](https://twitter.com/IGPenguin).</sup><br>
