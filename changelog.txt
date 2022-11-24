@@ -1,10 +1,10 @@
-  🎉 There's a new version 1.3.1!
+  🎉 This is a new minor version 1.3.1!
 
     🔎 README.md was updated with table of contents and better formatting
-      https://github.com/IntergalacticPenguin/mobile-toolkit
+    github.com/IntergalacticPenguin/mobile-toolkit
 
-    🔥 Stay tuned for new iOS commands getting integrated, give a ⭐️ to
-      https://github.com/danielpaulus/go-ios
+    ⭐️ Be among the first to check out my new project!
+    igpenguin.github.io/nomo
 
-    🎓 Visit my new project to learn soft skills 101
-      https://igpenguin.github.io/hmm/
+    🔥 Stay tuned for new iOS commands or switch to
+    github.com/danielpaulus/go-ios
