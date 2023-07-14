@@ -1,22 +1,36 @@
 #!/bin/bash
+
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
-trap 'ctrlc $@' 1 2 3 6 15
 
-ctrlc(){
+# Trap signal handling
+trap 'ctrlc "$@"' 1 2 3 6 15
+
+USE_LEGACY_RECORDING=false
+
+ctrlc() {
   adb -s "$SELECTED_DEVICE" shell settings put system show_touches 0
-  if $RECORDING ; then
+
+  if $RECORDING; then
     sleep 1
-    if [ -z "$1" ] ; then
-      android_device_info "$SELECTED_DEVICE"
-      FILENAME=$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S)
+
+    if $USE_LEGACY_RECORDING; then
+      if [ -z "$2" ]; then
+        android_device_info "$SELECTED_DEVICE"
+        FILENAME="$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S)"
+      else
+        FILENAME="$2"
+      fi
+      echo "📁 Copying the video from the device..."
+      adb -s "$SELECTED_DEVICE" pull "$DEVICE_FILE_PATH"/output.mp4 ~/Desktop/"$FILENAME".mp4 &>/dev/null
+      adb -s "$SELECTED_DEVICE" shell rm "$DEVICE_FILE_PATH"/output.mp4 &>/dev/null
     else
-      FILENAME=$1
+      # Do nothing
+      :
     fi
-    echo "📁 Copying the video from the device..."
-    adb -s "$SELECTED_DEVICE" pull "$DEVICE_FILE_PATH"/output.mp4 ~/Desktop/"$FILENAME".mp4 &> /dev/null
-    adb -s "$SELECTED_DEVICE" shell rm "$DEVICE_FILE_PATH"/output.mp4 &> /dev/null
+
     echo "✅ Saved into ~/Desktop/$FILENAME.mp4"
+
   fi
   exit
 }
@@ -29,5 +43,29 @@ android_get_storage_location_per_SDK "$SDK"
 
 RECORDING=true
 echo "📹 Recording screen on $SELECTED_DEVICE, stop it using ctrl^c"
+
 adb -s "$SELECTED_DEVICE" shell settings put system show_touches 1
-adb -s "$SELECTED_DEVICE" shell screenrecord "$DEVICE_FILE_PATH"/output.mp4
+
+# Parse the flag option
+if [ "$1" == "-l" ]; then
+  USE_LEGACY_RECORDING=true
+fi
+
+if [ -z "$2" ]; then
+  android_device_info "$SELECTED_DEVICE"
+  FILENAME="$MANUFACTURER-$MODEL-API$SDK-$(date +%Y-%m-%d-%H-%M-%S)"
+else
+  FILENAME="$2"
+fi
+
+OUTPUT_PATH=~/Desktop/"$FILENAME".mp4
+
+# Perform actions based on flags
+if $USE_LEGACY_RECORDING; then
+  adb -s "$SELECTED_DEVICE" shell screenrecord "$DEVICE_FILE_PATH"/output.mp4
+else
+  scrcpy -s "$SELECTED_DEVICE" --verbosity=error --no-playback --audio-codec=aac --record=file.mp4 --record="$OUTPUT_PATH"
+fi
+
+# Unset the trap
+trap - 1 2 3 6 15
