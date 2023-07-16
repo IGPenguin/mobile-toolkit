@@ -1,10 +1,8 @@
-  🎉 This is a new minor version 1.3.1!
+  🎉 This is a new version 1.4.0!
 
-    🔎 README.md was updated with table of contents and better formatting
-    github.com/IntergalacticPenguin/mobile-toolkit
+    📹 arecord was updated to use scrcpy, this enables recording audio in your videos
+    You can still use the legacy variant by adding -l flag to arecord command
 
-    ⭐️ Be among the first to check out my new project!
-    igpenguin.github.io/nomo
-
-    🔥 Stay tuned for new iOS commands or switch to
-    github.com/danielpaulus/go-ios
+    ⭐️ Special thanks to Luís Pinho for proposing and drafting this change
+    https://github.com/luispinho
+    

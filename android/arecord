@@ -1,5 +1,4 @@
 #!/bin/bash
-
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 
@@ -7,6 +6,8 @@ source "$LOCATION"/../common_tools
 trap 'ctrlc "$@"' 1 2 3 6 15
 
 USE_LEGACY_RECORDING=false
+
+check_dependency "scrcpy"
 
 ctrlc() {
   adb -s "$SELECTED_DEVICE" shell settings put system show_touches 0
@@ -64,7 +65,7 @@ OUTPUT_PATH=~/Desktop/"$FILENAME".mp4
 if $USE_LEGACY_RECORDING; then
   adb -s "$SELECTED_DEVICE" shell screenrecord "$DEVICE_FILE_PATH"/output.mp4
 else
-  scrcpy -s "$SELECTED_DEVICE" --verbosity=error --no-playback --audio-codec=aac --record=file.mp4 --record="$OUTPUT_PATH"
+  scrcpy -s "$SELECTED_DEVICE" --verbosity=error --no-playback --audio-codec=aac --record=file.mp4 --record="$OUTPUT_PATH" &>/dev/null
 fi
 
 # Unset the trap
