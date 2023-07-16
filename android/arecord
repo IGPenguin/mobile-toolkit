@@ -1,5 +1,4 @@
 #!/bin/bash
-
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 
@@ -7,6 +6,8 @@ source "$LOCATION"/../common_tools
 trap 'ctrlc "$@"' 1 2 3 6 15
 
 USE_LEGACY_RECORDING=false
+
+check_dependency "scrcpy"
 
 ctrlc() {
   adb -s "$SELECTED_DEVICE" shell settings put system show_touches 0
