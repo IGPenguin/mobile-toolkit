@@ -5,4 +5,3 @@
 
     ⭐️ Special thanks to Luís Pinho for proposing and drafting this change
     https://github.com/luispinho
-    
