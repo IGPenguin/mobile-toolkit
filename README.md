@@ -1,7 +1,7 @@
 ![Header](/media/header_v2.png?raw=true)
 <div id='section-id-2'/>
 
-## Why should I care?
+## What is its purpose?
 🛠 **Control Android & iOS devices:** Capture screen, manage apps, simulate input, examine system logs etc.<br>
 
 ⚡️ **Speed++** Are you an app developer or a tester? Boost your effectivity, discover new tools!
