@@ -135,7 +135,9 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 1. `arecord` Record screen
 2. End recording using `ctrl + c`
 3. Save screen video footage to ~/Desktop
+4. Records audio by default on devices running Android 12 and up (when using Scrcpy version 2.0.0 or higher)
   * `arecord <custom-name>` Specify your own filename by passing it as argument
+  * `arecord -l` Use legacy `-l` option to record using ADB instead of Scrcpy
 
 <div id='section-id-66'/>
 
