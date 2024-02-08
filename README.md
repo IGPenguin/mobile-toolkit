@@ -41,6 +41,7 @@
 	- [🎹 acontrol](#section-id-100)
 	- [📷 acamera](#section-id-104)
 	- [⚡️ awireless](#section-id-107)
+	- [👋 apowerbutton](#section-id-108)
 - [Manage packages](#section-id-111)
 	- [🚀 alaunch](#section-id-113)
 	- [🕵️ aappinfo](#section-id-118)
@@ -205,6 +206,12 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 ### ⚡️ awireless
 * Enable or disable wireless ADB connection
 * Use ADB and toolkit without having USB cable attached
+
+<div id='section-id-108'/>
+
+### 👋 apowerbutton
+* Lock/Unlock the device (send Power button key event)
+* Useful to unlock the device after the screen is locked automatically
 
 <div id='section-id-111'/>
 
