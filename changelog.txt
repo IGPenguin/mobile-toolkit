@@ -1,7 +1,14 @@
-  🎉 This is a new version 1.4.0!
+  🎉 This is a new version 1.4.1!
 
-    📹 arecord was updated to use scrcpy, this enables recording audio in your videos
-    You can still use the legacy variant by adding -l flag to arecord command
+    📹 arecord was fixed to work with latest scrcpy version
+    If you are experiencing issues, try running "brew upgrade scrcpy"
 
-    ⭐️ Special thanks to Luís Pinho for proposing and drafting this change
-    https://github.com/luispinho
+    📷 iscreenshot was fixed to work with iOS 17 and newer
+    This change is still experimental, currently in testing by my friends
+
+    👋 apowerbutton was added based on pull request by luispinho
+    Thanks for your contribution, mate!
+
+    ⭐️ Special thanks to Lenka and František for proposing compatibility fixes
+    https://github.com/vrbajiva
+    https://github.com/franceskoooo
