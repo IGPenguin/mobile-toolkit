@@ -241,9 +241,9 @@ ios_get_devices(){
 
   if [[ $(ps S | grep -c "go-ios tunnel") -ne 2 ]]; then
     echo "♻️ Launching go-ios tunnel for maximum iOS compatibility (17+)"
-    nohup go-ios tunnel start --userspace --nojson &
+    nohup go-ios tunnel start --userspace --nojson >/dev/null 2>&1 &
     GO_IOS_TUNNEL_PID=$!
-    #echo $GO_IOS_TUNNEL_PID
+    #TODO save tunnel port and use it to avoid delays when trying various ports
     disown $GO_IOS_TUNNEL_PID
     sleep 1
   fi
