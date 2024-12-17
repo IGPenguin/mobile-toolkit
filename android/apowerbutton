@@ -6,4 +6,4 @@ android_choose_device
 
 echo "👋 Sending power button key event..."
 # Send POWER screen key event (key 26)
-adb -s "$SELECTED_DEVICE" shell input keyevent POWER &> /dev/null
+adb -s "$SELECTED_DEVICE" shell input keyevent POWER &>/dev/null
