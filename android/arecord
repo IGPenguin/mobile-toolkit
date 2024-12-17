@@ -65,7 +65,7 @@ OUTPUT_PATH=~/Desktop/"$FILENAME".mp4
 if $USE_LEGACY_RECORDING; then
   adb -s "$SELECTED_DEVICE" shell screenrecord "$DEVICE_FILE_PATH"/output.mp4
 else
-  scrcpy -s "$SELECTED_DEVICE" --verbosity=error --no-playback --audio-codec=aac --record=file.mp4 --record="$OUTPUT_PATH" &>/dev/null
+  scrcpy -s "$SELECTED_DEVICE" --verbosity=error --no-window --audio-codec=aac --record=file.mp4 --record="$OUTPUT_PATH" &>/dev/null
 fi
 
 # Unset the trap
