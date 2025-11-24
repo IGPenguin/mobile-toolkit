@@ -3,15 +3,35 @@ LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 android_choose_device
 
-if [[ "$1" != "" ]];
-then
+# Usage:
+#  akill [PACKAGE_NAME] [-r]
+#  akill -r              # kill and relaunch the foreground package
+# If -r is not provided, the script will only kill the package process.
+
+# Determine package and relaunch flag
+RELAUNCH=false
+if [[ "$1" == "-r" ]]; then
+    # relaunch foreground package
+    RELAUNCH=true
+    PACKAGE_NAME=$(android_get_foreground_package)
+elif [[ -n "$1" ]]; then
     PACKAGE_NAME=$1
     android_is_package_installed "$PACKAGE_NAME"
+    if [[ "$2" == "-r" ]]; then
+        RELAUNCH=true
+    fi
 else
     PACKAGE_NAME=$(android_get_foreground_package)
+    # allow akill "" -r (rare) or akill -r handled above
+    if [[ "$2" == "-r" ]]; then
+        RELAUNCH=true
+    fi
 fi
 
 echo "🔪 Package \"$PACKAGE_NAME\" process killed"
 adb -s "$SELECTED_DEVICE" shell am force-stop "$PACKAGE_NAME"
-echo "🚀 Relaunching the app..."
-adb -s "$SELECTED_DEVICE" shell monkey -p "$PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
+
+if [[ "$RELAUNCH" == true ]]; then
+  echo "🚀 Relaunching the app..."
+  adb -s "$SELECTED_DEVICE" shell monkey -p "$PACKAGE_NAME" -c android.intent.category.LAUNCHER 1 &> /dev/null
+fi
