@@ -4,28 +4,29 @@ source "$LOCATION"/../common_tools
 android_choose_device
 
 # Usage:
-#  akill [PACKAGE_NAME] [-r]
-#  akill -r              # kill and relaunch the foreground package
-# If -r is not provided, the script will only kill the package process.
+#  akill [PACKAGE_NAME]        # kills and (by default) relaunches the app
+#  akill -n                   # kill foreground package and DO NOT relaunch
+#  akill PACKAGE_NAME -n      # kill given package and DO NOT relaunch
+# If -n is not provided, the script will relaunch the app after killing it.
 
-# Determine package and relaunch flag
-RELAUNCH=false
-if [[ "$1" == "-r" ]]; then
-    # relaunch foreground package
-    RELAUNCH=true
-    PACKAGE_NAME=$(android_get_foreground_package)
+# Determine package and relaunch flag (relaunch is default)
+RELAUNCH=true
+if [[ "$1" == "-n" ]]; then
+    RELAUNCH=false
+    if [[ -n "$2" ]]; then
+        PACKAGE_NAME=$2
+        android_is_package_installed "$PACKAGE_NAME"
+    else
+        PACKAGE_NAME=$(android_get_foreground_package)
+    fi
 elif [[ -n "$1" ]]; then
     PACKAGE_NAME=$1
     android_is_package_installed "$PACKAGE_NAME"
-    if [[ "$2" == "-r" ]]; then
-        RELAUNCH=true
+    if [[ "$2" == "-n" ]]; then
+        RELAUNCH=false
     fi
 else
     PACKAGE_NAME=$(android_get_foreground_package)
-    # allow akill "" -r (rare) or akill -r handled above
-    if [[ "$2" == "-r" ]]; then
-        RELAUNCH=true
-    fi
 fi
 
 echo "🔪 Package \"$PACKAGE_NAME\" process killed"
