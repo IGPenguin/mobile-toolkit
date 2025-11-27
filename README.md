@@ -240,7 +240,9 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 
 ### 🔪 akill
 * `akill` Restart the foreground app
+* `akill -n` Kill the foreground app without relaunching it
 * `akill com.dummy.package.name.app` Target specific app by passing package name as argument
+* `akill com.dummy.package.name.app -n` Kill selected app without relaunching it
 
 <div id='section-id-132'/>
 
@@ -433,8 +435,10 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 
 ### 🔪 ikill
 * `ikill` List third-party apps and choose one to restart
+* `ikill -n` List third-party apps and choose one to kill without relaunching it
 * `ikill -s` List os pre-installed apps and choose one to restart
 * `ikill com.dummy.bundle.id.app` Target specific app by passing bundle id as argument
+* `ikill com.dummy.bundle.id.app -n` Kill selected app without relaunching it
 
 <div id='section-id-276'/>
 
