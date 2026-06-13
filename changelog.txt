@@ -16,10 +16,14 @@
     https://github.com/luispinho
 
     🩹 ikill supports all flag combos (-s -n); multi-device relaunch fixed (missing --udid)
+    🔁 ikill auto-restarts the go-ios tunnel on failure and guides through Developer Mode setup
+    📵 irecord no longer leaks raw ffmpeg or bash process output to the terminal
+    🖥 isimulator detects xcode-select misconfiguration and offers to fix it automatically
     🤖 aemulator now lists AVDs via emulator -list-avds (avdmanager was often unreliable)
     🔍 adb auto-detected from ANDROID_HOME when not in PATH
-    📝 README typo fixes, corrected installation instructions and updated links
+    📝 README and output text polish, corrected install instructions, iOS Developer Mode guide
     🖤 All these small additions/fixes by me, it's been a while...
+    https://github.com/IGPenguin
 
     ⭐️ BTW, I just launched Stay Dead, my choice-based RPG!
     https://github.com/IGPenguin/stay-dead
