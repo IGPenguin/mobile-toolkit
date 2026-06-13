@@ -109,8 +109,8 @@ check_font_scale(){
   SCALE=${SCALE%$'\r'} # remove trailing carriage return
 
   if [ "$SCALE" != "$DEFAULT_SCALE" ]; then
-    yes_or_no " - 🔍 Current scale is $SCALE, change to $DEFAULT_SCALE"
-    if [ "$RESPONSE" == "y" ] || [ "$RESPONSE" != "Y" ]; then
+    yes_or_no " - 🔍 Current scale is $SCALE, change to $DEFAULT_SCALE?"
+    if [[ "$RESPONSE" == "y" || "$RESPONSE" == "Y" ]]; then
       adb -s "$SELECTED_DEVICE" shell settings put system font_scale "$DEFAULT_SCALE"
     fi
   else

@@ -1,7 +1,7 @@
 #!/bin/bash
 LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
-LOCAL_EMULATOR_LIST=$LOCATION/../data/toolkit_emulator_list.txt
+LOCAL_EMULATOR_LIST=$STATE_DIR/emulator_list.txt
 NET_CHANGED=false
 
 trap 'ctrlc $@' 1 2 3 6 15
@@ -24,7 +24,7 @@ help(){
 check_java_dependency(){
   if ! java -version &> /dev/null; then
     echo "❌ Java not available, edit your .bash_profile or .zshrc to use Android Studio version"
-    echo "📝 Add the following line: export JAVA_HOME='/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home'"
+    echo "📝 Add the following line: export JAVA_HOME='/Applications/Android Studio.app/Contents/jbr/Contents/Home'"
     echo "🔌 Restart terminal afterwards"
     exit 1
   fi
@@ -80,7 +80,7 @@ launch_emulator(){
 
 get_token(){
   check_dependency "telnet"
-  [ -f ./emulator_console_auth_token ] || echo "localhost 5554" | telnet &> /dev/null
+  [ -f "$HOME"/.emulator_console_auth_token ] || echo "localhost 5554" | telnet &> /dev/null
   TOKEN=$(cat "$HOME"/.emulator_console_auth_token)
 }
 
@@ -142,6 +142,7 @@ set_gps(){
 }
 
 set_battery_level(){
+  get_token
   if [ -z "$1" ];then
     read -r -p "📝 Insert battery level: " LEVEL
   else
@@ -153,6 +154,7 @@ set_battery_level(){
 }
 
 set_network_delay(){
+  get_token
   DELAY=$1
   if [[ "$DELAY" == "3g" ]]; then
     DELAY="umts"

@@ -21,7 +21,7 @@ if [ -z "$PACKAGE" ]; then
   done
 
   if [ ${#PACKAGES_LISTED[@]} -eq 0 ]; then
-      echo "🤷‍ No third-party apps installed, use \"alaunch -s\" to list system packages"
+      echo "🤷‍ No third-party apps installed, use \"ilaunch -s\" to list system packages"
       exit 1
   fi
 

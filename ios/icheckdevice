@@ -9,7 +9,7 @@ GSM_URL='https://www.gsmarena.com/res.php3?sSearch='
 MANUFACTURER=Apple
 INFO=$(printf "%s %s - iOS %s" "$MANUFACTURER" "$MODEL" "$VERSION")
 
-PHONE_URL=$GSM_URL$MODEL
+PHONE_URL=$GSM_URL${MODEL// /%20}
 
 echo "📱 $INFO - ID: $SELECTED_DEVICE"
 

@@ -1,4 +1,10 @@
 *DS_Store
+nohup.out
+
+# go-ios runtime artifacts (tunnel identity, pairing records, binary) - never commit these
+selfIdentity.plist
+**/selfIdentity.plist
+RemotePairing/
+**/RemotePairing/
 ios/go-ios
 ios/nohup.out
-ios/selfidentity.plist

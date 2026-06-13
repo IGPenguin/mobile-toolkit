@@ -340,7 +340,7 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 ### 📱 aemulator
 **Required**: Make terminal use Android Studio Java
   * **Edit .bash_profile** (or .zshrc if you have zsh shell) `open -e ~/.bash_profile` or `open -e ~/.zshrc`
-  * **Add the following line at the end of the file** `export JAVA_HOME='/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home'`
+  * **Add the following line at the end of the file** `export JAVA_HOME='/Applications/Android Studio.app/Contents/jbr/Contents/Home'`
 
 * Android emulator supports all listed scripts by default + extra actions listed below
 * `aemulator <option>` Handle various Android emulator activites
@@ -390,20 +390,20 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 <div id='section-id-241'/>
 
 ### 🎥 irecord
-**Required**: Install [videosnap](https://github.com/matthutchinson/videosnap/releases "videosnap") -> download and install `videosnap-0.0.8.pkg`<br>
-**Required**: Install [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") `brew install ffmpeg`
+**Required**: [ffmpeg](https://www.ffmpeg.org/ "ffmpeg") (installation is offered automatically)
 
-1. `irecord` Record screen
+1. `irecord` Record screen (~6 fps, captured via the go-ios screenshot stream - works on Apple Silicon and iOS 17+)
 2. End recording using `ctrl + c`
 3. Video footage is saved to ~/Desktop
-4. File is compressed using ffmpeg
+  * `irecord <custom-name>` Specify your own filename by passing it as argument
+  * Use `iquicktime` when you need smooth high frame rate footage
 
 <div id='section-id-250'/>
 
 ### 📹 iquicktime
 * Run QuickTime and open video source picker (so you can choose a device right away)
   * You may have to allow security system permission, so the script can access QuickTime application
-* This is a fallback script for `irecord` on M1 macs as it is currently not working
+* Use it when you need smooth high frame rate footage (`irecord` records at ~6 fps)
 
 <div id='section-id-255'/>
 

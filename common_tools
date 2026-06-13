@@ -5,7 +5,11 @@
 ### VARs
 
 SCRIPT_LOCATION=$(dirname "$0")
-LAST_CHECK_DATE_FILE="$SCRIPT_LOCATION/../data/toolkit_last_check_date.txt"
+# Runtime state lives in the user's state dir, not inside the install location -
+# this keeps the toolkit working when installed read-only (e.g. via Homebrew).
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/mobile-toolkit"
+mkdir -p "$STATE_DIR" 2>/dev/null
+LAST_CHECK_DATE_FILE="$STATE_DIR/last_check_date.txt"
 TEMPORARY_FILE="/private/tmp/mobile-toolkit-cache"
 
 REGEX_NUMBER='^[0-9]+$'
@@ -30,9 +34,9 @@ android_wait_for_device(){
 }
 
 android_get_devices_auth_dump(){
-  DEVICES_DUMP="$SCRIPT_LOCATION/../data/toolkit_adb_devices_dump.txt"
-  rm -f $DEVICES_DUMP
-  adb devices | grep -v "List" >> $DEVICES_DUMP
+  DEVICES_DUMP="$STATE_DIR/adb_devices_dump.txt"
+  rm -f "$DEVICES_DUMP"
+  adb devices | grep -v "List" >> "$DEVICES_DUMP"
   if cat "$DEVICES_DUMP" | grep -q unauthorized ; then
     read -r -p $'🚨 Unauthorized Android device detected!\n🔌 Reconnect it, allow USB debugging and press ENTER...'
     android_get_devices_auth_dump
@@ -47,7 +51,7 @@ android_get_devices(){
   #Populate array with device ids
   DEVICES=()
   android_get_devices_auth_dump
-  for LINE in $(cat $DEVICES_DUMP | awk '{print $1}')
+  for LINE in $(cat "$DEVICES_DUMP" | awk '{print $1}')
   do
     DEVICE=$(echo "$LINE" | awk '{print $1}')
     DEVICES+=("$DEVICE")
@@ -109,32 +113,21 @@ android_device_unlocked(){
 }
 
 android_get_foreground_package(){
-  android_get_device_sdk "$SELECTED_DEVICE"
-  if (( "$SDK" < 21 )); then
-    android_get_foreground_package_sdk_low
-  elif (( "$SDK" < 30 )); then
-    android_get_foreground_package_sdk_21_plus
-  elif (( "$SDK" < 31 )); then
-    android_get_foreground_package_sdk_30_plus
-  else
-    android_get_foreground_package_sdk_31_plus
+  # Print the package name of the foreground app. Extracts "package/activity"
+  # via regex (not positional cut), which works uniformly from API 21 to 36 -
+  # the old per-SDK "dumpsys activity recents" field-counting broke whenever the
+  # Task{...} format shifted (e.g. it returned "cz.app}" with a trailing brace).
+  # Primary source: the resumed activity; fallback: the focused window.
+  local PKG
+  PKG=$(adb -s "$SELECTED_DEVICE" shell dumpsys activity activities 2>/dev/null \
+        | grep -E 'mResumedActivity|topResumedActivity' \
+        | grep -oE '[a-zA-Z0-9_.]+/[a-zA-Z0-9_.$]+' | head -1 | cut -d/ -f1)
+  if [ -z "$PKG" ]; then
+    PKG=$(adb -s "$SELECTED_DEVICE" shell dumpsys window displays 2>/dev/null \
+          | grep 'mCurrentFocus' | grep -v 'null' \
+          | grep -oE '[a-zA-Z0-9_.]+/[a-zA-Z0-9_.$]+' | head -1 | cut -d/ -f1)
   fi
-}
-
-android_get_foreground_package_sdk_31_plus(){
-  adb -s "$SELECTED_DEVICE" shell dumpsys activity recents | grep 'Recent #0' | cut -d= -f3 | cut -d ':' -f2 | cut -d ' ' -f1
-}
-
-android_get_foreground_package_sdk_30_plus(){
-  adb -s "$SELECTED_DEVICE" shell dumpsys activity recents | grep 'Recent #0' | cut -d= -f6 |  cut -d ':' -f2 | cut -d ' ' -f1
-}
-
-android_get_foreground_package_sdk_21_plus(){
-  adb -s "$SELECTED_DEVICE" shell dumpsys activity recents | grep 'Recent #0' | cut -d= -f2 | sed 's| .*||' | cut -d '/' -f1
-}
-
-android_get_foreground_package_sdk_low(){
-  adb -s "$SELECTED_DEVICE" shell dumpsys window windows | grep mCurrentFocus | cut -d'/' -f1 | rev | cut -d' ' -f1 | rev
+  echo "$PKG"
 }
 
 android_get_storage_location_per_SDK(){
@@ -157,11 +150,11 @@ android_is_package_installed() {
 android_detect_package_info(){
   echo "🔍 Detecting package name..."
   AAPPT_PATH=$(find ~/Library/Android/sdk -name 'aapt' | sort | tail -1)
-  PACKAGE_INFO=$($AAPPT_PATH dump badging "$1" > $TEMPORARY_FILE)
-  PACKAGE_NAME=$(cat $TEMPORARY_FILE | grep package:\ name);
+  "$AAPPT_PATH" dump badging "$1" > "$TEMPORARY_FILE"
+  PACKAGE_NAME=$(cat "$TEMPORARY_FILE" | grep package:\ name);
   PACKAGE_NAME=$(echo "$PACKAGE_NAME" | sed 's/^[^'\'']*'\''//');
   PACKAGE_NAME=$(echo "$PACKAGE_NAME" | sed 's/'\''.*//');
-  APP_NAME=$(cat $TEMPORARY_FILE  | grep application-label:)
+  APP_NAME=$(cat "$TEMPORARY_FILE"  | grep application-label:)
   APP_NAME=${APP_NAME#"application-label:"}
 }
 
@@ -191,48 +184,75 @@ do
 ##############################################################################
 ### iOS
 
+# go-ios is pinned to a released version (binary download with checksum verification)
+# instead of an unpinned source build - see https://github.com/danielpaulus/go-ios/releases
+GO_IOS_PINNED_VERSION="1.2.0"
+GO_IOS_MAC_ZIP_SHA256="bdf5d388b85e106915ebc81bd7bd068cb635a5ae212479d13da1852b0b090613"
+
 check_go_ios_version(){
   if ! [ -x "$(command -v "go-ios")" ]; then
-    install_go_ios
-  else
-    #Here it complains about the missing agent/tunnel
-    GO_IOS_VERSION=$(go-ios --version)
-    #echo "Version of go-ios is: $GO_IOS_VERSION"
+    install_go_ios || abort "❌ go-ios is required but could not be installed"
+    return
+  fi
+
+  # Offer the pinned version at most once per pin, and only on an interactive terminal
+  GO_IOS_OFFERED_FILE="$STATE_DIR/go_ios_offered.txt"
+  if ! [ -t 0 ] || { [ -f "$GO_IOS_OFFERED_FILE" ] && [ "$(cat "$GO_IOS_OFFERED_FILE")" == "$GO_IOS_PINNED_VERSION" ]; }; then
+    return
+  fi
+
+  GO_IOS_VERSION=$(go-ios --version 2>/dev/null | tail -1 | sed 's/.*"version":"\([^"]*\)".*/\1/')
+  if [ "$GO_IOS_VERSION" != "$GO_IOS_PINNED_VERSION" ]; then
+    yes_or_no "🆕 This toolkit version is tested with go-ios $GO_IOS_PINNED_VERSION (installed: ${GO_IOS_VERSION:-unknown}), install it now?"
+    echo "$GO_IOS_PINNED_VERSION" > "$GO_IOS_OFFERED_FILE"
+    if [[ "$RESPONSE" == "y" || "$RESPONSE" == "Y" ]]; then
+      if install_go_ios; then
+        TOOLKIT_IOS_LOCATION=$(dirname "$0")
+        RESOLVED_GO_IOS=$(command -v go-ios)
+        if [ "$RESOLVED_GO_IOS" != "$TOOLKIT_IOS_LOCATION/go-ios" ]; then
+          echo "⚠️ Another go-ios at $RESOLVED_GO_IOS shadows the installed one in your PATH"
+          echo "📝 Remove it or reorder PATH so the toolkit version is used"
+        fi
+      else
+        echo "⚠️ go-ios install failed, continuing with the currently installed version"
+      fi
+    fi
   fi
 }
 
 install_go_ios(){
-  echo "⏳ Installing https://github.com/danielpaulus/go-ios..."
-  check_dependency "go"
-  CURRENT_DIR="$PWD"
+  echo "⏳ Installing go-ios $GO_IOS_PINNED_VERSION (https://github.com/danielpaulus/go-ios)..."
   TOOLKIT_IOS_LOCATION=$(dirname "$0")
-  git clone "https://github.com/danielpaulus/go-ios.git" "$TOOLKIT_IOS_LOCATION/go-ios" &> /dev/null
-  cd "$TOOLKIT_IOS_LOCATION/go-ios"
+  GO_IOS_TMP_DIR=$(mktemp -d) || return 1
+  GO_IOS_ARCHIVE="$GO_IOS_TMP_DIR/go-ios-mac.zip"
 
-  go build .
-  chmod +x "go-ios"
-  mv "go-ios" "go-ios-temp"
-  mv "go-ios-temp" ..
-  cd ..
-  rm -rf "$TOOLKIT_IOS_LOCATION/go-ios"
-  mv "go-ios-temp" "go-ios"
+  if ! curl -fsSL -o "$GO_IOS_ARCHIVE" \
+    "https://github.com/danielpaulus/go-ios/releases/download/v$GO_IOS_PINNED_VERSION/go-ios-mac.zip"; then
+    echo "❌ go-ios download failed, check your internet connection"
+    rm -rf "$GO_IOS_TMP_DIR"
+    return 1
+  fi
 
-  cd "$CURRENT_DIR"
-}
+  if ! echo "$GO_IOS_MAC_ZIP_SHA256  $GO_IOS_ARCHIVE" | shasum -a 256 -c - &> /dev/null; then
+    echo "❌ go-ios checksum verification failed"
+    rm -rf "$GO_IOS_TMP_DIR"
+    return 1
+  fi
 
-prompt_xcode_launch(){
-  echo "❌ Developer image is not mounted and/or device screen is locked"
-  should_proceed "❓ Do you want to open Xcode to fix it? (make sure you have the latest version)"
-  open -a Xcode
-  echo "⏳ Waiting for Xcode to launch..."
-  while true ; do
-    sleep 2
-    if [[ $(ps aux | grep -v grep | grep -c Xcode) -ne 0 ]]; then
-      break
-    fi
-  done
-  sleep 4
-  osascript -e 'quit app "Xcode"'
+  if ! unzip -o -q "$GO_IOS_ARCHIVE" -d "$GO_IOS_TMP_DIR/unzipped"; then
+    echo "❌ go-ios unzip failed"
+    rm -rf "$GO_IOS_TMP_DIR"
+    return 1
+  fi
+
+  chmod +x "$GO_IOS_TMP_DIR/unzipped/ios"
+  if ! mv "$GO_IOS_TMP_DIR/unzipped/ios" "$TOOLKIT_IOS_LOCATION/go-ios"; then
+    echo "❌ go-ios install failed (cannot write to $TOOLKIT_IOS_LOCATION)"
+    rm -rf "$GO_IOS_TMP_DIR"
+    return 1
+  fi
+  rm -rf "$GO_IOS_TMP_DIR"
+  echo "✅ go-ios $GO_IOS_PINNED_VERSION installed"
 }
 
 ios_get_devices(){
@@ -241,7 +261,11 @@ ios_get_devices(){
 
   if [[ $(ps S | grep -c "go-ios tunnel") -ne 2 ]]; then
     echo "♻️ Launching go-ios tunnel for maximum iOS compatibility (17+)"
-    nohup go-ios tunnel start --userspace --nojson >/dev/null 2>&1 &
+    # --pair-record-path keeps the tunnel self-identity and pairing records in
+    # the state dir instead of the current directory (where they would otherwise
+    # land - and could be committed by accident); also avoids the macOS 26 TCC
+    # block on the default /var/db/lockdown/RemotePairing path.
+    nohup go-ios tunnel start --userspace --pair-record-path="$STATE_DIR" --nojson >/dev/null 2>&1 &
     GO_IOS_TUNNEL_PID=$!
     #TODO save tunnel port and use it to avoid delays when trying various ports
     disown $GO_IOS_TUNNEL_PID
@@ -255,7 +279,8 @@ ios_pair_device(){
   go-ios pair --udid="$1" --nojson &> /dev/null
   EXIT_CODE=$?
   if [ $EXIT_CODE -ne 0 ]; then
-    read -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..."
+    read -r -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..." \
+      || abort "❌ Device is not paired"
     ios_pair_device "$1"
   fi
 }
@@ -263,20 +288,47 @@ ios_pair_device(){
 ios_check_pairing(){
   go-ios info --udid="$1" &> "$TEMPORARY_FILE"
   if cat "$TEMPORARY_FILE" | grep -q 'UntrustedHostBUID' ; then
-    read -r -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..."
+    read -r -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..." \
+      || abort "❌ Device is not paired"
     ios_pair_device "$1"
   fi
   if cat "$TEMPORARY_FILE" | grep -q 'could not retrieve PairRecord' ; then
-    read -r -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..."
+    read -r -p "❌ Device is not paired - reconnect it, unlock screen, tap \"Trust\" and press ENTER..." \
+      || abort "❌ Device is not paired"
     ios_pair_device "$1"
   fi
 }
 
+ios_check_developer_mode(){
+  # On iOS 16+ the developer disk image cannot be mounted while Developer Mode is off
+  # (Apple's TSS then rejects the signature with a misleading "not eligible" error)
+  DEV_MODE=$( (go-ios devmode get --udid="$1") 2>/dev/null)
+  if [[ $DEV_MODE == *'"DeveloperModeEnabled":false'* ]]; then
+    go-ios devmode reveal --udid="$1" &> /dev/null
+    echo "❌ Developer Mode is turned off on this device"
+    echo "📱 Turn it on: Settings → Privacy & Security → Developer Mode → enable → restart the device"
+    echo "   (the Developer Mode menu has just been revealed in Settings for you)"
+    abort "🔄 Then reconnect the device and run the command again"
+  fi
+}
+
 ios_check_developer_image(){
-  IS_MOUNTED=$((go-ios image list --udid="$1" --nojson) 2>&1)
+  ios_check_developer_mode "$1"
+  IS_MOUNTED=$( (go-ios image list --udid="$1" --nojson) 2>&1)
   if [[ $IS_MOUNTED == *"none"* ]]; then
-    prompt_xcode_launch
-    ios_check_developer_image "$1"
+    echo "⏳ Mounting developer disk image (downloads it on first use, requires internet)..."
+    go-ios image auto --udid="$1" --basedir="$STATE_DIR/devimages" &> "$TEMPORARY_FILE"
+    IS_MOUNTED=$( (go-ios image list --udid="$1" --nojson) 2>&1)
+    if [[ $IS_MOUNTED == *"none"* ]]; then
+      echo "❌ Mounting failed:"
+      tail -3 "$TEMPORARY_FILE"
+      yes_or_no "🔁 Unlock the device screen, check your internet connection and retry?"
+      if [[ "$RESPONSE" == "y" || "$RESPONSE" == "Y" ]]; then
+        ios_check_developer_image "$1"
+      else
+        abort "❌ Developer disk image is required for this command"
+      fi
+    fi
   fi
 }
 
@@ -289,7 +341,7 @@ ios_device_info(){
   ios_check_developer_image_and_pairing "$1"
   MANUFACTURER="Apple"
   go-ios info --udid="$1" > "$TEMPORARY_FILE"
-  MODEL=$(ios_translate_name "$(cat "$TEMPORARY_FILE" | jq -r '.HardwareModel')")
+  MODEL=$(ios_translate_name "$(cat "$TEMPORARY_FILE" | jq -r '.ProductType')")
   VERSION=$(cat "$TEMPORARY_FILE" | jq -r '.ProductVersion')
   INFO=$(printf "%s) %s %s %s - %s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
 }
@@ -354,185 +406,41 @@ ios_is_package_installed(){
 }
 
 ios_translate_name(){
-  # Translations here https://www.theiphonewiki.com/wiki/Models
-  NAME=$1
-  case $NAME in
-    "Purple"*|"purple"*)
-      NAME="iPhone"
-      ;;
-    "M68"*)
-      NAME="iPhone"
-      ;;
-    "N90"*|"N92"*)
-      NAME="iPhone4"
-      ;;
-    "N94"*)
-      NAME="iPhone4S"
-      ;;
-    "N88"*)
-      NAME="iPhone3GS"
-      ;;
-    "N82"*)
-      NAME="iPhone3G"
-      ;;
-    "N71"*)
-      NAME="iPhone6S"
-      ;;
-    "N66"*)
-      NAME="iPhone6SPlus"
-      ;;
-    "N61"*)
-      NAME="iPhone6"
-      ;;
-    "N56"*)
-      NAME="iPhone6Plus"
-      ;;
-    "N51"*|"N53"*)
-      NAME="iPhone5S"
-      ;;
-    "N48"*)
-      NAME="iPhone5C"
-      ;;
-    "N41"*|"N42"*)
-      NAME="iPhone5"
-      ;;
-    "D10"*)
-      NAME="iPhone7"
-      ;;
-    "D11"*)
-      NAME="iPhone7Plus"
-      ;;
-    "D20"*)
-      NAME="iPhone8"
-      ;;
-    "D21"*)
-      NAME="iPhone8Plus"
-      ;;
-    "D22"*|"Ferrari"*|"ferrari"*)
-      NAME="iPhoneX"
-      ;;
-    "D32"*)
-      NAME="iPhoneXS"
-      ;;
-    "D33"*)
-      NAME="iPhoneXSMax"
-      ;;
-    "N104"*)
-      NAME="iPhone11"
-      ;;
-    "D421"*)
-      NAME="iPhone11Pro"
-      ;;
-    "D431"*)
-      NAME="iPhone11ProMax"
-      ;;
-    "D52"*)
-      NAME="iPhone12Mini"
-      ;;
-    "D53g"*)
-      NAME="iPhone12"
-      ;;
-    "D53p"*)
-      NAME="iPhone12Pro"
-      ;;
-    "D54"*)
-      NAME="iPhone12ProMax"
-      ;;
-    "N84"*)
-      NAME="iPhoneXR"
-      ;;
-    "N69"*)
-      NAME="iPhoneSEgen1"
-      ;;
-    "D79"*)
-      NAME="iPhoneSEgen2"
-      ;;
-    "D17"*)
-      NAME="iPhone13"
-      ;;
-    "D16"*)
-      NAME="iPhone13Mini"
-      ;;
-    "D63"*)
-      NAME="iPhone13Pro"
-      ;;
-    "D64"*)
-      NAME="iPhone13ProMax"
-      ;;
-    "J1"*)
-      NAME="iPad3gen"
-      ;;
-    "J2"*)
-      NAME="iPad3gen"
-      ;;
-    "J72"*)
-      NAME="iPadAir"
-      ;;
-    "J82"*)
-      NAME="iPadAir2"
-      ;;
-    "J217"*|"J218"*)
-      NAME="iPadAir3gen"
-      ;;
-    "J307"*|"J308"*)
-      NAME="iPadAir4gen"
-      ;;
-    "J85"*)
-      NAME="iPadMiniRetina"
-      ;;
-    "J96"*)
-      NAME="iPadMini4"
-      ;;
-    "J210"*|"J211"*)
-      NAME="iPadMini5gen"
-      ;;
-    "J310"*|"J311"*)
-      NAME="iPadMini6gen"
-      ;;
-    "J98"*|"J99"*|"J31"*|"J127"*|"J128"*|"J318"*|"J317"*|"J207"*|"J208"*)
-      NAME="iPadPro"
-      ;;
-    "J120"*|"J121"*|"J417"*|"J418"*)
-      NAME="iPadPro2gen"
-      ;;
-    "J320"*|"J321"*|"J517"*|"J518"*)
-      NAME="iPadPro3gen"
-      ;;
-    "J420"*|"J421"*)
-      NAME="iPadPro4gen"
-      ;;
-    "J522"*|"J523"*)
-      NAME="iPadPro5gen"
-      ;;
-    "K48"*)
-      NAME="iPad"
-      ;;
-    "K93"*|"K94"*|"K95"*)
-      NAME="iPad2"
-      ;;
-    "P101"*|"P103"*)
-      NAME="iPad4gen"
-      ;;
-    "P105"*|"P107"*)
-      NAME="iPadMini"
-      ;;
-    "J71s"*|"J71t"*|"J72s"*|"J72t"*)
-      NAME="iPad5gen"
-      ;;
-    "J71b"*|"J72b"*)
-      NAME="iPad6gen"
-      ;;
-    "J171AP"*|"J172AP"*)
-      NAME="iPad7gen"
-      ;;
-    "J171aAP"*|"J172aAP"*)
-      NAME="iPad8gen"
-      ;;
-    "J181"*|"J182"*)
-      NAME="iPad9gen"
-      ;;
-  esac
-  echo $NAME
+  # arg1 = ProductType (e.g. "iPhone14,2"); prints the marketing name (e.g. "iPhone 13 Pro")
+  # Primary source: Xcode's device_traits.db; fallback: cached appledb.dev dataset
+  PRODUCT_TYPE=$1
+  NAME=""
+
+  TRAITS_DB="$(xcode-select -p 2>/dev/null)/Platforms/iPhoneOS.platform/usr/standalone/device_traits.db"
+  if [ -f "$TRAITS_DB" ] && command -v sqlite3 &> /dev/null; then
+    NAME=$(sqlite3 "$TRAITS_DB" "SELECT ProductDescription FROM Devices WHERE ProductType='${PRODUCT_TYPE//\'/}' LIMIT 1" 2>/dev/null)
+  fi
+
+  if [ -z "$NAME" ] && command -v jq &> /dev/null; then
+    APPLEDB_CACHE="$STATE_DIR/appledb_devices.json"
+    APPLEDB_FAILED_STAMP="$APPLEDB_CACHE.failed"
+    # Retry a failed download at most once per day to avoid stalling every command while offline
+    if ! [ -f "$APPLEDB_CACHE" ] && [ "$(cat "$APPLEDB_FAILED_STAMP" 2>/dev/null)" != "$(date +%Y-%m-%d)" ]; then
+      echo "⏳ Downloading device name database (first use only)..." >&2
+      APPLEDB_TMP="$APPLEDB_CACHE.tmp.$$"
+      if curl -fsSL --connect-timeout 3 --max-time 15 "https://api.appledb.dev/device/main.json" -o "$APPLEDB_TMP" 2>/dev/null \
+         && jq -e 'type=="array"' "$APPLEDB_TMP" &> /dev/null; then
+        mv "$APPLEDB_TMP" "$APPLEDB_CACHE"
+        rm -f "$APPLEDB_FAILED_STAMP"
+      else
+        rm -f "$APPLEDB_TMP"
+        date +%Y-%m-%d > "$APPLEDB_FAILED_STAMP" 2>/dev/null
+      fi
+    fi
+    if [ -f "$APPLEDB_CACHE" ]; then
+      NAME=$(jq -r --arg id "$PRODUCT_TYPE" 'first(.[] | select(.identifier[]? == $id) | .name) // empty' "$APPLEDB_CACHE" 2>/dev/null)
+    fi
+  fi
+
+  if [ -z "$NAME" ]; then
+    NAME=$PRODUCT_TYPE
+  fi
+  echo "$NAME"
 }
 
 ##############################################################################
@@ -563,25 +471,29 @@ check_for_update(){
   fi
 
   CURRENT_DIR="$PWD"
-  cd "$SCRIPT_LOCATION/.." || exit
-  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+  cd "$SCRIPT_LOCATION/.." || return
+  # When installed via Homebrew the toolkit is not a git checkout - skip the
+  # git-based self-update silently (Homebrew handles updates via "brew upgrade").
+  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 
   if [[ "$CURRENT_BRANCH" == "master" && "$LAST_CHECK_DATE" != "$TODAY" ]]; then
     echo "🔄 Checking for Mobile Toolkit update..."
     echo "$TODAY" > "$LAST_CHECK_DATE_FILE"
 
     git fetch origin &> /dev/null
-    git status -uno | grep "up to date" &> /dev/null
-    if [ $? -ne 0 ]; then
+    COMMITS_BEHIND=$(git rev-list --count HEAD..origin/master 2>/dev/null)
+    if [ -n "$COMMITS_BEHIND" ] && [ "$COMMITS_BEHIND" -gt 0 ] 2>/dev/null; then
       yes_or_no "🆕 Update available, download now?";
       if [[ "$RESPONSE" == "y" ||  "$RESPONSE" == "Y" ]]; then
-	echo "⏬ Updating..."
-	git pull &> /dev/null
-	echo "✨ New features:"
-	cat "$SCRIPT_LOCATION"/../changelog.txt
-	echo
-	echo "✅ Update complete"
-  exit 0
+        echo "⏬ Updating..."
+        if git pull --ff-only &> /dev/null; then
+          echo "✨ New features:"
+          cat "$SCRIPT_LOCATION"/../changelog.txt
+          echo
+          echo "✅ Update complete - the new version will be used on the next run"
+        else
+          echo "❌ Update failed (local changes in the toolkit directory?) - run \"git pull\" there manually"
+        fi
       fi
     fi
   fi
@@ -594,7 +506,12 @@ delete_lastline(){
 }
 
 yes_or_no(){
-  read -r -n 1 -p "$1 [y/n] " RESPONSE
+  if ! read -r -n 1 -p "$1 [y/n] " RESPONSE; then
+    # stdin closed (non-interactive use) - treat as "no" instead of looping
+    RESPONSE="n"
+    echo
+    return
+  fi
   case "$RESPONSE" in
       [yY])
           ;;
@@ -624,15 +541,15 @@ should_proceed(){
 choose_number(){
   MAX=$1
   if [ -n "$2" ]; then
-    read -r -p "$2" CHOICE
+    read -r -p "$2" CHOICE || abort "❌ No input available"
   else
-    read -r -p "📝 Choose number: " CHOICE
+    read -r -p "📝 Choose number: " CHOICE || abort "❌ No input available"
   fi
   while :;
   do
     if [[ -z $CHOICE  || $CHOICE -le 0 || $CHOICE -gt $MAX ]]; then
       delete_lastline
-      read -r -p "🤷‍ Invalid choice, try again: " CHOICE
+      read -r -p "🤷‍ Invalid choice, try again: " CHOICE || abort "❌ No input available"
     else
       ((++CHOICE))
       break
@@ -644,7 +561,7 @@ check_url(){
   URL=$1
 
   if [[ $URL == "" ]]; then
-    read -r -p "📝 Insert web url: " URL
+    read -r -p "📝 Insert web url: " URL || abort "❌ No input available"
     check_url "$URL"
   else
     case $1 in

@@ -6,8 +6,19 @@ android_choose_device
 filter_by_package(){
   android_is_package_installed "$1"
   echo "🔍 Filtering by package name: $1"
-  PID=$(adb -s "$SELECTED_DEVICE" shell ps | grep -i "$1" | cut -c10-15)
-  adb -s "$SELECTED_DEVICE" logcat | grep "$PID"
+  PIDS=$(adb -s "$SELECTED_DEVICE" shell pidof "$1" | tr -d '\r')
+  if [ -z "$PIDS" ]; then
+    echo "🤷 App process is not running, start the app and try again"
+    exit 1
+  fi
+  # shellcheck disable=SC2086 # intentional word splitting of the PID list
+  set -- $PIDS
+  if [ $# -eq 1 ]; then
+    adb -s "$SELECTED_DEVICE" logcat --pid="$1"
+  else
+    # App has multiple processes - logcat --pid takes only one, filter on the PID column instead
+    adb -s "$SELECTED_DEVICE" logcat | awk -v pids="$PIDS" 'BEGIN{n=split(pids,a," "); for(i=1;i<=n;i++) p[a[i]]=1} p[$3]'
+  fi
 }
 
 raw_log(){
@@ -21,7 +32,11 @@ if [ "$1" == "-f" ]; then
   else
     PACKAGE=$2
   fi
-  filter_by_package "$PACKAGE"
+  if [ -z "$PACKAGE" ]; then
+    raw_log
+  else
+    filter_by_package "$PACKAGE"
+  fi
 else
     raw_log
 fi

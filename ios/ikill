@@ -21,7 +21,7 @@ if [ -z "$PACKAGE" ]; then
   done
 
   if [ ${#PACKAGES_LISTED[@]} -eq 0 ]; then
-      echo "🤷‍ No third-party apps installed, use \"alaunch -s\" to list system packages"
+      echo "🤷‍ No third-party apps installed, use \"ikill -s\" to list system packages"
       exit 1
   fi
 
@@ -37,4 +37,4 @@ fi
 echo "🔪 Killing $PACKAGE..."
 go-ios kill "$PACKAGE" --udid="$SELECTED_DEVICE" &> /dev/null
 echo "🚀 Relaunching the app..."
-go-ios launch "$PACKAGE" &> /dev/null
+go-ios launch "$PACKAGE" --udid="$SELECTED_DEVICE" &> /dev/null

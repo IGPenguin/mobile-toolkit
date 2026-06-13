@@ -5,7 +5,7 @@
 TOOLKIT_LOCATION=$(dirname "$0")
 source "$TOOLKIT_LOCATION"/../common_tools
 
-LOCAL_SIMULATOR_LIST=$TOOLKIT_LOCATION/../data/toolkit_simulator_list.txt
+LOCAL_SIMULATOR_LIST=$STATE_DIR/simulator_list.txt
 
 help(){
   if [[ $1 != "" ]]; then
@@ -22,7 +22,7 @@ import_simulator_list(){
 }
 
 choose_simulator(){
-  read -r -p "📝 Choose: " SIMULATOR_INDEX
+  read -r -p "📝 Choose: " SIMULATOR_INDEX || abort "❌ No input available"
   SIMULATOR_ID=$(sed "$SIMULATOR_INDEX"!d "$LOCAL_SIMULATOR_LIST")
   if [[ $SIMULATOR_INDEX == "" || $SIMULATOR_ID != *"("* ]]; then
     delete_lastline
@@ -109,7 +109,7 @@ record_screen(){
   else
     FILENAME="$1.mp4"
   fi
-  if ! xcrun simctl io "$SIMULATOR_ID" recordVideo "$HOME/DESKTOP/$FILENAME"; then
+  if ! xcrun simctl io "$SIMULATOR_ID" recordVideo "$HOME/Desktop/$FILENAME"; then
     echo "❌ Recording failed!"
   else
     echo "✅ Video saved to ~/Desktop/$FILENAME"
@@ -121,7 +121,7 @@ take_screenshot(){
   if [ -z "$1" ] ; then
     FILENAME="Simulator-$(date +%Y-%m-%d-%H-%M-%S).png"
   else
-    FILENAME=$1
+    FILENAME="$1.png"
   fi
   xcrun simctl io "$SIMULATOR_ID" screenshot "$HOME/Desktop/$FILENAME" &> /dev/null
   echo "✅ Screenshot saved to ~/Desktop/$FILENAME"
@@ -164,7 +164,7 @@ set_battery_level(){
 set_time(){
   check_xcode_version
   if [[ -z "$1" ]]; then
-    read -r -p "📝 Enter battery level: " TIME
+    read -r -p "📝 Enter time (hh:mm): " TIME
     set_time "$TIME"
   else
     xcrun simctl status_bar "$SIMULATOR_ID" override --time "$1"
