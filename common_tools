@@ -495,6 +495,22 @@ check_adb_dependency(){
   fi
 }
 
+check_simctl_dependency(){
+  if ! xcrun simctl help &> /dev/null; then
+    echo "❌ Xcode Simulator tools (simctl) are not accessible"
+    if [ -d "/Applications/Xcode.app" ]; then
+      echo "💡 Xcode is installed but xcode-select is pointing elsewhere"
+      should_proceed "🔄 Fix with: sudo xcode-select -s /Applications/Xcode.app"
+      sudo xcode-select -s /Applications/Xcode.app
+    else
+      echo "💡 Install Xcode from the App Store, then connect your device and trust your computer"
+      should_proceed "🛍 Open App Store?"
+      open -a "App Store"
+      exit 1
+    fi
+  fi
+}
+
 check_dependency(){
   if ! [ -x "$(command -v "$1")" ]; then
     echo "💥 \"$1\" command required!"
