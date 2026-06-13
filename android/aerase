@@ -13,5 +13,5 @@ fi
 
 should_proceed "🧽 Do you really want to erase $APP data?"
 adb -s "$SELECTED_DEVICE" shell pm clear "$APP" &> /dev/null
-echo "🚀 Launching..."
+echo "🚀 Relaunching the app..."
 adb -s "$SELECTED_DEVICE" shell monkey -p "$APP" -c android.intent.category.LAUNCHER 1 &> /dev/null
