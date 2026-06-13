@@ -3,16 +3,36 @@ LOCATION=$(dirname "$0")
 source "$LOCATION"/../common_tools
 ios_choose_device
 
-if [[ "$1" == "-s" ]]; then
-  PACKAGES=($(go-ios apps --udid="$SELECTED_DEVICE" --system | jq -r '.[] | .CFBundleIdentifier'))
-elif [[ -n "$1" ]]; then
-  PACKAGE="$1"
-  ios_is_package_installed "$PACKAGE"
-else
-  PACKAGES=($(go-ios apps --udid="$SELECTED_DEVICE" | jq -r '.[] | .CFBundleIdentifier'))
-fi
+RELAUNCH=true
+INCLUDE_SYSTEM=false
 
-if [ -z "$PACKAGE" ]; then
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -n)
+      RELAUNCH=false
+      ;;
+    -s)
+      INCLUDE_SYSTEM=true
+      ;;
+    -* )
+      echo "❓ Unknown flag: $1"
+      exit 1
+      ;;
+    * )
+      PACKAGE="$1"
+      ios_is_package_installed "$PACKAGE"
+      ;;
+  esac
+  shift
+done
+
+if [[ -z "$PACKAGE" ]]; then
+  if [[ "$INCLUDE_SYSTEM" == true ]]; then
+    PACKAGES=($(go-ios apps --udid="$SELECTED_DEVICE" --system | jq -r '.[] | .CFBundleIdentifier'))
+  else
+    PACKAGES=($(go-ios apps --udid="$SELECTED_DEVICE" | jq -r '.[] | .CFBundleIdentifier'))
+  fi
+
   PACKAGES_LISTED=()
   for P in "${PACKAGES[@]}" #removes trailing \r
   do
@@ -36,5 +56,8 @@ fi
 
 echo "🔪 Killing $PACKAGE..."
 go-ios kill "$PACKAGE" --udid="$SELECTED_DEVICE" &> /dev/null
-echo "🚀 Relaunching the app..."
-go-ios launch "$PACKAGE" --udid="$SELECTED_DEVICE" &> /dev/null
+
+if [[ "$RELAUNCH" == true ]]; then
+  echo "🚀 Relaunching the app..."
+  go-ios launch "$PACKAGE" --udid="$SELECTED_DEVICE" &> /dev/null
+fi

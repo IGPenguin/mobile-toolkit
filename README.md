@@ -4,7 +4,7 @@
 ## What is its purpose?
 🛠 **Control Android & iOS devices:** Capture screen, manage apps, simulate input, examine system logs etc.<br>
 
-⚡️ **Speed++** Are you an app developer or a tester? Boost your effectivity, discover new tools!
+⚡️ **Speed++** Are you an app developer or a tester? Boost your efficiency, discover new tools!
 
 
 <div id='section-id-8'/>
@@ -13,7 +13,7 @@
 
 📲 **Control Android and iOS devices** or Emulators/Simulators using terminal commands<br>
 
-🛠 **Take screeshots, change device settings**, gather app & device information<br>
+🛠 **Take screenshots, change device settings**, gather app & device information<br>
 
 ⚙️ **Manage mobile applications** - install, restart, wipe data and much more<br>
 
@@ -93,26 +93,25 @@
 _Note: This tool targets macOS for compatibility, but most interactions should work on any Unix system._
 <br>
 1. **Open terminal**
-2. **Clone this repository** `git clone https://github.com/IntergalacticPenguin/mobile-toolkit.git`
+2. **Clone this repository** `git clone https://github.com/IGPenguin/mobile-toolkit.git`
 3. **Setup Android tools**
 	* **[Download](https://developer.android.com/studio/ "Android Studio") and install Android Studio** and **Android command line tools** (using Android Studio SDK manager)
 	* **Edit .zshrc** (or .bash_profile if you have bash shell) `open -e ~/.zshrc`
-	  * **Insert this line at the end** `PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools export PATH`
+	  * **Insert this line at the end** `export PATH=$PATH:/Users/dummyuser/Library/Android/sdk/platform-tools`
 	  * **Don't forget to replace "dummyuser" with your account username**
-	  * **Use full path to the "platform-tools" directory**
+	  * **Use full path to the "platform-tools" directory on your machine**
 	* **[Allow USB debugging](https://developer.android.com/studio/debug/dev-options) on your device, connect it and authorize your computer** (click OK on the device screen)
 4. **Setup iOS tools**
 	* **Install latest Xcode and iOS command line tools** using [App Store](https://apps.apple.com/cz/app/xcode/id497799835?mt=12)
-	* **Install [Homebrew](https://brew.sh/ "Homberew") package manager**
+	* **Install [Homebrew](https://brew.sh/ "Homebrew") package manager**
 	* **Run Xcode, connect iOS device to USB and authorize your computer** (click "Trust" on the device screen)
-	* **Run any script i.e. `iscreenshot`, installation of all required tools will be initiated automatically** ([jq](https://stedolan.github.io/jq/) and [go-ios](https://github.com/danielpaulus/go-ios "go-ios"))
+	* **Run any script e.g. `iscreenshot`, installation of all required tools will be initiated automatically** ([jq](https://stedolan.github.io/jq/) and [go-ios](https://github.com/danielpaulus/go-ios "go-ios"))
 5. **Add Mobile Toolkit to $PATH**, it is mandatory for iOS scripts and it will let you run scripts in any directory
 	* **Edit .zshrc** (or .bash_profile if you have bash shell) `open -e ~/.zshrc`
-	  * **Insert the following lines at the end** <br> `PATH=$PATH:/Users/dummyuser/mobile-toolkit/android` <br>
-	`PATH=$PATH:/Users/dummyuser/mobile-toolkit/ios`
+	  * **Insert the following lines at the end** <br> `export PATH=$PATH:/Users/dummyuser/mobile-toolkit/android` <br>
+	`export PATH=$PATH:/Users/dummyuser/mobile-toolkit/ios`
 	  * **Don't forget to replace "dummyuser" with your account username**
 	  * **Use full path to the "mobile-toolkit" directory** (where you cloned this repository)
-	  * **Add** `export PATH` **to the end of the file**
 
 </details>
 
@@ -170,7 +169,7 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 <div id='section-id-85'/>
 
 ### 🔊 atalkback
-* `atalkback` Toggle TalkBack screen reader accessiblity option
+* `atalkback` Toggle TalkBack screen reader accessibility option
 
 <div id='section-id-88'/>
 
@@ -221,7 +220,7 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 
 ### 🚀 alaunch
 * `alaunch` List third-party apps and choose one to run it
-* `alaunch -s` List all available apps (including os pre-installed) and choose one to run it
+* `alaunch -s` List all available apps (including OS pre-installed) and choose one to run it
 * `alaunch com.dummy.package.name.app` Run app by package name
 
 <div id='section-id-118'/>
@@ -240,7 +239,9 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 
 ### 🔪 akill
 * `akill` Restart the foreground app
+* `akill -n` Kill the foreground app without relaunching it
 * `akill com.dummy.package.name.app` Target specific app by passing package name as argument
+* `akill com.dummy.package.name.app -n` Kill selected app without relaunching it
 
 <div id='section-id-132'/>
 
@@ -259,7 +260,7 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 ### 🗑 auninstall
 * `auninstall` Uninstall third-party app, choose from the list
 * `auninstall com.dummy.package.name.app` pass package name as argument
-* `auninstall -w` Uninstall all-third party packages
+* `auninstall -w` Uninstall all third-party packages
 	* Skips some essential apps, edit IGNORED_PACKAGES in this script to customize the list to your needs
 
 <div id='section-id-146'/>
@@ -313,8 +314,8 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 <div id='section-id-180'/>
 
 ### 📋 acheckdevice
-* Print genereal device information
-* Perform basic safety-checks and toggle "testing firendly" settings
+* Print general device information
+* Perform basic safety-checks and toggle "testing friendly" settings
   * 10 minutes screen timeout
   * Highest brightness
   * Automatic date
@@ -343,7 +344,7 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
   * **Add the following line at the end of the file** `export JAVA_HOME='/Applications/Android Studio.app/Contents/jbr/Contents/Home'`
 
 * Android emulator supports all listed scripts by default + extra actions listed below
-* `aemulator <option>` Handle various Android emulator activites
+* `aemulator <option>` Handle various Android emulator activities
   * `start` - choose and launch installed emulator
   * `gprs | edge | 3g` - simulate network latency, choose one
   * `call <number>` - receive fake call
@@ -359,7 +360,7 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 * `atestmonkey` Default test with random seed and 15000 input events
 * `atestmonkey <event-count>` Test with random seed and custom input event count
 * `atestmonkey <event-count> <seed>` Test with custom seed and custom event count
-* Perform automated stress test using [Application Excersciser Monkey](https://developer.android.com/studio/test/monkey)
+* Perform automated stress test using [Application Exerciser Monkey](https://developer.android.com/studio/test/monkey)
 * You can end test prematurely using ctrl^c or `atestmonkeykill` in case something goes wrong
 * App under test needs to be pinned to fullscreen mode to prevent unwanted interactions elsewhere
 * Screen pinning button location is directly tied to OS version and device manufacturer skin.
@@ -426,15 +427,18 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 
 ### 🚀 ilaunch
 * `ilaunch` List third-party apps and choose one to run it
-* `ilaunch -s` List os pre-installed apps and choose one to run it
+* `ilaunch -s` List OS pre-installed apps and choose one to run it
 * `ilaunch com.dummy.bundle.id.app` Run app by bundle id
 
 <div id='section-id-271'/>
 
 ### 🔪 ikill
 * `ikill` List third-party apps and choose one to restart
-* `ikill -s` List os pre-installed apps and choose one to restart
+* `ikill -n` List third-party apps and choose one to kill without relaunching it
+* `ikill -s` List OS pre-installed apps and choose one to restart
+* `ikill -s -n` List OS pre-installed apps and choose one to kill without relaunching it
 * `ikill com.dummy.bundle.id.app` Target specific app by passing bundle id as argument
+* `ikill com.dummy.bundle.id.app -n` Kill selected app without relaunching it
 
 <div id='section-id-276'/>
 
@@ -448,7 +452,7 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 <div id='section-id-281'/>
 
 ### 💬 ilang
-* `ilang <lang>` Change the device language to different one, according to ISO-639 (i.e. "cs")
+* `ilang <lang>` Change the device language to different one, according to ISO-639 (e.g. "cs")
 * `ilang` Change the device language to different one, choose from a list of all supported
 
 <div id='section-id-285'/>
@@ -471,7 +475,7 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 
 ### 📱 isimulator
 * Simulator has limited functionality (no camera, biometrics, Appstore...), but **offers some extra options, unavailable on physical iOS devices**
-* `isimulator <option>` Handle various simulator related activites
+* `isimulator <option>` Handle various simulator related activities
   * `start` - choose and launch installed simulator
   * `screenshot` - save screenshot to ~/Desktop
   * `record` - save screen recording to ~/Desktop (full resolution and frame rate, without QuickTime hassle)
@@ -494,7 +498,7 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 
 <strong>Feedback & Contribution</strong><br>
 
-<sup>⁉️ [Submit an issue](https://github.com/IntergalacticPenguin/mobile-toolkit/issues/new/choose) to report any bugs, request a feature or ask questions.</sup><br>
-<sup>🤝 [Pull requests](https://github.com/IntergalacticPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") are highly **appreciated**, see the [issue board](https://github.com/IntergalacticPenguin/mobile-toolkit/projects/3).</sup><br>
-<sup>💬 Also <strong>visit my [NoMo](https://github.com/IGPenguin/nomo)</strong> project and leave a star.</sup><br>
+<sup>⁉️ [Submit an issue](https://github.com/IGPenguin/mobile-toolkit/issues/new/choose) to report any bugs, request a feature or ask questions.</sup><br>
+<sup>🤝 [Pull requests](https://github.com/IGPenguin/mobile-toolkit/blob/master/.github/CONTRIBUTING.md "contribution rules") are highly **appreciated**, see the [issue board](https://github.com/IGPenguin/mobile-toolkit/projects/3).</sup><br>
+<sup>💀 Check out <strong>[Stay Dead](https://igpenguin.github.io/stay-dead)</strong> - my choice-based RPG, now in open beta!</sup><br>
 <sup>🔗 Find me on [LinkedIn](https://www.linkedin.com/in/intergalacticpenguin/) or [Twitter](https://twitter.com/IGPenguin).</sup><br>

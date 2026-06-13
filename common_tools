@@ -28,6 +28,7 @@ android_check_connected(){
 }
 
 android_wait_for_device(){
+  check_adb_dependency
   echo "⏳ Waiting for Android device..."
   adb wait-for-any-device
   android_get_devices
@@ -448,9 +449,15 @@ ios_translate_name(){
 
 check_adb_dependency(){
   if ! [ -x "$(command -v "adb")" ]; then
-    echo "🤷‍ Android Debug Bridge required!"
-    should_proceed "🔄 Install via homebrew? (this may take a while)"
-    brew install --cask "android-platform-tools"
+    ANDROID_SDK_GUESS="${ANDROID_HOME:-$HOME/Library/Android/sdk}"
+    ADB_CANDIDATE="$ANDROID_SDK_GUESS/platform-tools/adb"
+    if [ -x "$ADB_CANDIDATE" ]; then
+      export PATH="$ANDROID_SDK_GUESS/platform-tools:$PATH"
+    else
+      echo "🤷‍ Android Debug Bridge required!"
+      should_proceed "🔄 Install via homebrew? (this may take a while)"
+      brew install --cask "android-platform-tools"
+    fi
   fi
 }
 
