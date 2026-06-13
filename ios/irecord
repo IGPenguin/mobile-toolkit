@@ -18,6 +18,8 @@ else
 fi
 OUTPUT_PATH=~/Desktop/"$FILENAME".mp4
 
+echo "⏳ Preparing screenshot stream to record screen..."
+
 # Find a free port for the local MJPEG stream server
 STREAM_PORT=3333
 while lsof -i ":$STREAM_PORT" &> /dev/null; do
@@ -58,7 +60,7 @@ fi
 sleep 1
 
 echo "📹 Recording screen on $SELECTED_DEVICE ($MODEL), stop it using ctrl^c"
-echo "💡 Recording is ~6 fps - use \"iquicktime\" when you need smooth high-fps video"
+echo "💡 Recording is ~6 fps - use \"iquicktime\" if you need smooth high-fps video"
 
 # The MJPEG stream carries no timestamps and only delivers a frame when the
 # screen changes. Stamp each frame with the wall clock as it ARRIVES over the
