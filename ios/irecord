@@ -27,7 +27,7 @@ done
 STREAM_LOG="$TEMPORARY_FILE-irecord-$$"
 go-ios screenshot --stream --port="$STREAM_PORT" --udid="$SELECTED_DEVICE" > "$STREAM_LOG" 2>&1 &
 STREAM_PID=$!
-trap 'kill $STREAM_PID &> /dev/null; rm -f "$STREAM_LOG"' EXIT
+trap 'kill $STREAM_PID &> /dev/null; wait $STREAM_PID 2>/dev/null; rm -f "$STREAM_LOG"' EXIT
 
 # go-ios <= 1.2.0 ignores --port and always binds its default - read the real port from the log
 ACTUAL_PORT=""
@@ -66,7 +66,7 @@ echo "💡 Recording is ~6 fps - use \"iquicktime\" when you need smooth high-fp
 # video plays back in real time regardless of how bursty the changes are.
 # ctrl^c stops ffmpeg (which finalizes the file); keep the script alive to report the result
 trap 'true' INT
-ffmpeg -y -hide_banner -loglevel error \
+ffmpeg -y -hide_banner -loglevel fatal \
   -use_wallclock_as_timestamps 1 -f mjpeg -i "http://localhost:$ACTUAL_PORT/" \
   -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" \
   -fps_mode vfr -c:v libx264 -preset veryfast -pix_fmt yuv420p "$OUTPUT_PATH"
