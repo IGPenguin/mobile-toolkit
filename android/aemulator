@@ -18,7 +18,7 @@ help(){
   else
     echo "🤷 Option missing"
   fi
-  echo -e "Use one of the following options:\\n  start - choose and launch installed emulator\\n  gprs | edge | 3g - set network latency\\n  call <number> - receive fake call\\n  sms <number> <text> - recieve fake sms\\n  gps <lat> <long> - set manual gps location\\n  battery <0-100> - set manual battery level\\n  telnet <command> - call telnet command (see README.md)"
+  echo -e "Use one of the following options:\\n  start - choose and launch installed emulator\\n  gprs | edge | 3g - set network latency\\n  call <number> - receive fake call\\n  sms <number> <text> - receive fake sms\\n  gps <lat> <long> - set manual gps location\\n  battery <0-100> - set manual battery level\\n  telnet <command> - call telnet command (see README.md)"
 }
 
 check_java_dependency(){
@@ -47,7 +47,8 @@ check_running_emulator(){
 get_emulator_list(){
   echo "⏳ Getting Android emulator list..."
   rm -f "$LOCAL_EMULATOR_LIST"
-  "$ANDROID_HOME"/cmdline-tools/latest/bin/avdmanager list avd | grep Name | awk '{print $2}' >> "$LOCAL_EMULATOR_LIST"
+  ANDROID_SDK="${ANDROID_HOME:-$HOME/Library/Android/sdk}"
+  "$ANDROID_SDK"/emulator/emulator -list-avds >> "$LOCAL_EMULATOR_LIST" 2>/dev/null
   if [ "$(nl "$LOCAL_EMULATOR_LIST")" == "" ]; then
     should_proceed "🤷‍ No emulators installed, install via Android Studio?"
     echo "⏳ Opening Android Studio..."
@@ -73,7 +74,7 @@ launch_emulator(){
     launch_emulator
   else
     echo  "🚀 Launching emulator..."
-    nohup "$ANDROID_HOME"/emulator/emulator -avd "$EMULATOR_NAME" -no-snapshot &> /dev/null &
+    nohup "$ANDROID_SDK"/emulator/emulator -avd "$EMULATOR_NAME" -no-snapshot &> /dev/null &
     rm "$LOCAL_EMULATOR_LIST"
   fi
 }

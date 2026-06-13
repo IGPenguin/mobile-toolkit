@@ -172,6 +172,7 @@ set_time(){
 }
 
 check_for_update
+check_simctl_dependency
 
 case $1 in
   'start')
