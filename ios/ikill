@@ -54,8 +54,10 @@ if [[ -z "$PACKAGE" ]]; then
   done
 fi
 
+ios_check_developer_image "$SELECTED_DEVICE"
+
 echo "🔪 Killing $PACKAGE..."
-go-ios kill "$PACKAGE" --udid="$SELECTED_DEVICE" &> /dev/null
+ios_exec_dtx go-ios kill "$PACKAGE" --udid="$SELECTED_DEVICE" || exit 1
 
 if [[ "$RELAUNCH" == true ]]; then
   echo "🚀 Relaunching the app..."

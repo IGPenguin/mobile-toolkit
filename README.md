@@ -105,6 +105,8 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 	* **Install latest Xcode and iOS command line tools** using [App Store](https://apps.apple.com/cz/app/xcode/id497799835?mt=12)
 	* **Install [Homebrew](https://brew.sh/ "Homebrew") package manager**
 	* **Run Xcode, connect iOS device to USB and authorize your computer** (click "Trust" on the device screen)
+	* **Enable Developer Mode** on the device - required for commands that control apps (`ikill`, etc.)
+		* Connecting to Xcode once reveals the option: **Settings → Privacy & Security → Developer Mode → enable → restart device**
 	* **Run any script e.g. `iscreenshot`, installation of all required tools will be initiated automatically** ([jq](https://stedolan.github.io/jq/) and [go-ios](https://github.com/danielpaulus/go-ios "go-ios"))
 5. **Add Mobile Toolkit to $PATH**, it is mandatory for iOS scripts and it will let you run scripts in any directory
 	* **Edit .zshrc** (or .bash_profile if you have bash shell) `open -e ~/.zshrc`

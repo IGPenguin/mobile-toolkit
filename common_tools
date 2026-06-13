@@ -276,6 +276,40 @@ ios_get_devices(){
   IOS_USB_DEVICES=( $(go-ios list --nojson | sort -u) )
 }
 
+ios_restart_tunnel(){
+  pkill -f "go-ios tunnel" &> /dev/null
+  sleep 1
+  nohup go-ios tunnel start --userspace --pair-record-path="$STATE_DIR" --nojson >/dev/null 2>&1 &
+  disown $!
+  sleep 3
+}
+
+ios_exec_dtx(){
+  # Runs a go-ios command that requires an active tunnel (DTX/instruments protocol).
+  # On tunnel or instrument error: restarts the tunnel once and retries automatically.
+  # Usage: ios_exec_dtx go-ios kill "$PACKAGE" --udid="$UDID"
+  local OUTPUT
+  OUTPUT=$("$@" 2>&1)
+  if echo "$OUTPUT" | grep -qi "tunnel\|DVTSecure\|processcontrol\|connection reset\|Timed out\|broken pipe\|InvalidService"; then
+    echo "⚠️ Instrument connection failed, restarting tunnel..."
+    ios_restart_tunnel
+    OUTPUT=$("$@" 2>&1)
+    if echo "$OUTPUT" | grep -qi "tunnel\|DVTSecure\|processcontrol\|connection reset\|Timed out\|broken pipe\|InvalidService"; then
+      echo "❌ Failed after tunnel restart"
+      echo "💡 Developer Mode must be enabled for this command:"
+      echo "   1. Open Xcode and connect your device - this reveals Developer Mode in Settings"
+      echo "   2. Settings → Privacy & Security → Developer Mode → enable → restart device"
+      echo "   3. Reconnect and retry"
+      return 1
+    fi
+  fi
+  if echo "$OUTPUT" | grep -qi "process not found"; then
+    echo "🤷 Process not found - app may not be running"
+    return 1
+  fi
+  return 0
+}
+
 ios_pair_device(){
   go-ios pair --udid="$1" --nojson &> /dev/null
   EXIT_CODE=$?
@@ -353,7 +387,7 @@ ios_choose_device(){
 
   if [ ${#IOS_USB_DEVICES[@]} -eq 0 ] #No device connected
   then
-     echo "❌ No iOS devices detected"
+     echo "❌ No iOS devices detected, reconnect the USB and try again"
      exit 1
   fi
 
