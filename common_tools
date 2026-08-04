@@ -646,3 +646,56 @@ abort(){
   echo "$1"
   exit 1
 }
+
+##############################################################################
+### Donate prompt
+
+DONATE_INTERVAL=250
+DONATE_URL="https://revolut.me/igpenguin?currency=EUR&amount=200&note=Mobile%20Toolkit%20-%20Coffee"
+DONATE_QR_FILE="$SCRIPT_LOCATION/../data/donate_qr.txt"
+USAGE_COUNT_FILE="$STATE_DIR/usage_count.txt"
+DONATE_OPT_OUT_FILE="$STATE_DIR/no_donate"
+
+show_donate_prompt(){
+  echo
+  echo "☕ That's $1 Mobile Toolkit commands - I hope it's saving you time!"
+  echo
+  echo "   I'm a father of a young family, so the hours left for open source"
+  echo "   are few. A coffee is a nice way to say thanks, and it helps me find"
+  echo "   the energy to keep this project alive."
+  echo
+  if [ -f "$DONATE_QR_FILE" ]; then
+    cat "$DONATE_QR_FILE"
+    echo
+  fi
+  echo "   $DONATE_URL"
+  echo
+  echo "   ℹ️  Voluntary donation, no added benefit."
+  # Only offer the opt-out from the second prompt on, so the very first ask
+  # isn't immediately undercut by a way to dismiss it.
+  if [ "$1" -gt "$DONATE_INTERVAL" ]; then
+    echo "   🔕 Rather not see this again? Run: touch \"$DONATE_OPT_OUT_FILE\""
+  fi
+  echo
+}
+
+count_usage(){
+  # Every script sources this library exactly once per run, and no script calls
+  # another, so this counts one use per command. Must never block or fail the
+  # command the user actually asked for.
+  [ -f "$DONATE_OPT_OUT_FILE" ] && return 0
+
+  USAGE_COUNT=$(cat "$USAGE_COUNT_FILE" 2>/dev/null)
+  [[ "$USAGE_COUNT" =~ $REGEX_NUMBER ]] || USAGE_COUNT=0
+  USAGE_COUNT=$((USAGE_COUNT + 1))
+  echo "$USAGE_COUNT" > "$USAGE_COUNT_FILE" 2>/dev/null
+
+  # Goes to stderr and only when stderr is a real terminal, so piped or
+  # scripted output stays clean.
+  if [ -t 2 ] && [ $((USAGE_COUNT % DONATE_INTERVAL)) -eq 0 ]; then
+    show_donate_prompt "$USAGE_COUNT" >&2
+  fi
+  return 0
+}
+
+count_usage
