@@ -1,29 +1,40 @@
-  🎉 Version 1.5.0 - compatibility update for 2026: Android 16, iOS 17-26 and Apple Silicon
+  🎉 Version 1.5.1 - iOS parallelization fix + optional donation prompt
 
-    🛠 Major compatibility fixes, verified on real hardware (iPhone 16 Pro / iOS 26, Pixel 6 / Android 16):
-    - Foreground app detection rewritten - was silently broken on Android 16
-    - irecord rebuilt for Apple Silicon and iOS 17+ using MJPEG and ffmpeg
-    - Developer disk images now mount automatically via go-ios (no more Xcode workaround)
-    - go-ios pinned to v1.2.0, no Go toolchain required
-    - Prompts no longer loop forever when running non-interactively
-    - Daily update check no longer exits the command you just ran
-    - Runtime state moved out of the repo to ~/.local/state/mobile-toolkit
-    ❤️ All of the above thanks to Franceskooo and the Futured team!
-    https://github.com/franceskoooo
+    🐛 iscreenshot -a (and other parallel iOS commands) no longer print
+       "jq: parse error: Invalid numeric literal"
+    ❤️ Thanks to vrbajiva for spotting and fixing this!
+    https://github.com/vrbajiva
 
-    🔪 akill and ikill now support -n flag to kill an app without relaunching it
-    ❤️ Thanks to luispinho for the original contribution!
-    https://github.com/luispinho
+    ☕ Mobile Toolkit is free and always will be - but if it saves you time,
+      you can now buy me a coffee to help me find the energy to keep it alive.
 
-    🩹 ikill supports all flag combos (-s -n); multi-device relaunch fixed (missing --udid)
-    🔁 ikill auto-restarts the go-ios tunnel on failure and guides through Developer Mode setup
-    📵 irecord no longer leaks raw ffmpeg or bash process output to the terminal
-    🖥 isimulator detects xcode-select misconfiguration and offers to fix it automatically
-    🤖 aemulator now lists AVDs via emulator -list-avds (avdmanager was often unreliable)
-    🔍 adb auto-detected from ANDROID_HOME when not in PATH
-    📝 README and output text polish, corrected install instructions, iOS Developer Mode guide
-    🖤 All these small additions/fixes by me, it's been a while...
-    https://github.com/IGPenguin
+                                              
+       █▀▀▀▀▀█ ███ ▀█▀▀██▀▄▄ ▀▀█▀▄▀▀ █▀▀▀▀▀█  
+       █ ███ █ █▄▀█  ▀█▄▀█ █▀█▄▄▄▄▄▀ █ ███ █  
+       █ ▀▀▀ █ ▄  ▄▄██▀▀█▀█▄ ▀▀▀█▀▀█ █ ▀▀▀ █  
+       ▀▀▀▀▀▀▀ ▀▄▀ █ ▀ ▀▄█ ▀▄█▄█ █▄▀ ▀▀▀▀▀▀▀  
+       █▀ ▄█▀▀   ▄▀▄▀█▄▄█▄▀▄▀ █▄ ▄▄█  █▄▀██▀  
+       █  ▄ ▀▀▄▀  █▀█▀▀▀█▀▄ ▄▄█▄▀▀▀▄ ██ █▄▀▄  
+        ▄▄▀█▀▀██▀█ ▀█▄▄▄█▄▀▄█▀▄ ▄▄▄▄▀▀▀▄▄█▄▀  
+       ▄██  ▄▀█▀█▄ ▄ ▄▀ ▄▄ █▄▄▀▄▀▄▀ ▀▀█▄▄▄▄   
+       ▄▀█▀ █▀▄▀▀▄▀▄▀▀█▄█▄▀██▀█▀  █▀▀▀▀▄▄█▄▀  
+        ▀ ▄█▀▀▄▄▄ █▀█▀▀▄█▄ █▄ ██ ▄▀▀ ▄▄█ ▄▄   
+       ██▀▄▄█▀▄▄▄█ ▀█▄ ▄▀ ▀▀▀█▄  ▀█▄█▀█▄▀▀█▀  
+        ▀█▀▀▀▀▄ ██ ▄ ▄███▀ ▄█▄▀█ ██▄█ ▄ ▀▄▄   
+       ▄▀▄▄▀ ▀▀▀▄▀▀▄▀▀▄▀▀█ ▀▀▀█▀█▄█▄▀▀ ▄▄▀█▀  
+         ▀█ ▀▀▄█ ▄█▀█▀▀███ ▀█ ██ ██   █  █▄   
+       ▀▀▀▀  ▀▀▄▄▄ ▀█▄▄▀▀▀ ▀█▄█▀█ ▄█▀▀▀██▀    
+       █▀▀▀▀▀█ ▄▄█ ▄ ▄█ ▄ ▄ █ █▀ █ █ ▀ █▀▄ ▄  
+       █ ███ █ ▀▄▄▀▄▀▀▄ ▀▀▀▀▄▀▄▀█ ▄███▀▀▄███  
+       █ ▀▀▀ █ ▄▀ █▀█▀█ █ ▄██ ▀▄▀ ▄▀▀█▀  ▄▄   
+       ▀▀▀▀▀▀▀ ▀   ▀▀ ▀ ▀▀ ▀▀▀ ▀ ▀▀      ▀▀▀  
+                                              
 
-    ⭐️ BTW, I just launched Stay Dead, my choice-based RPG!
-    https://github.com/IGPenguin/stay-dead
+       https://revolut.me/igpenguin?currency=EUR&amount=200&note=Mobile%20Toolkit%20-%20Coffee
+
+       ℹ️ Voluntary donation, no added benefit.
+
+    ⭐️ BTW, Stay Dead - my choice-based RPG is still in Open Beta!
+    Check it out at: https://github.com/IGPenguin/stay-dead
+
+
