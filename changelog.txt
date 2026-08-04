@@ -1,3 +1,8 @@
+    🐛 iscreenshot -a (and other parallel iOS commands) no longer print
+       "jq: parse error: Invalid numeric literal" - device info now uses a
+       per-device temp file instead of one shared file that concurrent jobs
+       overwrote mid-read
+
   🎉 Version 1.5.0 - compatibility update for 2026: Android 16, iOS 17-26 and Apple Silicon
 
     🛠 Major compatibility fixes, verified on real hardware (iPhone 16 Pro / iOS 26, Pixel 6 / Android 16):
