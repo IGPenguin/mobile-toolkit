@@ -373,12 +373,19 @@ ios_check_developer_image_and_pairing(){
 }
 
 ios_device_info(){
+  # Use a per-device temp file so parallel invocations (e.g. iscreenshot -a)
+  # don't overwrite each other's go-ios output mid-read, which garbled the JSON
+  # and caused "jq: parse error: Invalid numeric literal". The UDID is unique per
+  # device, so concurrent jobs never collide. Callees (ios_check_pairing,
+  # ios_check_developer_image) inherit this value via bash dynamic scope.
+  local TEMPORARY_FILE="$TEMPORARY_FILE-${1//[^A-Za-z0-9]/_}"
   ios_check_developer_image_and_pairing "$1"
   MANUFACTURER="Apple"
   go-ios info --udid="$1" > "$TEMPORARY_FILE"
   MODEL=$(ios_translate_name "$(cat "$TEMPORARY_FILE" | jq -r '.ProductType')")
   VERSION=$(cat "$TEMPORARY_FILE" | jq -r '.ProductVersion')
   INFO=$(printf "%s) %s %s %s - %s" "$NUMBER" "$MANUFACTURER" "$MODEL" "$VERSION" "$ID")
+  rm -f "$TEMPORARY_FILE"
 }
 
 ios_choose_device(){
