@@ -498,13 +498,13 @@ _Note: This tool targets macOS for compatibility, but most interactions should w
 
 <div id='section-id-320'/>
 
-----
+# ☕ Support the project
 
-## ☕ Support the project
+**Mobile Toolkit is free and always will be.** If it saves you time, you can buy me a coffee. <br>
+As a father, the hours left for open source are scarce. Coffee helps me find the energy to keep this project alive.
 
-**Mobile Toolkit is free and always will be.** If it saves you time, you can buy me a coffee - I'm a father of a young family, so the hours left for open source are few, and a coffee helps me find the energy to keep this project alive.
-
-**[💸 Donate via Revolut](https://revolut.me/igpenguin?currency=EUR&amount=200&note=Mobile%20Toolkit%20-%20Coffee)** - Voluntary donation, no added benefit.
+💸 **[Donate via Revolut](https://revolut.me/igpenguin?currency=EUR&amount=200&note=Mobile%20Toolkit%20-%20Coffee)** - Voluntary donation, no added benefit.<br>
+⭐️ **Hit the star button** - Makes me happy, increases visibility.
 
 <div id='section-id-312'/>
 
